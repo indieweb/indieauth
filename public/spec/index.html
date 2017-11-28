@@ -1,0 +1,852 @@
+<!DOCTYPE html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="generator" content="ReSpec 18.3.0"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><style>/* --- EXAMPLES --- */
+div.example-title {
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.example-title span {
+    text-transform: uppercase;
+}
+aside.example, div.example, div.illegal-example {
+    padding: 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+div.illegal-example { color: red }
+div.illegal-example p { color: black }
+aside.example, div.example {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+    border-color: #e0cb52;
+    background: #fcfaee;
+}
+
+aside.example div.example {
+    border-left-width: .1em;
+    border-color: #999;
+    background: #fff;
+}
+aside.example div.example div.example-title {
+    color: #999;
+}
+</style>
+    <title>IndieAuth</title>
+    
+    
+    
+    
+    <link rel="pingback" href="https://indieauth.net/pingback.php">
+    <link rel="webmention" href="https://indieauth.net/endpoint.php">
+  <style id="respec-mainstyle">/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
+
+/* Override code highlighter background */
+.hljs {
+  background: transparent !important;
+}
+
+/* --- INLINES --- */
+h1 abbr,
+h2 abbr,
+h3 abbr,
+h4 abbr,
+h5 abbr,
+h6 abbr,
+a abbr {
+  border: none;
+}
+
+dfn {
+  font-weight: bold;
+}
+
+a.internalDFN {
+  color: inherit;
+  border-bottom: 1px solid #99c;
+  text-decoration: none;
+}
+
+a.externalDFN {
+  color: inherit;
+  border-bottom: 1px dotted #ccc;
+  text-decoration: none;
+}
+
+a.bibref {
+  text-decoration: none;
+}
+
+cite .bibref {
+  font-style: normal;
+}
+
+code {
+  color: #c83500;
+}
+
+th code {
+  color: inherit;
+}
+
+/* --- TOC --- */
+
+.toc a,
+.tof a {
+  text-decoration: none;
+}
+
+a .secno,
+a .figno {
+  color: #000;
+}
+
+ul.tof,
+ol.tof {
+  list-style: none outside none;
+}
+
+.caption {
+  margin-top: 0.5em;
+  font-style: italic;
+}
+
+/* --- TABLE --- */
+
+table.simple {
+  border-spacing: 0;
+  border-collapse: collapse;
+  border-bottom: 3px solid #005a9c;
+}
+
+.simple th {
+  background: #005a9c;
+  color: #fff;
+  padding: 3px 5px;
+  text-align: left;
+}
+
+.simple th[scope="row"] {
+  background: inherit;
+  color: inherit;
+  border-top: 1px solid #ddd;
+}
+
+.simple td {
+  padding: 3px 10px;
+  border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+  background: #f0f6ff;
+}
+
+/* --- DL --- */
+
+.section dd > p:first-child {
+  margin-top: 0;
+}
+
+.section dd > p:last-child {
+  margin-bottom: 0;
+}
+
+.section dd {
+  margin-bottom: 1em;
+}
+
+.section dl.attrs dd,
+.section dl.eldef dd {
+  margin-bottom: 0;
+}
+
+#issue-summary > ul,
+.respec-dfn-list {
+  column-count: 2;
+}
+
+#issue-summary li,
+.respec-dfn-list li {
+  list-style: none;
+}
+
+details.respec-tests-details {
+  margin-left: 1em;
+  display: inline-block;
+  vertical-align: top;
+}
+
+details.respec-tests-details > * {
+  padding-right: 2em;
+}
+
+details.respec-tests-details[open] {
+  z-index: 999999;
+  position: absolute;
+  border: thin solid #cad3e2;
+  border-radius: .3em;
+  background-color: white;
+  padding-bottom: .5em;
+}
+
+details.respec-tests-details[open] > summary {
+  border-bottom: thin solid #cad3e2;
+  padding-left: 1em;
+  margin-bottom: 1em;
+  line-height: 2em;
+}
+
+details.respec-tests-details > ul {
+  width: 100%;
+  margin-top: -0.3em;
+}
+
+details.respec-tests-details > li {
+  padding-left: 1em;
+}
+
+@media print {
+  .removeOnSave {
+    display: none;
+  }
+}
+</style><style>/*
+
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #333;
+  background: #f8f8f8;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #998;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: #333;
+  font-weight: bold;
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: #008080;
+}
+
+.hljs-string,
+.hljs-doctag {
+  color: #d14;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: #900;
+  font-weight: bold;
+}
+
+.hljs-subst {
+  font-weight: normal;
+}
+
+.hljs-type,
+.hljs-class .hljs-title {
+  color: #458;
+  font-weight: bold;
+}
+
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+  color: #000080;
+  font-weight: normal;
+}
+
+.hljs-regexp,
+.hljs-link {
+  color: #009926;
+}
+
+.hljs-symbol,
+.hljs-bullet {
+  color: #990073;
+}
+
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #0086b3;
+}
+
+.hljs-meta {
+  color: #999;
+  font-weight: bold;
+}
+
+.hljs-deletion {
+  background: #fdd;
+}
+
+.hljs-addition {
+  background: #dfd;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+</style><link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2016/W3C-NOTE"><link rel="canonical" href="https://www.w3.org/TR/indieauth/"><script id="initialUserConfig" type="application/json">{
+  "useExperimentalStyles": true,
+  "publishDate": "2017-11-28",
+  "specStatus": "NOTE",
+  "shortName": "indieauth",
+  "edDraftURI": "https://indieauth.net/spec",
+  "editors": [
+    {
+      "name": "Aaron Parecki",
+      "url": "https://aaronparecki.com/",
+      "w3cid": "59996"
+    }
+  ],
+  "wg": "Social Web Working Group",
+  "wgURI": "https://www.w3.org/Social/WG",
+  "wgPublicList": "public-socialweb",
+  "wgPatentURI": "https://www.w3.org/2004/01/pp-impl/72531/status",
+  "errata": "https://indieauth.net/errata",
+  "license": "w3c-software-doc",
+  "postProcess": [
+    null
+  ],
+  "otherLinks": [
+    {
+      "key": "Repository",
+      "data": [
+        {
+          "value": "Github",
+          "href": "https://github.com/aaronpk/indieauth.net"
+        },
+        {
+          "value": "Issues",
+          "href": "https://github.com/aaronpk/indieauth.net/issues"
+        },
+        {
+          "value": "Commits",
+          "href": "https://github.com/aaronpk/indieauth.net/commits/master"
+        }
+      ]
+    }
+  ],
+  "localBiblio": {
+    "microformats2-parsing": {
+      "title": "Microformats2 Parsing",
+      "href": "http://microformats.org/wiki/microformats2-parsing",
+      "authors": [
+        "Tantek Çelik"
+      ],
+      "status": "Living Specification",
+      "publisher": "microformats.org"
+    },
+    "h-entry": {
+      "title": "h-entry",
+      "href": "http://microformats.org/wiki/h-entry",
+      "authors": [
+        "Tantek Çelik"
+      ],
+      "status": "Living Specification",
+      "publisher": "microformats.org"
+    },
+    "URL": {
+      "title": "URL Standard",
+      "href": "https://url.spec.whatwg.org/",
+      "authors": [
+        "Anne van Kesteren"
+      ],
+      "status": "Living Standard",
+      "publisher": "WHATWG"
+    }
+  },
+  "publishISODate": "2017-11-28T00:00:00.000Z",
+  "generatedSubtitle": "Working Group Note 28 November 2017"
+}</script><meta name="description" content="IndieAuth is an identity layer on top of OAuth 2.0 [RFC6749], primarily used to obtain
+        an OAuth 2.0 Bearer Token [RFC6750] for use by [Micropub] clients. End-Users
+        and Clients are all represented by URLs. IndieAuth enables Clients to
+        verify the identity of an End-User, as well as to obtain an access
+        token that can be used to access resources under the control of the
+        End-User."></head>
+  <body aria-busy="false" class="h-entry"><div class="head">
+    <p>
+      <a class="logo" href="https://www.w3.org/"><img width="72" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" alt="W3C"></a>
+    </p>
+  <p><!--_hyper: 844705515;--></p>
+  <h1 class="title p-name" id="title">IndieAuth</h1>
+  <h2 id="w3c-working-group-note-28-november-2017"><abbr title="World Wide Web Consortium">W3C</abbr> Working Group Note <time class="dt-published" datetime="2017-11-28">28 November 2017</time></h2>
+  <dl>
+      <dt>This version:</dt>
+      <dd><a class="u-url" href="https://www.w3.org/TR/2017/NOTE-indieauth-20171128/">https://www.w3.org/TR/2017/NOTE-indieauth-20171128/</a></dd>
+      <dt>Latest published version:</dt>
+      <dd><a href="https://www.w3.org/TR/indieauth/">https://www.w3.org/TR/indieauth/</a></dd>
+      <dt>Latest editor's draft:</dt>
+      <dd><a href="https://indieauth.net/spec">https://indieauth.net/spec</a></dd>
+    <dt>Editor:</dt>
+    <dd class="p-author h-card vcard" data-editor-id="59996"><a class="u-url url p-name fn" href="https://aaronparecki.com/">Aaron Parecki</a></dd>
+
+          <dt>Repository:</dt>
+                  <dd>
+                    <a href="https://github.com/aaronpk/indieauth.net">
+                      Github
+                    </a>
+                  </dd>
+                  <dd>
+                    <a href="https://github.com/aaronpk/indieauth.net/issues">
+                      Issues
+                    </a>
+                  </dd>
+                  <dd>
+                    <a href="https://github.com/aaronpk/indieauth.net/commits/master">
+                      Commits
+                    </a>
+                  </dd>
+  </dl>
+    <p>
+      Please check the <a href="https://indieauth.net/errata"><strong>errata</strong></a> for any errors or issues
+      reported since publication.
+    </p>
+      <p class="copyright">
+        <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> ©
+        2017
+        
+        <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup>
+        (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>,
+        <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>,
+        <a href="https://www.keio.ac.jp/">Keio</a>, <a href="http://ev.buaa.edu.cn/">Beihang</a>).
+        <abbr title="World Wide Web Consortium">W3C</abbr> <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
+        <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and
+            <a rel="license" href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document">permissive document license</a>
+        rules apply.
+      </p>
+  <hr title="Separator for header">
+</div>
+    <section id="abstract" class="introductory"><h2 id="abstract-0">Abstract</h2>
+      <p id="abstract-p-1">
+        IndieAuth is an identity layer on top of OAuth 2.0 [<cite><a class="bibref" href="#bib-RFC6749">RFC6749</a></cite>], primarily used to obtain
+        an OAuth 2.0 Bearer Token [<cite><a class="bibref" href="#bib-RFC6750">RFC6750</a></cite>] for use by [<cite><a class="bibref" href="#bib-Micropub">Micropub</a></cite>] clients. End-Users
+        and Clients are all represented by URLs. IndieAuth enables Clients to
+        verify the identity of an End-User, as well as to obtain an access
+        token that can be used to access resources under the control of the
+        End-User.
+      </p>
+
+      <section id="authorsnote" class="informative">
+        <h3 id="author-s-note">Author's Note</h3><p id="authorsnote-p-1"><em>This section is non-normative.</em></p>
+        <p id="authorsnote-p-2">This specification was contributed to the <abbr title="World Wide Web Consortium">W3C</abbr> from the
+          <a href="https://indieweb.org/">IndieWeb</a> community. More
+          history and evolution of Webmention can be found on the
+          <a href="https://indieweb.org/IndieAuth-spec">IndieWeb wiki</a>.</p>
+      </section>
+    </section>
+
+    <section id="sotd" class="introductory"><h2 id="status-of-this-document">Status of This Document</h2>
+      <p id="sotd-p-1">
+        <em>This section describes the status of this document at the time of its publication. Other documents may supersede this document. A list of current <abbr title="World Wide Web Consortium">W3C</abbr> publications and the latest revision of this technical report can be found in the <a href="https://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> technical reports index</a> at https://www.w3.org/TR/.</em>
+      </p>
+        
+    
+        <p id="sotd-p-2">
+          This document was published by the <a href="https://www.w3.org/Social/WG">Social Web Working Group</a> as a Working Group Note.
+            Comments regarding this document are welcome. Please send them to
+            <a href="mailto:public-socialweb@w3.org">public-socialweb@w3.org</a>
+            (<a href="mailto:public-socialweb-request@w3.org?subject=subscribe">subscribe</a>,
+            <a href="https://lists.w3.org/Archives/Public/public-socialweb/">archives</a>).
+        </p>
+          <p id="sotd-p-3">
+            Publication as a Working Group Note does not imply endorsement by the <abbr title="World Wide Web Consortium">W3C</abbr>
+            Membership. This is a draft document and may be updated, replaced or obsoleted by other
+            documents at any time. It is inappropriate to cite this document as other than work in
+            progress.
+          </p>
+        <p id="sotd-p-4">
+            This document was produced by
+            a group
+             operating under the
+            <a href="https://www.w3.org/Consortium/Patent-Policy/"><abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
+              <abbr title="World Wide Web Consortium">W3C</abbr> maintains a <a href="https://www.w3.org/2004/01/pp-impl/72531/status" rel="disclosure">public list of any patent
+              disclosures</a>
+            made in connection with the deliverables of
+            the group; that page also includes
+            instructions for disclosing a patent. An individual who has actual knowledge of a patent
+            which the individual believes contains
+            <a href="https://www.w3.org/Consortium/Patent-Policy/#def-essential">Essential
+            Claim(s)</a> must disclose the information in accordance with
+            <a href="https://www.w3.org/Consortium/Patent-Policy/#sec-Disclosure">section
+            6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
+        </p>
+          <p id="sotd-p-5">This document is governed by the <a id="w3c_process_revision" href="https://www.w3.org/2017/Process-20170301/">1 March 2017 <abbr title="World Wide Web Consortium">W3C</abbr> Process Document</a>.
+          </p>
+        
+
+</section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a href="#introduction" class="tocxref"><span class="secno">1. </span>Introduction</a><ol class="toc"><li class="tocline"><a href="#background" class="tocxref"><span class="secno">1.1 </span>Background</a></li><li class="tocline"><a href="#oauth-2-0-extension" class="tocxref"><span class="secno">1.2 </span>OAuth 2.0 Extension</a></li></ol></li><li class="tocline"><a href="#conformance" class="tocxref"><span class="secno">2. </span>Conformance</a><ol class="toc"><li class="tocline"><a href="#conformance-classes" class="tocxref"><span class="secno">2.1 </span>Conformance Classes</a><ol class="toc"><li class="tocline"><a href="#authorization-endpoint" class="tocxref"><span class="secno">2.1.1 </span>Authorization Endpoint</a></li><li class="tocline"><a href="#token-endpoint" class="tocxref"><span class="secno">2.1.2 </span>Token Endpoint</a></li><li class="tocline"><a href="#micropub-client" class="tocxref"><span class="secno">2.1.3 </span>Micropub Client</a></li><li class="tocline"><a href="#indieauth-client" class="tocxref"><span class="secno">2.1.4 </span>IndieAuth Client</a></li></ol></li></ol></li><li class="tocline"><a href="#identifiers" class="tocxref"><span class="secno">3. </span>Identifiers</a><ol class="toc"><li class="tocline"><a href="#user-identity-url" class="tocxref"><span class="secno">3.1 </span>User Identity URL</a></li><li class="tocline"><a href="#client-identifier" class="tocxref"><span class="secno">3.2 </span>Client Identifier</a></li><li class="tocline"><a href="#redirect-uri-registration" class="tocxref"><span class="secno">3.3 </span>Redirect URI Registration</a></li></ol></li><li class="tocline"><a href="#discovery" class="tocxref"><span class="secno">4. </span>Discovery</a></li><li class="tocline"><a href="#authentication" class="tocxref"><span class="secno">5. </span>Authentication</a><ol class="toc"><li class="tocline"><a href="#discovery-0" class="tocxref"><span class="secno">5.1 </span>Discovery</a></li><li class="tocline"><a href="#authorization-request" class="tocxref"><span class="secno">5.2 </span>Authorization Request</a></li><li class="tocline"><a href="#authorization-response" class="tocxref"><span class="secno">5.3 </span>Authorization Response</a></li><li class="tocline"><a href="#authorization-code-verification" class="tocxref"><span class="secno">5.4 </span>Authorization Code Verification</a></li></ol></li><li class="tocline"><a href="#authorization" class="tocxref"><span class="secno">6. </span>Authorization</a><ol class="toc"><li class="tocline"><a href="#discovery-1" class="tocxref"><span class="secno">6.1 </span>Discovery</a></li><li class="tocline"><a href="#authorization-endpoint-0" class="tocxref"><span class="secno">6.2 </span>Authorization Endpoint</a><ol class="toc"><li class="tocline"><a href="#authorization-request-0" class="tocxref"><span class="secno">6.2.1 </span>Authorization Request</a></li><li class="tocline"><a href="#authorization-response-0" class="tocxref"><span class="secno">6.2.2 </span>Authorization Response</a></li></ol></li><li class="tocline"><a href="#token-endpoint-0" class="tocxref"><span class="secno">6.3 </span>Token Endpoint</a><ol class="toc"><li class="tocline"><a href="#token-request" class="tocxref"><span class="secno">6.3.1 </span>Token Request</a></li><li class="tocline"><a href="#authorization-code-verification-0" class="tocxref"><span class="secno">6.3.2 </span>Authorization Code Verification</a></li><li class="tocline"><a href="#access-token-response" class="tocxref"><span class="secno">6.3.3 </span>Access Token Response</a></li></ol></li></ol></li><li class="tocline"><a href="#security-considerations" class="tocxref"><span class="secno">7. </span>Security Considerations</a></li><li class="tocline"><a href="#iana-considerations" class="tocxref"><span class="secno">8. </span>IANA Considerations</a></li><li class="tocline"><a href="#resources" class="tocxref"><span class="secno">A. </span>Resources</a><ol class="toc"><li class="tocline"><a href="#articles" class="tocxref"><span class="secno">A.1 </span>Articles</a></li><li class="tocline"><a href="#implementations" class="tocxref"><span class="secno">A.2 </span>Implementations</a></li></ol></li><li class="tocline"><a href="#acknowledgements" class="tocxref"><span class="secno">B. </span>Acknowledgements</a></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">C. </span>References</a><ol class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">C.1 </span>Normative references</a></li></ol></li></ol></nav>
+
+    <section id="introduction">
+      <!--OddPage--><h2 id="x1-introduction"><span class="secno">1. </span>Introduction</h2>
+
+      <section class="informative" id="background">
+        <h3 id="x1-1-background"><span class="secno">1.1 </span>Background</h3><p id="background-p-1"><em>This section is non-normative.</em></p>
+
+        <p id="background-p-2">The IndieAuth spec began as a way to obtain an OAuth 2.0 access token for use by Micropub clients. It can be used to both obtain an access token, as well as authenticate users signing to any application. It is built on top of the OAuth 2.0 framework, and while this document should provide enough guidance for implementers, referring to the core OAuth 2.0 spec can help answer any remaining questions. More information can be found <a href="https://indieweb.org/IndieAuth-spec">on the IndieWeb wiki</a>.</p>
+      </section>
+
+      <section id="oauth-2-0-extension">
+        <h3 id="x1-2-oauth-2-0-extension"><span class="secno">1.2 </span>OAuth 2.0 Extension</h3>
+
+        <p id="oauth-2-0-extension-p-1">IndieAuth builds upon the OAuth 2.0 [<cite><a class="bibref" href="#bib-RFC6749">RFC6749</a></cite>] Framework as follows</p>
+
+        <ul>
+          <li id="oauth-2-0-extension-li-1">Specifies a format for user identifiers (a resolvable URL)</li>
+          <li id="oauth-2-0-extension-li-2">Specifies a method of discovering the authorization and token endpoints given a profile URL</li>
+          <li id="oauth-2-0-extension-li-3">Specifies a format for the Client ID (a resolvable URL)</li>
+          <li id="oauth-2-0-extension-li-4">All clients are public clients</li>
+          <li id="oauth-2-0-extension-li-5">Client registration is not necessary</li>
+          <li id="oauth-2-0-extension-li-6">Redirect URI registration happens by verifying data fetched at the Client ID URL</li>
+          <li id="oauth-2-0-extension-li-7">Specifies a mechanism for returning user identifiers</li>
+          <li id="oauth-2-0-extension-li-8">Specifies a mechanism for verifying authorization codes</li>
+          <li id="oauth-2-0-extension-li-9">Specifies a mechanism for a token endpoint and authorization endpoint to communicate</li>
+        </ul>
+      </section>
+    </section>
+
+    <section id="conformance">
+      <!--OddPage--><h2 id="x2-conformance"><span class="secno">2. </span>Conformance</h2>
+
+      <p id="conformance-p-1">The key words "<em class="rfc2119" title="MUST">MUST</em>", "<em class="rfc2119" title="MUST NOT">MUST NOT</em>", "<em class="rfc2119" title="REQUIRED">REQUIRED</em>", "<em class="rfc2119" title="SHALL">SHALL</em>", "<em class="rfc2119" title="SHALL NOT">SHALL NOT</em>",
+      "<em class="rfc2119" title="SHOULD">SHOULD</em>", "<em class="rfc2119" title="SHOULD NOT">SHOULD NOT</em>", "<em class="rfc2119" title="RECOMMENDED">RECOMMENDED</em>", "<em class="rfc2119" title="MAY">MAY</em>", and "<em class="rfc2119" title="OPTIONAL">OPTIONAL</em>" in this
+      document are to be interpreted as described in [<cite><a class="bibref" href="#bib-RFC2119">RFC2119</a></cite>].</p>
+
+      <section id="conformance-classes">
+        <h3 id="x2-1-conformance-classes"><span class="secno">2.1 </span>Conformance Classes</h3>
+
+        <p id="conformance-classes-p-1">An IndieAuth implementation can implement one or more of the roles of an IndieAuth server or client. This section describes the conformance criteria for each role.</p>
+
+        <p id="conformance-classes-p-2">Listed below are known types of IndieAuth implementations.</p>
+
+        <section id="authorization-endpoint">
+          <h4 id="x2-1-1-authorization-endpoint"><span class="secno">2.1.1 </span>Authorization Endpoint</h4>
+          <p id="authorization-endpoint-p-1">An IndieAuth Authorization Endpoint is responsible for obtaining authorization or authentication consent from the end user and generating and verifying authorization codes.</p>
+        </section>
+
+        <section id="token-endpoint">
+          <h4 id="x2-1-2-token-endpoint"><span class="secno">2.1.2 </span>Token Endpoint</h4>
+          <p id="token-endpoint-p-1">An IndieAuth Token Endpoint is responsible for generating and verifying OAuth 2.0 Bearer Tokens.</p>
+        </section>
+
+        <section id="micropub-client">
+          <h4 id="x2-1-3-micropub-client"><span class="secno">2.1.3 </span>Micropub Client</h4>
+          <p id="micropub-client-p-1">A Micropub client will attempt to obtain an OAuth 2.0 Bearer Token given an IndieAuth identity URL, and will use the token when making Micropub requests.</p>
+        </section>
+
+        <section id="indieauth-client">
+          <h4 id="x2-1-4-indieauth-client"><span class="secno">2.1.4 </span>IndieAuth Client</h4>
+          <p id="indieauth-client-p-1">An IndieAuth client is a client that is attempting to authenticate a user given their identity URL, but does not need an OAuth 2.0 Bearer Token.</p>
+        </section>
+
+      </section>
+    </section>
+
+    <section id="identifiers">
+      <!--OddPage--><h2 id="x3-identifiers"><span class="secno">3. </span>Identifiers</h2>
+
+      <section id="user-identity-url">
+        <h3 id="x3-1-user-identity-url"><span class="secno">3.1 </span>User Identity URL</h3>
+
+      </section>
+
+      <section id="client-identifier">
+        <h3 id="x3-2-client-identifier"><span class="secno">3.2 </span>Client Identifier</h3>
+
+      </section>
+
+      <section id="redirect-uri-registration">
+        <h3 id="x3-3-redirect-uri-registration"><span class="secno">3.3 </span>Redirect URI Registration</h3>
+
+      </section>
+
+    </section>
+
+    <section id="discovery">
+      <!--OddPage--><h2 id="x4-discovery"><span class="secno">4. </span>Discovery</h2>
+
+      <p id="discovery-p-1">This specification uses the link rel registry as defined by [<cite><a class="bibref" href="#bib-HTML5">HTML5</a></cite>]
+        for both HTML and HTTP link relations.</p>
+
+
+
+    </section>
+
+    <section id="authentication">
+      <!--OddPage--><h2 id="x5-authentication"><span class="secno">5. </span>Authentication</h2>
+
+      <p id="authentication-p-1">This section describes how to perform authentication using the Authorization Code Flow.</p>
+
+      <div class="example"><div class="example-title marker"><span>Example 1</span></div><pre class="hljs" aria-busy="false" aria-live="polite">+--------+
+|        |
+|Resource|
+| Owner  |
+|        |
++--------+
+
+
++--------+                            +----------------+
+|        +-----(B) Client ID ------&gt;  |                |
+|        |         &amp; Redirect URI     |                |
+| User-  |                            | Authorization  |
+| Agent  |                            |     Server     |
+|        |                            |                |
+|        |                            |                |
++-+------+                            +----------------+
+  ^
+  |
+ (B)
+  |                                   +---------------+
+  |                                   |               |
++-+------+                            |    Resource   |
+|        +-(A)Discover Authorization--&gt;Owner's Website|
+| Client |             Endpoint       |               |
+|        |                            +---------------+
++--------+</pre></div>
+
+      <ul>
+        <li id="authentication-li-1">The End-User enters their personal web address in the login form of the client and clicks "Sign in"</li>
+        <li id="authentication-li-2">(A) The client discovers the End-User's authorization endpoint by fetching the End-User's website and looking for the <code>rel=authorization_endpoint</code> value</li>
+        <li id="authentication-li-3">(B) The client redirects the user agent to the authorization endpoint, including its client identifier, local state, and a redirect URI</li>
+        <li id="authentication-li-4">The authorization endpoint verifies the End-User, e.g. by logging in, and establishes whether the End-User grants or denies the client's request</li>
+        <li id="authentication-li-5">The authorization endpoint redirects the End-User agent back to the client, including an authorization code</li>
+        <li id="authentication-li-6">The client verifies the authorization code by making a POST request to the authorization endpoint. The authorization endpoint validates the authorization code, and responds with the End-User's identity</li>
+      </ul>
+
+      <section id="discovery-0">
+        <h3 id="x5-1-discovery"><span class="secno">5.1 </span>Discovery</h3>
+
+        <p id="discovery-0-p-1">After obtaining the End-User's identity URL, the client fetches the URL and looks for the following rel value on the page.</p>
+
+        <div class="example"><div class="example-title marker"><span>Example 2</span></div><pre class="hljs xml" aria-busy="false" aria-live="polite"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"authorization_endpoint"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://example.com/auth"</span>&gt;</span></pre></div>
+      </section>
+
+      <section id="authorization-request">
+        <h3 id="x5-2-authorization-request"><span class="secno">5.2 </span>Authorization Request</h3>
+
+      </section>
+
+      <section id="authorization-response">
+        <h3 id="x5-3-authorization-response"><span class="secno">5.3 </span>Authorization Response</h3>
+
+      </section>
+
+      <section id="authorization-code-verification">
+        <h3 id="x5-4-authorization-code-verification"><span class="secno">5.4 </span>Authorization Code Verification</h3>
+
+      </section>
+    </section>
+
+
+    <section id="authorization">
+      <!--OddPage--><h2 id="x6-authorization"><span class="secno">6. </span>Authorization</h2>
+
+      <ul>
+        <li id="authorization-li-1">The End-User enters their personal web address in the login form of the client and clicks "Sign in"</li>
+        <li id="authorization-li-2">(A) The client discovers the End-User's authorization endpoint and token endpoint by fetching the End-User's website and looking for the <code>rel=authorization_endpoint</code> and <code>rel=token_endpoint</code> values</li>
+        <li id="authorization-li-3">(B) The client redirects the user agent to the authorization endpoint, including its client identifier, requested scope, local state, and a redirect URI</li>
+        <li id="authorization-li-4">The authorization endpoint verifies the End-User, e.g. by logging in, and establishes whether the End-User grants or denies the client's request</li>
+        <li id="authorization-li-5">The authorization endpoint redirects the End-User agent back to the client, including an authorization code</li>
+        <li id="authorization-li-6">The client exchanges the authorization code for an access token by making a POST request to the token endpoint. The token endpoint validates the authorization code, and responds with the End-User's identity and an access token</li>
+      </ul>
+
+      <section id="discovery-1">
+        <h3 id="x6-1-discovery"><span class="secno">6.1 </span>Discovery</h3>
+
+        <p id="discovery-1-p-1">After obtaining the End-User's identity URL, the client fetches the URL and looks for the following rel values on the page.</p>
+
+        <div class="example"><div class="example-title marker"><span>Example 3</span></div><pre class="hljs xml" aria-busy="false" aria-live="polite"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"authorization_endpoint"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://example.com/auth"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"token_endpoint"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://example.com/token"</span>&gt;</span></pre></div>
+      </section>
+
+      <section id="authorization-endpoint-0">
+        <h3 id="x6-2-authorization-endpoint"><span class="secno">6.2 </span>Authorization Endpoint</h3>
+
+        <section id="authorization-request-0">
+          <h4 id="x6-2-1-authorization-request"><span class="secno">6.2.1 </span>Authorization Request</h4>
+
+        </section>
+
+        <section id="authorization-response-0">
+          <h4 id="x6-2-2-authorization-response"><span class="secno">6.2.2 </span>Authorization Response</h4>
+
+        </section>
+      </section>
+
+      <section id="token-endpoint-0">
+        <h3 id="x6-3-token-endpoint"><span class="secno">6.3 </span>Token Endpoint</h3>
+
+        <section id="token-request">
+          <h4 id="x6-3-1-token-request"><span class="secno">6.3.1 </span>Token Request</h4>
+
+        </section>
+
+        <section id="authorization-code-verification-0">
+          <h4 id="x6-3-2-authorization-code-verification"><span class="secno">6.3.2 </span>Authorization Code Verification</h4>
+
+        </section>
+
+        <section id="access-token-response">
+          <h4 id="x6-3-3-access-token-response"><span class="secno">6.3.3 </span>Access Token Response</h4>
+
+        </section>
+      </section>
+
+    </section>
+
+
+    <section id="security-considerations">
+      <!--OddPage--><h2 id="x7-security-considerations"><span class="secno">7. </span>Security Considerations</h2>
+
+
+    </section>
+
+    <section id="iana-considerations">
+      <!--OddPage--><h2 id="x8-iana-considerations"><span class="secno">8. </span>IANA Considerations</h2>
+      
+      <p id="iana-considerations-p-1">The link relation type below has been registered by IANA per Section 6.2.1 of [<cite><a class="bibref" href="#bib-RFC5988">RFC5988</a></cite>]:</p>
+      
+      <dl>
+        <dt>Relation Name:</dt>
+        <dd>authorization_endpoint</dd>
+        
+        <dt>Description:</dt>
+        <dd>Used for discovery of the OAuth 2.0 authorization endpoint given an IndieAuth identity URL.</dd>
+        
+        <dt>Reference:</dt>
+        <dd><a href="http://www.w3.org/TR/indieauth/"><abbr title="World Wide Web Consortium">W3C</abbr> IndieAuth
+        Specification (http://www.w3.org/TR/indieauth/)</a></dd>
+      </dl>
+
+      <dl>
+        <dt>Relation Name:</dt>
+        <dd>token_endpoint</dd>
+        
+        <dt>Description:</dt>
+        <dd>Used for discovery of the OAuth 2.0 token endpoint given an IndieAuth identity URL.</dd>
+        
+        <dt>Reference:</dt>
+        <dd><a href="http://www.w3.org/TR/indieauth/"><abbr title="World Wide Web Consortium">W3C</abbr> IndieAuth
+        Specification (http://www.w3.org/TR/indieauth/)</a></dd>
+      </dl>
+
+      <dl>
+        <dt>Relation Name:</dt>
+        <dd>redirect_uri</dd>
+        
+        <dt>Description:</dt>
+        <dd>Used for discovery of the OAuth 2.0 redirect URI given an IndieAuth client ID.</dd>
+        
+        <dt>Reference:</dt>
+        <dd><a href="http://www.w3.org/TR/indieauth/"><abbr title="World Wide Web Consortium">W3C</abbr> IndieAuth
+        Specification (http://www.w3.org/TR/indieauth/)</a></dd>
+      </dl>
+    </section>
+
+    <!--
+    <section class="appendix informative">
+      <h2>Extensions</h2>
+
+      <p>The following Webmention Extension Specifications have 2+ interoperable implementations live on the web and are thus listed here:</p>
+
+    </section>
+  -->
+
+    <section class="appendix informative" id="resources">
+      <!--OddPage--><h2 id="a-resources"><span class="secno">A. </span>Resources</h2><p id="resources-p-1"><em>This section is non-normative.</em></p>
+
+      <p id="resources-p-2">
+        </p><ul>
+          <li id="resources-li-1"><a href="https://webmention.rocks">Test Suite and Debug Tool</a></li>
+          <li id="resources-li-2"><a href="https://indieweb.org/Category:IndieAuth">More IndieAuth resources</a></li>
+          <li id="resources-li-3"><a href="https://indieweb.org/obtaining-an-access-token">Implementation guide for obtaining an access token using IndieAuth</a></li>
+          <li id="resources-li-4"><a href="https://indieweb.org/indieauth-for-login">Implementation guide for authenticating users without obtaining an access token</a></li>
+        </ul>
+      <p id="resources-p-3"></p>
+
+      <section class="appendix informative" id="articles">
+        <h3 id="a-1-articles"><span class="secno">A.1 </span>Articles</h3><p id="articles-p-1"><em>This section is non-normative.</em></p>
+
+        <p id="articles-p-2">You can find a list of <a href="https://indieweb.org/IndieAuth#Articles">articles about IndieAuth</a> on the IndieWeb wiki.</p>
+      </section>
+
+      <section class="appendix informative" id="implementations">
+        <h3 id="a-2-implementations"><span class="secno">A.2 </span>Implementations</h3><p id="implementations-p-1"><em>This section is non-normative.</em></p>
+
+        <p id="implementations-p-2">You can find a list of <a href="https://indieauth.net/implementations">IndieAuth implementations</a> on indieauth.net</p>
+      </section>
+
+    </section>
+
+    <section class="appendix" id="acknowledgements">
+      <!--OddPage--><h2 id="b-acknowledgements"><span class="secno">B. </span>Acknowledgements</h2>
+
+      <p id="acknowledgements-p-1">The editor wishes to thank the <a href="https://indieweb.org/">IndieWeb</a>
+        community and other implementers for their support, encouragement and enthusiasm,
+        including but not limited to: Amy Guy, Barnaby Walters, Benjamin Roberts, Bret Comnes, Christian Weiske, François Kooman, Jeena Paradies, Martijn van der Ven, Sebastiaan Andeweg, Sven Knebel, and Tantek Çelik.</p>
+    </section>
+
+    <!--
+    <section class="appendix informative">
+      <h2>Change Log</h2>
+
+      <section>
+        <h3>Changes from <a href="">00 November NOTE</a> to this version</h3>
+
+        <ul>
+
+        </ul>
+      </section>
+    </section>
+    -->
+
+    <script>
+    // After text is selected (mouseup), find the closest element that has an ID
+    // attribute, and update the browser location bar to include that as the fragment
+    document.body.onmouseup = function(){
+      var selection;
+      if(selection=window.getSelection()) {
+        var range = selection.getRangeAt(0);
+        var el = range.startContainer;
+        while((el=el.parentElement) && !el.attributes["id"]);
+        var hash = el.attributes["id"].value;
+        if(history.replaceState) {
+          history.replaceState(null, null, "#"+hash);
+        }
+      }
+    };
+    </script>
+  
+
+<section id="references" class="appendix"><!--OddPage--><h2 id="c-references"><span class="secno">C. </span>References</h2><section id="normative-references"><h3 id="c-1-normative-references"><span class="secno">C.1 </span>Normative references</h3><dl class="bibliography"><dt id="bib-HTML5">[HTML5]</dt><dd><a href="https://www.w3.org/TR/html5/"><cite>HTML5</cite></a>. Ian Hickson; Robin Berjon; Steve Faulkner; Travis Leithead; Erika Doyle Navara; Theresa O'Connor; Silvia Pfeiffer. W3C. 28 October 2014. W3C Recommendation. URL: <a href="https://www.w3.org/TR/html5/">https://www.w3.org/TR/html5/</a>
+</dd><dt id="bib-Micropub">[Micropub]</dt><dd><a href="https://www.w3.org/TR/micropub/"><cite>Micropub</cite></a>. Aaron Parecki. W3C. 23 May 2017. W3C Recommendation. URL: <a href="https://www.w3.org/TR/micropub/">https://www.w3.org/TR/micropub/</a>
+</dd><dt id="bib-RFC2119">[RFC2119]</dt><dd><a href="https://tools.ietf.org/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. S. Bradner. IETF. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
+</dd><dt id="bib-RFC5988">[RFC5988]</dt><dd><a href="https://tools.ietf.org/html/rfc5988"><cite>Web Linking</cite></a>. M. Nottingham. IETF. October 2010. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc5988">https://tools.ietf.org/html/rfc5988</a>
+</dd><dt id="bib-RFC6749">[RFC6749]</dt><dd><a href="https://tools.ietf.org/html/rfc6749"><cite>The OAuth 2.0 Authorization Framework</cite></a>. D. Hardt, Ed.. IETF. October 2012. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6749">https://tools.ietf.org/html/rfc6749</a>
+</dd><dt id="bib-RFC6750">[RFC6750]</dt><dd><a href="https://tools.ietf.org/html/rfc6750"><cite>The OAuth 2.0 Authorization Framework: Bearer Token Usage</cite></a>. M. Jones; D. Hardt. IETF. October 2012. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6750">https://tools.ietf.org/html/rfc6750</a>
+</dd></dl></section></section><p role="navigation" id="back-to-top"><a href="#toc"><abbr title="Back to Top">↑</abbr></a></p><script src="https://www.w3.org/scripts/TR/2016/fixup.js"></script></body></html>
