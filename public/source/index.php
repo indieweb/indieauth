@@ -89,7 +89,7 @@
         <h2>Author's Note</h2>
         <p>This specification was contributed to the W3C from the
           <a href="https://indieweb.org/">IndieWeb</a> community. More
-          history and evolution of Webmention can be found on the
+          history and evolution of IndieAuth can be found on the
           <a href="https://indieweb.org/IndieAuth-spec">IndieWeb wiki</a>.</p>
       </section>
     </section>
@@ -378,7 +378,7 @@
 
       <p>
         <ul>
-          <li><a href="https://webmention.rocks">Test Suite and Debug Tool</a></li>
+          <!-- <li><a href="https://indieauth.rocks">Test Suite and Debug Tool</a></li> -->
           <li><a href="https://indieweb.org/Category:IndieAuth">More IndieAuth resources</a></li>
           <li><a href="https://indieweb.org/obtaining-an-access-token">Implementation guide for obtaining an access token using IndieAuth</a></li>
           <li><a href="https://indieweb.org/indieauth-for-login">Implementation guide for authenticating users without obtaining an access token</a></li>
