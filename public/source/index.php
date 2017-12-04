@@ -78,7 +78,7 @@
     <section id='abstract'>
       <p>
         IndieAuth is an identity layer on top of OAuth 2.0 [[!RFC6749]], primarily used to obtain
-        an OAuth 2.0 Bearer Token [[!RFC6750]] for use by [[!Micropub]] clients. End-Users
+        an OAuth 2.0 Bearer Token [[!RFC6750]] for use by [[Micropub]] clients. End-Users
         and Clients are all represented by URLs. IndieAuth enables Clients to
         verify the identity of an End-User, as well as to obtain an access
         token that can be used to access resources under the control of the
@@ -166,18 +166,41 @@
       <h2>Identifiers</h2>
 
       <section>
-        <h3>User Identity URL</h3>
+        <h3>User Profile URL</h3>
 
+        <p>Users are identified by a [[!URL]]. Profile URLs MUST have either an <code>https</code> or <code>http</code> scheme, MUST contain a path component (<code>/</code> is a valid path), MUST NOT contain single-dot or double-dot path segments, MAY contain a query string component, MUST NOT contain a fragment component, MUST NOT contain a username or password component, and MUST NOT contain a port. Additionally, hostnames MUST be domain names and MUST NOT be ipv4 or ipv6 addresses.</p>
+
+        <p>Some examples of valid profile URLs are:</p>
+
+        <ul>
+          <li><code>https://example.com/</code></li>
+          <li><code>https://example.com/username</code></li>
+          <li><code>https://example.com/users?id=100</code></li>
+        </ul>
+
+        <p>Some examples of invalid profile URLs are:</p>
+        <ul>
+          <li><s><code>example.com</code></s> - missing scheme</li>
+          <li><s><code>mailto:user@example.com</code></s> - invalid scheme</li>
+          <li><s><code>https://example.com/foo/../bar</code></s> - contains a double-dot path segment</li>
+          <li><s><code>https://example.com/#me</code></s> - contains a fragment</li>
+          <li><s><code>https://user:pass@example.com/</code></s> - contains a username and password</li>
+          <li><s><code>https://example.com:8443/</code></s> - contains a port</li>
+        </ul>
       </section>
 
       <section>
         <h3>Client Identifier</h3>
 
+        <p>Clients are identified by a [[!URL]]. Client identifier URLs MUST have either an <code>https</code> or <code>http</code> scheme, MUST contain a path component, MUST NOT contain single-dot or double-dot path segments, MAY contain a query string component, MUST NOT contain a fragment component, MUST NOT contain a username or password component, and MUST NOT contain a port. Additionally, hostnames MUST be domain names and MUST NOT be ipv4 or ipv6 addresses.</p>
       </section>
 
       <section>
-        <h3>Redirect URI Registration</h3>
+        <h3>URL Canonicalization</h3>
 
+        <p>Since IndieAuth uses https/http URLs which fall under what [[!URL]] calls "<a href="https://url.spec.whatwg.org/#special-scheme">Special URLs</a>", a string with no path component is not a valid [[!URL]]. As such, if a URL with no path component is ever encountered, it MUST be treated as if it had the path <code>/</code>. For example, if a user enters <code>https://example.com</code> as their profile URL, the client MUST transform it to <code>https://example.com/</code> when using it and comparing it.</p>
+
+        <p>Since domain names are case insensitive, the hostname component of the URL MUST be compared case insensitively. Implementations SHOULD convert the hostname to lowercase when storing and using URLs.</p>
       </section>
 
     </section>
