@@ -313,7 +313,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 }
 </style><link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2016/W3C-NOTE"><link rel="canonical" href="https://www.w3.org/TR/indieauth/"><script id="initialUserConfig" type="application/json">{
   "useExperimentalStyles": true,
-  "publishDate": "2017-11-28",
+  "publishDate": "2017-12-04",
   "specStatus": "NOTE",
   "shortName": "indieauth",
   "edDraftURI": "https://indieauth.net/spec/",
@@ -381,24 +381,24 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
       "publisher": "WHATWG"
     }
   },
-  "publishISODate": "2017-11-28T00:00:00.000Z",
-  "generatedSubtitle": "Working Group Note 28 November 2017"
+  "publishISODate": "2017-12-04T00:00:00.000Z",
+  "generatedSubtitle": "Working Group Note 04 December 2017"
 }</script><meta name="description" content="IndieAuth is an identity layer on top of OAuth 2.0 [RFC6749], primarily used to obtain
         an OAuth 2.0 Bearer Token [RFC6750] for use by [Micropub] clients. End-Users
         and Clients are all represented by URLs. IndieAuth enables Clients to
         verify the identity of an End-User, as well as to obtain an access
         token that can be used to access resources under the control of the
         End-User."></head>
-  <body aria-busy="false" class="h-entry"><div class="head">
+  <body aria-busy="false" class="h-entry toc-inline"><div class="head">
     <p>
       <a class="logo" href="https://www.w3.org/"><img width="72" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" alt="W3C"></a>
     </p>
-  <p><!--_hyper: 684607942;--></p>
+  <p><!--_hyper: 1383124823;--></p>
   <h1 class="title p-name" id="title">IndieAuth</h1>
-  <h2 id="w3c-working-group-note-28-november-2017"><abbr title="World Wide Web Consortium">W3C</abbr> Working Group Note <time class="dt-published" datetime="2017-11-28">28 November 2017</time></h2>
+  <h2 id="w3c-working-group-note-04-december-2017"><abbr title="World Wide Web Consortium">W3C</abbr> Working Group Note <time class="dt-published" datetime="2017-12-04">04 December 2017</time></h2>
   <dl>
       <dt>This version:</dt>
-      <dd><a class="u-url" href="https://www.w3.org/TR/2017/NOTE-indieauth-20171128/">https://www.w3.org/TR/2017/NOTE-indieauth-20171128/</a></dd>
+      <dd><a class="u-url" href="https://www.w3.org/TR/2017/NOTE-indieauth-20171204/">https://www.w3.org/TR/2017/NOTE-indieauth-20171204/</a></dd>
       <dt>Latest published version:</dt>
       <dd><a href="https://www.w3.org/TR/indieauth/">https://www.w3.org/TR/indieauth/</a></dd>
       <dt>Latest editor's draft:</dt>
@@ -500,7 +500,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
           </p>
         
 
-</section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a href="#introduction" class="tocxref"><span class="secno">1. </span>Introduction</a><ol class="toc"><li class="tocline"><a href="#background" class="tocxref"><span class="secno">1.1 </span>Background</a></li><li class="tocline"><a href="#oauth-2-0-extension" class="tocxref"><span class="secno">1.2 </span>OAuth 2.0 Extension</a></li></ol></li><li class="tocline"><a href="#conformance" class="tocxref"><span class="secno">2. </span>Conformance</a><ol class="toc"><li class="tocline"><a href="#conformance-classes" class="tocxref"><span class="secno">2.1 </span>Conformance Classes</a><ol class="toc"><li class="tocline"><a href="#authorization-endpoint" class="tocxref"><span class="secno">2.1.1 </span>Authorization Endpoint</a></li><li class="tocline"><a href="#token-endpoint" class="tocxref"><span class="secno">2.1.2 </span>Token Endpoint</a></li><li class="tocline"><a href="#micropub-client" class="tocxref"><span class="secno">2.1.3 </span>Micropub Client</a></li><li class="tocline"><a href="#indieauth-client" class="tocxref"><span class="secno">2.1.4 </span>IndieAuth Client</a></li></ol></li></ol></li><li class="tocline"><a href="#identifiers" class="tocxref"><span class="secno">3. </span>Identifiers</a><ol class="toc"><li class="tocline"><a href="#user-identity-url" class="tocxref"><span class="secno">3.1 </span>User Identity URL</a></li><li class="tocline"><a href="#client-identifier" class="tocxref"><span class="secno">3.2 </span>Client Identifier</a></li><li class="tocline"><a href="#redirect-uri-registration" class="tocxref"><span class="secno">3.3 </span>Redirect URI Registration</a></li></ol></li><li class="tocline"><a href="#discovery" class="tocxref"><span class="secno">4. </span>Discovery</a></li><li class="tocline"><a href="#authentication" class="tocxref"><span class="secno">5. </span>Authentication</a><ol class="toc"><li class="tocline"><a href="#discovery-0" class="tocxref"><span class="secno">5.1 </span>Discovery</a></li><li class="tocline"><a href="#authorization-request" class="tocxref"><span class="secno">5.2 </span>Authorization Request</a></li><li class="tocline"><a href="#authorization-response" class="tocxref"><span class="secno">5.3 </span>Authorization Response</a></li><li class="tocline"><a href="#authorization-code-verification" class="tocxref"><span class="secno">5.4 </span>Authorization Code Verification</a></li></ol></li><li class="tocline"><a href="#authorization" class="tocxref"><span class="secno">6. </span>Authorization</a><ol class="toc"><li class="tocline"><a href="#discovery-1" class="tocxref"><span class="secno">6.1 </span>Discovery</a></li><li class="tocline"><a href="#authorization-endpoint-0" class="tocxref"><span class="secno">6.2 </span>Authorization Endpoint</a><ol class="toc"><li class="tocline"><a href="#authorization-request-0" class="tocxref"><span class="secno">6.2.1 </span>Authorization Request</a></li><li class="tocline"><a href="#authorization-response-0" class="tocxref"><span class="secno">6.2.2 </span>Authorization Response</a></li></ol></li><li class="tocline"><a href="#token-endpoint-0" class="tocxref"><span class="secno">6.3 </span>Token Endpoint</a><ol class="toc"><li class="tocline"><a href="#token-request" class="tocxref"><span class="secno">6.3.1 </span>Token Request</a></li><li class="tocline"><a href="#authorization-code-verification-0" class="tocxref"><span class="secno">6.3.2 </span>Authorization Code Verification</a></li><li class="tocline"><a href="#access-token-response" class="tocxref"><span class="secno">6.3.3 </span>Access Token Response</a></li></ol></li></ol></li><li class="tocline"><a href="#security-considerations" class="tocxref"><span class="secno">7. </span>Security Considerations</a></li><li class="tocline"><a href="#iana-considerations" class="tocxref"><span class="secno">8. </span>IANA Considerations</a></li><li class="tocline"><a href="#resources" class="tocxref"><span class="secno">A. </span>Resources</a><ol class="toc"><li class="tocline"><a href="#articles" class="tocxref"><span class="secno">A.1 </span>Articles</a></li><li class="tocline"><a href="#implementations" class="tocxref"><span class="secno">A.2 </span>Implementations</a></li></ol></li><li class="tocline"><a href="#acknowledgements" class="tocxref"><span class="secno">B. </span>Acknowledgements</a></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">C. </span>References</a><ol class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">C.1 </span>Normative references</a></li></ol></li></ol></nav>
+</section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a href="#introduction" class="tocxref"><span class="secno">1. </span>Introduction</a><ol class="toc"><li class="tocline"><a href="#background" class="tocxref"><span class="secno">1.1 </span>Background</a></li><li class="tocline"><a href="#oauth-2-0-extension" class="tocxref"><span class="secno">1.2 </span>OAuth 2.0 Extension</a></li></ol></li><li class="tocline"><a href="#conformance" class="tocxref"><span class="secno">2. </span>Conformance</a><ol class="toc"><li class="tocline"><a href="#conformance-classes" class="tocxref"><span class="secno">2.1 </span>Conformance Classes</a><ol class="toc"><li class="tocline"><a href="#authorization-endpoint" class="tocxref"><span class="secno">2.1.1 </span>Authorization Endpoint</a></li><li class="tocline"><a href="#token-endpoint" class="tocxref"><span class="secno">2.1.2 </span>Token Endpoint</a></li><li class="tocline"><a href="#micropub-client" class="tocxref"><span class="secno">2.1.3 </span>Micropub Client</a></li><li class="tocline"><a href="#indieauth-client" class="tocxref"><span class="secno">2.1.4 </span>IndieAuth Client</a></li></ol></li></ol></li><li class="tocline"><a href="#identifiers" class="tocxref"><span class="secno">3. </span>Identifiers</a><ol class="toc"><li class="tocline"><a href="#user-profile-url" class="tocxref"><span class="secno">3.1 </span>User Profile URL</a></li><li class="tocline"><a href="#client-identifier" class="tocxref"><span class="secno">3.2 </span>Client Identifier</a></li><li class="tocline"><a href="#url-canonicalization" class="tocxref"><span class="secno">3.3 </span>URL Canonicalization</a></li></ol></li><li class="tocline"><a href="#discovery" class="tocxref"><span class="secno">4. </span>Discovery</a></li><li class="tocline"><a href="#authentication" class="tocxref"><span class="secno">5. </span>Authentication</a><ol class="toc"><li class="tocline"><a href="#discovery-0" class="tocxref"><span class="secno">5.1 </span>Discovery</a></li><li class="tocline"><a href="#authorization-request" class="tocxref"><span class="secno">5.2 </span>Authorization Request</a></li><li class="tocline"><a href="#authorization-response" class="tocxref"><span class="secno">5.3 </span>Authorization Response</a></li><li class="tocline"><a href="#authorization-code-verification" class="tocxref"><span class="secno">5.4 </span>Authorization Code Verification</a></li></ol></li><li class="tocline"><a href="#authorization" class="tocxref"><span class="secno">6. </span>Authorization</a><ol class="toc"><li class="tocline"><a href="#discovery-1" class="tocxref"><span class="secno">6.1 </span>Discovery</a></li><li class="tocline"><a href="#authorization-endpoint-0" class="tocxref"><span class="secno">6.2 </span>Authorization Endpoint</a><ol class="toc"><li class="tocline"><a href="#authorization-request-0" class="tocxref"><span class="secno">6.2.1 </span>Authorization Request</a></li><li class="tocline"><a href="#authorization-response-0" class="tocxref"><span class="secno">6.2.2 </span>Authorization Response</a></li></ol></li><li class="tocline"><a href="#token-endpoint-0" class="tocxref"><span class="secno">6.3 </span>Token Endpoint</a><ol class="toc"><li class="tocline"><a href="#token-request" class="tocxref"><span class="secno">6.3.1 </span>Token Request</a></li><li class="tocline"><a href="#authorization-code-verification-0" class="tocxref"><span class="secno">6.3.2 </span>Authorization Code Verification</a></li><li class="tocline"><a href="#access-token-response" class="tocxref"><span class="secno">6.3.3 </span>Access Token Response</a></li></ol></li></ol></li><li class="tocline"><a href="#security-considerations" class="tocxref"><span class="secno">7. </span>Security Considerations</a></li><li class="tocline"><a href="#iana-considerations" class="tocxref"><span class="secno">8. </span>IANA Considerations</a></li><li class="tocline"><a href="#resources" class="tocxref"><span class="secno">A. </span>Resources</a><ol class="toc"><li class="tocline"><a href="#articles" class="tocxref"><span class="secno">A.1 </span>Articles</a></li><li class="tocline"><a href="#implementations" class="tocxref"><span class="secno">A.2 </span>Implementations</a></li></ol></li><li class="tocline"><a href="#acknowledgements" class="tocxref"><span class="secno">B. </span>Acknowledgements</a></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">C. </span>References</a><ol class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">C.1 </span>Normative references</a></li><li class="tocline"><a href="#informative-references" class="tocxref"><span class="secno">C.2 </span>Informative references</a></li></ol></li></ol></nav>
 
     <section id="introduction">
       <!--OddPage--><h2 id="x1-introduction"><span class="secno">1. </span>Introduction</h2>
@@ -570,19 +570,42 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <section id="identifiers">
       <!--OddPage--><h2 id="x3-identifiers"><span class="secno">3. </span>Identifiers</h2>
 
-      <section id="user-identity-url">
-        <h3 id="x3-1-user-identity-url"><span class="secno">3.1 </span>User Identity URL</h3>
+      <section id="user-profile-url">
+        <h3 id="x3-1-user-profile-url"><span class="secno">3.1 </span>User Profile URL</h3>
 
+        <p id="user-profile-url-p-1">Users are identified by a [<cite><a class="bibref" href="#bib-URL">URL</a></cite>]. Profile URLs <em class="rfc2119" title="MUST">MUST</em> have either an <code>https</code> or <code>http</code> scheme, <em class="rfc2119" title="MUST">MUST</em> contain a path component (<code>/</code> is a valid path), <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain single-dot or double-dot path segments, <em class="rfc2119" title="MAY">MAY</em> contain a query string component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a fragment component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a username or password component, and <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a port. Additionally, hostnames <em class="rfc2119" title="MUST">MUST</em> be domain names and <em class="rfc2119" title="MUST NOT">MUST NOT</em> be ipv4 or ipv6 addresses.</p>
+
+        <p id="user-profile-url-p-2">Some examples of valid profile URLs are:</p>
+
+        <ul>
+          <li id="user-profile-url-li-1"><code>https://example.com/</code></li>
+          <li id="user-profile-url-li-2"><code>https://example.com/username</code></li>
+          <li id="user-profile-url-li-3"><code>https://example.com/users?id=100</code></li>
+        </ul>
+
+        <p id="user-profile-url-p-3">Some examples of invalid profile URLs are:</p>
+        <ul>
+          <li id="user-profile-url-li-4"><s><code>example.com</code></s> - missing scheme</li>
+          <li id="user-profile-url-li-5"><s><code>mailto:user@example.com</code></s> - invalid scheme</li>
+          <li id="user-profile-url-li-6"><s><code>https://example.com/foo/../bar</code></s> - contains a double-dot path segment</li>
+          <li id="user-profile-url-li-7"><s><code>https://example.com/#me</code></s> - contains a fragment</li>
+          <li id="user-profile-url-li-8"><s><code>https://user:pass@example.com/</code></s> - contains a username and password</li>
+          <li id="user-profile-url-li-9"><s><code>https://example.com:8443/</code></s> - contains a port</li>
+        </ul>
       </section>
 
       <section id="client-identifier">
         <h3 id="x3-2-client-identifier"><span class="secno">3.2 </span>Client Identifier</h3>
 
+        <p id="client-identifier-p-1">Clients are identified by a [<cite><a class="bibref" href="#bib-URL">URL</a></cite>]. Client identifier URLs <em class="rfc2119" title="MUST">MUST</em> have either an <code>https</code> or <code>http</code> scheme, <em class="rfc2119" title="MUST">MUST</em> contain a path component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain single-dot or double-dot path segments, <em class="rfc2119" title="MAY">MAY</em> contain a query string component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a fragment component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a username or password component, and <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a port. Additionally, hostnames <em class="rfc2119" title="MUST">MUST</em> be domain names and <em class="rfc2119" title="MUST NOT">MUST NOT</em> be ipv4 or ipv6 addresses.</p>
       </section>
 
-      <section id="redirect-uri-registration">
-        <h3 id="x3-3-redirect-uri-registration"><span class="secno">3.3 </span>Redirect URI Registration</h3>
+      <section id="url-canonicalization">
+        <h3 id="x3-3-url-canonicalization"><span class="secno">3.3 </span>URL Canonicalization</h3>
 
+        <p id="url-canonicalization-p-1">Since IndieAuth uses https/http URLs which fall under what [<cite><a class="bibref" href="#bib-URL">URL</a></cite>] calls "<a href="https://url.spec.whatwg.org/#special-scheme">Special URLs</a>", a string with no path component is not a valid [<cite><a class="bibref" href="#bib-URL">URL</a></cite>]. As such, if a URL with no path component is ever encountered, it <em class="rfc2119" title="MUST">MUST</em> be treated as if it had the path <code>/</code>. For example, if a user enters <code>https://example.com</code> as their profile URL, the client <em class="rfc2119" title="MUST">MUST</em> transform it to <code>https://example.com/</code> when using it and comparing it.</p>
+
+        <p id="url-canonicalization-p-2">Since domain names are case insensitive, the hostname component of the URL <em class="rfc2119" title="MUST">MUST</em> be compared case insensitively. Implementations <em class="rfc2119" title="SHOULD">SHOULD</em> convert the hostname to lowercase when storing and using URLs.</p>
       </section>
 
     </section>
@@ -844,9 +867,10 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   
 
 <section id="references" class="appendix"><!--OddPage--><h2 id="c-references"><span class="secno">C. </span>References</h2><section id="normative-references"><h3 id="c-1-normative-references"><span class="secno">C.1 </span>Normative references</h3><dl class="bibliography"><dt id="bib-HTML5">[HTML5]</dt><dd><a href="https://www.w3.org/TR/html5/"><cite>HTML5</cite></a>. Ian Hickson; Robin Berjon; Steve Faulkner; Travis Leithead; Erika Doyle Navara; Theresa O'Connor; Silvia Pfeiffer. W3C. 28 October 2014. W3C Recommendation. URL: <a href="https://www.w3.org/TR/html5/">https://www.w3.org/TR/html5/</a>
-</dd><dt id="bib-Micropub">[Micropub]</dt><dd><a href="https://www.w3.org/TR/micropub/"><cite>Micropub</cite></a>. Aaron Parecki. W3C. 23 May 2017. W3C Recommendation. URL: <a href="https://www.w3.org/TR/micropub/">https://www.w3.org/TR/micropub/</a>
 </dd><dt id="bib-RFC2119">[RFC2119]</dt><dd><a href="https://tools.ietf.org/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. S. Bradner. IETF. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
 </dd><dt id="bib-RFC5988">[RFC5988]</dt><dd><a href="https://tools.ietf.org/html/rfc5988"><cite>Web Linking</cite></a>. M. Nottingham. IETF. October 2010. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc5988">https://tools.ietf.org/html/rfc5988</a>
 </dd><dt id="bib-RFC6749">[RFC6749]</dt><dd><a href="https://tools.ietf.org/html/rfc6749"><cite>The OAuth 2.0 Authorization Framework</cite></a>. D. Hardt, Ed.. IETF. October 2012. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6749">https://tools.ietf.org/html/rfc6749</a>
 </dd><dt id="bib-RFC6750">[RFC6750]</dt><dd><a href="https://tools.ietf.org/html/rfc6750"><cite>The OAuth 2.0 Authorization Framework: Bearer Token Usage</cite></a>. M. Jones; D. Hardt. IETF. October 2012. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6750">https://tools.ietf.org/html/rfc6750</a>
+</dd><dt id="bib-URL">[URL]</dt><dd><a href="https://url.spec.whatwg.org/"><cite>URL Standard</cite></a>. Anne van Kesteren. WHATWG. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
+</dd></dl></section><section id="informative-references"><h3 id="c-2-informative-references"><span class="secno">C.2 </span>Informative references</h3><dl class="bibliography"><dt id="bib-Micropub">[Micropub]</dt><dd><a href="https://www.w3.org/TR/micropub/"><cite>Micropub</cite></a>. Aaron Parecki. W3C. 23 May 2017. W3C Recommendation. URL: <a href="https://www.w3.org/TR/micropub/">https://www.w3.org/TR/micropub/</a>
 </dd></dl></section></section><p role="navigation" id="back-to-top"><a href="#toc"><abbr title="Back to Top">↑</abbr></a></p><script src="https://www.w3.org/scripts/TR/2016/fixup.js"></script></body></html>
