@@ -411,7 +411,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <p>
       <a class="logo" href="https://www.w3.org/"><img width="72" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" alt="W3C"></a>
     </p>
-  <p><!--_hyper: -1111858109;--></p>
+  <p><!--_hyper: -1322467622;--></p>
   <h1 class="title p-name" id="title">IndieAuth</h1>
   <h2 id="w3c-working-group-note-04-december-2017"><abbr title="World Wide Web Consortium">W3C</abbr> Working Group Note <time class="dt-published" datetime="2017-12-04">04 December 2017</time></h2>
   <dl>
@@ -538,10 +538,10 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
           <li id="oauth-2-0-extension-li-1">Specifies a format for user identifiers (a resolvable URL)</li>
           <li id="oauth-2-0-extension-li-2">Specifies a method of discovering the authorization and token endpoints given a profile URL</li>
           <li id="oauth-2-0-extension-li-3">Specifies a format for the Client ID (a resolvable URL)</li>
-          <li id="oauth-2-0-extension-li-4">All clients are public clients</li>
+          <li id="oauth-2-0-extension-li-4">All clients are public clients (no <code>client_secret</code> is used)</li>
           <li id="oauth-2-0-extension-li-5">Client registration at the authorization endpoint is not necessary, since client IDs are resolvable URLs</li>
-          <li id="oauth-2-0-extension-li-6">Redirect URI registration happens by verifying data fetched at the Client ID URL</li>
-          <li id="oauth-2-0-extension-li-7">Specifies a mechanism for returning user identifiers</li>
+          <li id="oauth-2-0-extension-li-6">Redirect URL registration happens by verifying data fetched at the Client ID URL</li>
+          <li id="oauth-2-0-extension-li-7">Specifies a mechanism for returning the user identifier for the user who authorized a request</li>
           <li id="oauth-2-0-extension-li-8">Specifies a mechanism for verifying authorization codes</li>
           <li id="oauth-2-0-extension-li-9">Specifies a mechanism for a token endpoint and authorization endpoint to communicate</li>
         </ul>
@@ -616,7 +616,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
       <section id="client-identifier">
         <h3 id="x3-2-client-identifier"><span class="secno">3.2 </span>Client Identifier</h3>
 
-        <p id="client-identifier-p-1">Clients are identified by a [<cite><a class="bibref" href="#bib-URL">URL</a></cite>]. Client identifier URLs <em class="rfc2119" title="MUST">MUST</em> have either an <code>https</code> or <code>http</code> scheme, <em class="rfc2119" title="MUST">MUST</em> contain a path component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain single-dot or double-dot path segments, <em class="rfc2119" title="MAY">MAY</em> contain a query string component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a fragment component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a username or password component, and <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a port. Additionally, hostnames <em class="rfc2119" title="MUST">MUST</em> be domain names and <em class="rfc2119" title="MUST NOT">MUST NOT</em> be ipv4 or ipv6 addresses.</p>
+        <p id="client-identifier-p-1">Clients are identified by a [<cite><a class="bibref" href="#bib-URL">URL</a></cite>]. Client identifier URLs <em class="rfc2119" title="MUST">MUST</em> have either an <code>https</code> or <code>http</code> scheme, <em class="rfc2119" title="MUST">MUST</em> contain a path component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain single-dot or double-dot path segments, <em class="rfc2119" title="MAY">MAY</em> contain a query string component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a fragment component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a username or password component, and <em class="rfc2119" title="MAY">MAY</em> contain a port. Additionally, hostnames <em class="rfc2119" title="MUST">MUST</em> be domain names or a loopback interface and <em class="rfc2119" title="MUST NOT">MUST NOT</em> be IPv4 or IPv6 addresses except for IPv4 <code>127.0.0.1</code> or IPv6 <code>[::1]</code>.</p>
       </section>
 
       <section id="url-canonicalization">
@@ -638,11 +638,11 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
       <section id="discovery-by-clients">
         <h3 id="x4-1-discovery-by-clients"><span class="secno">4.1 </span>Discovery by Clients</h3>
 
-        <p id="discovery-by-clients-p-1">Clients need to discover a few pieces of information when a user signs in. For the <a href="#authentication">Authentication</a> workflow, the client needs to find the user's <code>authorization_endpoint</code>. For the <a href="#authorization">Authorization</a> workflow, especially when obtaining an access token for use at a [<cite><a class="bibref" href="#bib-Micropub">Micropub</a></cite>] endpoint, the client needs to find the user's <code>authorization_endpoint</code>, <code>token_endpoint</code> and <code>micropub</code> endpoint.</p>
+        <p id="discovery-by-clients-p-1">Clients need to discover a few pieces of information when a user signs in. For the <a href="#authentication">Authentication</a> workflow, the client needs to find the user's <code>authorization_endpoint</code>. For the <a href="#authorization">Authorization</a> workflow, the client needs to find the user's <code>authorization_endpoint</code> and <code>token_endpoint</code>. When using the Authorization workflow to obtain an access token for use at a [<cite><a class="bibref" href="#bib-Micropub">Micropub</a></cite>] endpoint, the client will also discover the <code>micropub</code> endpoint.</p>
 
         <p id="discovery-by-clients-p-2">Clients <em class="rfc2119" title="MUST">MUST</em> start by making a GET request to [<cite><a class="bibref" href="#bib-Fetch">Fetch</a></cite>] the user's profile URL to discover the necessary values. Clients <em class="rfc2119" title="MUST">MUST</em> check for an HTTP Link header [<cite><a class="bibref" href="#bib-RFC5988">RFC5988</a></cite>] with the appropriate <code>rel</code> value. If the content type of the document is HTML, then the client <em class="rfc2119" title="MUST">MUST</em> check for an HTML <code>&lt;link&gt;</code> element with the appropriate <code>rel</code> value.</p>
 
-        <p id="discovery-by-clients-p-3">The endpoints discovered <em class="rfc2119" title="MAY">MAY</em> be relative URLs, in which case the client <em class="rfc2119" title="MUST">MUST</em> resolve it relative to the profile URL according to [<cite><a class="bibref" href="#bib-URL">URL</a></cite>].</p>
+        <p id="discovery-by-clients-p-3">The endpoints discovered <em class="rfc2119" title="MAY">MAY</em> be relative URLs, in which case the client <em class="rfc2119" title="MUST">MUST</em> resolve them relative to the profile URL according to [<cite><a class="bibref" href="#bib-URL">URL</a></cite>].</p>
 
         <p id="discovery-by-clients-p-4">Clients <em class="rfc2119" title="MAY">MAY</em> initially make an HTTP HEAD request [<cite><a class="bibref" href="#bib-RFC7231">RFC7231</a></cite>] to check for the <code>Link</code> header before making a GET request.</p>
       </section>
@@ -712,15 +712,16 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
         <p id="discovery-0-p-1">After obtaining the End-User's profile URL, the client fetches the URL and looks for the <code>authorization_endpoint</code> rel value in the HTTP <code>Link</code> headers and HTML <code>&lt;link&gt;</code> tags.</p>
 
-        <div class="example"><div class="example-title marker"><span>Example 3</span></div><pre class="hljs http" aria-busy="false" aria-live="polite"><span class="hljs-attribute">Link</span>: &lt;https://example.com/auth&gt;; rel="authorization_endpoint"
+        <div class="example"><div class="example-title marker"><span>Example 3</span></div><pre class="nohighlight">Link: &lt;https://example.com/auth&gt;; rel="authorization_endpoint"
 
-<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"authorization_endpoint"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://example.com/auth"</span>&gt;</span></span></pre></div>
+&lt;link rel="authorization_endpoint" href="https://example.com/auth"&gt;</pre></div>
       </section>
 
       <section id="authorization-request">
         <h3 id="x5-2-authorization-request"><span class="secno">5.2 </span>Authorization Request</h3>
 
-        <p id="authorization-request-p-1">The client builds the authorization request URL with the following parameters:</p>
+        <p id="authorization-request-p-1">The client builds the authorization request URL by starting with the discovered <code>authorization_endpoint</code> URL and adding the following parameters to the query component:</p>
+
         <ul>
           <li id="authorization-request-li-1"><code>me</code> - The profile URL that the user entered</li>
           <li id="authorization-request-li-2"><code>client_id</code> - The client URL</li>
@@ -737,7 +738,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
         <p id="authorization-request-p-2">The authorization endpoint <em class="rfc2119" title="SHOULD">SHOULD</em> fetch the <code>client_id</code> URL to retrieve application information and the client's registered redirect URLs, see <a href="#client-information-discovery">Client Information Discovery</a> for more information.</p>
 
-        <p id="authorization-request-p-3">If the <code>redirect_uri</code> in the request has a different domain than the <code>client_id</code>, then the authorization endpoint <em class="rfc2119" title="SHOULD">SHOULD</em> verify that the requested <code>redirect_uri</code> matches one of the <a href="#redirect-url">redirect URLs</a> published by the client, and <em class="rfc2119" title="SHOULD">SHOULD</em> block the request from proceeding if not.</p>
+        <p id="authorization-request-p-3">If the URL scheme, host or port of the <code>redirect_uri</code> in the request do not match that of the <code>client_id</code>, then the authorization endpoint <em class="rfc2119" title="SHOULD">SHOULD</em> verify that the requested <code>redirect_uri</code> matches one of the <a href="#redirect-url">redirect URLs</a> published by the client, and <em class="rfc2119" title="SHOULD">SHOULD</em> block the request from proceeding if not.</p>
 
         <p id="authorization-request-p-4">It is up to the authorization endpoint how to authenticate the user. This step is out of scope of OAuth 2.0, and is highly dependent on the particular implementation. Some authorization servers use typical username/password authentication, and others use alternative forms of authentication such as [<cite><a class="bibref" href="#bib-RelMeAuth">RelMeAuth</a></cite>].</p>
 
@@ -768,7 +769,7 @@ Location: https://app.example.com/redirect?code=xxxxxxxx
 
         <h3 id="request">Request</h3>
 
-        <p id="authorization-code-verification-p-2">After the state parameter is validated, the client makes a POST request to the authorization endpoint to verify the authorization code and return the final user profile URL. The POST request contains the following parameters:</p>
+        <p id="authorization-code-verification-p-2">After the state parameter is validated, the client makes a POST request to the authorization endpoint to verify the authorization code and retrieve the final user profile URL. The POST request contains the following parameters:</p>
 
         <ul>
           <li id="authorization-code-verification-li-1"><code>code</code> - The authorization code received from the authorization endpoint in the redirect</li>
@@ -794,7 +795,7 @@ Content-Type: application/json
   "me": "https://user.example.org/"
 }</pre></div>
 
-        <p id="authorization-code-verification-p-4">The resulting profile URL <em class="rfc2119" title="MAY">MAY</em> be different from what the user initially entered, but <em class="rfc2119" title="MUST">MUST</em> be on a matching domain. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required.</p>
+        <p id="authorization-code-verification-p-4">The resulting profile URL <em class="rfc2119" title="MAY">MAY</em> be different from what the user initially entered, but <em class="rfc2119" title="MUST">MUST</em> be on the same domain. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required.</p>
 
       </section>
     </section>
@@ -821,11 +822,11 @@ Content-Type: application/json
 
         <p id="discovery-1-p-1">After obtaining the End-User's profile URL, the client fetches the URL and looks for the <code>authorization_endpoint</code> and <code>token_endpoint</code> rel values in the HTTP <code>Link</code> headers and HTML <code>&lt;link&gt;</code> tags.</p>
 
-        <div class="example"><div class="example-title marker"><span>Example 8</span></div><pre class="hljs javascript" aria-busy="false" aria-live="polite">Link: <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">https:</span>//<span class="hljs-attr">example.com</span>/<span class="hljs-attr">auth</span>&gt;</span></span>; rel=<span class="hljs-string">"authorization_endpoint"</span>
-Link: <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">https:</span>//<span class="hljs-attr">example.com</span>/<span class="hljs-attr">token</span>&gt;</span></span>; rel=<span class="hljs-string">"token_endpoint"</span>
+        <div class="example"><div class="example-title marker"><span>Example 8</span></div><pre class="nohighlight">Link: &lt;https://example.com/auth&gt;; rel="authorization_endpoint"
+Link: &lt;https://example.com/token&gt;; rel="token_endpoint"
 
-&lt;link rel=<span class="hljs-string">"authorization_endpoint"</span> href=<span class="hljs-string">"https://example.com/auth"</span>&gt;
-<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"token_endpoint"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://example.com/token"</span>&gt;</span></span></pre></div>
+&lt;link rel="authorization_endpoint" href="https://example.com/auth"&gt;
+&lt;link rel="token_endpoint" href="https://example.com/token"&gt;</pre></div>
       </section>
 
       <section id="authorization-endpoint-0">
@@ -834,10 +835,49 @@ Link: <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">https
         <section id="authorization-request-0">
           <h4 id="x6-2-1-authorization-request"><span class="secno">6.2.1 </span>Authorization Request</h4>
 
+          <p id="authorization-request-0-p-1">The client builds the authorization request URL by starting with the discovered <code>authorization_endpoint</code> URL and adding the following parameters to the query component:</p>
+
+          <ul>
+            <li id="authorization-request-0-li-1"><code>me</code> - The profile URL that the user entered</li>
+            <li id="authorization-request-0-li-2"><code>client_id</code> - The client URL</li>
+            <li id="authorization-request-0-li-3"><code>redirect_uri</code> - The redirect URL indicating where the user should be redirected to after approving the request</li>
+            <li id="authorization-request-0-li-4"><code>state</code> - A parameter set by the client which will be included when the user is redirected back to the client. This is used to prevent CSRF attacks. The authorization server <em class="rfc2119" title="MUST">MUST</em> return the unmodified state value back to the client.</li>
+            <li id="authorization-request-0-li-5"><code>scope</code> - A space-separated list of scopes the client is requesting, e.g. "create"</li>
+            <li id="authorization-request-0-li-6"><code>response_type=code</code> - Indicates to the authorization server that this is an authorization request and an authorization code should be returned</li>
+          </ul>
+
+          <div class="example"><div class="example-title marker"><span>Example 9</span></div><pre class="nohighlight">https://indieauth.com/auth?me=https://user.example.net/&amp;
+                           redirect_uri=https://app.example.com/redirect&amp;
+                           client_id=https://app.example.com/&amp;
+                           state=1234567890&amp;
+                           scope=create&amp;
+                           response_type=code</pre></div>
+
+          <p id="authorization-request-0-p-2">The authorization endpoint <em class="rfc2119" title="SHOULD">SHOULD</em> fetch the <code>client_id</code> URL to retrieve application information and the client's registered redirect URLs, see <a href="#client-information-discovery">Client Information Discovery</a> for more information.</p>
+
+          <p id="authorization-request-0-p-3">If the URL scheme, host or port of the <code>redirect_uri</code> in the request do not match that of the <code>client_id</code>, then the authorization endpoint <em class="rfc2119" title="SHOULD">SHOULD</em> verify that the requested <code>redirect_uri</code> matches one of the <a href="#redirect-url">redirect URLs</a> published by the client, and <em class="rfc2119" title="SHOULD">SHOULD</em> block the request from proceeding if not.</p>
+
+          <p id="authorization-request-0-p-4">It is up to the authorization endpoint how to authenticate the user. This step is out of scope of OAuth 2.0, and is highly dependent on the particular implementation. Some authorization servers use typical username/password authentication, and others use alternative forms of authentication such as [<cite><a class="bibref" href="#bib-RelMeAuth">RelMeAuth</a></cite>].</p>
+
+          <p id="authorization-request-0-p-5">Once the user is authenticated, the authorization endpoint presents the authorization prompt to the user. The prompt <em class="rfc2119" title="MUST">MUST</em> indicate which application the user is signing in to, and <em class="rfc2119" title="SHOULD">SHOULD</em> provide as much detail as possible about the request, such as information about the requested scopes.</p>
+
         </section>
 
         <section id="authorization-response-0">
           <h4 id="x6-2-2-authorization-response"><span class="secno">6.2.2 </span>Authorization Response</h4>
+
+          <p id="authorization-response-0-p-1">If the user approves the request, the authorization endpoint generates an authorization code and builds the redirect back to the client.</p>
+
+          <p id="authorization-response-0-p-2">The redirect is built by starting with the <code>redirect_uri</code> in the request, and adding the following parameters to the query component of the redirect URL:</p>
+
+          <ul>
+            <li id="authorization-response-0-li-1"><code>code</code> - The authorization code generated by the authorization endpoint. The code <em class="rfc2119" title="MUST">MUST</em> expire shortly after it is issued to mitigate the risk of leaks. A maximum lifetime of 10 minutes is recommended. See <a href="https://tools.ietf.org/html/rfc6749#section-4.1.2">OAuth 2.0 Section 4.1.2</a> for additional requirements on the authorization code.</li>
+            <li id="authorization-response-0-li-2"><code>state</code> - The state parameter <em class="rfc2119" title="MUST">MUST</em> be set to the exact value that the client set in the request.</li>
+          </ul>
+
+          <div class="example"><div class="example-title marker"><span>Example 10</span></div><pre class="nohighlight">HTTP/1.1 302 Found
+  Location: https://app.example.com/redirect?code=xxxxxxxx
+                                             state=1234567890</pre></div>
 
         </section>
       </section>
