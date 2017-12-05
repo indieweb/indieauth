@@ -541,6 +541,8 @@ Link: <https://example.org/token>; rel="token_endpoint"
   Location: https://app.example.com/redirect?code=xxxxxxxx
                                              state=1234567890') ?></pre>
 
+          <p>Upon the redirect back to the client, the client MUST verify that the state parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</p>
+
         </section>
       </section>
 
@@ -550,16 +552,104 @@ Link: <https://example.org/token>; rel="token_endpoint"
         <section>
           <h4>Token Request</h4>
 
+          <p>After the state parameter is validated, the client makes a POST request to the token endpoint to verify the authorization code and retrieve the final user profile URL. The POST request contains the following parameters:</p>
 
+          <ul>
+            <li><code>grant_type=authorization_code</code></li>
+            <li><code>code</code> - The authorization code received from the authorization endpoint in the redirect</li>
+            <li><code>client_id</code> - The client's URL, which MUST match the client_id used in the authorization request.</li>
+            <li><code>redirect_uri</code> - The client's redirect URL, which MUST match the initial authorization request.</li>
+            <li><code>me</code> - The user's profile URL as originally entered</li>
+          </ul>
+
+          <pre class="example nohighlight"><?= htmlspecialchars(
+'POST https://example.org/token
+Content-type: application/x-www-form-urlencoded
+
+grant_type=authorization_code
+&code=xxxxxxxx
+&client_id=https://app.example.com/
+&redirect_uri=https://app.example.com/redirect
+&me=https://user.example.net/
+') ?></pre>
         </section>
 
         <section>
           <h4>Authorization Code Verification</h4>
 
+          <p>The token endpoint needs to verify that the authorization code is valid, and that it was issued for the matching <code>me</code>, <code>client_id</code> and <code>redirect_uri</code>. If the authorization endpoint and token endpoint are tightly integrated, then they can use any mechanism to share the information about the authorization code, such as looking up the code in a database, or sharing a JWT secret. If the authorization endpoint and token endpoint are separate, then they MUST use the mechanism described below to communicate.</p>
+
+          <p>The token endpoint MUST make a POST request to the authorization endpoint to verify the authorization code if it is not able to verify it using other means. To find the authorization endpoint, the token endpoint uses the user's profile URL in the <code>me</code> parameter and performs <a href="#discovery-by-clients">discovery</a> to find the user's <code>authorization_endpoint</code>. The token endpoint makes a POST request to the authorization endpoint with the following parameters:</p>
+
+          <ul>
+            <li><code>code</code> - The authorization code received from the authorization endpoint in the redirect</li>
+            <li><code>client_id</code> - The client's URL, which MUST match the client_id used in the authorization request.</li>
+            <li><code>redirect_uri</code> - The client's redirect URL, which MUST match the initial authorization request.</li>
+          </ul>
+
+          <pre class="example nohighlight"><?= htmlspecialchars(
+'POST https://example.org/auth
+Content-type: application/x-www-form-urlencoded
+
+code=xxxxxxxx
+&client_id=https://app.example.com/
+&redirect_uri=https://app.example.com/redirect
+') ?></pre>
+      
+          <p>Note that this is the same request that clients make to the authorization endpoint in the <a href="#authorization-code-verification">authentication flow</a>.</p>
+
+          <p>The authorization endpoint will validate that the code corresponds with the given <code>client_id</code> and <code>redirect_uri</code> and respond with a JSON response containing the <code>me</code> URL corresponding to this authorization code, or an error. The error returned from the authorization endpoint is acceptable to pass through to the client.</p>
         </section>
 
         <section>
           <h4>Access Token Response</h4>
+
+          <p>If the request is valid, then the token endpoint can generate an access token and return the appropriate response. The token response is a JSON [[!RFC7159]] object containing the OAuth 2.0 Bearer Token [[!RFC6750]], as well as a property <code>me</code>, containing the canonical user profile URL for the user this access token corresponds to. For example:</p>
+
+          <pre class="example nohighlight">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "access_token": "XXXXXX",
+  "token_type": "Bearer",
+  "scope": "create",
+  "me": "https://user.example.net/"
+}</pre>
+
+          <p>The resulting profile URL MAY be different from what the user initially entered, but MUST be on the same domain. This gives the token endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required.</p>
+
+        </section>
+
+        <section>
+          <h4>Access Token Verification</h4>
+
+          <p>Clients will make requests to other endpoints such as a [[Micropub]] endpoint using the access token obtained. If the token endpoint is not tightly integrated with the endpoint the token is being used at, then the other endpoint needs a way to verify access tokens that it receives. If the token endpoint and Micropub endpoint are tightly coupled, then they can of course use an internal mechanism to verify access tokens.</p>
+
+          <p>Token endpoints that intend to interoperate with other software MUST use the mechanism described below to allow other endpoints to verify access tokens.</p>
+
+          <p>If an external endpoint needs to verify that an access token is valid, it MUST make a GET request to the token endpoint containing an HTTP <code>Authorization</code> header with the Bearer Token according to [[!RFC6750]]. Note that the request to the endpoint will not contain any user-identifying information, so the external endpoint (e.g. Micropub endpoint) will need to know via out-of-band methods which token endpoint is in use.</p>
+
+          <pre class="example nohighlight">GET https://example.org/token
+Authorization: Bearer xxxxxxxx</pre>
+
+          <p>The token endpoint verifies the access token using (how this verification is done is up to the implementation), and returns information about the token:</p>
+
+          <ul>
+            <li><code>me</code> - The profile URL of the user corresponding to this token</li>
+            <li><code>client_id</code> - The client ID associated with this token</li>
+            <li><code>scope</code> - A space-separated list of scopes associated with this token</li>
+          </ul>
+
+          <pre class="example nohighlight">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "me": "https://user.example.net/",
+  "client_id": https://app.example.com/",
+  "scope": "create update delete"
+}</pre>
+  
+          <p>Specific implementations MAY include additional parameters as top-level JSON properties. Clients SHOULD ignore parameters they don't recognize.</p>
 
         </section>
       </section>
