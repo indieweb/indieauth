@@ -133,10 +133,10 @@
           <li>Specifies a format for user identifiers (a resolvable URL)</li>
           <li>Specifies a method of discovering the authorization and token endpoints given a profile URL</li>
           <li>Specifies a format for the Client ID (a resolvable URL)</li>
-          <li>All clients are public clients</li>
+          <li>All clients are public clients (no <code>client_secret</code> is used)</li>
           <li>Client registration at the authorization endpoint is not necessary, since client IDs are resolvable URLs</li>
-          <li>Redirect URI registration happens by verifying data fetched at the Client ID URL</li>
-          <li>Specifies a mechanism for returning user identifiers</li>
+          <li>Redirect URL registration happens by verifying data fetched at the Client ID URL</li>
+          <li>Specifies a mechanism for returning the user identifier for the user who authorized a request</li>
           <li>Specifies a mechanism for verifying authorization codes</li>
           <li>Specifies a mechanism for a token endpoint and authorization endpoint to communicate</li>
         </ul>
