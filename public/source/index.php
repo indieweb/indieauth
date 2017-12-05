@@ -652,6 +652,26 @@ Content-Type: application/json
           <p>Specific implementations MAY include additional parameters as top-level JSON properties. Clients SHOULD ignore parameters they don't recognize.</p>
 
         </section>
+
+        <section>
+          <h4>Token Revocation</h4>
+
+          <p>A client may wish to explicitly disable an access token that it has obtained, such as when the user signs out of the client. IndieAuth extends OAuth 2.0 Token Revocation [[!RFC7009]] by defining the following:</p>
+
+          <ul>
+            <li>The revocation endpoint is the same as the token endpoint.</li>
+            <li>The revocation request includes an additional parameter, <code>action=revoke</code>.</li>
+          </ul>
+
+          <p>An example revocation request is below.</p>
+
+          <pre class="example nohighlight">POST https://example.org/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+action=revoke
+&token=xxxxxxxx</pre>
+
+        </section>
       </section>
 
     </section>
@@ -660,6 +680,12 @@ Content-Type: application/json
     <section>
       <h2>Security Considerations</h2>
 
+      <p>In addition to the security considerations in OAuth 2.0 Core [[!RFC6749]] and OAuth 2.0 Threat Model and Security Considerations [[!RFC6819]], the additional considerations apply.</p>
+
+      <section>
+        <h3></h3>
+
+      </section>
 
     </section>
 
