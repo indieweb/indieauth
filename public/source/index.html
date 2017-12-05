@@ -61,6 +61,15 @@
               status:   "Living Specification",
               publisher:  "microformats.org"
             },
+            "h-app": {
+              title: "h-app",
+              href: "http://microformats.org/wiki/h-app",
+              authors: [
+                "Aaron Parecki"
+              ],
+              status:   "Living Specification",
+              publisher:  "microformats.org"
+            },
             "URL": {
               title: "URL Standard",
               href: "https://url.spec.whatwg.org/",
@@ -116,7 +125,7 @@
           <li>Specifies a method of discovering the authorization and token endpoints given a profile URL</li>
           <li>Specifies a format for the Client ID (a resolvable URL)</li>
           <li>All clients are public clients</li>
-          <li>Client registration is not necessary</li>
+          <li>Client registration at the authorization endpoint is not necessary, since client IDs are resolvable URLs</li>
           <li>Redirect URI registration happens by verifying data fetched at the Client ID URL</li>
           <li>Specifies a mechanism for returning user identifiers</li>
           <li>Specifies a mechanism for verifying authorization codes</li>
@@ -151,12 +160,12 @@
 
         <section>
           <h4>Micropub Client</h4>
-          <p>A Micropub client will attempt to obtain an OAuth 2.0 Bearer Token given an IndieAuth identity URL, and will use the token when making Micropub requests.</p>
+          <p>A Micropub client will attempt to obtain an OAuth 2.0 Bearer Token given an IndieAuth profile URL, and will use the token when making Micropub requests.</p>
         </section>
 
         <section>
           <h4>IndieAuth Client</h4>
-          <p>An IndieAuth client is a client that is attempting to authenticate a user given their identity URL, but does not need an OAuth 2.0 Bearer Token.</p>
+          <p>An IndieAuth client is a client that is attempting to authenticate a user given their profile URL, but does not need an OAuth 2.0 Bearer Token.</p>
         </section>
 
       </section>
@@ -212,7 +221,60 @@
       <p>This specification uses the link rel registry as defined by [[!HTML5]]
         for both HTML and HTTP link relations.</p>
 
+      <section>
+        <h3>Discovery by Clients</h3>
 
+        <p>Clients need to discover a few pieces of information when a user signs in. For the <a href="#authentication">Authentication</a> workflow, the client needs to find the user's <code>authorization_endpoint</code>. For the <a href="#authorization">Authorization</a> workflow, especially when obtaining an access token for use at a [[Micropub]] endpoint, the client needs to find the user's <code>authorization_endpoint</code>, <code>token_endpoint</code> and <code>micropub</code> endpoint.</p>
+
+        <p>Clients MUST start by making a GET request to [[!Fetch]] the user's profile URL to discover the necessary values. Clients MUST check for an HTTP Link header [[!RFC5988]] with the appropriate <code>rel</code> value. If the content type of the document is HTML, then the client MUST check for an HTML <code>&lt;link&gt;</code> element with the appropriate <code>rel</code> value.</p>
+
+        <p>The endpoints discovered MAY be relative URLs, in which case the client MUST resolve it relative to the profile URL according to [[!URL]].</p>
+
+
+        <p>Clients MAY initially make an HTTP HEAD request [[!RFC7231]] to check for the <code>Link</code> header before making a GET request.</p>
+      </section>
+
+      <section>
+        <h3>Client Information Discovery</h3>
+
+        <p>When an authorization server presents its <a href="https://www.oauth.com/oauth2-servers/authorization/the-authorization-interface/">authorization interface</a>, it will often want to display some additional information about the client beyond just the <code>client_id</code> URL, in order to better inform the user about the request being made. Additionally, the authorization server needs to know the list of redirect URLs that the client is allowed to redirect to.</p>
+
+        <p>Since client identifiers are URLs, the authorization server SHOULD [[!Fetch]] the URL to find more information about the client.</p>
+
+        <section>
+          <h4>Application Information</h4>
+  
+          <p>Clients SHOULD have a web page at their <code>client_id</code> URL with basic information about the application, at least the application's name and icon. This page serves as a good landing page for human visitors, but can also serve as the place to include machine-readable information about the application. The HTML on the <code>client_id</code> URL SHOULD be marked up with [[!h-app]] [[Microformats]] to indicate the name and icon of the application. Authorization servers SHOULD support parsing the [[!h-app]] Microformat from the <code>client_id</code>, and if there is an [[!h-app]] with a <code>url</code> property matching the <code>client_id</code> URL, then it should use the name and icon and display them on the authorization prompt.</p>
+
+          <pre class="example">&lt;div class="h-app"&gt;
+  &lt;img src="/logo.png" class="u-logo"&gt;
+  &lt;a href="/" class="u-url p-name"&gt;Example App&lt;/a&gt;
+&lt;/div&gt;</pre>
+        </section>
+
+        <section>
+          <h4>Redirect URL</h4>
+
+          <p>If a client wishes to use a redirect URL that is on a different domain than their <code>client_id</code>, or if the redirect URL uses a custom scheme (such as when the client is a native application), then they will need to whitelist those redirect URLs so that authorization endpoints can be sure it is safe to redirect users there. The client SHOULD publish a <code>&lt;link&gt;</code> tag or a <code>Link</code> HTTP header with a <code>rel</code> attribute of <code>redirect_uri</code> at the <code>client_id</code> URL.</p>
+
+          <pre class="example">GET / HTTP/1.1
+Host: app.example.com
+
+HTTP/1.1 200 Ok
+Content-type: text/html; charset=utf-8
+Link: &lt;https://app.example.com/redirect&gt;; rel="redirect_uri"
+
+&lt;!doctype html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;link rel="redirect_uri" href="https://app.example.com/redirect"&gt;
+  &lt;/head&gt;
+  ...
+&lt;/html&gt;
+</pre>
+        </section>
+
+      </section>
 
     </section>
 
@@ -261,7 +323,7 @@
       <section>
         <h3>Discovery</h3>
 
-        <p>After obtaining the End-User's identity URL, the client fetches the URL and looks for the following rel value on the page.</p>
+        <p>After obtaining the End-User's profile URL, the client fetches the URL and looks for the following rel value on the page.</p>
 
         <pre class="example">&lt;link rel="authorization_endpoint" href="https://example.com/auth"&gt;</pre>
       </section>
@@ -292,13 +354,13 @@
         <li>(B) The client redirects the user agent to the authorization endpoint, including its client identifier, requested scope, local state, and a redirect URI</li>
         <li>The authorization endpoint verifies the End-User, e.g. by logging in, and establishes whether the End-User grants or denies the client's request</li>
         <li>The authorization endpoint redirects the End-User agent back to the client, including an authorization code</li>
-        <li>The client exchanges the authorization code for an access token by making a POST request to the token endpoint. The token endpoint validates the authorization code, and responds with the End-User's identity and an access token</li>
+        <li>The client exchanges the authorization code for an access token by making a POST request to the token endpoint. The token endpoint validates the authorization code, and responds with the End-User's profile URL and an access token</li>
       </ul>
 
       <section>
         <h3>Discovery</h3>
 
-        <p>After obtaining the End-User's identity URL, the client fetches the URL and looks for the following rel values on the page.</p>
+        <p>After obtaining the End-User's profile URL, the client fetches the URL and looks for the following rel values on the page.</p>
 
         <pre class="example">&lt;link rel="authorization_endpoint" href="https://example.com/auth"&gt;
 &lt;link rel="token_endpoint" href="https://example.com/token"&gt;</pre>
@@ -356,7 +418,7 @@
         <dd>authorization_endpoint</dd>
         
         <dt>Description:</dt>
-        <dd>Used for discovery of the OAuth 2.0 authorization endpoint given an IndieAuth identity URL.</dd>
+        <dd>Used for discovery of the OAuth 2.0 authorization endpoint given an IndieAuth profile URL.</dd>
         
         <dt>Reference:</dt>
         <dd><a href="http://www.w3.org/TR/indieauth/">W3C IndieAuth
@@ -368,7 +430,7 @@
         <dd>token_endpoint</dd>
         
         <dt>Description:</dt>
-        <dd>Used for discovery of the OAuth 2.0 token endpoint given an IndieAuth identity URL.</dd>
+        <dd>Used for discovery of the OAuth 2.0 token endpoint given an IndieAuth profile URL.</dd>
         
         <dt>Reference:</dt>
         <dd><a href="http://www.w3.org/TR/indieauth/">W3C IndieAuth
