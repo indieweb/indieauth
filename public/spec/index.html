@@ -380,6 +380,15 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
       "status": "Living Specification",
       "publisher": "microformats.org"
     },
+    "RelMeAuth": {
+      "title": "RelMeAuth",
+      "href": "http://microformats.org/wiki/RelMeAuth",
+      "authors": [
+        "Tantek Çelik"
+      ],
+      "status": "Living Specification",
+      "publisher": "microformats.org"
+    },
     "URL": {
       "title": "URL Standard",
       "href": "https://url.spec.whatwg.org/",
@@ -402,7 +411,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <p>
       <a class="logo" href="https://www.w3.org/"><img width="72" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" alt="W3C"></a>
     </p>
-  <p><!--_hyper: 2029067858;--></p>
+  <p><!--_hyper: -1524008098;--></p>
   <h1 class="title p-name" id="title">IndieAuth</h1>
   <h2 id="w3c-working-group-note-04-december-2017"><abbr title="World Wide Web Consortium">W3C</abbr> Working Group Note <time class="dt-published" datetime="2017-12-04">04 December 2017</time></h2>
   <dl>
@@ -711,15 +720,81 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
       <section id="authorization-request">
         <h3 id="x5-2-authorization-request"><span class="secno">5.2 </span>Authorization Request</h3>
 
+        <p id="authorization-request-p-1">The client builds the authorization request URL with the following parameters:</p>
+        <ul>
+          <li id="authorization-request-li-1"><code>me</code> - The profile URL that the user entered</li>
+          <li id="authorization-request-li-2"><code>client_id</code> - The client URL</li>
+          <li id="authorization-request-li-3"><code>redirect_uri</code> - The redirect URL indicating where the user should be redirected to after approving the request</li>
+          <li id="authorization-request-li-4"><code>state</code> - A parameter set by the client which will be included when the user is redirected back to the client. This is used to prevent CSRF attacks. The authorization server <em class="rfc2119" title="MUST">MUST</em> return the unmodified state value back to the client.</li>
+          <li id="authorization-request-li-5"><code>response_type=id</code> - Indicates to the authorization server that this is an authentication request</li>
+        </ul>
+
+        <div class="example"><div class="example-title marker"><span>Example 4</span></div><pre class="nohighlight">https://indieauth.com/auth?me=https://user.example.net/&amp;
+                           redirect_uri=https://app.example.com/redirect&amp;
+                           client_id=https://app.example.com/&amp;
+                           state=1234567890&amp;
+                           response_type=id</pre></div>
+
+        <p id="authorization-request-p-2">The authorization endpoint <em class="rfc2119" title="SHOULD">SHOULD</em> fetch the <code>client_id</code> URL to retrieve application information and the client's registered redirect URLs, see <a href="#client-information-discovery">Client Information Discovery</a> for more information.</p>
+
+        <p id="authorization-request-p-3">If the <code>redirect_uri</code> in the request has a different domain than the <code>client_id</code>, then the authorization endpoint <em class="rfc2119" title="SHOULD">SHOULD</em> verify that the requested <code>redirect_uri</code> matches one of the <a href="#redirect-url">redirect URLs</a> published by the client, and <em class="rfc2119" title="SHOULD">SHOULD</em> block the request from proceeding if not.</p>
+
+        <p id="authorization-request-p-4">It is up to the authorization endpoint how to authenticate the user. This step is out of scope of OAuth 2.0, and is highly dependent on the particular implementation. Some authorization servers use typical username/password authentication, and others use alternative forms of authentication such as [<cite><a class="bibref" href="#bib-RelMeAuth">RelMeAuth</a></cite>].</p>
+
+        <p id="authorization-request-p-5">Once the user is authenticated, the authorization endpoint presents the authentication prompt to the user. The prompt <em class="rfc2119" title="MUST">MUST</em> indicate which application the user is signing in to, and <em class="rfc2119" title="SHOULD">SHOULD</em> provide as much detail as possible about the request.</p>
       </section>
 
       <section id="authorization-response">
         <h3 id="x5-3-authorization-response"><span class="secno">5.3 </span>Authorization Response</h3>
 
+        <p id="authorization-response-p-1">If the user approves the request, the authorization endpoint generates an authorization code and builds the redirect back to the client.</p>
+
+        <p id="authorization-response-p-2">The redirect is built by starting with the <code>redirect_uri</code> in the request, and adding the following parameters to the query component of the redirect URL:</p>
+
+        <ul>
+          <li id="authorization-response-li-1"><code>code</code> - The authorization code generated by the authorization endpoint. The code <em class="rfc2119" title="MUST">MUST</em> expire shortly after it is issued to mitigate the risk of leaks. A maximum lifetime of 10 minutes is recommended. See <a href="https://tools.ietf.org/html/rfc6749#section-4.1.2">OAuth 2.0 Section 4.1.2</a> for additional requirements on the authorization code.</li>
+          <li id="authorization-response-li-2"><code>state</code> - The state parameter <em class="rfc2119" title="MUST">MUST</em> be set to the exact value that the client set in the request.</li>
+        </ul>
+
+        <div class="example"><div class="example-title marker"><span>Example 5</span></div><pre class="nohighlight">HTTP/1.1 302 Found
+Location: https://app.example.com/redirect?code=xxxxxxxx
+                                           state=1234567890</pre></div>
       </section>
 
       <section id="authorization-code-verification">
         <h3 id="x5-4-authorization-code-verification"><span class="secno">5.4 </span>Authorization Code Verification</h3>
+
+        <p id="authorization-code-verification-p-1">The client <em class="rfc2119" title="MUST">MUST</em> verify that the state parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of stateless clients.</p>
+
+        <h3 id="request">Request</h3>
+
+        <p id="authorization-code-verification-p-2">After the state parameter is validated, the client makes a POST request to the authorization endpoint to verify the authorization code and return the final user profile URL. The POST request contains the following parameters:</p>
+
+        <ul>
+          <li id="authorization-code-verification-li-1"><code>code</code> - The authorization code received from the authorization endpoint in the redirect</li>
+          <li id="authorization-code-verification-li-2"><code>client_id</code> - The client's URL, which <em class="rfc2119" title="MUST">MUST</em> match the client_id used in the authorization request.</li>
+          <li id="authorization-code-verification-li-3"><code>redirect_uri</code> - The client's redirect URL, which <em class="rfc2119" title="MUST">MUST</em> match the initial authorization request.</li>
+        </ul>
+
+        <div class="example"><div class="example-title marker"><span>Example 6</span></div><pre class="nohighlight">POST https://auth.example.org/auth
+Content-type: application/x-www-form-urlencoded
+
+code=xxxxxxxx
+&amp;client_id=https://app.example.com/
+&amp;redirect_uri=https://app.example.com/redirect</pre></div>
+
+        <h3 id="response">Response</h3>
+
+        <p id="authorization-code-verification-p-3">The authorization endpoint verifies that the authorization code is valid, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>. If the request is valid, then the endpoint responds with a JSON [<cite><a class="bibref" href="#bib-RFC7159">RFC7159</a></cite>] object containing one property, <code>me</code>, with the canonical user profile URL for the user who signed in.</p>
+
+        <div class="example"><div class="example-title marker"><span>Example 7</span></div><pre class="nohighlight">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "me": "https://user.example.org/"
+}</pre></div>
+
+        <p id="authorization-code-verification-p-4">The resulting profile URL <em class="rfc2119" title="MAY">MAY</em> be different from what the user initially entered, but <em class="rfc2119" title="MUST">MUST</em> be on a matching domain. This gives the authorization endpoint to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required.</p>
 
       </section>
     </section>
@@ -742,7 +817,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
         <p id="discovery-1-p-1">After obtaining the End-User's profile URL, the client fetches the URL and looks for the following rel values on the page.</p>
 
-        <div class="example"><div class="example-title marker"><span>Example 4</span></div><pre class="hljs xml" aria-busy="false" aria-live="polite"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"authorization_endpoint"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://example.com/auth"</span>&gt;</span>
+        <div class="example"><div class="example-title marker"><span>Example 8</span></div><pre class="hljs xml" aria-busy="false" aria-live="polite"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"authorization_endpoint"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://example.com/auth"</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"token_endpoint"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://example.com/token"</span>&gt;</span></pre></div>
       </section>
 
@@ -912,8 +987,10 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </dd><dt id="bib-RFC5988">[RFC5988]</dt><dd><a href="https://tools.ietf.org/html/rfc5988"><cite>Web Linking</cite></a>. M. Nottingham. IETF. October 2010. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc5988">https://tools.ietf.org/html/rfc5988</a>
 </dd><dt id="bib-RFC6749">[RFC6749]</dt><dd><a href="https://tools.ietf.org/html/rfc6749"><cite>The OAuth 2.0 Authorization Framework</cite></a>. D. Hardt, Ed.. IETF. October 2012. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6749">https://tools.ietf.org/html/rfc6749</a>
 </dd><dt id="bib-RFC6750">[RFC6750]</dt><dd><a href="https://tools.ietf.org/html/rfc6750"><cite>The OAuth 2.0 Authorization Framework: Bearer Token Usage</cite></a>. M. Jones; D. Hardt. IETF. October 2012. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6750">https://tools.ietf.org/html/rfc6750</a>
+</dd><dt id="bib-RFC7159">[RFC7159]</dt><dd><a href="https://tools.ietf.org/html/rfc7159"><cite>The JavaScript Object Notation (JSON) Data Interchange Format</cite></a>. T. Bray, Ed.. IETF. March 2014. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7159">https://tools.ietf.org/html/rfc7159</a>
 </dd><dt id="bib-RFC7231">[RFC7231]</dt><dd><a href="https://tools.ietf.org/html/rfc7231"><cite>Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</cite></a>. R. Fielding, Ed.; J. Reschke, Ed.. IETF. June 2014. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7231">https://tools.ietf.org/html/rfc7231</a>
 </dd><dt id="bib-URL">[URL]</dt><dd><a href="https://url.spec.whatwg.org/"><cite>URL Standard</cite></a>. Anne van Kesteren. WHATWG. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
 </dd></dl></section><section id="informative-references"><h3 id="c-2-informative-references"><span class="secno">C.2 </span>Informative references</h3><dl class="bibliography"><dt id="bib-Microformats">[Microformats]</dt><dd><a href="http://microformats.org"><cite>Microformats</cite></a>. URL: <a href="http://microformats.org">http://microformats.org</a> 
 </dd><dt id="bib-Micropub">[Micropub]</dt><dd><a href="https://www.w3.org/TR/micropub/"><cite>Micropub</cite></a>. Aaron Parecki. W3C. 23 May 2017. W3C Recommendation. URL: <a href="https://www.w3.org/TR/micropub/">https://www.w3.org/TR/micropub/</a>
+</dd><dt id="bib-RelMeAuth">[RelMeAuth]</dt><dd><a href="http://microformats.org/wiki/RelMeAuth"><cite>RelMeAuth</cite></a>. Tantek Çelik. microformats.org. Living Specification. URL: <a href="http://microformats.org/wiki/RelMeAuth">http://microformats.org/wiki/RelMeAuth</a>
 </dd></dl></section></section><p role="navigation" id="back-to-top"><a href="#toc"><abbr title="Back to Top">↑</abbr></a></p><script src="https://www.w3.org/scripts/TR/2016/fixup.js"></script></body></html>
