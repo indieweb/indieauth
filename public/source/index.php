@@ -259,6 +259,20 @@
   <img src="/logo.png" class="u-logo">
   <a href="/" class="u-url p-name">Example App</a>
 </div>') ?></pre>
+
+          <p>This can be parsed with a <a href="http://microformats.org/wiki/microformats2#Parsers">Microformats2 parser</a>, which will result in the following JSON structure.</p>
+
+          <pre class="example">{
+  "type": [
+    "h-app"
+  ],
+  "properties": {
+    "name": ["Example App"],
+    "logo": ["https://app.example.com/logo.png"],
+    "url": ["https://app.example.com/"],
+    "photo": ["http://app.example.com/logo.png"]
+  }
+}</pre>
         </section>
 
         <section>
