@@ -290,7 +290,7 @@ Link: <https://app.example.com/redirect>; rel="redirect_uri"
 <!doctype html>
 <html>
   <head>
-    <link rel="redirect_uri" href="https://app.example.com/redirect">
+    <link rel="redirect_uri" href="/redirect">
   </head>
   ...
 </html>') ?></pre>
@@ -344,9 +344,9 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
 
         <p>After obtaining the End-User's profile URL, the client fetches the URL and looks for the <code>authorization_endpoint</code> rel value in the HTTP <code>Link</code> headers and HTML <code>&lt;link&gt;</code> tags.</p>
 
-        <pre class="example nohighlight"><?= htmlspecialchars('Link: <https://example.com/auth>; rel="authorization_endpoint"
+        <pre class="example nohighlight"><?= htmlspecialchars('Link: <https://example.org/auth>; rel="authorization_endpoint"
 
-<link rel="authorization_endpoint" href="https://example.com/auth">') ?></pre>
+<link rel="authorization_endpoint" href="https://example.org/auth">') ?></pre>
       </section>
 
       <section>
@@ -363,11 +363,11 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
         </ul>
 
         <pre class="example nohighlight"><?= htmlspecialchars(
-'https://indieauth.com/auth?me=https://user.example.net/&
-                           redirect_uri=https://app.example.com/redirect&
-                           client_id=https://app.example.com/&
-                           state=1234567890&
-                           response_type=id') ?></pre>
+'https://example.org/auth?me=https://user.example.net/&
+                          redirect_uri=https://app.example.com/redirect&
+                          client_id=https://app.example.com/&
+                          state=1234567890&
+                          response_type=id') ?></pre>
 
         <p>The authorization endpoint SHOULD fetch the <code>client_id</code> URL to retrieve application information and the client's registered redirect URLs, see <a href="#client-information-discovery">Client Information Discovery</a> for more information.</p>
 
@@ -394,12 +394,12 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
 'HTTP/1.1 302 Found
 Location: https://app.example.com/redirect?code=xxxxxxxx
                                            state=1234567890') ?></pre>
+
+        <p>Upon the redirect back to the client, the client MUST verify that the state parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</p>
       </section>
 
       <section>
         <h3>Authorization Code Verification</h3>
-
-        <p>The client MUST verify that the state parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</p>
 
         <h4>Request</h4>
 
@@ -412,7 +412,7 @@ Location: https://app.example.com/redirect?code=xxxxxxxx
         </ul>
 
         <pre class="example nohighlight"><?= htmlspecialchars(
-'POST https://auth.example.org/auth
+'POST https://example.org/auth
 Content-type: application/x-www-form-urlencoded
 
 code=xxxxxxxx
@@ -429,7 +429,7 @@ code=xxxxxxxx
 Content-Type: application/json
 
 {
-  "me": "https://user.example.org/"
+  "me": "https://user.example.net/"
 }') ?></pre>
 
         <p>The resulting profile URL MAY be different from what the user initially entered, but MUST be on the same domain. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required.</p>
@@ -482,11 +482,11 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
         <p>After obtaining the End-User's profile URL, the client fetches the URL and looks for the <code>authorization_endpoint</code> and <code>token_endpoint</code> rel values in the HTTP <code>Link</code> headers and HTML <code>&lt;link&gt;</code> tags.</p>
 
         <pre class="example nohighlight"><?= htmlspecialchars(
-'Link: <https://example.com/auth>; rel="authorization_endpoint"
-Link: <https://example.com/token>; rel="token_endpoint"
+'Link: <https://example.org/auth>; rel="authorization_endpoint"
+Link: <https://example.org/token>; rel="token_endpoint"
 
-<link rel="authorization_endpoint" href="https://example.com/auth">
-<link rel="token_endpoint" href="https://example.com/token">') ?></pre>
+<link rel="authorization_endpoint" href="https://example.org/auth">
+<link rel="token_endpoint" href="https://example.org/token">') ?></pre>
       </section>
 
       <section>
@@ -507,12 +507,12 @@ Link: <https://example.com/token>; rel="token_endpoint"
           </ul>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
-'https://indieauth.com/auth?me=https://user.example.net/&
-                           redirect_uri=https://app.example.com/redirect&
-                           client_id=https://app.example.com/&
-                           state=1234567890&
-                           scope=create&
-                           response_type=code') ?></pre>
+'https://example.org/auth?me=https://user.example.net/&
+                          redirect_uri=https://app.example.com/redirect&
+                          client_id=https://app.example.com/&
+                          state=1234567890&
+                          scope=create&
+                          response_type=code') ?></pre>
 
           <p>The authorization endpoint SHOULD fetch the <code>client_id</code> URL to retrieve application information and the client's registered redirect URLs, see <a href="#client-information-discovery">Client Information Discovery</a> for more information.</p>
 
