@@ -623,9 +623,9 @@ Content-Type: application/json
         <section>
           <h4>Access Token Verification</h4>
 
-          <p>Clients will make requests to other endpoints such as a [[Micropub]] endpoint using the access token obtained. If the token endpoint is not tightly integrated with the endpoint the token is being used at, then the other endpoint needs a way to verify access tokens that it receives. If the token endpoint and Micropub endpoint are tightly coupled, then they can of course use an internal mechanism to verify access tokens.</p>
+          <p>Since in OAuth 2.0, access tokens are opaque to clients, clients do not need to know anything about the contents or structure of the token itself, if any. Additionally, endpoints that clients make requests to, such as [[Micropub]] endpoints, may not even understand how to interpret tokens if they were issued by a standalone token endpoint. If the token endpoint is not tightly integrated with the endpoint the client is interacting with, then the other endpoint needs a way to verify access tokens that it receives. If the token endpoint and Micropub endpoint are tightly coupled, then they can of course use an internal mechanism to verify access tokens.</p>
 
-          <p>Token endpoints that intend to interoperate with other software MUST use the mechanism described below to allow other endpoints to verify access tokens.</p>
+          <p>Token endpoints that intend to interoperate with other endpoints MUST use the mechanism described below to allow other endpoints to verify access tokens.</p>
 
           <p>If an external endpoint needs to verify that an access token is valid, it MUST make a GET request to the token endpoint containing an HTTP <code>Authorization</code> header with the Bearer Token according to [[!RFC6750]]. Note that the request to the endpoint will not contain any user-identifying information, so the external endpoint (e.g. Micropub endpoint) will need to know via out-of-band methods which token endpoint is in use.</p>
 
