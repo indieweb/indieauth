@@ -572,8 +572,7 @@ Link: <https://example.com/token>; rel="token_endpoint"
         <dd>Used for discovery of the OAuth 2.0 authorization endpoint given an IndieAuth profile URL.</dd>
         
         <dt>Reference:</dt>
-        <dd><a href="http://www.w3.org/TR/indieauth/">W3C IndieAuth
-        Specification (http://www.w3.org/TR/indieauth/)</a></dd>
+        <dd><a href="https://indieauth.net/spec/">IndieAuth Specification (https://indieauth.net/spec/)</a></dd>
       </dl>
 
       <dl>
@@ -584,8 +583,7 @@ Link: <https://example.com/token>; rel="token_endpoint"
         <dd>Used for discovery of the OAuth 2.0 token endpoint given an IndieAuth profile URL.</dd>
         
         <dt>Reference:</dt>
-        <dd><a href="http://www.w3.org/TR/indieauth/">W3C IndieAuth
-        Specification (http://www.w3.org/TR/indieauth/)</a></dd>
+        <dd><a href="https://indieauth.net/spec/">IndieAuth Specification (https://indieauth.net/spec/)</a></dd>
       </dl>
 
       <dl>
@@ -596,8 +594,7 @@ Link: <https://example.com/token>; rel="token_endpoint"
         <dd>Used for discovery of the OAuth 2.0 redirect URI given an IndieAuth client ID.</dd>
         
         <dt>Reference:</dt>
-        <dd><a href="http://www.w3.org/TR/indieauth/">W3C IndieAuth
-        Specification (http://www.w3.org/TR/indieauth/)</a></dd>
+        <dd><a href="https://indieauth.net/spec/">IndieAuth Specification (https://indieauth.net/spec/)</a></dd>
       </dl>
     </section>
 
