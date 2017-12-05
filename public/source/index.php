@@ -233,11 +233,11 @@
       <section>
         <h3>Discovery by Clients</h3>
 
-        <p>Clients need to discover a few pieces of information when a user signs in. For the <a href="#authentication">Authentication</a> workflow, the client needs to find the user's <code>authorization_endpoint</code>. For the <a href="#authorization">Authorization</a> workflow, especially when obtaining an access token for use at a [[Micropub]] endpoint, the client needs to find the user's <code>authorization_endpoint</code>, <code>token_endpoint</code> and <code>micropub</code> endpoint.</p>
+        <p>Clients need to discover a few pieces of information when a user signs in. For the <a href="#authentication">Authentication</a> workflow, the client needs to find the user's <code>authorization_endpoint</code>. For the <a href="#authorization">Authorization</a> workflow, the client needs to find the user's <code>authorization_endpoint</code> and <code>token_endpoint</code>. When using the Authorization workflow to obtain an access token for use at a [[Micropub]] endpoint, the client will also discover the <code>micropub</code> endpoint.</p>
 
         <p>Clients MUST start by making a GET request to [[!Fetch]] the user's profile URL to discover the necessary values. Clients MUST check for an HTTP Link header [[!RFC5988]] with the appropriate <code>rel</code> value. If the content type of the document is HTML, then the client MUST check for an HTML <code>&lt;link&gt;</code> element with the appropriate <code>rel</code> value.</p>
 
-        <p>The endpoints discovered MAY be relative URLs, in which case the client MUST resolve it relative to the profile URL according to [[!URL]].</p>
+        <p>The endpoints discovered MAY be relative URLs, in which case the client MUST resolve them relative to the profile URL according to [[!URL]].</p>
 
         <p>Clients MAY initially make an HTTP HEAD request [[!RFC7231]] to check for the <code>Link</code> header before making a GET request.</p>
       </section>
