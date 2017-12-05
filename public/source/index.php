@@ -89,8 +89,8 @@
           }
       };
     </script>
-    <link rel="pingback" href="https://indieauth.net/pingback.php">
-    <link rel="webmention" href="https://indieauth.net/endpoint.php">
+    <link rel="pingback" href="https://indieauth.net/pingback">
+    <link rel="webmention" href="https://indieauth.net/webmention">
   </head>
   <body>
     <section id='abstract'>
