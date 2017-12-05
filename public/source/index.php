@@ -302,20 +302,18 @@ Browser->Authorization Endpoint: User visits their authorization endpoint and se
 Authorization Endpoint->Client: Authorization endpoint fetches client information (name, icon)
 Browser<--Authorization Endpoint: User authenticates, and approves the request.\nAuthorization endpoint issues code, builds redirect back to client.
 Browser->Client: User's browser is redirected to\nclient with an **authorization code**
-Client->Authorization Endpoint: Client verifies authorization code by making a GET request\nto the authorization_endpoint
+Client->Authorization Endpoint: Client verifies authorization code by making a POST request\nto the authorization_endpoint
 Client<--Authorization Endpoint: Authorization endpoint returns canonical user profile URL
 Browser<--Client: Client initiates login session\nand the user is logged in
 ---
 
-https://sequencediagram.org/index.html?initialData=C4S2BsFMAIEkDsAmJIEECuwAW0PcvKAMYCGoA9vNAGLjkDu0AIiCQOYBOJAtgFC8AhDgwDOkDgFoAfAGFwKQgC5oAVTEdoBYOJHR8IDQAdhAMxBRVAJQAyvOQuDS14q9eX2t0E5GBEskXRUbPXJoZBEicgA3cQAdeAAqBI5IcABeEkwscg4QAC8yEEoAfQJEQ3IQQiTBYXp1AB4JCQ8laFbgaAAjdHNEXUzsHPzCymgUgEd0AM6SJHiU5BSiYF1gUKTB7NyCinhSpAqq4BqhUXFpPG2RvegAUUPKtucNKJARMDX-A2gt4d2ilQykdCL8kNAxAE9P5fll-qMqJNpiJgLwrvDbg9yk9HLJ5FplOidgjNI9jl4fH4oUR8aCqiYctwSQAKeA8SAAGmgIEi8AAlLVzhwmhIiTdAfcyc91LD8IQeWQAly5ohfoZjNEofhxpApjMAHTxMUAsbAnHckQiZHQSKITndXrgfo6paQFbdEhEADWIRttOA+sF9QueIcyheAHJdF06jL3i6DG7tKr1vEaQ5oPQwDg5tBNnDibdbZAah1LgXxWMsSDgO5-dAYrkzFC-oWJcXugBPaBMr1VNi-aAAcTuABUdXqUfF1tCYK3K-szcc7P6RcaSdWcYSKyagVLOilgOgOPBdKR4JQFeBoOgZRqzBYgrYzsHhc0OnWM1UwKxtLo6GwVQQgEHyUPEKqzjecb-uQbBsJAqpVLwQA
+https://sequencediagram.org/index.html?initialData=C4S2BsFMAIEkDsAmJIEECuwAW0PcvKAMYCGoA9vNAGLjkDu0AIiCQOYBOJAtgFC8AhDgwDOkDgFoAfAGFwKQgC5oAVTEdoBYOJHR8IDQAdhAMxBRVAJQAyvOQuDS14q9eX2t0E5GBEskXRUbPXJoZBEicgA3cQAdeAAqBI5IcABeEkwscg4QAC8yEEoAfQJEQ3IQQiTBYXp1AB4JCQ8laFbgaAAjdHNEXUzsHPzCymgUgEd0AM6SJHiU5BSiYF1gUKTB7NyCinhSpAqq4BqhUXFpPG2RvegAUUPKtucNKJARMDX-A2gt4d2ilQykdCL8kNAxAE9P5fll-qMqJNpiJgLwrvDbg9yk9HLJ5FplOidgjNI9jl4fH4oUR8aCqiYctwSQAKeA8SAAGmgIEi8AAlLVzhwmhIiTdAfcyc91LD8IQeWQAly5ohfoZjNEofhxpApjMAHTxMUAsbAnHckQiZHQSKITndXrgfo6paQFbdEhEADWIRttOA+sF9QueIcyheAHJdF06jL3i6DG7tKr1vEaQ5oPQwDg5tBNnDibdbZAah1LgXxWMsSDgO5-dAYrkzFC-oWJcXugBPaBMr1VNi-aAABQA8gBlAAqOr1KPi62hMFblf2ZuOdn9IuNJOrOMJFZNQKlnRSwHQHHgulI8EoCvA0HQMo1ZgsQVsZ2DwuaHTrGaqYFY2i6HQbBVBCAQfJQ8Qqgu95xkB5BsGwkCqlUvBAA
 
 Note: Change width/height to e.g. 
 viewbox="0 0 906 716" style="width: 100%; height: auto;"
 */ ?>
 
-      <div style="width: 100%">
       <?= file_get_contents('authentication-flow-diagram.svg') ?>
-      </div>
 
       <ul>
         <li>The End-User enters their profile URL in the login form of the client and clicks "Sign in"</li>
@@ -330,9 +328,11 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
       <section>
         <h3>Discovery</h3>
 
-        <p>After obtaining the End-User's profile URL, the client fetches the URL and looks for the following rel value on the page.</p>
+        <p>After obtaining the End-User's profile URL, the client fetches the URL and looks for the <code>authorization_endpoint</code> rel value in the HTTP <code>Link</code> headers and HTML <code>&lt;link&gt;</code> tags.</p>
 
-        <pre class="example">&lt;link rel="authorization_endpoint" href="https://example.com/auth"&gt;</pre>
+        <pre class="example"><?= htmlspecialchars('Link: <https://example.com/auth>; rel="authorization_endpoint"
+
+<link rel="authorization_endpoint" href="https://example.com/auth">') ?></pre>
       </section>
 
       <section>
@@ -384,7 +384,7 @@ Location: https://app.example.com/redirect?code=xxxxxxxx
       <section>
         <h3>Authorization Code Verification</h3>
 
-        <p>The client MUST verify that the state parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of stateless clients.</p>
+        <p>The client MUST verify that the state parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</p>
 
         <h4>Request</h4>
 
@@ -409,7 +409,8 @@ code=xxxxxxxx
 
         <p>The authorization endpoint verifies that the authorization code is valid, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>. If the request is valid, then the endpoint responds with a JSON [[!RFC7159]] object containing one property, <code>me</code>, with the canonical user profile URL for the user who signed in.</p>
 
-        <pre class="example nohighlight"><?= htmlspecialchars('HTTP/1.1 200 OK
+        <pre class="example nohighlight"><?= htmlspecialchars(
+'HTTP/1.1 200 OK
 Content-Type: application/json
 
 {
@@ -425,22 +426,51 @@ Content-Type: application/json
     <section>
       <h2>Authorization</h2>
 
+      <p>This section describes how to obtain an access token using the Authorization Code Flow.</p>
+
+<?php /*
+---
+title IndieAuth Authentication Flow Diagram
+
+Browser->Client: User enters their profile URL
+Client->User URL: Client fetches URL to discover\n**rel=authorization_endpoint**\nand **rel=token_endpoint**
+Browser<--Client: Client builds authorization request and\nredirects to **authorization_endpoint**
+Browser->Authorization Endpoint: User visits their authorization endpoint and sees the authorization request
+Authorization Endpoint->Client: Authorization endpoint fetches client information (name, icon)
+Browser<--Authorization Endpoint: User authenticates, and approves the request.\nAuthorization endpoint issues code, builds redirect back to client.
+Browser->Client: User's browser is redirected to\nclient with an **authorization code**
+Client->Token Endpoint: Client exchanges authorization code for an \naccess token by making a POST request\nto the token_endpoint
+Client<--Token Endpoint: Token endpoint verifies code and returns\ncanonical user profile URL with an access token
+Browser<--Client: Client initiates login session\nand the user is logged in
+---
+
+https://sequencediagram.org/index.html?initialData=C4S2BsFMAIEkDsAmJIEECuwAW0PcvKAMYCGoA9vNAGLjkDu0AIiCQOYBOJAtgFC8AhDgwDOkDgFoAfAGFwKQgC5oAVTEdoBYOJHR8IDQAdhAMxBRVAJQAyvOQuDS14q9eX2t0E5GBEskXRUbPXJoZBEicgA3cQAdeAAqBI5IcABeEkwscg4QAC8yEEoAfQJEQ3IQQiT4kiRoJJT04HIAawJSpAqq4CTBYXp1AB4JCQ8laHHgaAAjdHNEXUzsHPzCymgUgEd0AOm6xHiU5BSiYF0WhoTl7NyCinhO8srqhP7RcWk8W7WH6ABRLovYDKZwaKIgERgC7+AzQG6re5FKhlbqEeH1MQBPT+eFZRHrKjbXYiYC8b4Ev6A549aRTZQUu6EzRAnpeHx+bFEeSeKomHLcZkACngPEgABpoCBIvAAJTvQbiEYSRm-ZEA1kTMF4-CEaVkAKSg7wwzGaLY-CbSA7PYAOniqqRG1RwKlIhEJOgkUQEtm83AiytJ0gZ1mJCIrRCXp5hFtCvUdJjINU6gA5LoZgN1G6gwYQ9pECF4tyHNB6GAcHUrgimX9vZA+lNpAAVNoEDU0iZTTQADz8dTY2Jrao29a8OQx0FqRCIAQubaoMwAntBBa0qmx4dAAAoAeQAys2rTbSfFLpaWu1Hi6enYk8rW1eO2jk4-2zf0TFcmYueQfRjCxSYB0A4eARGLOpKH1cBoHQbMzTMCwgmsMsK0ncNZ3dEIr3jJVRnpSYkyleAwFYbRdDoNgqmgMR3WRWp6ktOCXEhaBKMHQsql4IA
+
+Note: Change width/height to e.g. 
+viewbox="0 0 906 716" style="width: 100%; height: auto;"
+*/ ?>
+
+      <?= file_get_contents('authorization-flow-diagram.svg') ?>
+
       <ul>
-        <li>The End-User enters their personal web address in the login form of the client and clicks "Sign in"</li>
-        <li>(A) The client discovers the End-User's authorization endpoint and token endpoint by fetching the End-User's website and looking for the <code>rel=authorization_endpoint</code> and <code>rel=token_endpoint</code> values</li>
-        <li>(B) The client redirects the user agent to the authorization endpoint, including its client identifier, requested scope, local state, and a redirect URI</li>
+        <li>The End-User enters their profile URL in the login form of the client and clicks "Sign in"</li>
+        <li>The client discovers the End-User's authorization endpoint and token endpoint by fetching the profile URL and looking for the <code>rel=authorization_endpoint</code> and <code>rel=token_endpoint</code> values</li>
+        <li>The client redirects the browser to the authorization endpoint, including its client identifier, requested scope, local state, and a redirect URL</li>
         <li>The authorization endpoint verifies the End-User, e.g. by logging in, and establishes whether the End-User grants or denies the client's request</li>
-        <li>The authorization endpoint redirects the End-User agent back to the client, including an authorization code</li>
-        <li>The client exchanges the authorization code for an access token by making a POST request to the token endpoint. The token endpoint validates the authorization code, and responds with the End-User's profile URL and an access token</li>
+        <li>The authorization endpoint redirects the browser to the client's redirect URL, including an authorization code</li>
+        <li>The client exchanges the authorization code for an access token by making a POST request to the token endpoint. The token endpoint validates the authorization code, and responds with the End-User's canonical profile URL and an access token</li>
       </ul>
 
       <section>
         <h3>Discovery</h3>
 
-        <p>After obtaining the End-User's profile URL, the client fetches the URL and looks for the following rel values on the page.</p>
+        <p>After obtaining the End-User's profile URL, the client fetches the URL and looks for the <code>authorization_endpoint</code> and <code>token_endpoint</code> rel values in the HTTP <code>Link</code> headers and HTML <code>&lt;link&gt;</code> tags.</p>
 
         <pre class="example"><?= htmlspecialchars(
-'<link rel="authorization_endpoint" href="https://example.com/auth">
+'Link: <https://example.com/auth>; rel="authorization_endpoint"
+Link: <https://example.com/token>; rel="token_endpoint"
+
+<link rel="authorization_endpoint" href="https://example.com/auth">
 <link rel="token_endpoint" href="https://example.com/token">') ?></pre>
       </section>
 
