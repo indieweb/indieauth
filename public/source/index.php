@@ -683,8 +683,19 @@ action=revoke
       <p>In addition to the security considerations in OAuth 2.0 Core [[!RFC6749]] and OAuth 2.0 Threat Model and Security Considerations [[!RFC6819]], the additional considerations apply.</p>
 
       <section>
-        <h3></h3>
+        <h3>Differing User Profile URLs</h3>
 
+        <p>Clients will initially prompt the user for their profile URL in order to discover the necessary endpoints to perform authentication or authorization. However, there may be slight differences between the URL that the user initially enters vs what the system considers the user's canonical profile URL.</p>
+
+        <p>For example, a user might enter <code>user.example.net</code> in a login interface, and the client may assume a default scheme of <code>http</code>, providing an initial profile URL of <code>http://user.example.net</code>. Once the authentication or authorization flow is complete, the response in the <code>me</code> parameter might be the canonical <code>https://user.example.net/</code>. In some cases, user profile URLs have a full path component such as <code>https://example.net/username</code>, but users may enter just <code>example.net</code> in the login interface.</p>
+
+        <p>Clients MUST use the resulting <code>me</code> value from the <a href="#authorization-code-verification">authorization code verification</a> or <a href="#access-token-response">access token response</a> rather than assume the initially-entered URL is correct, with the following condition:</p>
+
+        <ul>
+          <li>The resulting profile URL MUST have a matching domain of the initially-entered profile URL.</li>
+        </ul>
+
+        <p>This ensures that an authorization endpoint is not able to issue valid responses for arbitrary profile URLs.</p>
       </section>
 
     </section>
