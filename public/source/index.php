@@ -278,7 +278,9 @@
         <section>
           <h4>Redirect URL</h4>
 
-          <p>If a client wishes to use a redirect URL that is on a different domain than their <code>client_id</code>, or if the redirect URL uses a custom scheme (such as when the client is a native application), then they will need to whitelist those redirect URLs so that authorization endpoints can be sure it is safe to redirect users there. The client SHOULD publish a <code>&lt;link&gt;</code> tag or a <code>Link</code> HTTP header with a <code>rel</code> attribute of <code>redirect_uri</code> at the <code>client_id</code> URL.</p>
+          <p>If a client wishes to use a redirect URL that is on a different domain than their <code>client_id</code>, or if the redirect URL uses a custom scheme (such as when the client is a native application), then they will need to whitelist those redirect URLs so that authorization endpoints can be sure it is safe to redirect users there. The client SHOULD publish one or more <code>&lt;link&gt;</code> tags or <code>Link</code> HTTP headers with a <code>rel</code> attribute of <code>redirect_uri</code> at the <code>client_id</code> URL.</p>
+
+          <p>Authorization endpoints verifying that a <code>redirect_uri</code> is allowed for use by a client MUST look for an exact match of the given <code>redirect_uri</code> in the request against the list of <code>redirect_uri</code>s discovered after resolving any relative URLs.</p>
 
           <pre class="example"><?= htmlspecialchars('GET / HTTP/1.1
 Host: app.example.com
@@ -696,6 +698,16 @@ action=revoke
         </ul>
 
         <p>This ensures that an authorization endpoint is not able to issue valid responses for arbitrary profile URLs.</p>
+      </section>
+
+      <section>
+        <h3>Preventing Phishing and Redirect Attacks</h3>
+
+        <p>Authorization servers SHOULD fetch the <code>client_id</code> provided in the authorization request in order to provide users with additional information about the authorization request, such as the application name and logo. If the server does not fetch the client information, then it SHOULD take additional measures to ensure the user is provided with as much information as possible about the authorization request.</p>
+
+        <p>The authorization server SHOULD display the full <code>client_id</code> on the authorization interface, in addition to displaying the fetched application information if any. Displaying the <code>client_id</code> helps users know that they are authorizing the expected application.</p>
+
+        <p>Since all IndieAuth clients are public clients, and no strong client authentication is used, the only measure available to protect against some attacks described in [[!RFC6819]] is strong verification of the client's <code>redirect_uri</code>. If the <code>redirect_uri</code> scheme, host or port differ from that of the <code>client_id</code>, then the authorization server MUST either verify the redirect URL as described in <a href="#redirect-url">Redirect URL</a>, or display the redirect URL to the user so they can inspect it manually.</p>
       </section>
 
     </section>
