@@ -21,7 +21,15 @@
   </section>
 </div>
 
-<section class="hang-left">
+<section class="">
+  <h2>Read the Spec</h2>
+
+  <p>The latest version of the IndieAuth spec is available at:</p>
+
+  <p><a href="/spec/">indieauth.net/spec</a></p>
+</section>
+
+<section class="hang-left border-top">
   <img src="/assets/web-signin-splash.jpg">
 
   <h2>Logging in with IndieAuth</h2>
