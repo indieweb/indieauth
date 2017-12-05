@@ -245,10 +245,11 @@
   
           <p>Clients SHOULD have a web page at their <code>client_id</code> URL with basic information about the application, at least the application's name and icon. This page serves as a good landing page for human visitors, but can also serve as the place to include machine-readable information about the application. The HTML on the <code>client_id</code> URL SHOULD be marked up with [[!h-app]] [[Microformats]] to indicate the name and icon of the application. Authorization servers SHOULD support parsing the [[!h-app]] Microformat from the <code>client_id</code>, and if there is an [[!h-app]] with a <code>url</code> property matching the <code>client_id</code> URL, then it should use the name and icon and display them on the authorization prompt.</p>
 
-          <pre class="example">&lt;div class="h-app"&gt;
-  &lt;img src="/logo.png" class="u-logo"&gt;
-  &lt;a href="/" class="u-url p-name"&gt;Example App&lt;/a&gt;
-&lt;/div&gt;</pre>
+          <pre class="example"><?= htmlspecialchars(
+'<div class="h-app">
+  <img src="/logo.png" class="u-logo">
+  <a href="/" class="u-url p-name">Example App</a>
+</div>') ?></pre>
         </section>
 
         <section>
@@ -256,21 +257,20 @@
 
           <p>If a client wishes to use a redirect URL that is on a different domain than their <code>client_id</code>, or if the redirect URL uses a custom scheme (such as when the client is a native application), then they will need to whitelist those redirect URLs so that authorization endpoints can be sure it is safe to redirect users there. The client SHOULD publish a <code>&lt;link&gt;</code> tag or a <code>Link</code> HTTP header with a <code>rel</code> attribute of <code>redirect_uri</code> at the <code>client_id</code> URL.</p>
 
-          <pre class="example">GET / HTTP/1.1
+          <pre class="example"><?= htmlspecialchars('GET / HTTP/1.1
 Host: app.example.com
 
 HTTP/1.1 200 Ok
 Content-type: text/html; charset=utf-8
-Link: &lt;https://app.example.com/redirect&gt;; rel="redirect_uri"
+Link: <https://app.example.com/redirect>; rel="redirect_uri"
 
-&lt;!doctype html&gt;
-&lt;html&gt;
-  &lt;head&gt;
-    &lt;link rel="redirect_uri" href="https://app.example.com/redirect"&gt;
-  &lt;/head&gt;
+<!doctype html>
+<html>
+  <head>
+    <link rel="redirect_uri" href="https://app.example.com/redirect">
+  </head>
   ...
-&lt;/html&gt;
-</pre>
+</html>') ?></pre>
         </section>
 
       </section>
@@ -360,8 +360,9 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
 
         <p>After obtaining the End-User's profile URL, the client fetches the URL and looks for the following rel values on the page.</p>
 
-        <pre class="example">&lt;link rel="authorization_endpoint" href="https://example.com/auth"&gt;
-&lt;link rel="token_endpoint" href="https://example.com/token"&gt;</pre>
+        <pre class="example"><?= htmlspecialchars(
+'<link rel="authorization_endpoint" href="https://example.com/auth">
+<link rel="token_endpoint" href="https://example.com/token">') ?></pre>
       </section>
 
       <section>
