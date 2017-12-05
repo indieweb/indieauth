@@ -330,7 +330,7 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
 
         <p>After obtaining the End-User's profile URL, the client fetches the URL and looks for the <code>authorization_endpoint</code> rel value in the HTTP <code>Link</code> headers and HTML <code>&lt;link&gt;</code> tags.</p>
 
-        <pre class="example"><?= htmlspecialchars('Link: <https://example.com/auth>; rel="authorization_endpoint"
+        <pre class="example nohighlight"><?= htmlspecialchars('Link: <https://example.com/auth>; rel="authorization_endpoint"
 
 <link rel="authorization_endpoint" href="https://example.com/auth">') ?></pre>
       </section>
@@ -338,7 +338,8 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
       <section>
         <h3>Authorization Request</h3>
 
-        <p>The client builds the authorization request URL with the following parameters:</p>
+        <p>The client builds the authorization request URL by starting with the discovered <code>authorization_endpoint</code> URL and adding the following parameters to the query component:</p>
+
         <ul>
           <li><code>me</code> - The profile URL that the user entered</li>
           <li><code>client_id</code> - The client URL</li>
@@ -356,7 +357,7 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
 
         <p>The authorization endpoint SHOULD fetch the <code>client_id</code> URL to retrieve application information and the client's registered redirect URLs, see <a href="#client-information-discovery">Client Information Discovery</a> for more information.</p>
 
-        <p>If the <code>redirect_uri</code> in the request has a different domain than the <code>client_id</code>, then the authorization endpoint SHOULD verify that the requested <code>redirect_uri</code> matches one of the <a href="#redirect-url">redirect URLs</a> published by the client, and SHOULD block the request from proceeding if not.</p>
+        <p>If the URL scheme, host or port of the <code>redirect_uri</code> in the request do not match that of the <code>client_id</code>, then the authorization endpoint SHOULD verify that the requested <code>redirect_uri</code> matches one of the <a href="#redirect-url">redirect URLs</a> published by the client, and SHOULD block the request from proceeding if not.</p>
 
         <p>It is up to the authorization endpoint how to authenticate the user. This step is out of scope of OAuth 2.0, and is highly dependent on the particular implementation. Some authorization servers use typical username/password authentication, and others use alternative forms of authentication such as [[RelMeAuth]].</p>
 
@@ -388,7 +389,7 @@ Location: https://app.example.com/redirect?code=xxxxxxxx
 
         <h4>Request</h4>
 
-        <p>After the state parameter is validated, the client makes a POST request to the authorization endpoint to verify the authorization code and return the final user profile URL. The POST request contains the following parameters:</p>
+        <p>After the state parameter is validated, the client makes a POST request to the authorization endpoint to verify the authorization code and retrieve the final user profile URL. The POST request contains the following parameters:</p>
 
         <ul>
           <li><code>code</code> - The authorization code received from the authorization endpoint in the redirect</li>
@@ -417,7 +418,7 @@ Content-Type: application/json
   "me": "https://user.example.org/"
 }') ?></pre>
 
-        <p>The resulting profile URL MAY be different from what the user initially entered, but MUST be on a matching domain. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required.</p>
+        <p>The resulting profile URL MAY be different from what the user initially entered, but MUST be on the same domain. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required.</p>
 
       </section>
     </section>
@@ -466,7 +467,7 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
 
         <p>After obtaining the End-User's profile URL, the client fetches the URL and looks for the <code>authorization_endpoint</code> and <code>token_endpoint</code> rel values in the HTTP <code>Link</code> headers and HTML <code>&lt;link&gt;</code> tags.</p>
 
-        <pre class="example"><?= htmlspecialchars(
+        <pre class="example nohighlight"><?= htmlspecialchars(
 'Link: <https://example.com/auth>; rel="authorization_endpoint"
 Link: <https://example.com/token>; rel="token_endpoint"
 
@@ -480,10 +481,51 @@ Link: <https://example.com/token>; rel="token_endpoint"
         <section>
           <h4>Authorization Request</h4>
 
+          <p>The client builds the authorization request URL by starting with the discovered <code>authorization_endpoint</code> URL and adding the following parameters to the query component:</p>
+
+          <ul>
+            <li><code>me</code> - The profile URL that the user entered</li>
+            <li><code>client_id</code> - The client URL</li>
+            <li><code>redirect_uri</code> - The redirect URL indicating where the user should be redirected to after approving the request</li>
+            <li><code>state</code> - A parameter set by the client which will be included when the user is redirected back to the client. This is used to prevent CSRF attacks. The authorization server MUST return the unmodified state value back to the client.</li>
+            <li><code>scope</code> - A space-separated list of scopes the client is requesting, e.g. "create"</li>
+            <li><code>response_type=code</code> - Indicates to the authorization server that this is an authorization request and an authorization code should be returned</li>
+          </ul>
+
+          <pre class="example nohighlight"><?= htmlspecialchars(
+'https://indieauth.com/auth?me=https://user.example.net/&
+                           redirect_uri=https://app.example.com/redirect&
+                           client_id=https://app.example.com/&
+                           state=1234567890&
+                           scope=create&
+                           response_type=code') ?></pre>
+
+          <p>The authorization endpoint SHOULD fetch the <code>client_id</code> URL to retrieve application information and the client's registered redirect URLs, see <a href="#client-information-discovery">Client Information Discovery</a> for more information.</p>
+
+          <p>If the URL scheme, host or port of the <code>redirect_uri</code> in the request do not match that of the <code>client_id</code>, then the authorization endpoint SHOULD verify that the requested <code>redirect_uri</code> matches one of the <a href="#redirect-url">redirect URLs</a> published by the client, and SHOULD block the request from proceeding if not.</p>
+
+          <p>It is up to the authorization endpoint how to authenticate the user. This step is out of scope of OAuth 2.0, and is highly dependent on the particular implementation. Some authorization servers use typical username/password authentication, and others use alternative forms of authentication such as [[RelMeAuth]].</p>
+
+          <p>Once the user is authenticated, the authorization endpoint presents the authorization prompt to the user. The prompt MUST indicate which application the user is signing in to, and SHOULD provide as much detail as possible about the request, such as information about the requested scopes.</p>
+
         </section>
 
         <section>
           <h4>Authorization Response</h4>
+
+          <p>If the user approves the request, the authorization endpoint generates an authorization code and builds the redirect back to the client.</p>
+
+          <p>The redirect is built by starting with the <code>redirect_uri</code> in the request, and adding the following parameters to the query component of the redirect URL:</p>
+
+          <ul>
+            <li><code>code</code> - The authorization code generated by the authorization endpoint. The code MUST expire shortly after it is issued to mitigate the risk of leaks. A maximum lifetime of 10 minutes is recommended. See <a href="https://tools.ietf.org/html/rfc6749#section-4.1.2">OAuth 2.0 Section 4.1.2</a> for additional requirements on the authorization code.</li>
+            <li><code>state</code> - The state parameter MUST be set to the exact value that the client set in the request.</li>
+          </ul>
+
+          <pre class="example nohighlight"><?= htmlspecialchars(
+  'HTTP/1.1 302 Found
+  Location: https://app.example.com/redirect?code=xxxxxxxx
+                                             state=1234567890') ?></pre>
 
         </section>
       </section>
@@ -493,6 +535,7 @@ Link: <https://example.com/token>; rel="token_endpoint"
 
         <section>
           <h4>Token Request</h4>
+
 
         </section>
 
