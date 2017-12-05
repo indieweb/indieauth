@@ -230,7 +230,6 @@
 
         <p>The endpoints discovered MAY be relative URLs, in which case the client MUST resolve it relative to the profile URL according to [[!URL]].</p>
 
-
         <p>Clients MAY initially make an HTTP HEAD request [[!RFC7231]] to check for the <code>Link</code> header before making a GET request.</p>
       </section>
 
@@ -283,41 +282,40 @@ Link: &lt;https://app.example.com/redirect&gt;; rel="redirect_uri"
 
       <p>This section describes how to perform authentication using the Authorization Code Flow.</p>
 
-      <pre class="example">    +--------+
-    |        |
-    |Resource|
-    | Owner  |
-    |        |
-    +--------+
+      <?php /*
+---
+title IndieAuth Authentication Flow Diagram
 
+Browser->Client: User enters their profile URL
+Client->User URL: Client fetches URL to discover\n**rel=authorization_endpoint**
+Browser<--Client: Client builds authorization request and\nredirects to **authorization_endpoint**
+Browser->Authorization Endpoint: User visits their authorization endpoint and sees the authorization request
+Authorization Endpoint->Client: Authorization endpoint fetches client information (name, icon)
+Browser<--Authorization Endpoint: User authenticates, and approves the request.\nAuthorization endpoint issues code, builds redirect back to client.
+Browser->Client: User's browser is redirected to\nclient with an **authorization code**
+Client->Authorization Endpoint: Client verifies authorization code by making a GET request\nto the authorization_endpoint
+Client<--Authorization Endpoint: Authorization endpoint returns canonical user profile URL
+Browser<--Client: Client initiates login session\nand the user is logged in
+---
 
-    +--------+                            +----------------+
-    |        +-----(B) Client ID ------>  |                |
-    |        |         & Redirect URI     |                |
-    | User-  |                            | Authorization  |
-    | Agent  |                            |     Server     |
-    |        |                            |                |
-    |        |                            |                |
-    +-+------+                            +----------------+
-      ^
-      |
-     (B)
-      |                                   +---------------+
-      |                                   |               |
-    +-+------+                            |    Resource   |
-    |        +-(A)Discover Authorization-->Owner's Website|
-    | Client |             Endpoint       |               |
-    |        |                            +---------------+
-    +--------+
-</pre>
+https://sequencediagram.org/index.html?initialData=C4S2BsFMAIEkDsAmJIEECuwAW0PcvKAMYCGoA9vNAGLjkDu0AIiCQOYBOJAtgFC8AhDgwDOkDgFoAfAGFwKQgC5oAVTEdoBYOJHR8IDQAdhAMxBRVAJQAyvOQuDS14q9eX2t0E5GBEskXRUbPXJoZBEicgA3cQAdeAAqBI5IcABeEkwscg4QAC8yEEoAfQJEQ3IQQiTBYXp1AB4JCQ8laFbgaAAjdHNEXUzsHPzCymgUgEd0AM6SJHiU5BSiYF1gUKTB7NyCinhSpAqq4BqhUXFpPG2RvegAUUPKtucNKJARMDX-A2gt4d2ilQykdCL8kNAxAE9P5fll-qMqJNpiJgLwrvDbg9yk9HLJ5FplOidgjNI9jl4fH4oUR8aCqiYctwSQAKeA8SAAGmgIEi8AAlLVzhwmhIiTdAfcyc91LD8IQeWQAly5ohfoZjNEofhxpApjMAHTxMUAsbAnHckQiZHQSKITndXrgfo6paQFbdEhEADWIRttOA+sF9QueIcyheAHJdF06jL3i6DG7tKr1vEaQ5oPQwDg5tBNnDibdbZAah1LgXxWMsSDgO5-dAYrkzFC-oWJcXugBPaBMr1VNi-aAAcTuABUdXqUfF1tCYK3K-szcc7P6RcaSdWcYSKyagVLOilgOgOPBdKR4JQFeBoOgZRqzBYgrYzsHhc0OnWM1UwKxtLo6GwVQQgEHyUPEKqzjecb-uQbBsJAqpVLwQA
+
+Note: Change width/height to e.g. 
+viewbox="0 0 906 716" style="width: 100%; height: auto;"
+*/ ?>
+
+      <div style="width: 100%">
+      <?= file_get_contents('authentication-flow-diagram.svg') ?>
+      </div>
 
       <ul>
-        <li>The End-User enters their personal web address in the login form of the client and clicks "Sign in"</li>
-        <li>(A) The client discovers the End-User's authorization endpoint by fetching the End-User's website and looking for the <code>rel=authorization_endpoint</code> value</li>
-        <li>(B) The client redirects the user agent to the authorization endpoint, including its client identifier, local state, and a redirect URI</li>
+        <li>The End-User enters their profile URL in the login form of the client and clicks "Sign in"</li>
+        <li>The client discovers the End-User's authorization endpoint by fetching the End-User's profile URL and looking for the <code>rel=authorization_endpoint</code> value</li>
+        <li>The client builds the authorization request including its client identifier, local state, and a redirect URI, and redirects the browser to the authorization endpoint</li>
+        <li>The authorization endpoint fetches the client information from the client identifier URL in order to have an application name and icon to display to the user</li>
         <li>The authorization endpoint verifies the End-User, e.g. by logging in, and establishes whether the End-User grants or denies the client's request</li>
-        <li>The authorization endpoint redirects the End-User agent back to the client, including an authorization code</li>
-        <li>The client verifies the authorization code by making a POST request to the authorization endpoint. The authorization endpoint validates the authorization code, and responds with the End-User's identity</li>
+        <li>The authorization endpoint generates an authorization code and redirects the browser back to the client, including an authorization code in the URL</li>
+        <li>The client verifies the authorization code by making a POST request to the authorization endpoint. The authorization endpoint validates the authorization code, and responds with the End-User's canonical profile URL</li>
       </ul>
 
       <section>
