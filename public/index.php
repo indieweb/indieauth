@@ -27,7 +27,7 @@
   <h2>Logging in with IndieAuth</h2>
 
   <p>You can use IndieAuth to have your users authenticate with their own URL. Logging in to an app with IndieAuth tells the app who has logged in, where the user ID returned is a URL controlled by the user.</p>
-  <p><a href="https://indieweb.org/indieauth-for-login">Logging in with IndieAuth</a></p>
+  <p><a href="https://indieauth.net/spec/#authentication">Logging in with IndieAuth</a></p>
 </section>
 
 <section class="border-top">
@@ -35,7 +35,7 @@
 
   <p>If you're building an application that wants to access or modify a user's data, you'll need an OAuth 2.0 access token to use in API requests.</p>
   <p>You can use IndieAuth to obtain an access token from the user's own token endpoint, while identifying them in the process.</p>
-  <p><a href="https://indieweb.org/obtaining-an-access-token">Obtaining an Access Token</a></p>
+  <p><a href="https://indieauth.net/spec/#authorization">Obtaining an Access Token</a></p>
 </section>
 
 <section class="border-top">
