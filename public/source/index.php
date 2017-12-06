@@ -361,7 +361,7 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
           <li><code>client_id</code> - The client URL</li>
           <li><code>redirect_uri</code> - The redirect URL indicating where the user should be redirected to after approving the request</li>
           <li><code>state</code> - A parameter set by the client which will be included when the user is redirected back to the client. This is used to prevent CSRF attacks. The authorization server MUST return the unmodified state value back to the client.</li>
-          <li><code>response_type=id</code> - Indicates to the authorization server that this is an authentication request</li>
+          <li><code>response_type=id</code> - (optional) Indicates to the authorization server that this is an authentication request. If this parameter is missing, the authorization endpoint MUST default to <code>id</code>.</li>
         </ul>
 
         <pre class="example nohighlight"><?= htmlspecialchars(
@@ -513,7 +513,7 @@ Link: <https://example.org/token>; rel="token_endpoint"
                           redirect_uri=https://app.example.com/redirect&
                           client_id=https://app.example.com/&
                           state=1234567890&
-                          scope=create&
+                          scope=create+update+delete&
                           response_type=code') ?></pre>
 
           <p>The authorization endpoint SHOULD fetch the <code>client_id</code> URL to retrieve application information and the client's registered redirect URLs, see <a href="#client-information-discovery">Client Information Discovery</a> for more information.</p>
@@ -600,7 +600,17 @@ code=xxxxxxxx
       
           <p>Note that this is the same request that clients make to the authorization endpoint in the <a href="#authorization-code-verification">authentication flow</a>.</p>
 
-          <p>The authorization endpoint will validate that the code corresponds with the given <code>client_id</code> and <code>redirect_uri</code> and respond with a JSON response containing the <code>me</code> URL corresponding to this authorization code, or an error. The error returned from the authorization endpoint is acceptable to pass through to the client.</p>
+          <p>The authorization endpoint will validate that the code corresponds with the given <code>client_id</code> and <code>redirect_uri</code> and respond with a JSON response containing the <code>me</code> URL corresponding to this authorization code as well as the <code>scope</code> that was authorized, or an OAuth 2.0 error response. The error returned from the authorization endpoint is acceptable to pass through to the client.</p>
+
+          <pre class="example nohighlight"><?= htmlspecialchars(
+'HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "me": "https://user.example.net/",
+  "scope": "create update delete"
+}') ?></pre>
+
         </section>
 
         <section>
@@ -614,11 +624,11 @@ Content-Type: application/json
 {
   "access_token": "XXXXXX",
   "token_type": "Bearer",
-  "scope": "create",
+  "scope": "create update delete",
   "me": "https://user.example.net/"
 }</pre>
 
-          <p>The resulting profile URL MAY be different from what the user initially entered, but MUST be on the same domain. This gives the token endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required.</p>
+          <p>The resulting profile URL MAY be different from what the user initially entered, but MUST be on the same domain. This provides the opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required.</p>
 
         </section>
 
