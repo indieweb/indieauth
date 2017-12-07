@@ -9,7 +9,7 @@
       var respecConfig = {
           useExperimentalStyles: true,
           publishDate: "2017-12-06",
-          specStatus: "NOTE",
+          specStatus: "ED",
           shortName:  "indieauth",
           edDraftURI: "https://indieauth.net/spec/",
           /* testSuiteURI: "https://indieauth.rocks/", */
