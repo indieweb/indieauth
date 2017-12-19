@@ -536,12 +536,12 @@ Link: <https://example.org/token>; rel="token_endpoint"
           <p>The client builds the authorization request URL by starting with the discovered <code>authorization_endpoint</code> URL and adding the following parameters to the query component:</p>
 
           <ul>
+            <li><code>response_type=code</code> - Indicates to the authorization server that this is an authorization request and an authorization code should be returned</li>
             <li><code>me</code> - The profile URL that the user entered</li>
             <li><code>client_id</code> - The client URL</li>
             <li><code>redirect_uri</code> - The redirect URL indicating where the user should be redirected to after approving the request</li>
             <li><code>state</code> - A parameter set by the client which will be included when the user is redirected back to the client. This is used to prevent CSRF attacks. The authorization server MUST return the unmodified state value back to the client.</li>
-            <li><code>scope</code> - A space-separated list of scopes the client is requesting, e.g. "create"</li>
-            <li><code>response_type=code</code> - Indicates to the authorization server that this is an authorization request and an authorization code should be returned</li>
+            <li><code>scope</code> - (optional) A space-separated list of scopes the client is requesting, e.g. "create". If the client omits this value, the authorization server MUST use a default value.</li>
           </ul>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
