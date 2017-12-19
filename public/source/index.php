@@ -25,6 +25,7 @@
           errata: "https://indieauth.net/errata",
           license: "w3c-software-doc",
           postProcess: [addParagraphIDs],
+          maxTocLevel: 3,
           otherLinks: [{
             key: 'Repository',
             data: [
@@ -222,6 +223,8 @@
         <p>Since IndieAuth uses https/http URLs which fall under what [[!URL]] calls "<a href="https://url.spec.whatwg.org/#special-scheme">Special URLs</a>", a string with no path component is not a valid [[!URL]]. As such, if a URL with no path component is ever encountered, it MUST be treated as if it had the path <code>/</code>. For example, if a user enters <code>https://example.com</code> as their profile URL, the client MUST transform it to <code>https://example.com/</code> when using it and comparing it.</p>
 
         <p>Since domain names are case insensitive, the hostname component of the URL MUST be compared case insensitively. Implementations SHOULD convert the hostname to lowercase when storing and using URLs.</p>
+
+        <p>For ease of use, clients MAY allow users to enter just a hostname part of the URL, in which case the client MUST turn that into a valid URL before beginning the IndieAuth flow, by prepending a scheme and appending the path <code>/</code>. For example, if the user enters <code>example.com</code>, the client transforms it into <code>http://example.com/</code> before beginning discovery.</p>
       </section>
 
     </section>
@@ -237,11 +240,42 @@
 
         <p>Clients need to discover a few pieces of information when a user signs in. For the <a href="#authentication">Authentication</a> workflow, the client needs to find the user's <code>authorization_endpoint</code>. For the <a href="#authorization">Authorization</a> workflow, the client needs to find the user's <code>authorization_endpoint</code> and <code>token_endpoint</code>. When using the Authorization workflow to obtain an access token for use at a [[Micropub]] endpoint, the client will also discover the <code>micropub</code> endpoint.</p>
 
-        <p>Clients MUST start by making a GET request to [[!Fetch]] the user's profile URL to discover the necessary values. Clients MUST check for an HTTP Link header [[!RFC5988]] with the appropriate <code>rel</code> value. If the content type of the document is HTML, then the client MUST check for an HTML <code>&lt;link&gt;</code> element with the appropriate <code>rel</code> value.</p>
+        <p>Clients MUST start by making a GET request to [[!Fetch]] the user's profile URL to discover the necessary values. Clients MUST follow HTTP redirects (up to a self-imposed limit). If an HTTP permament redirect (HTTP 301) is encountered, the client MUST use the resulting URL as the canonical profile URL. If an HTTP temporary redirect (HTTP 302) is encountered, the client MUST use the previous URL as the profile URL, but use the redirected-to page for discovery.</p>
+
+        <p>Clients MUST check for an HTTP Link header [[!RFC5988]] with the appropriate <code>rel</code> value. If the content type of the document is HTML, then the client MUST check for an HTML <code>&lt;link&gt;</code> element with the appropriate <code>rel</code> value.</p>
 
         <p>The endpoints discovered MAY be relative URLs, in which case the client MUST resolve them relative to the profile URL according to [[!URL]].</p>
 
-        <p>Clients MAY initially make an HTTP HEAD request [[!RFC7231]] to check for the <code>Link</code> header before making a GET request.</p>
+        <p>Clients MAY initially make an HTTP HEAD request [[!RFC7231]] to follow redirects and check for the <code>Link</code> header before making a GET request.</p>
+
+        <section>
+          <h4>Redirect Examples</h4>
+
+          <section>
+            <h5>http to https</h5>
+            <p>In this example, the user enters <code>example.com</code> in the sign-in form, so the client initially transforms that to <code>http://example.com/</code> to perform discovery. The URL <code>http://example.com/</code> returns an HTTP 301 permanent redirect to <code>https://example.com/</code>, so the client updates the initial profile URL to <code>https://example.com/</code>, and looks at the contents of that page to find the authorization endpoint.</p>
+          </section>
+
+          <section>
+            <h5>www to no-www</h5>
+            <p>In this example, the user enters <code>www.example.com</code> in the sign-in form, so the client initially transforms that to <code>http://www.example.com/</code> to perform discovery. The URL <code>http://www.example.com/</code> returns an HTTP 301 permanent redirect to <code>https://example.com/</code>, so the client updates the initial profile URL to <code>https://example.com/</code>, and looks at the contents of that page to find the authorization endpoint.</p>
+          </section>
+
+          <section>
+            <h5>Temporary Redirect</h5>
+            <p>In this example, the user enters <code>example.com</code> in the sign-in form, so the client initially transforms that to <code>http://example.com/</code> to perform discovery. The URL <code>http://example.com/</code> returns an HTTP 301 permanent redirect to <code>https://example.com/</code>, and <code>https://example.com/</code> returns an HTTP 302 temporary redirect to <code>https://example.com/username</code>. The client stores the last 301 permanent redirect as the profile URL, <code>https://example.com/</code>, and uses the contents of <code>https://example.com/username</code> to find the authorization endpoint.</p>
+          </section>
+
+          <section>
+            <h5>Permanent Redirect to a Different Domain</h5>
+            <p>In this example, the user enters <code>username.example</code> in the sign-in form, so the client initially transforms that to <code>http://username.example/</code> to perform discovery. However, the user does not host any content there, and instead that page is a redirect to their profile elsewhere. The URL <code>http://username.example/</code> returns an HTTP 301 permanent redirect to <code>https://example.com/username</code>, so the client updates the initial profile URL to <code>https://example.com/username</code> when setting the <code>me</code> parameter in the initial authorization request. At the end of the flow, the authorization endpoint will return a <code>me</code> value of <code>https://example.com/username</code>, which is not on the same domain as what the user entered, but the client can accept it because of the HTTP 301 redirect encountered during discovery.</p>
+          </section>
+
+          <section>
+            <h5>Temporary Redirect to a Different Domain</h5>
+            <p>In this example, the user enters <code>username.example</code> in the sign-in form, so the client initially transforms that to <code>http://username.example/</code> to perform discovery. However, the user does not host any content there, and instead that page is a temporary redirect to their profile elsewhere. The URL <code>http://username.example/</code> returns an HTTP 302 temporary redirect to <code>https://example.com/username</code>, so the client discovers the authorization endpoint at that URL. Since the redirect is temporary, the client still uses the user-entered <code>http://username.example/</code> when setting the <code>me</code> parameter in the initial authorization request. At the end of the flow, the authorization endpoint will return a <code>me</code> value of <code>https://username.example/</code>, which is not on the same domain as the authorization endpoint, but is the same domain as the user entered. This allows users to still use a profile URL under their control while delegating the authorization flow to an external account.</p>
+          </section>
+        </section>
       </section>
 
       <section>
@@ -280,7 +314,7 @@
         <section>
           <h4>Redirect URL</h4>
 
-          <p>If a client wishes to use a redirect URL that is on a different domain than their <code>client_id</code>, or if the redirect URL uses a custom scheme (such as when the client is a native application), then they will need to whitelist those redirect URLs so that authorization endpoints can be sure it is safe to redirect users there. The client SHOULD publish one or more <code>&lt;link&gt;</code> tags or <code>Link</code> HTTP headers with a <code>rel</code> attribute of <code>redirect_uri</code> at the <code>client_id</code> URL.</p>
+          <p>If a client wishes to use a redirect URL that is on a different domain than their <code>client_id</code>, or if the redirect URL uses a custom scheme (such as when the client is a native application), then the client will need to whitelist those redirect URLs so that authorization endpoints can be sure it is safe to redirect users there. The client SHOULD publish one or more <code>&lt;link&gt;</code> tags or <code>Link</code> HTTP headers with a <code>rel</code> attribute of <code>redirect_uri</code> at the <code>client_id</code> URL.</p>
 
           <p>Authorization endpoints verifying that a <code>redirect_uri</code> is allowed for use by a client MUST look for an exact match of the given <code>redirect_uri</code> in the request against the list of <code>redirect_uri</code>s discovered after resolving any relative URLs.</p>
 
@@ -436,7 +470,7 @@ Content-Type: application/json
   "me": "https://user.example.net/"
 }') ?></pre>
 
-        <p>The resulting profile URL MAY be different from what the user initially entered, but MUST be on the same domain. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required.</p>
+        <p>The resulting profile URL MAY be different from what the user initially entered, but MUST be on the same domain. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-to-a-different-domain">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
 
       </section>
     </section>
@@ -632,7 +666,7 @@ Content-Type: application/json
   "me": "https://user.example.net/"
 }</pre>
 
-          <p>The resulting profile URL MAY be different from what the user initially entered, but MUST be on the same domain. This provides the opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required.</p>
+          <p>The resulting profile URL MAY be different from what the user initially entered, but MUST be on the same domain. This provides the opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-to-a-different-domain">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
 
         </section>
 
