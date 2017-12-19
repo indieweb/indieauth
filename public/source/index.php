@@ -127,7 +127,7 @@
       <section>
         <h3>OAuth 2.0 Extension</h3>
 
-        <p>IndieAuth builds upon the OAuth 2.0 [[RFC6749]] Framework as follows</p>
+        <p>IndieAuth builds upon the OAuth 2.0 [[!RFC6749]] Framework as follows</p>
 
         <ul>
           <li>Specifies a format for user identifiers (a resolvable URL)</li>
@@ -140,6 +140,8 @@
           <li>Specifies a mechanism for verifying authorization codes</li>
           <li>Specifies a mechanism for a token endpoint and authorization endpoint to communicate</li>
         </ul>
+
+        <p>Additionally, the parameters defined by OAuth 2.0 (in particular <code>state</code>, <code>code</code>, and <code>scope</code>) follow the same syntax requirements as defined by Appendix A of OAuth 2.0 [[!RFC6749]].</p>
       </section>
     </section>
 
