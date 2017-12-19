@@ -413,7 +413,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <p>
       <a class="logo" href="https://www.w3.org/"><img width="72" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" alt="W3C"></a>
     </p>
-  <p><!--_hyper: -1925257408;--></p>
+  <p><!--_hyper: -5889658;--></p>
   <h1 class="title p-name" id="title">IndieAuth</h1>
   <h2 id="w3c-editor-s-draft-19-december-2017"><abbr title="World Wide Web Consortium">W3C</abbr> Editor's Draft <time class="dt-published" datetime="2017-12-19">19 December 2017</time></h2>
   <dl>
@@ -893,12 +893,12 @@ Link: &lt;https://example.org/token&gt;; rel="token_endpoint"
           <p id="authorization-request-0-p-1">The client builds the authorization request URL by starting with the discovered <code>authorization_endpoint</code> URL and adding the following parameters to the query component:</p>
 
           <ul>
-            <li id="authorization-request-0-li-1"><code>me</code> - The profile URL that the user entered</li>
-            <li id="authorization-request-0-li-2"><code>client_id</code> - The client URL</li>
-            <li id="authorization-request-0-li-3"><code>redirect_uri</code> - The redirect URL indicating where the user should be redirected to after approving the request</li>
-            <li id="authorization-request-0-li-4"><code>state</code> - A parameter set by the client which will be included when the user is redirected back to the client. This is used to prevent CSRF attacks. The authorization server <em class="rfc2119" title="MUST">MUST</em> return the unmodified state value back to the client.</li>
-            <li id="authorization-request-0-li-5"><code>scope</code> - A space-separated list of scopes the client is requesting, e.g. "create"</li>
-            <li id="authorization-request-0-li-6"><code>response_type=code</code> - Indicates to the authorization server that this is an authorization request and an authorization code should be returned</li>
+            <li id="authorization-request-0-li-1"><code>response_type=code</code> - Indicates to the authorization server that this is an authorization request and an authorization code should be returned</li>
+            <li id="authorization-request-0-li-2"><code>me</code> - The profile URL that the user entered</li>
+            <li id="authorization-request-0-li-3"><code>client_id</code> - The client URL</li>
+            <li id="authorization-request-0-li-4"><code>redirect_uri</code> - The redirect URL indicating where the user should be redirected to after approving the request</li>
+            <li id="authorization-request-0-li-5"><code>state</code> - A parameter set by the client which will be included when the user is redirected back to the client. This is used to prevent CSRF attacks. The authorization server <em class="rfc2119" title="MUST">MUST</em> return the unmodified state value back to the client.</li>
+            <li id="authorization-request-0-li-6"><code>scope</code> - (optional) A space-separated list of scopes the client is requesting, e.g. "create". If the client omits this value, the authorization server <em class="rfc2119" title="MUST">MUST</em> use a default value.</li>
           </ul>
 
           <div class="example"><div class="example-title marker"><span>Example 10</span></div><pre class="nohighlight">https://example.org/auth?me=https://user.example.net/&amp;
