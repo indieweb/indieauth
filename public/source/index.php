@@ -227,7 +227,7 @@
     <section>
       <h2>Discovery</h2>
 
-      <p>This specification uses the link rel registry as defined by [[!HTML5]]
+      <p>This specification uses the link rel registry as defined by [[!HTML]]
         for both HTML and HTTP link relations.</p>
 
       <section>
