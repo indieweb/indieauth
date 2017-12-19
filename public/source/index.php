@@ -8,11 +8,11 @@
     <script class='remove'>
       var respecConfig = {
           useExperimentalStyles: true,
-          publishDate: "2017-12-06",
+          publishDate: "2017-12-19",
           specStatus: "ED",
           shortName:  "indieauth",
           edDraftURI: "https://indieauth.net/spec/",
-          /* testSuiteURI: "https://indieauth.rocks/", */
+          testSuiteURI: "https://indieauth.rocks/",
           editors: [
                 {   name:       "Aaron Parecki",
                     url:        "https://aaronparecki.com/",
@@ -31,15 +31,15 @@
             data: [
               {
                 value: 'Github',
-                href: 'https://github.com/aaronpk/indieauth.net'
+                href: 'https://github.com/indieweb/indieauth.net'
               },
               {
                 value: 'Issues',
-                href: 'https://github.com/aaronpk/indieauth.net/issues'
+                href: 'https://github.com/indieweb/indieauth.net/issues'
               },
               {
                 value: 'Commits',
-                href: 'https://github.com/aaronpk/indieauth.net/commits/master'
+                href: 'https://github.com/indieweb/indieauth.net/commits/master'
               }
             ]
           }],
