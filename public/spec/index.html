@@ -313,7 +313,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 }
 </style><link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED"><link rel="canonical" href="https://www.w3.org/TR/indieauth/"><script id="initialUserConfig" type="application/json">{
   "useExperimentalStyles": true,
-  "publishDate": "2017-12-19",
+  "publishDate": "2017-12-21",
   "specStatus": "ED",
   "shortName": "indieauth",
   "edDraftURI": "https://indieauth.net/spec/",
@@ -401,8 +401,8 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
       "publisher": "WHATWG"
     }
   },
-  "publishISODate": "2017-12-19T00:00:00.000Z",
-  "generatedSubtitle": "Editor's Draft 19 December 2017"
+  "publishISODate": "2017-12-21T00:00:00.000Z",
+  "generatedSubtitle": "Editor's Draft 21 December 2017"
 }</script><meta name="description" content="IndieAuth is an identity layer on top of OAuth 2.0 [RFC6749], primarily used to obtain
         an OAuth 2.0 Bearer Token [RFC6750] for use by [Micropub] clients. End-Users
         and Clients are all represented by URLs. IndieAuth enables Clients to
@@ -413,9 +413,9 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <p>
       <a class="logo" href="https://www.w3.org/"><img width="72" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" alt="W3C"></a>
     </p>
-  <p><!--_hyper: -5889658;--></p>
+  <p><!--_hyper: -1694511523;--></p>
   <h1 class="title p-name" id="title">IndieAuth</h1>
-  <h2 id="w3c-editor-s-draft-19-december-2017"><abbr title="World Wide Web Consortium">W3C</abbr> Editor's Draft <time class="dt-published" datetime="2017-12-19">19 December 2017</time></h2>
+  <h2 id="w3c-editor-s-draft-21-december-2017"><abbr title="World Wide Web Consortium">W3C</abbr> Editor's Draft <time class="dt-published" datetime="2017-12-21">21 December 2017</time></h2>
   <dl>
       <dt>This version:</dt>
       <dd><a class="u-url" href="https://indieauth.net/spec/">https://indieauth.net/spec/</a></dd>
@@ -648,7 +648,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
         <p id="discovery-by-clients-p-1">Clients need to discover a few pieces of information when a user signs in. For the <a href="#authentication">Authentication</a> workflow, the client needs to find the user's <code>authorization_endpoint</code>. For the <a href="#authorization">Authorization</a> workflow, the client needs to find the user's <code>authorization_endpoint</code> and <code>token_endpoint</code>. When using the Authorization workflow to obtain an access token for use at a [<cite><a class="bibref" href="#bib-Micropub">Micropub</a></cite>] endpoint, the client will also discover the <code>micropub</code> endpoint.</p>
 
-        <p id="discovery-by-clients-p-2">Clients <em class="rfc2119" title="MUST">MUST</em> start by making a GET request to [<cite><a class="bibref" href="#bib-Fetch">Fetch</a></cite>] the user's profile URL to discover the necessary values. Clients <em class="rfc2119" title="MUST">MUST</em> follow HTTP redirects (up to a self-imposed limit). If an HTTP permament redirect (HTTP 301) is encountered, the client <em class="rfc2119" title="MUST">MUST</em> use the resulting URL as the canonical profile URL. If an HTTP temporary redirect (HTTP 302) is encountered, the client <em class="rfc2119" title="MUST">MUST</em> use the previous URL as the profile URL, but use the redirected-to page for discovery.</p>
+        <p id="discovery-by-clients-p-2">Clients <em class="rfc2119" title="MUST">MUST</em> start by making a GET request to [<cite><a class="bibref" href="#bib-Fetch">Fetch</a></cite>] the user's profile URL to discover the necessary values. Clients <em class="rfc2119" title="MUST">MUST</em> follow HTTP redirects (up to a self-imposed limit). If an HTTP permament redirect (HTTP 301 or 308) is encountered, the client <em class="rfc2119" title="MUST">MUST</em> use the resulting URL as the canonical profile URL. If an HTTP temporary redirect (HTTP 302 or 307) is encountered, the client <em class="rfc2119" title="MUST">MUST</em> use the previous URL as the profile URL, but use the redirected-to page for discovery.</p>
 
         <p id="discovery-by-clients-p-3">Clients <em class="rfc2119" title="MUST">MUST</em> check for an HTTP Link header [<cite><a class="bibref" href="#bib-RFC5988">RFC5988</a></cite>] with the appropriate <code>rel</code> value. If the content type of the document is HTML, then the client <em class="rfc2119" title="MUST">MUST</em> check for an HTML <code>&lt;link&gt;</code> element with the appropriate <code>rel</code> value.</p>
 
