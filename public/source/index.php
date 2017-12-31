@@ -8,10 +8,10 @@
     <script class='remove'>
       var respecConfig = {
           useExperimentalStyles: true,
-          publishDate: "2017-12-21",
+          publishDate: "2017-12-31",
           specStatus: "ED",
           shortName:  "indieauth",
-          edDraftURI: "https://indieauth.net/spec/",
+          edDraftURI: "https://indieauth.spec.indieweb.org/",
           testSuiteURI: "https://indieauth.rocks/",
           editors: [
                 {   name:       "Aaron Parecki",
@@ -31,15 +31,15 @@
             data: [
               {
                 value: 'Github',
-                href: 'https://github.com/indieweb/indieauth.net'
+                href: 'https://github.com/indieweb/indieauth'
               },
               {
                 value: 'Issues',
-                href: 'https://github.com/indieweb/indieauth.net/issues'
+                href: 'https://github.com/indieweb/indieauth/issues'
               },
               {
                 value: 'Commits',
-                href: 'https://github.com/indieweb/indieauth.net/commits/master'
+                href: 'https://github.com/indieweb/indieauth/commits/master'
               }
             ]
           }],
@@ -784,7 +784,7 @@ action=revoke
         <dd>Used for discovery of the OAuth 2.0 authorization endpoint given an IndieAuth profile URL.</dd>
         
         <dt>Reference:</dt>
-        <dd><a href="https://indieauth.net/spec/">IndieAuth Specification (https://indieauth.net/spec/)</a></dd>
+        <dd><a href="https://indieauth.spec.indieweb.org/">IndieAuth Specification (https://indieauth.spec.indieweb.org/)</a></dd>
       </dl>
 
       <dl>
@@ -795,7 +795,7 @@ action=revoke
         <dd>Used for discovery of the OAuth 2.0 token endpoint given an IndieAuth profile URL.</dd>
         
         <dt>Reference:</dt>
-        <dd><a href="https://indieauth.net/spec/">IndieAuth Specification (https://indieauth.net/spec/)</a></dd>
+        <dd><a href="https://indieauth.spec.indieweb.org/">IndieAuth Specification (https://indieauth.spec.indieweb.org/)</a></dd>
       </dl>
 
       <dl>
@@ -806,7 +806,7 @@ action=revoke
         <dd>Used for discovery of the OAuth 2.0 redirect URI given an IndieAuth client ID.</dd>
         
         <dt>Reference:</dt>
-        <dd><a href="https://indieauth.net/spec/">IndieAuth Specification (https://indieauth.net/spec/)</a></dd>
+        <dd><a href="https://indieauth.spec.indieweb.org/">IndieAuth Specification (https://indieauth.spec.indieweb.org/)</a></dd>
       </dl>
     </section>
 
