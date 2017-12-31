@@ -80,6 +80,17 @@
               status:   "Living Specification",
               publisher:  "microformats.org"
             },
+            "XFN11": {
+              title: "XFN 1.1",
+              href: "https://gmpg.org/xfn/11",
+              authors: [
+                "Tantek Çelik",
+                "Matthew Mullenweg",
+                "Eric Meyer"
+              ],
+              status: "Stable",
+              publisher: "Global Multimedia Protocols Group"
+            },
             "URL": {
               title: "URL Standard",
               href: "https://url.spec.whatwg.org/",
@@ -411,7 +422,7 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
 
         <p>If the URL scheme, host or port of the <code>redirect_uri</code> in the request do not match that of the <code>client_id</code>, then the authorization endpoint SHOULD verify that the requested <code>redirect_uri</code> matches one of the <a href="#redirect-url">redirect URLs</a> published by the client, and SHOULD block the request from proceeding if not.</p>
 
-        <p>It is up to the authorization endpoint how to authenticate the user. This step is out of scope of OAuth 2.0, and is highly dependent on the particular implementation. Some authorization servers use typical username/password authentication, and others use alternative forms of authentication such as [[RelMeAuth]].</p>
+        <p>It is up to the authorization endpoint how to authenticate the user. This step is out of scope of OAuth 2.0, and is highly dependent on the particular implementation. Some authorization servers use typical username/password authentication, and others use alternative forms of authentication such as [[RelMeAuth]], which uses [[XFN11]]'s simple <code>rel=me</code> markup.</p>
 
         <p>Once the user is authenticated, the authorization endpoint presents the authentication prompt to the user. The prompt MUST indicate which application the user is signing in to, and SHOULD provide as much detail as possible about the request.</p>
       </section>
