@@ -313,10 +313,10 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 }
 </style><link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED"><link rel="canonical" href="https://www.w3.org/TR/indieauth/"><script id="initialUserConfig" type="application/json">{
   "useExperimentalStyles": true,
-  "publishDate": "2017-12-21",
+  "publishDate": "2017-12-31",
   "specStatus": "ED",
   "shortName": "indieauth",
-  "edDraftURI": "https://indieauth.net/spec/",
+  "edDraftURI": "https://indieauth.spec.indieweb.org/",
   "testSuiteURI": "https://indieauth.rocks/",
   "editors": [
     {
@@ -341,15 +341,15 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
       "data": [
         {
           "value": "Github",
-          "href": "https://github.com/indieweb/indieauth.net"
+          "href": "https://github.com/indieweb/indieauth"
         },
         {
           "value": "Issues",
-          "href": "https://github.com/indieweb/indieauth.net/issues"
+          "href": "https://github.com/indieweb/indieauth/issues"
         },
         {
           "value": "Commits",
-          "href": "https://github.com/indieweb/indieauth.net/commits/master"
+          "href": "https://github.com/indieweb/indieauth/commits/master"
         }
       ]
     }
@@ -391,6 +391,17 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
       "status": "Living Specification",
       "publisher": "microformats.org"
     },
+    "XFN11": {
+      "title": "XFN 1.1",
+      "href": "https://gmpg.org/xfn/11",
+      "authors": [
+        "Tantek Çelik",
+        "Matthew Mullenweg",
+        "Eric Meyer"
+      ],
+      "status": "Stable",
+      "publisher": "Global Multimedia Protocols Group"
+    },
     "URL": {
       "title": "URL Standard",
       "href": "https://url.spec.whatwg.org/",
@@ -401,8 +412,8 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
       "publisher": "WHATWG"
     }
   },
-  "publishISODate": "2017-12-21T00:00:00.000Z",
-  "generatedSubtitle": "Editor's Draft 21 December 2017"
+  "publishISODate": "2017-12-31T00:00:00.000Z",
+  "generatedSubtitle": "Editor's Draft 31 December 2017"
 }</script><meta name="description" content="IndieAuth is an identity layer on top of OAuth 2.0 [RFC6749], primarily used to obtain
         an OAuth 2.0 Bearer Token [RFC6750] for use by [Micropub] clients. End-Users
         and Clients are all represented by URLs. IndieAuth enables Clients to
@@ -413,16 +424,16 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <p>
       <a class="logo" href="https://www.w3.org/"><img width="72" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" alt="W3C"></a>
     </p>
-  <p><!--_hyper: -1694511523;--></p>
+  <p><!--_hyper: -1856932751;--></p>
   <h1 class="title p-name" id="title">IndieAuth</h1>
-  <h2 id="w3c-editor-s-draft-21-december-2017"><abbr title="World Wide Web Consortium">W3C</abbr> Editor's Draft <time class="dt-published" datetime="2017-12-21">21 December 2017</time></h2>
+  <h2 id="w3c-editor-s-draft-31-december-2017"><abbr title="World Wide Web Consortium">W3C</abbr> Editor's Draft <time class="dt-published" datetime="2017-12-31">31 December 2017</time></h2>
   <dl>
       <dt>This version:</dt>
-      <dd><a class="u-url" href="https://indieauth.net/spec/">https://indieauth.net/spec/</a></dd>
+      <dd><a class="u-url" href="https://indieauth.spec.indieweb.org/">https://indieauth.spec.indieweb.org/</a></dd>
       <dt>Latest published version:</dt>
       <dd><a href="https://www.w3.org/TR/indieauth/">https://www.w3.org/TR/indieauth/</a></dd>
       <dt>Latest editor's draft:</dt>
-      <dd><a href="https://indieauth.net/spec/">https://indieauth.net/spec/</a></dd>
+      <dd><a href="https://indieauth.spec.indieweb.org/">https://indieauth.spec.indieweb.org/</a></dd>
       <dt>Test suite:</dt>
       <dd><a href="https://indieauth.rocks/">https://indieauth.rocks/</a></dd>
     <dt>Editor:</dt>
@@ -430,17 +441,17 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
           <dt>Repository:</dt>
                   <dd>
-                    <a href="https://github.com/indieweb/indieauth.net">
+                    <a href="https://github.com/indieweb/indieauth">
                       Github
                     </a>
                   </dd>
                   <dd>
-                    <a href="https://github.com/indieweb/indieauth.net/issues">
+                    <a href="https://github.com/indieweb/indieauth/issues">
                       Issues
                     </a>
                   </dd>
                   <dd>
-                    <a href="https://github.com/indieweb/indieauth.net/commits/master">
+                    <a href="https://github.com/indieweb/indieauth/commits/master">
                       Commits
                     </a>
                   </dd>
@@ -648,9 +659,9 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
         <p id="discovery-by-clients-p-1">Clients need to discover a few pieces of information when a user signs in. For the <a href="#authentication">Authentication</a> workflow, the client needs to find the user's <code>authorization_endpoint</code>. For the <a href="#authorization">Authorization</a> workflow, the client needs to find the user's <code>authorization_endpoint</code> and <code>token_endpoint</code>. When using the Authorization workflow to obtain an access token for use at a [<cite><a class="bibref" href="#bib-Micropub">Micropub</a></cite>] endpoint, the client will also discover the <code>micropub</code> endpoint.</p>
 
-        <p id="discovery-by-clients-p-2">Clients <em class="rfc2119" title="MUST">MUST</em> start by making a GET request to [<cite><a class="bibref" href="#bib-Fetch">Fetch</a></cite>] the user's profile URL to discover the necessary values. Clients <em class="rfc2119" title="MUST">MUST</em> follow HTTP redirects (up to a self-imposed limit). If an HTTP permament redirect (HTTP 301 or 308) is encountered, the client <em class="rfc2119" title="MUST">MUST</em> use the resulting URL as the canonical profile URL. If an HTTP temporary redirect (HTTP 302 or 307) is encountered, the client <em class="rfc2119" title="MUST">MUST</em> use the previous URL as the profile URL, but use the redirected-to page for discovery.</p>
+        <p id="discovery-by-clients-p-2">Clients <em class="rfc2119" title="MUST">MUST</em> start by making a GET or HEAD request to [<cite><a class="bibref" href="#bib-Fetch">Fetch</a></cite>] the user's profile URL to discover the necessary values. Clients <em class="rfc2119" title="MUST">MUST</em> follow HTTP redirects (up to a self-imposed limit). If an HTTP permament redirect (HTTP 301 or 308) is encountered, the client <em class="rfc2119" title="MUST">MUST</em> use the resulting URL as the canonical profile URL. If an HTTP temporary redirect (HTTP 302 or 307) is encountered, the client <em class="rfc2119" title="MUST">MUST</em> use the previous URL as the profile URL, but use the redirected-to page for discovery.</p>
 
-        <p id="discovery-by-clients-p-3">Clients <em class="rfc2119" title="MUST">MUST</em> check for an HTTP Link header [<cite><a class="bibref" href="#bib-RFC5988">RFC5988</a></cite>] with the appropriate <code>rel</code> value. If the content type of the document is HTML, then the client <em class="rfc2119" title="MUST">MUST</em> check for an HTML <code>&lt;link&gt;</code> element with the appropriate <code>rel</code> value.</p>
+        <p id="discovery-by-clients-p-3">Clients <em class="rfc2119" title="MUST">MUST</em> check for an HTTP <code>Link</code> header [<cite><a class="bibref" href="#bib-RFC5988">RFC5988</a></cite>] with the appropriate <code>rel</code> value. If the content type of the document is HTML, then the client <em class="rfc2119" title="MUST">MUST</em> check for an HTML <code>&lt;link&gt;</code> element with the appropriate <code>rel</code> value. If more than one of these is present, the first HTTP <code>Link</code> header takes precedence, followed by the first <code>&lt;link&gt;</code> element in document order.</p>
 
         <p id="discovery-by-clients-p-4">The endpoints discovered <em class="rfc2119" title="MAY">MAY</em> be relative URLs, in which case the client <em class="rfc2119" title="MUST">MUST</em> resolve them relative to the profile URL according to [<cite><a class="bibref" href="#bib-URL">URL</a></cite>].</p>
 
@@ -795,7 +806,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
         <p id="authorization-request-p-3">If the URL scheme, host or port of the <code>redirect_uri</code> in the request do not match that of the <code>client_id</code>, then the authorization endpoint <em class="rfc2119" title="SHOULD">SHOULD</em> verify that the requested <code>redirect_uri</code> matches one of the <a href="#redirect-url">redirect URLs</a> published by the client, and <em class="rfc2119" title="SHOULD">SHOULD</em> block the request from proceeding if not.</p>
 
-        <p id="authorization-request-p-4">It is up to the authorization endpoint how to authenticate the user. This step is out of scope of OAuth 2.0, and is highly dependent on the particular implementation. Some authorization servers use typical username/password authentication, and others use alternative forms of authentication such as [<cite><a class="bibref" href="#bib-RelMeAuth">RelMeAuth</a></cite>].</p>
+        <p id="authorization-request-p-4">It is up to the authorization endpoint how to authenticate the user. This step is out of scope of OAuth 2.0, and is highly dependent on the particular implementation. Some authorization servers use typical username/password authentication, and others use alternative forms of authentication such as [<cite><a class="bibref" href="#bib-RelMeAuth">RelMeAuth</a></cite>], which uses [<cite><a class="bibref" href="#bib-XFN11">XFN11</a></cite>]'s simple <code>rel=me</code> markup.</p>
 
         <p id="authorization-request-p-5">Once the user is authenticated, the authorization endpoint presents the authentication prompt to the user. The prompt <em class="rfc2119" title="MUST">MUST</em> indicate which application the user is signing in to, and <em class="rfc2119" title="SHOULD">SHOULD</em> provide as much detail as possible about the request.</p>
       </section>
@@ -1123,7 +1134,7 @@ action=revoke
         <dd>Used for discovery of the OAuth 2.0 authorization endpoint given an IndieAuth profile URL.</dd>
         
         <dt>Reference:</dt>
-        <dd><a href="https://indieauth.net/spec/">IndieAuth Specification (https://indieauth.net/spec/)</a></dd>
+        <dd><a href="https://indieauth.spec.indieweb.org/">IndieAuth Specification (https://indieauth.spec.indieweb.org/)</a></dd>
       </dl>
 
       <dl>
@@ -1134,7 +1145,7 @@ action=revoke
         <dd>Used for discovery of the OAuth 2.0 token endpoint given an IndieAuth profile URL.</dd>
         
         <dt>Reference:</dt>
-        <dd><a href="https://indieauth.net/spec/">IndieAuth Specification (https://indieauth.net/spec/)</a></dd>
+        <dd><a href="https://indieauth.spec.indieweb.org/">IndieAuth Specification (https://indieauth.spec.indieweb.org/)</a></dd>
       </dl>
 
       <dl>
@@ -1145,7 +1156,7 @@ action=revoke
         <dd>Used for discovery of the OAuth 2.0 redirect URI given an IndieAuth client ID.</dd>
         
         <dt>Reference:</dt>
-        <dd><a href="https://indieauth.net/spec/">IndieAuth Specification (https://indieauth.net/spec/)</a></dd>
+        <dd><a href="https://indieauth.spec.indieweb.org/">IndieAuth Specification (https://indieauth.spec.indieweb.org/)</a></dd>
       </dl>
     </section>
 
@@ -1239,4 +1250,5 @@ action=revoke
 </dd></dl></section><section id="informative-references"><h3 id="c-2-informative-references"><span class="secno">C.2 </span>Informative references</h3><dl class="bibliography"><dt id="bib-Microformats">[Microformats]</dt><dd><a href="http://microformats.org"><cite>Microformats</cite></a>. URL: <a href="http://microformats.org">http://microformats.org</a> 
 </dd><dt id="bib-Micropub">[Micropub]</dt><dd><a href="https://www.w3.org/TR/micropub/"><cite>Micropub</cite></a>. Aaron Parecki. W3C. 23 May 2017. W3C Recommendation. URL: <a href="https://www.w3.org/TR/micropub/">https://www.w3.org/TR/micropub/</a>
 </dd><dt id="bib-RelMeAuth">[RelMeAuth]</dt><dd><a href="http://microformats.org/wiki/RelMeAuth"><cite>RelMeAuth</cite></a>. Tantek Çelik. microformats.org. Living Specification. URL: <a href="http://microformats.org/wiki/RelMeAuth">http://microformats.org/wiki/RelMeAuth</a>
+</dd><dt id="bib-XFN11">[XFN11]</dt><dd><a href="https://gmpg.org/xfn/11"><cite>XFN 1.1</cite></a>. Tantek Çelik; Matthew Mullenweg; Eric Meyer. Global Multimedia Protocols Group. Stable. URL: <a href="https://gmpg.org/xfn/11">https://gmpg.org/xfn/11</a>
 </dd></dl></section></section><p role="navigation" id="back-to-top"><a href="#toc"><abbr title="Back to Top">↑</abbr></a></p><script src="https://www.w3.org/scripts/TR/2016/fixup.js"></script></body></html>
