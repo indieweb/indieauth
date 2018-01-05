@@ -361,7 +361,7 @@ title IndieAuth Authentication Flow Diagram
 Browser->Client: User enters their profile URL
 Client->User URL: Client fetches URL to discover\n**rel=authorization_endpoint**
 Browser<--Client: Client builds authorization request and\nredirects to **authorization_endpoint**
-Browser->Authorization Endpoint: User visits their authorization endpoint and sees the authorization request
+Browser->Authorization Endpoint: User visits their authorization endpoint and sees the authentication request
 Authorization Endpoint->Client: Authorization endpoint fetches client information (name, icon)
 Browser<--Authorization Endpoint: User authenticates, and approves the request.\nAuthorization endpoint issues code, builds redirect back to client.
 Browser->Client: User's browser is redirected to\nclient with an **authorization code**
@@ -370,7 +370,7 @@ Client<--Authorization Endpoint: Authorization endpoint returns canonical user p
 Browser<--Client: Client initiates login session\nand the user is logged in
 ---
 
-https://sequencediagram.org/index.html?initialData=C4S2BsFMAIEkDsAmJIEECuwAW0PcvKAMYCGoA9vNAGLjkDu0AIiCQOYBOJAtgFC8AhDgwDOkDgFoAfAGFwKQgC5oAVTEdoBYOJHR8IDQAdhAMxBRVAJQAyvOQuDS14q9eX2t0E5GBEskXRUbPXJoZBEicgA3cQAdeAAqBI5IcABeEkwscg4QAC8yEEoAfQJEQ3IQQiTBYXp1AB4JCQ8laFbgaAAjdHNEXUzsHPzCymgUgEd0AM6SJHiU5BSiYF1gUKTB7NyCinhSpAqq4BqhUXFpPG2RvegAUUPKtucNKJARMDX-A2gt4d2ilQykdCL8kNAxAE9P5fll-qMqJNpiJgLwrvDbg9yk9HLJ5FplOidgjNI9jl4fH4oUR8aCqiYctwSQAKeA8SAAGmgIEi8AAlLVzhwmhIiTdAfcyc91LD8IQeWQAly5ohfoZjNEofhxpApjMAHTxMUAsbAnHckQiZHQSKITndXrgfo6paQFbdEhEADWIRttOA+sF9QueIcyheAHJdF06jL3i6DG7tKr1vEaQ5oPQwDg5tBNnDibdbZAah1LgXxWMsSDgO5-dAYrkzFC-oWJcXugBPaBMr1VNi-aAABQA8gBlAAqOr1KPi62hMFblf2ZuOdn9IuNJOrOMJFZNQKlnRSwHQHHgulI8EoCvA0HQMo1ZgsQVsZ2DwuaHTrGaqYFY2i6HQbBVBCAQfJQ8Qqgu95xkB5BsGwkCqlUvBAA
+https://sequencediagram.org/index.html?initialData=C4S2BsFMAIEkDsAmJIEECuwAW0PcvKAMYCGoA9vNAGLjkDu0AIiCQOYBOJAtgFC8AhDgwDOkDgFoAfAGFwKQgC5oAVTEdoBYOJHR8IDQAdhAMxBRVAJQAyvOQuDS14q9eX2t0E5GBEskXRUbPXJoZBEicgA3cQAdeAAqBI5IcABeEkwscg4QAC8yEEoAfQJEQ3IQQiTBYXp1AB4JCQ8laFbgaAAjdHNEXUzsHPzCymgUgEd0AM6SJHiU5BSiYF1gUKTB7NyCinhSpAqq4BqhUXFpPG2RvegAUUPKtucNKJARMDX-A2gt4d2ilQykdCL8kNAxAE9P5flktCBSLdJtMRMBeFd-qMqA9yk9HLJ5FplBidljNI9jl4fH4oURCaCqiYctwyQAKeA8SAAGmgCMoAEpaucOE0JCSboD7hTnupYfhCAiyAEeXNEL9DMZolD8ONIFMZgA6eLigFjYF43kiEQo6CRRDc7q9cD9XVLSArbokIgAaxCtvpwANQvqFwJDmULwA5LounVZe9XQZ3do1et4nSHNB6GAcHNoJsspjbnbIDUOpdC6TbjiQcB3AHoDFcmYoX8q5KS90AJ7QFneqpsX7QAAKAHkAMoAFV1+tR8XW0JgbYlJXNxzsAdFJrJNbxxMrK6B0s6KWA6A48F0pHglEV4Gg6FlmrMFiCtjOIZFzQ69czVTArDaLodBsFUEIBB8lDxKqi4PvGwHkGwbCQGqVS8EAA
 
 Note: Change width/height to e.g. 
 viewbox="0 0 906 716" style="width: 100%; height: auto;"
@@ -383,7 +383,7 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
         <li>The client discovers the End-User's authorization endpoint by fetching the End-User's profile URL and looking for the <code>rel=authorization_endpoint</code> value</li>
         <li>The client builds the authorization request including its client identifier, local state, and a redirect URI, and redirects the browser to the authorization endpoint</li>
         <li>The authorization endpoint fetches the client information from the client identifier URL in order to have an application name and icon to display to the user</li>
-        <li>The authorization endpoint verifies the End-User, e.g. by logging in, and establishes whether the End-User grants or denies the client's request</li>
+        <li>The authorization endpoint verifies the End-User, e.g. by logging in, and establishes whether the End-User grants or denies the client's authentication request</li>
         <li>The authorization endpoint generates an authorization code and redirects the browser back to the client, including an authorization code in the URL</li>
         <li>The client verifies the authorization code by making a POST request to the authorization endpoint. The authorization endpoint validates the authorization code, and responds with the End-User's canonical profile URL</li>
       </ul>
@@ -399,9 +399,9 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
       </section>
 
       <section>
-        <h3>Authorization Request</h3>
+        <h3>Authentication Request</h3>
 
-        <p>The client builds the authorization request URL by starting with the discovered <code>authorization_endpoint</code> URL and adding the following parameters to the query component:</p>
+        <p>The client builds the authentication request URL by starting with the discovered <code>authorization_endpoint</code> URL and adding the following parameters to the query component:</p>
 
         <ul>
           <li><code>me</code> - The profile URL that the user entered</li>
@@ -428,7 +428,7 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
       </section>
 
       <section>
-        <h3>Authorization Response</h3>
+        <h3>Authentication Response</h3>
 
         <p>If the user approves the request, the authorization endpoint generates an authorization code and builds the redirect back to the client.</p>
 
