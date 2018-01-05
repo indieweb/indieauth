@@ -8,7 +8,7 @@
     <script class='remove'>
       var respecConfig = {
           useExperimentalStyles: true,
-          publishDate: "2017-12-31",
+          publishDate: "<?= date('Y-m-d') ?>",
           specStatus: "ED",
           shortName:  "indieauth",
           edDraftURI: "https://indieauth.spec.indieweb.org/",
