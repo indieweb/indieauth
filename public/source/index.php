@@ -404,7 +404,7 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
         <p>The client builds the authentication request URL by starting with the discovered <code>authorization_endpoint</code> URL and adding the following parameters to the query component:</p>
 
         <ul>
-          <li><code>me</code> - The profile URL that the user entered</li>
+          <li><code>me</code> - The user's profile URL</li>
           <li><code>client_id</code> - The client URL</li>
           <li><code>redirect_uri</code> - The redirect URL indicating where the user should be redirected to after approving the request</li>
           <li><code>state</code> - A parameter set by the client which will be included when the user is redirected back to the client. This is used to prevent CSRF attacks. The authorization server MUST return the unmodified state value back to the client.</li>
@@ -608,7 +608,7 @@ Link: <https://example.org/token>; rel="token_endpoint"
             <li><code>code</code> - The authorization code received from the authorization endpoint in the redirect</li>
             <li><code>client_id</code> - The client's URL, which MUST match the client_id used in the authorization request.</li>
             <li><code>redirect_uri</code> - The client's redirect URL, which MUST match the initial authorization request.</li>
-            <li><code>me</code> - The user's profile URL as originally entered</li>
+            <li><code>me</code> - The user's profile URL as originally used in the authorization request</li>
           </ul>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
