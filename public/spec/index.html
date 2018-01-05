@@ -424,7 +424,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <p>
       <a class="logo" href="https://www.w3.org/"><img width="72" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" alt="W3C"></a>
     </p>
-  <p><!--_hyper: -1205468562;--></p>
+  <p><!--_hyper: -404436914;--></p>
   <h1 class="title p-name" id="title">IndieAuth</h1>
   <h2 id="w3c-editor-s-draft-05-january-2018"><abbr title="World Wide Web Consortium">W3C</abbr> Editor's Draft <time class="dt-published" datetime="2018-01-05">05 January 2018</time></h2>
   <dl>
@@ -643,7 +643,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
         <p id="url-canonicalization-p-2">Since domain names are case insensitive, the hostname component of the URL <em class="rfc2119" title="MUST">MUST</em> be compared case insensitively. Implementations <em class="rfc2119" title="SHOULD">SHOULD</em> convert the hostname to lowercase when storing and using URLs.</p>
 
-        <p id="url-canonicalization-p-3">For ease of use, clients <em class="rfc2119" title="MAY">MAY</em> allow users to enter just a hostname part of the URL, in which case the client <em class="rfc2119" title="MUST">MUST</em> turn that into a valid URL before beginning the IndieAuth flow, by prepending a scheme and appending the path <code>/</code>. For example, if the user enters <code>example.com</code>, the client transforms it into <code>http://example.com/</code> before beginning discovery.</p>
+        <p id="url-canonicalization-p-3">For ease of use, clients <em class="rfc2119" title="MAY">MAY</em> allow users to enter just a hostname part of the URL, in which case the client <em class="rfc2119" title="MUST">MUST</em> turn that into a valid URL before beginning the IndieAuth flow, by prepending a either an <code>http</code> or <code>https</code> scheme and appending the path <code>/</code>. For example, if the user enters <code>example.com</code>, the client transforms it into <code>http://example.com/</code> before beginning discovery.</p>
       </section>
 
     </section>
