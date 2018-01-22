@@ -311,10 +311,10 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 .hljs-strong {
   font-weight: bold;
 }
-</style><link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2016/W3C-NOTE"><link rel="canonical" href="https://www.w3.org/TR/indieauth/"><script id="initialUserConfig" type="application/json">{
+</style><link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2016/W3C-WG-NOTE.css"><link rel="canonical" href="https://www.w3.org/TR/indieauth/"><script id="initialUserConfig" type="application/json">{
   "useExperimentalStyles": true,
   "publishDate": "2018-01-23",
-  "specStatus": "NOTE",
+  "specStatus": "WG-NOTE",
   "shortName": "indieauth",
   "edDraftURI": "https://indieauth.spec.indieweb.org/",
   "testSuiteURI": "https://indieauth.rocks/",
@@ -424,7 +424,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <p>
       <a class="logo" href="https://www.w3.org/"><img width="72" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" alt="W3C"></a>
     </p>
-  <p><!--_hyper: -1330885414;--></p>
+  <p><!--_hyper: -1499294389;--></p>
   <h1 class="title p-name" id="title">IndieAuth</h1>
   <h2 id="w3c-working-group-note-23-january-2018"><abbr title="World Wide Web Consortium">W3C</abbr> Working Group Note <time class="dt-published" datetime="2018-01-23">23 January 2018</time></h2>
   <dl>
@@ -513,7 +513,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
             documents at any time. It is inappropriate to cite this document as other than work in
             progress.
           </p>
-        <p id="sotd-p-4">
+        <p data-deliverer="72531" id="sotd-p-4">
             This document was produced by
             a group
              operating under the
@@ -723,8 +723,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   <span class="hljs-attr">"properties"</span>: {
     <span class="hljs-attr">"name"</span>: [<span class="hljs-string">"Example App"</span>],
     <span class="hljs-attr">"logo"</span>: [<span class="hljs-string">"https://app.example.com/logo.png"</span>],
-    <span class="hljs-attr">"url"</span>: [<span class="hljs-string">"https://app.example.com/"</span>],
-    <span class="hljs-attr">"photo"</span>: [<span class="hljs-string">"http://app.example.com/logo.png"</span>]
+    <span class="hljs-attr">"url"</span>: [<span class="hljs-string">"https://app.example.com/"</span>]
   }
 }</pre></div>
         </section>
@@ -828,6 +827,8 @@ Location: https://app.example.com/redirect?code=xxxxxxxx
                                            state=1234567890</pre></div>
 
         <p id="authentication-response-p-3">Upon the redirect back to the client, the client <em class="rfc2119" title="MUST">MUST</em> verify that the state parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</p>
+
+        <p id="authentication-response-p-4">See OAuth 2.0 [<cite><a class="bibref" href="#bib-RFC6749">RFC6749</a></cite>] <a href="https://tools.ietf.org/html/rfc6749#section-4.1.2.1">Section 4.1.2.1</a> for how to indicate errors and other failures to the user and client.</p>
       </section>
 
       <section id="authorization-code-verification">
@@ -863,6 +864,7 @@ Content-Type: application/json
 
         <p id="authorization-code-verification-p-3">The resulting profile URL <em class="rfc2119" title="MAY">MAY</em> be different from what the user initially entered, but <em class="rfc2119" title="MUST">MUST</em> be on the same domain. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-to-a-different-domain">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
 
+        <p id="authorization-code-verification-p-4">See OAuth 2.0 [<cite><a class="bibref" href="#bib-RFC6749">RFC6749</a></cite>] <a herf="https://tools.ietf.org/html/rfc6749#section-5.2" class="respec-offending-element" title="Linking error: not matching <dfn>">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
       </section>
     </section>
 
@@ -947,6 +949,7 @@ Link: &lt;https://example.org/token&gt;; rel="token_endpoint"
 
           <p id="authorization-response-p-3">Upon the redirect back to the client, the client <em class="rfc2119" title="MUST">MUST</em> verify that the state parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</p>
 
+          <p id="authorization-response-p-4">See OAuth 2.0 [<cite><a class="bibref" href="#bib-RFC6749">RFC6749</a></cite>] <a href="https://tools.ietf.org/html/rfc6749#section-4.1.2.1">Section 4.1.2.1</a> for how to indicate errors and other failures to the user and client.</p>
         </section>
       </section>
 
@@ -1029,6 +1032,7 @@ Content-Type: application/json
 
           <p id="access-token-response-p-2">The resulting profile URL <em class="rfc2119" title="MAY">MAY</em> be different from what the user initially entered, but <em class="rfc2119" title="MUST">MUST</em> be on the same domain. This provides the opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-to-a-different-domain">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
 
+          <p id="access-token-response-p-3">See OAuth 2.0 [<cite><a class="bibref" href="#bib-RFC6749">RFC6749</a></cite>] <a herf="https://tools.ietf.org/html/rfc6749#section-5.2" class="respec-offending-element" title="Linking error: not matching <dfn>">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
         </section>
 
         <section id="access-token-verification">
@@ -1062,6 +1066,8 @@ Content-Type: application/json
   
           <p id="access-token-verification-p-5">Specific implementations <em class="rfc2119" title="MAY">MAY</em> include additional parameters as top-level JSON properties. Clients <em class="rfc2119" title="SHOULD">SHOULD</em> ignore parameters they don't recognize.</p>
 
+          <p id="access-token-verification-p-6">If the token is not valid, the endpoint <em class="rfc2119" title="MUST">MUST</em> return an appropriate HTTP 400, 401 or 403 response. The response body is not significant.</p>
+
         </section>
 
         <section id="token-revocation">
@@ -1081,6 +1087,8 @@ Content-Type: application/x-www-form-urlencoded
 
 action=revoke
 &amp;token=xxxxxxxx</pre></div>
+
+          <p id="token-revocation-p-3">As described in [<cite><a class="bibref" href="#bib-RFC7009">RFC7009</a></cite>], the revocation endpoint responds with HTTP 200 for both the case where the token was successfully revoked, or if the submitted token was invalid.</p>
 
         </section>
       </section>
@@ -1124,7 +1132,7 @@ action=revoke
     <section id="iana-considerations">
       <!--OddPage--><h2 id="x8-iana-considerations"><span class="secno">8. </span>IANA Considerations</h2>
       
-      <p id="iana-considerations-p-1">The link relation type below has been registered by IANA per Section 6.2.1 of [<cite><a class="bibref" href="#bib-RFC5988">RFC5988</a></cite>]:</p>
+      <p id="iana-considerations-p-1">The link relation types below are documented to be registered by IANA per Section 6.2.1 of [<cite><a class="bibref" href="#bib-RFC5988">RFC5988</a></cite>]:</p>
       
       <dl>
         <dt>Relation Name:</dt>
