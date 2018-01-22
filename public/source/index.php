@@ -316,8 +316,7 @@
   "properties": {
     "name": ["Example App"],
     "logo": ["https://app.example.com/logo.png"],
-    "url": ["https://app.example.com/"],
-    "photo": ["http://app.example.com/logo.png"]
+    "url": ["https://app.example.com/"]
   }
 }</pre>
         </section>
@@ -445,6 +444,8 @@ Location: https://app.example.com/redirect?code=xxxxxxxx
                                            state=1234567890') ?></pre>
 
         <p>Upon the redirect back to the client, the client MUST verify that the state parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</p>
+
+        <p>See OAuth 2.0 [[!RFC6749]] <a href="https://tools.ietf.org/html/rfc6749#section-4.1.2.1">Section 4.1.2.1</a> for how to indicate errors and other failures to the user and client.</p>
       </section>
 
       <section>
@@ -483,6 +484,7 @@ Content-Type: application/json
 
         <p>The resulting profile URL MAY be different from what the user initially entered, but MUST be on the same domain. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-to-a-different-domain">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
 
+        <p>See OAuth 2.0 [[!RFC6749]] <a herf="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
       </section>
     </section>
 
@@ -592,6 +594,7 @@ Link: <https://example.org/token>; rel="token_endpoint"
 
           <p>Upon the redirect back to the client, the client MUST verify that the state parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</p>
 
+          <p>See OAuth 2.0 [[!RFC6749]] <a href="https://tools.ietf.org/html/rfc6749#section-4.1.2.1">Section 4.1.2.1</a> for how to indicate errors and other failures to the user and client.</p>
         </section>
       </section>
 
@@ -679,6 +682,7 @@ Content-Type: application/json
 
           <p>The resulting profile URL MAY be different from what the user initially entered, but MUST be on the same domain. This provides the opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-to-a-different-domain">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
 
+          <p>See OAuth 2.0 [[!RFC6749]] <a herf="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
         </section>
 
         <section>
@@ -712,6 +716,8 @@ Content-Type: application/json
   
           <p>Specific implementations MAY include additional parameters as top-level JSON properties. Clients SHOULD ignore parameters they don't recognize.</p>
 
+          <p>If the token is not valid, the endpoint MUST return an appropriate HTTP 400, 401 or 403 response. The response body is not significant.</p>
+
         </section>
 
         <section>
@@ -731,6 +737,8 @@ Content-Type: application/x-www-form-urlencoded
 
 action=revoke
 &token=xxxxxxxx</pre>
+
+          <p>As described in [[!RFC7009]], the revocation endpoint responds with HTTP 200 for both the case where the token was successfully revoked, or if the submitted token was invalid.</p>
 
         </section>
       </section>
@@ -774,7 +782,7 @@ action=revoke
     <section>
       <h2>IANA Considerations</h2>
       
-      <p>The link relation type below has been registered by IANA per Section 6.2.1 of [[!RFC5988]]:</p>
+      <p>The link relation types below are documented to be registered by IANA per Section 6.2.1 of [[!RFC5988]]:</p>
       
       <dl>
         <dt>Relation Name:</dt>
