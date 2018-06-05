@@ -20,7 +20,7 @@ section {
 section:after {
   display: block;
   content: '';
-  clear: both;  
+  clear: both;
 }
 
 section.hang-left img {
@@ -82,7 +82,7 @@ a:hover {
 
 footer {
   background-color: #aaa;
-  padding: 1em 0;
+  padding: 1em 0 4em 0;
 }
 
 footer ul {
