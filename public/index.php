@@ -21,6 +21,11 @@
   </section>
 </div>
 
+<section>
+  <p>IndieAuth is a decentralized identity protocol built on top of OAuth 2.0.</p>
+
+</section>
+
 <section class="">
   <h2>Read the Spec</h2>
 
