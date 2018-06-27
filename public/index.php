@@ -76,6 +76,12 @@
   <h3>Software with a Built-In IndieAuth Provider</h3>
   <ul>
     <li><a href="https://withknown.com/">Known</a></li>
+    <li><a href="http://dobrado.net">Dobrado</a></li>
+  </ul>
+
+  <h3>Services with Built-In IndieAuth Support</h3>
+  <ul>
+    <li><a href="https://micro.blog">Micro.blog</a></li>
   </ul>
 </section>
 
