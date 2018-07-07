@@ -8,7 +8,7 @@
     <script class='remove'>
       var respecConfig = {
           useExperimentalStyles: true,
-          publishDate: "<?= date('Y-m-d') ?>",
+          publishDate: "2018-07-07",
           specStatus: "ED",
           shortName:  "indieauth",
           edDraftURI: "https://indieauth.spec.indieweb.org/",
@@ -298,7 +298,7 @@
 
         <section>
           <h4>Application Information</h4>
-  
+
           <p>Clients SHOULD have a web page at their <code>client_id</code> URL with basic information about the application, at least the application's name and icon. This page serves as a good landing page for human visitors, but can also serve as the place to include machine-readable information about the application. The HTML on the <code>client_id</code> URL SHOULD be marked up with [[!h-app]] [[Microformats]] to indicate the name and icon of the application. Authorization servers SHOULD support parsing the [[!h-app]] Microformat from the <code>client_id</code>, and if there is an [[!h-app]] with a <code>url</code> property matching the <code>client_id</code> URL, then it should use the name and icon and display them on the authorization prompt.</p>
 
           <pre class="example"><?= htmlspecialchars(
@@ -371,7 +371,7 @@ Browser<--Client: Client initiates login session\nand the user is logged in
 
 https://sequencediagram.org/index.html?initialData=C4S2BsFMAIEkDsAmJIEECuwAW0PcvKAMYCGoA9vNAGLjkDu0AIiCQOYBOJAtgFC8AhDgwDOkDgFoAfAGFwKQgC5oAVTEdoBYOJHR8IDQAdhAMxBRVAJQAyvOQuDS14q9eX2t0E5GBEskXRUbPXJoZBEicgA3cQAdeAAqBI5IcABeEkwscg4QAC8yEEoAfQJEQ3IQQiTBYXp1AB4JCQ8laFbgaAAjdHNEXUzsHPzCymgUgEd0AM6SJHiU5BSiYF1gUKTB7NyCinhSpAqq4BqhUXFpPG2RvegAUUPKtucNKJARMDX-A2gt4d2ilQykdCL8kNAxAE9P5flktCBSLdJtMRMBeFd-qMqA9yk9HLJ5FplBidljNI9jl4fH4oURCaCqiYctwyQAKeA8SAAGmgCMoAEpaucOE0JCSboD7hTnupYfhCAiyAEeXNEL9DMZolD8ONIFMZgA6eLigFjYF43kiEQo6CRRDc7q9cD9XVLSArbokIgAaxCtvpwANQvqFwJDmULwA5LounVZe9XQZ3do1et4nSHNB6GAcHNoJsspjbnbIDUOpdC6TbjiQcB3AHoDFcmYoX8q5KS90AJ7QFneqpsX7QAAKAHkAMoAFV1+tR8XW0JgbYlJXNxzsAdFJrJNbxxMrK6B0s6KWA6A48F0pHglEV4Gg6FlmrMFiCtjOIZFzQ69czVTArDaLodBsFUEIBB8lDxKqi4PvGwHkGwbCQGqVS8EAA
 
-Note: Change width/height to e.g. 
+Note: Change width/height to e.g.
 viewbox="0 0 906 716" style="width: 100%; height: auto;"
 */ ?>
 
@@ -512,7 +512,7 @@ Browser<--Client: Client initiates login session\nand the user is logged in
 
 https://sequencediagram.org/index.html?initialData=C4S2BsFMAIEkDsAmJIEECuwAW0PcvKAMYCGoA9vNAGLjkDu0AIiCQOYBOJAtgFC8AhDgwDOkDgFoAfAGFwKQgC5oAVTEdoBYOJHR8IDQAdhAMxBRVAJQAyvOQuDS14q9eX2t0E5GBEskXRUbPXJoZBEicgA3cQAdeAAqBI5IcABeEkwscg4QAC8yEEoAfQJEQ3IQQiT4kiRoJJT04HIAawJSpAqq4CTBYXp1AB4JCQ8laHHgaAAjdHNEXUzsHPzCymgUgEd0AOm6xHiU5BSiYF0WhoTl7NyCinhO8srqhP7RcWk8W7WH6ABRLovYDKZwaKIgERgC7+AzQG6re5FKhlbqEeH1MQBPT+eFZRHrKjbXYiYC8b4Ev6A549aRTZQUu6EzRAnpeHx+bFEeSeKomHLcZkACngPEgABpoCBIvAAJTvQbiEYSRm-ZEA1kTMF4-CEaVkAKSg7wwzGaLY-CbSA7PYAOniqqRG1RwKlIhEJOgkUQEtm83AiytJ0gZ1mJCIrRCXp5hFtCvUdJjINU6gA5LoZgN1G6gwYQ9pECF4tyHNB6GAcHUrgimX9vZA+lNpAAVNoEDU0iZTTQADz8dTY2Jrao29a8OQx0FqRCIAQubaoMwAntBBa0qmx4dAAAoAeQAys2rTbSfFLpaWu1Hi6enYk8rW1eO2jk4-2zf0TFcmYueQfRjCxSYB0A4eARGLOpKH1cBoHQbMzTMCwgmsMsK0ncNZ3dEIr3jJVRnpSYkyleAwFYbRdDoNgqmgMR3WRWp6ktOCXEhaBKMHQsql4IA
 
-Note: Change width/height to e.g. 
+Note: Change width/height to e.g.
 viewbox="0 0 906 716" style="width: 100%; height: auto;"
 */ ?>
 
@@ -649,7 +649,7 @@ code=xxxxxxxx
 &client_id=https://app.example.com/
 &redirect_uri=https://app.example.com/redirect
 ') ?></pre>
-      
+
           <p>Note that this is the same request that clients make to the authorization endpoint in the <a href="#authorization-code-verification">authentication flow</a>.</p>
 
           <p>The authorization endpoint will validate that the code corresponds with the given <code>client_id</code> and <code>redirect_uri</code> and respond with a JSON response containing the <code>me</code> URL corresponding to this authorization code as well as the <code>scope</code> that was authorized, or an OAuth 2.0 error response. The error returned from the authorization endpoint is acceptable to pass through to the client.</p>
@@ -713,7 +713,7 @@ Content-Type: application/json
   "client_id": https://app.example.com/",
   "scope": "create update delete"
 }</pre>
-  
+
           <p>Specific implementations MAY include additional parameters as top-level JSON properties. Clients SHOULD ignore parameters they don't recognize.</p>
 
           <p>If the token is not valid, the endpoint MUST return an appropriate HTTP 400, 401 or 403 response. The response body is not significant.</p>
@@ -787,10 +787,10 @@ action=revoke
       <dl>
         <dt>Relation Name:</dt>
         <dd>authorization_endpoint</dd>
-        
+
         <dt>Description:</dt>
         <dd>Used for discovery of the OAuth 2.0 authorization endpoint given an IndieAuth profile URL.</dd>
-        
+
         <dt>Reference:</dt>
         <dd><a href="https://indieauth.spec.indieweb.org/">IndieAuth Specification (https://indieauth.spec.indieweb.org/)</a></dd>
       </dl>
@@ -798,10 +798,10 @@ action=revoke
       <dl>
         <dt>Relation Name:</dt>
         <dd>token_endpoint</dd>
-        
+
         <dt>Description:</dt>
         <dd>Used for discovery of the OAuth 2.0 token endpoint given an IndieAuth profile URL.</dd>
-        
+
         <dt>Reference:</dt>
         <dd><a href="https://indieauth.spec.indieweb.org/">IndieAuth Specification (https://indieauth.spec.indieweb.org/)</a></dd>
       </dl>
@@ -809,10 +809,10 @@ action=revoke
       <dl>
         <dt>Relation Name:</dt>
         <dd>redirect_uri</dd>
-        
+
         <dt>Description:</dt>
         <dd>Used for discovery of the OAuth 2.0 redirect URI given an IndieAuth client ID.</dd>
-        
+
         <dt>Reference:</dt>
         <dd><a href="https://indieauth.spec.indieweb.org/">IndieAuth Specification (https://indieauth.spec.indieweb.org/)</a></dd>
       </dl>
