@@ -464,6 +464,7 @@ Location: https://app.example.com/redirect?code=xxxxxxxx
         <pre class="example nohighlight"><?= htmlspecialchars(
 'POST https://example.org/auth
 Content-type: application/x-www-form-urlencoded
+Accept: application/json
 
 code=xxxxxxxx
 &client_id=https://app.example.com/
@@ -617,6 +618,7 @@ Link: <https://example.org/token>; rel="token_endpoint"
           <pre class="example nohighlight"><?= htmlspecialchars(
 'POST https://example.org/token
 Content-type: application/x-www-form-urlencoded
+Accept: application/json
 
 grant_type=authorization_code
 &code=xxxxxxxx
@@ -644,6 +646,7 @@ grant_type=authorization_code
           <pre class="example nohighlight"><?= htmlspecialchars(
 'POST https://example.org/auth
 Content-type: application/x-www-form-urlencoded
+Accept: application/json
 
 code=xxxxxxxx
 &client_id=https://app.example.com/
@@ -695,7 +698,8 @@ Content-Type: application/json
           <p>If an external endpoint needs to verify that an access token is valid, it MUST make a GET request to the token endpoint containing an HTTP <code>Authorization</code> header with the Bearer Token according to [[!RFC6750]]. Note that the request to the endpoint will not contain any user-identifying information, so the external endpoint (e.g. Micropub endpoint) will need to know via out-of-band methods which token endpoint is in use.</p>
 
           <pre class="example nohighlight">GET https://example.org/token
-Authorization: Bearer xxxxxxxx</pre>
+Authorization: Bearer xxxxxxxx
+Accept: application/json</pre>
 
           <p>The token endpoint verifies the access token using (how this verification is done is up to the implementation), and returns information about the token:</p>
 
@@ -734,6 +738,7 @@ Content-Type: application/json
 
           <pre class="example nohighlight">POST https://example.org/token HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
+Accept: application/json
 
 action=revoke
 &token=xxxxxxxx</pre>
