@@ -253,7 +253,7 @@
 
         <p>Clients MUST start by making a GET or HEAD request to [[!Fetch]] the user's profile URL to discover the necessary values. Clients MUST follow HTTP redirects (up to a self-imposed limit). If an HTTP permament redirect (HTTP 301 or 308) is encountered, the client MUST use the resulting URL as the canonical profile URL. If an HTTP temporary redirect (HTTP 302 or 307) is encountered, the client MUST use the previous URL as the profile URL, but use the redirected-to page for discovery.</p>
 
-        <p>Clients MUST check for an HTTP <code>Link</code> header [[!RFC5988]] with the appropriate <code>rel</code> value. If the content type of the document is HTML, then the client MUST check for an HTML <code>&lt;link&gt;</code> element with the appropriate <code>rel</code> value. If more than one of these is present, the first HTTP <code>Link</code> header takes precedence, followed by the first <code>&lt;link&gt;</code> element in document order.</p>
+        <p>Clients MUST check for an HTTP <code>Link</code> header [[!RFC8288]] with the appropriate <code>rel</code> value. If the content type of the document is HTML, then the client MUST check for an HTML <code>&lt;link&gt;</code> element with the appropriate <code>rel</code> value. If more than one of these is present, the first HTTP <code>Link</code> header takes precedence, followed by the first <code>&lt;link&gt;</code> element in document order.</p>
 
         <p>The endpoints discovered MAY be relative URLs, in which case the client MUST resolve them relative to the profile URL according to [[!URL]].</p>
 
@@ -781,9 +781,9 @@ action=revoke
 
     <section>
       <h2>IANA Considerations</h2>
-      
-      <p>The link relation types below are documented to be registered by IANA per Section 6.2.1 of [[!RFC5988]]:</p>
-      
+
+      <p>The link relation types below are documented to be registered by IANA per Section 6.2.1 of [[!RFC8288]]:</p>
+
       <dl>
         <dt>Relation Name:</dt>
         <dd>authorization_endpoint</dd>
