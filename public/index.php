@@ -17,13 +17,13 @@
 
 <div class="featured">
   <section>
-    <p class="p-summary">IndieAuth enables you to use your domain name as your online identity</p>
+    <p class="p-summary">OAuth for the open web</p>
   </section>
 </div>
 
 <section>
   <p>IndieAuth is a decentralized identity protocol built on top of OAuth 2.0.</p>
-
+  <p>Read more about how IndieAuth solves <a href="https://aaronparecki.com/2018/07/07/7/oauth-for-the-open-web">OAuth for the open web</a>.</p>
 </section>
 
 <section class="">
