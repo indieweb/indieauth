@@ -440,7 +440,7 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
 
         <pre class="example nohighlight"><?= htmlspecialchars(
 'HTTP/1.1 302 Found
-Location: https://app.example.com/redirect?code=xxxxxxxx
+Location: https://app.example.com/redirect?code=xxxxxxxx&
                                            state=1234567890') ?></pre>
 
         <p>Upon the redirect back to the client, the client MUST verify that the state parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</p>
