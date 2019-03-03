@@ -482,7 +482,7 @@ Content-Type: application/json
   "me": "https://user.example.net/"
 }') ?></pre>
 
-        <p>The resulting profile URL MAY be different from what the user initially entered, but MUST be on the same domain. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-to-a-different-domain">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
+        <p>The resulting profile URL MAY be different from what the user initially entered, but MUST be on the same domain. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-examples">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
 
         <p>See OAuth 2.0 [[!RFC6749]] <a href="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
       </section>
@@ -682,7 +682,7 @@ Content-Type: application/json
   "me": "https://user.example.net/"
 }</pre>
 
-          <p>The resulting profile URL MAY be different from what the user initially entered, but MUST be on the same domain. This provides the opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-to-a-different-domain">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
+          <p>The resulting profile URL MAY be different from what the user initially entered, but MUST be on the same domain. This provides the opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-examples">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
 
           <p>See OAuth 2.0 [[!RFC6749]] <a href="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
         </section>
@@ -881,7 +881,7 @@ action=revoke
 
         <ul>
           <li>Added missing ampersand in HTTP redirect example (<a href="https://github.com/indieweb/indieauth/commit/ffaf128e01712ca38f3a7dd412749c2bf2f1c99a">diff</a>)</li>
-          <li>Fixed broken references section</li>
+          <li>Fixed broken references section (<a href="https://github.com/indieweb/indieauth/commit/7f90282274d2703363265d0914b90ce7be8ac0b6">diff</a>)</li>
         </ul>
       </section>
     </section>
