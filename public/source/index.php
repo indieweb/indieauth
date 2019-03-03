@@ -882,6 +882,7 @@ action=revoke
         <ul>
           <li>Added missing ampersand in HTTP redirect example (<a href="https://github.com/indieweb/indieauth/commit/ffaf128e01712ca38f3a7dd412749c2bf2f1c99a">diff</a>)</li>
           <li>Fixed broken references section (<a href="https://github.com/indieweb/indieauth/commit/7f90282274d2703363265d0914b90ce7be8ac0b6">diff</a>)</li>
+          <li>Fixed internal link to redirect examples (<a href="https://github.com/indieweb/indieauth/commit/e3eef35c2d16e4a4a00767c8da4ac55ad02d7bc0">diff</a>)</li>
         </ul>
       </section>
     </section>
