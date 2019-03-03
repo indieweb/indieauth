@@ -23,7 +23,8 @@
 
 <section>
   <p>IndieAuth is a decentralized identity protocol built on top of OAuth 2.0.</p>
-  <p>Read more about how IndieAuth solves <a href="https://aaronparecki.com/2018/07/07/7/oauth-for-the-open-web">OAuth for the open web</a>.</p>
+  <p>This allows individual websites like someone's WordPress, Mastodon, or Gitea server to become its own identity provider, and can be used to sign in to other instances. Both users and applications are identified by URLs, avoiding the need for getting API keys or making new accounts.</p>
+  <p><i>Read more about how IndieAuth solves <a href="https://aaronparecki.com/2018/07/07/7/oauth-for-the-open-web">OAuth for the open web</a>.</i></p>
 </section>
 
 <section class="">
