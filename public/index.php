@@ -72,6 +72,7 @@
     <li><a href="https://github.com/cweiske/indieauth-openid">indieauth-openid</a> - proxies IndieAuth requests to your own OpenID provider</li>
     <li><a href="https://github.com/barryf/acquiescence">Acquiescence</a> - an IndieAuth server written in Ruby which uses GitHub to authenticate you</li>
     <li><a href="https://indieweb.org/Wordpress_IndieAuth_Plugin">WordPress IndieAuth Plugin</a> - adds an IndieAuth endpoint to your WordPress site</li>
+    <li><a href="https://www.drupal.org/project/indieweb">Drupal IndieWeb module</a> - adds an IndieAuth endpoint to your Drupal site</li>
   </ul>
 
   <h3>Software with a Built-In IndieAuth Provider</h3>
