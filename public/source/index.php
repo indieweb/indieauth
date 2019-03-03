@@ -8,7 +8,7 @@
     <script class='remove'>
       var respecConfig = {
           useExperimentalStyles: true,
-          publishDate: "2018-07-07",
+          publishDate: "2019-03-03",
           specStatus: "ED",
           shortName:  "indieauth",
           edDraftURI: "https://indieauth.spec.indieweb.org/",
@@ -107,12 +107,11 @@
   <body>
     <section id='abstract'>
       <p>
-        IndieAuth is an identity layer on top of OAuth 2.0 [[!RFC6749]], primarily used to obtain
-        an OAuth 2.0 Bearer Token [[!RFC6750]] for use by [[Micropub]] clients. End-Users
+        IndieAuth is an identity layer on top of OAuth 2.0 [[RFC6749]], primarily used to obtain
+        an OAuth 2.0 Bearer Token [[RFC6750]] for use by [[?Micropub]] clients. End-Users
         and Clients are all represented by URLs. IndieAuth enables Clients to
         verify the identity of an End-User, as well as to obtain an access
-        token that can be used to access resources under the control of the
-        End-User.
+        token that can be used to access resources under the control of the End-User.
       </p>
 
       <section id="authorsnote" class="informative">
@@ -136,7 +135,7 @@
         <p>The IndieAuth spec began as a way to obtain an OAuth 2.0 access token for use by Micropub clients. It can be used to both obtain an access token, as well as authenticate users signing to any application. It is built on top of the OAuth 2.0 framework, and while this document should provide enough guidance for implementers, referring to the core OAuth 2.0 spec can help answer any remaining questions. More information can be found <a href="https://indieweb.org/IndieAuth-spec">on the IndieWeb wiki</a>.</p>
       </section>
 
-      <section>
+      <section class="normative">
         <h3>OAuth 2.0 Extension</h3>
 
         <p>IndieAuth builds upon the OAuth 2.0 [[!RFC6749]] Framework as follows</p>
@@ -157,7 +156,7 @@
       </section>
     </section>
 
-    <section>
+    <section class="normative">
       <h2>Conformance</h2>
 
       <p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -194,7 +193,7 @@
       </section>
     </section>
 
-    <section>
+    <section class="normative">
       <h2>Identifiers</h2>
 
       <section>
@@ -240,7 +239,7 @@
 
     </section>
 
-    <section>
+    <section class="normative">
       <h2>Discovery</h2>
 
       <p>This specification uses the link rel registry as defined by [[!HTML]]
@@ -249,7 +248,7 @@
       <section>
         <h3>Discovery by Clients</h3>
 
-        <p>Clients need to discover a few pieces of information when a user signs in. For the <a href="#authentication">Authentication</a> workflow, the client needs to find the user's <code>authorization_endpoint</code>. For the <a href="#authorization">Authorization</a> workflow, the client needs to find the user's <code>authorization_endpoint</code> and <code>token_endpoint</code>. When using the Authorization workflow to obtain an access token for use at a [[Micropub]] endpoint, the client will also discover the <code>micropub</code> endpoint.</p>
+        <p>Clients need to discover a few pieces of information when a user signs in. For the <a href="#authentication">Authentication</a> workflow, the client needs to find the user's <code>authorization_endpoint</code>. For the <a href="#authorization">Authorization</a> workflow, the client needs to find the user's <code>authorization_endpoint</code> and <code>token_endpoint</code>. When using the Authorization workflow to obtain an access token for use at a [[?Micropub]] endpoint, the client will also discover the <code>micropub</code> endpoint.</p>
 
         <p>Clients MUST start by making a GET or HEAD request to [[!Fetch]] the user's profile URL to discover the necessary values. Clients MUST follow HTTP redirects (up to a self-imposed limit). If an HTTP permament redirect (HTTP 301 or 308) is encountered, the client MUST use the resulting URL as the canonical profile URL. If an HTTP temporary redirect (HTTP 302 or 307) is encountered, the client MUST use the previous URL as the profile URL, but use the redirected-to page for discovery.</p>
 
@@ -299,7 +298,7 @@
         <section>
           <h4>Application Information</h4>
 
-          <p>Clients SHOULD have a web page at their <code>client_id</code> URL with basic information about the application, at least the application's name and icon. This page serves as a good landing page for human visitors, but can also serve as the place to include machine-readable information about the application. The HTML on the <code>client_id</code> URL SHOULD be marked up with [[!h-app]] [[Microformats]] to indicate the name and icon of the application. Authorization servers SHOULD support parsing the [[!h-app]] Microformat from the <code>client_id</code>, and if there is an [[!h-app]] with a <code>url</code> property matching the <code>client_id</code> URL, then it should use the name and icon and display them on the authorization prompt.</p>
+          <p>Clients SHOULD have a web page at their <code>client_id</code> URL with basic information about the application, at least the application's name and icon. This page serves as a good landing page for human visitors, but can also serve as the place to include machine-readable information about the application. The HTML on the <code>client_id</code> URL SHOULD be marked up with [[!h-app]] Microformat to indicate the name and icon of the application. Authorization servers SHOULD support parsing the [[!h-app]] Microformat from the <code>client_id</code>, and if there is an [[!h-app]] with a <code>url</code> property matching the <code>client_id</code> URL, then it should use the name and icon and display them on the authorization prompt.</p>
 
           <pre class="example"><?= htmlspecialchars(
 '<div class="h-app">
@@ -348,7 +347,7 @@ Link: <https://app.example.com/redirect>; rel="redirect_uri"
 
     </section>
 
-    <section>
+    <section class="normative">
       <h2>Authentication</h2>
 
       <p>This section describes how to perform authentication using the Authorization Code Flow.</p>
@@ -421,7 +420,7 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
 
         <p>If the URL scheme, host or port of the <code>redirect_uri</code> in the request do not match that of the <code>client_id</code>, then the authorization endpoint SHOULD verify that the requested <code>redirect_uri</code> matches one of the <a href="#redirect-url">redirect URLs</a> published by the client, and SHOULD block the request from proceeding if not.</p>
 
-        <p>It is up to the authorization endpoint how to authenticate the user. This step is out of scope of OAuth 2.0, and is highly dependent on the particular implementation. Some authorization servers use typical username/password authentication, and others use alternative forms of authentication such as [[RelMeAuth]], which uses [[XFN11]]'s simple <code>rel=me</code> markup.</p>
+        <p>It is up to the authorization endpoint how to authenticate the user. This step is out of scope of OAuth 2.0, and is highly dependent on the particular implementation. Some authorization servers use typical username/password authentication, and others use alternative forms of authentication such as [[?RelMeAuth]], which uses [[?XFN11]]'s simple <code>rel=me</code> markup.</p>
 
         <p>Once the user is authenticated, the authorization endpoint presents the authentication prompt to the user. The prompt MUST indicate which application the user is signing in to, and SHOULD provide as much detail as possible about the request.</p>
       </section>
@@ -490,7 +489,7 @@ Content-Type: application/json
     </section>
 
 
-    <section>
+    <section class="normative">
       <h2>Authorization</h2>
 
       <p>This section describes how to obtain an access token using the Authorization Code Flow.</p>
@@ -570,7 +569,7 @@ Link: <https://example.org/token>; rel="token_endpoint"
 
           <p>If the URL scheme, host or port of the <code>redirect_uri</code> in the request do not match that of the <code>client_id</code>, then the authorization endpoint SHOULD verify that the requested <code>redirect_uri</code> matches one of the <a href="#redirect-url">redirect URLs</a> published by the client, and SHOULD block the request from proceeding if not.</p>
 
-          <p>It is up to the authorization endpoint how to authenticate the user. This step is out of scope of OAuth 2.0, and is highly dependent on the particular implementation. Some authorization servers use typical username/password authentication, and others use alternative forms of authentication such as [[RelMeAuth]].</p>
+          <p>It is up to the authorization endpoint how to authenticate the user. This step is out of scope of OAuth 2.0, and is highly dependent on the particular implementation. Some authorization servers use typical username/password authentication, and others use alternative forms of authentication such as [[?RelMeAuth]].</p>
 
           <p>Once the user is authenticated, the authorization endpoint presents the authorization prompt to the user. The prompt MUST indicate which application the user is signing in to, and SHOULD provide as much detail as possible about the request, such as information about the requested scopes.</p>
 
@@ -691,7 +690,7 @@ Content-Type: application/json
         <section>
           <h4>Access Token Verification</h4>
 
-          <p>Since in OAuth 2.0, access tokens are opaque to clients, clients do not need to know anything about the contents or structure of the token itself, if any. Additionally, endpoints that clients make requests to, such as [[Micropub]] endpoints, may not even understand how to interpret tokens if they were issued by a standalone token endpoint. If the token endpoint is not tightly integrated with the endpoint the client is interacting with, then the other endpoint needs a way to verify access tokens that it receives. If the token endpoint and Micropub endpoint are tightly coupled, then they can of course use an internal mechanism to verify access tokens.</p>
+          <p>Since in OAuth 2.0, access tokens are opaque to clients, clients do not need to know anything about the contents or structure of the token itself, if any. Additionally, endpoints that clients make requests to, such as [[?Micropub]] endpoints, may not even understand how to interpret tokens if they were issued by a standalone token endpoint. If the token endpoint is not tightly integrated with the endpoint the client is interacting with, then the other endpoint needs a way to verify access tokens that it receives. If the token endpoint and Micropub endpoint are tightly coupled, then they can of course use an internal mechanism to verify access tokens.</p>
 
           <p>Token endpoints that intend to interoperate with other endpoints MUST use the mechanism described below to allow other endpoints to verify access tokens.</p>
 
@@ -754,7 +753,7 @@ action=revoke
     <section>
       <h2>Security Considerations</h2>
 
-      <p>In addition to the security considerations in OAuth 2.0 Core [[!RFC6749]] and OAuth 2.0 Threat Model and Security Considerations [[!RFC6819]], the additional considerations apply.</p>
+      <p>In addition to the security considerations in OAuth 2.0 Core [[RFC6749]] and OAuth 2.0 Threat Model and Security Considerations [[RFC6819]], the additional considerations apply.</p>
 
       <section>
         <h3>Differing User Profile URLs</h3>
@@ -779,7 +778,7 @@ action=revoke
 
         <p>The authorization server SHOULD display the full <code>client_id</code> on the authorization interface, in addition to displaying the fetched application information if any. Displaying the <code>client_id</code> helps users know that they are authorizing the expected application.</p>
 
-        <p>Since all IndieAuth clients are public clients, and no strong client authentication is used, the only measure available to protect against some attacks described in [[!RFC6819]] is strong verification of the client's <code>redirect_uri</code>. If the <code>redirect_uri</code> scheme, host or port differ from that of the <code>client_id</code>, then the authorization server MUST either verify the redirect URL as described in <a href="#redirect-url">Redirect URL</a>, or display the redirect URL to the user so they can inspect it manually.</p>
+        <p>Since all IndieAuth clients are public clients, and no strong client authentication is used, the only measure available to protect against some attacks described in [[RFC6819]] is strong verification of the client's <code>redirect_uri</code>. If the <code>redirect_uri</code> scheme, host or port differ from that of the <code>client_id</code>, then the authorization server MUST either verify the redirect URL as described in <a href="#redirect-url">Redirect URL</a>, or display the redirect URL to the user so they can inspect it manually.</p>
       </section>
 
     </section>
@@ -866,19 +865,26 @@ action=revoke
         including but not limited to: Amy Guy, Barnaby Walters, Benjamin Roberts, Bret Comnes, Christian Weiske, François Kooman, Jeena Paradies, Martijn van der Ven, Sebastiaan Andeweg, Sven Knebel, and Tantek Çelik.</p>
     </section>
 
-    <!--
     <section class="appendix informative">
       <h2>Change Log</h2>
 
       <section>
-        <h3>Changes from <a href="">00 November NOTE</a> to this version</h3>
+        <h3>Changes from <a href="https://www.w3.org/TR/2018/NOTE-indieauth-20180123/">23 January 2018</a> to 07 July 2018</h3>
+        <ul>
+          <li>Replaced references to RFC 5988 with RFC 8288 (<a href="https://github.com/indieweb/indieauth/commit/69d1d51e9541d8b76233793099b359de898a7154">diff</a>)</li>
+          <li>Added <code>Accept: application/json</code> header to example requests (<a href="https://github.com/indieweb/indieauth/commit/bfa39332ea3a38ff31efb7101db5b20f2ecbaff7">diff</a>)</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Changes from 07 July 2018 to 03 March 2019</h3>
 
         <ul>
-
+          <li>Added missing ampersand in HTTP redirect example (<a href="https://github.com/indieweb/indieauth/commit/ffaf128e01712ca38f3a7dd412749c2bf2f1c99a">diff</a>)</li>
+          <li>Fixed broken references section</li>
         </ul>
       </section>
     </section>
-    -->
 
     <script>
     // After text is selected (mouseup), find the closest element that has an ID
