@@ -27,7 +27,7 @@
   <p><i>Read more about how IndieAuth solves <a href="https://aaronparecki.com/2018/07/07/7/oauth-for-the-open-web">OAuth for the open web</a>.</i></p>
 </section>
 
-<section class="">
+<section id="spec">
   <h2>Read the Spec</h2>
 
   <p>The latest version of the IndieAuth spec is available at:</p>
@@ -39,7 +39,7 @@
   <p><a href="https://www.w3.org/TR/indieauth/">w3.org/TR/indieauth</a></p>
 </section>
 
-<section class="hang-left border-top">
+<section id="logging-in" class="hang-left border-top">
   <img src="/assets/web-signin-splash.jpg">
 
   <h2>Logging in with IndieAuth</h2>
@@ -48,7 +48,7 @@
   <p><a href="https://indieauth.spec.indieweb.org/#authentication">Logging in with IndieAuth</a></p>
 </section>
 
-<section class="border-top">
+<section id="access-token" class="border-top">
   <h2>Obtaining an OAuth 2.0 Access Token with IndieAuth</h2>
 
   <p>If you're building an application that wants to access or modify a user's data, you'll need an OAuth 2.0 access token to use in API requests.</p>
@@ -56,7 +56,7 @@
   <p><a href="https://indieauth.spec.indieweb.org/#authorization">Obtaining an Access Token</a></p>
 </section>
 
-<section class="border-top">
+<section id="providers" class="border-top">
   <h2>Choosing an IndieAuth Provider</h2>
 
   <p>In order to log in to apps that use IndieAuth, you'll need to tell these apps where your IndieAuth endpoints live. You can either delegate your domain to an external IndieAuth provider, run an IndieAuth provider yourself, or your IndieAuth provider may already be part of the same software that runs your website.</p>
@@ -88,7 +88,7 @@
 </section>
 
 
-<section class="border-top">
+<section id="faq" class="border-top">
   <h2>Frequently Asked Questions</h2>
 
   <h3 id="differences-from-openid-connect">How is IndieAuth different from OpenID Connect?</h3>
