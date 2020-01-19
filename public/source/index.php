@@ -521,9 +521,10 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
       <ul>
         <li>The End-User enters their profile URL in the login form of the client and clicks "Sign in"</li>
         <li>The client discovers the End-User's authorization endpoint and token endpoint by fetching the profile URL and looking for the <code>rel=authorization_endpoint</code> and <code>rel=token_endpoint</code> values</li>
-        <li>The client redirects the browser to the authorization endpoint, including its client identifier, requested scope, local state, and a redirect URL</li>
+        <li>The client builds the authorization request including its client identifier, requested scope, local state, and a redirect URI, and redirects the browser to the authorization endpoint</li>
+        <li>The authorization endpoint fetches the client information from the client identifier URL in order to have an application name and icon to display to the user</li>
         <li>The authorization endpoint verifies the End-User, e.g. by logging in, and establishes whether the End-User grants or denies the client's request</li>
-        <li>The authorization endpoint redirects the browser to the client's redirect URL, including an authorization code</li>
+        <li>The authorization endpoint generates an authorization code and redirects the browser back to the client, including an authorization code in the URL</li>
         <li>The client exchanges the authorization code for an access token by making a POST request to the token endpoint. The token endpoint validates the authorization code, and responds with the End-User's canonical profile URL and an access token</li>
       </ul>
 
