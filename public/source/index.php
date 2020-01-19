@@ -350,7 +350,7 @@ Link: <https://app.example.com/redirect>; rel="redirect_uri"
     <section class="normative">
       <h2>Authentication</h2>
 
-      <p>This section describes how to perform authentication using the Authorization Code Flow.</p>
+      <p>This section describes how to perform authentication using the OAuth 2.0 Authorization Code Flow.</p>
 
       <?php /*
 ---
@@ -492,11 +492,11 @@ Content-Type: application/json
     <section class="normative">
       <h2>Authorization</h2>
 
-      <p>This section describes how to obtain an access token using the Authorization Code Flow.</p>
+      <p>This section describes how to obtain an access token using the OAuth 2.0 Authorization Code Flow.</p>
 
 <?php /*
 ---
-title IndieAuth Authentication Flow Diagram
+title IndieAuth Authorization Flow Diagram
 
 Browser->Client: User enters their profile URL
 Client->User URL: Client fetches URL to discover\n**rel=authorization_endpoint**\nand **rel=token_endpoint**
@@ -510,7 +510,7 @@ Client<--Token Endpoint: Token endpoint verifies code and returns\ncanonical use
 Browser<--Client: Client initiates login session\nand the user is logged in
 ---
 
-https://sequencediagram.org/index.html?initialData=C4S2BsFMAIEkDsAmJIEECuwAW0PcvKAMYCGoA9vNAGLjkDu0AIiCQOYBOJAtgFC8AhDgwDOkDgFoAfAGFwKQgC5oAVTEdoBYOJHR8IDQAdhAMxBRVAJQAyvOQuDS14q9eX2t0E5GBEskXRUbPXJoZBEicgA3cQAdeAAqBI5IcABeEkwscg4QAC8yEEoAfQJEQ3IQQiT4kiRoJJT04HIAawJSpAqq4CTBYXp1AB4JCQ8laHHgaAAjdHNEXUzsHPzCymgUgEd0AOm6xHiU5BSiYF0WhoTl7NyCinhO8srqhP7RcWk8W7WH6ABRLovYDKZwaKIgERgC7+AzQG6re5FKhlbqEeH1MQBPT+eFZRHrKjbXYiYC8b4Ev6A549aRTZQUu6EzRAnpeHx+bFEeSeKomHLcZkACngPEgABpoCBIvAAJTvQbiEYSRm-ZEA1kTMF4-CEaVkAKSg7wwzGaLY-CbSA7PYAOniqqRG1RwKlIhEJOgkUQEtm83AiytJ0gZ1mJCIrRCXp5hFtCvUdJjINU6gA5LoZgN1G6gwYQ9pECF4tyHNB6GAcHUrgimX9vZA+lNpAAVNoEDU0iZTTQADz8dTY2Jrao29a8OQx0FqRCIAQubaoMwAntBBa0qmx4dAAAoAeQAys2rTbSfFLpaWu1Hi6enYk8rW1eO2jk4-2zf0TFcmYueQfRjCxSYB0A4eARGLOpKH1cBoHQbMzTMCwgmsMsK0ncNZ3dEIr3jJVRnpSYkyleAwFYbRdDoNgqmgMR3WRWp6ktOCXEhaBKMHQsql4IA
+https://sequencediagram.org/index.html?initialData=C4S2BsFMAIEkDsAmJIEECuwAW0PYPYBOIAXgIaj7zQBi4+A7tACIhkDmhZAtgFC8AhQowDOkQgFoAfAGFwKeMABc0AKpjC0SIvEjo2SCE0AHYQDMQUNQCUAMrzkLg09eJu2Vj7cGhnIwAGMsSD1VO318aGQRAPwAN3EAHXgAKhTCSHAAXjJMLCJSChAqAH1tRGN8EEU05LIkaDSM7OB8AGttMqRK6uA0wWEGDQAeCQkvRU95b2gAI3RLRD1cgmJySmoMgEd0EJ96xGSM5AyA4D1WxpSV-LWi0vKempSB0XFpPFvCjegAUW6qpM1BpoHEQCIwBdgkZoDcCutitRHoD9g0xCF9MFYXl4fdNpAdnteJ9cT9-hUUdIJspcDi7j9kb1fP4ghiAtNFNBqmYiNw8dAABTwHiQAA0XNi8AAlK8huJRhISfTEX8Ab0VK5NDdvCAAhQQuKDrDjKZ4hiDNBtrsRMAAHTJJXfFWMzngkTW6CxRBiuYLcBLS2QE6QM5zMgBNoRT0cu2yjRUmMajQAcj0s0GIPBgeDZyDEWS7Kc0AYYBw9SucOVVE9+G9-Wp0gAKu1tKqKeroNStAAPIL1dgYytO6temA8rXUOoBAIhC4t6izACe0D5bWq7Fh0AACgB5ADKjcDhJtyUuFtaHXgXXbigcMYVzcvbaeNMfrZdPgSxAsbNrMCNGTAOghDwCIBb1FQupkOA0DoCCpoWFYYS2MWpawtQ4YziIc6XnG8pjNSUxFtUYBsMAGL0Ow1TQGI2GInUDQWnBbhZpRA6IFy8C8EAA
 
 Note: Change width/height to e.g.
 viewbox="0 0 906 716" style="width: 100%; height: auto;"
