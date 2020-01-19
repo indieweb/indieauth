@@ -248,7 +248,7 @@
       <section>
         <h3>Discovery by Clients</h3>
 
-        <p>Clients need to discover a few pieces of information when a user signs in. For the <a href="#authentication">Authentication</a> workflow, the client needs to find the user's <code>authorization_endpoint</code>. For the <a href="#authorization">Authorization</a> workflow, the client needs to find the user's <code>authorization_endpoint</code> and <code>token_endpoint</code>. When using the Authorization workflow to obtain an access token for use at a [[?Micropub]] endpoint, the client will also discover the <code>micropub</code> endpoint.</p>
+        <p>Clients need to discover a few pieces of information when a user signs in. For the <a href="#authentication">Authentication</a> flow, the client needs to find the user's <code>authorization_endpoint</code>. For the <a href="#authorization">Authorization</a> flow, the client needs to find the user's <code>authorization_endpoint</code> and <code>token_endpoint</code>. When using the Authorization flow to obtain an access token for use at a [[?Micropub]] endpoint, the client will also discover the <code>micropub</code> endpoint.</p>
 
         <p>Clients MUST start by making a GET or HEAD request to [[!Fetch]] the user's profile URL to discover the necessary values. Clients MUST follow HTTP redirects (up to a self-imposed limit). If an HTTP permament redirect (HTTP 301 or 308) is encountered, the client MUST use the resulting URL as the canonical profile URL. If an HTTP temporary redirect (HTTP 302 or 307) is encountered, the client MUST use the previous URL as the profile URL, but use the redirected-to page for discovery.</p>
 
