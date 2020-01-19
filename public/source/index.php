@@ -172,7 +172,7 @@
 
         <section>
           <h4>Authorization Endpoint</h4>
-          <p>An IndieAuth Authorization Endpoint is responsible for obtaining authorization or authentication consent from the end user and generating and verifying authorization codes.</p>
+          <p>An IndieAuth Authorization Endpoint is responsible for obtaining authentication or authorization consent from the end user and generating and verifying authorization codes.</p>
         </section>
 
         <section>
@@ -278,12 +278,12 @@
 
           <section>
             <h5>Permanent Redirect to a Different Domain</h5>
-            <p>In this example, the user enters <code>username.example</code> in the sign-in form, so the client initially transforms that to <code>http://username.example/</code> to perform discovery. However, the user does not host any content there, and instead that page is a redirect to their profile elsewhere. The URL <code>http://username.example/</code> returns an HTTP 301 permanent redirect to <code>https://example.com/username</code>, so the client updates the initial profile URL to <code>https://example.com/username</code> when setting the <code>me</code> parameter in the initial authorization request. At the end of the flow, the authorization endpoint will return a <code>me</code> value of <code>https://example.com/username</code>, which is not on the same domain as what the user entered, but the client can accept it because of the HTTP 301 redirect encountered during discovery.</p>
+            <p>In this example, the user enters <code>username.example</code> in the sign-in form, so the client initially transforms that to <code>http://username.example/</code> to perform discovery. However, the user does not host any content there, and instead that page is a redirect to their profile elsewhere. The URL <code>http://username.example/</code> returns an HTTP 301 permanent redirect to <code>https://example.com/username</code>, so the client updates the initial profile URL to <code>https://example.com/username</code> when setting the <code>me</code> parameter in the initial request. At the end of the flow, the authorization endpoint will return a <code>me</code> value of <code>https://example.com/username</code>, which is not on the same domain as what the user entered, but the client can accept it because of the HTTP 301 redirect encountered during discovery.</p>
           </section>
 
           <section>
             <h5>Temporary Redirect to a Different Domain</h5>
-            <p>In this example, the user enters <code>username.example</code> in the sign-in form, so the client initially transforms that to <code>http://username.example/</code> to perform discovery. However, the user does not host any content there, and instead that page is a temporary redirect to their profile elsewhere. The URL <code>http://username.example/</code> returns an HTTP 302 temporary redirect to <code>https://example.com/username</code>, so the client discovers the authorization endpoint at that URL. Since the redirect is temporary, the client still uses the user-entered <code>http://username.example/</code> when setting the <code>me</code> parameter in the initial authorization request. At the end of the flow, the authorization endpoint will return a <code>me</code> value of <code>https://username.example/</code>, which is not on the same domain as the authorization endpoint, but is the same domain as the user entered. This allows users to still use a profile URL under their control while delegating the authorization flow to an external account.</p>
+            <p>In this example, the user enters <code>username.example</code> in the sign-in form, so the client initially transforms that to <code>http://username.example/</code> to perform discovery. However, the user does not host any content there, and instead that page is a temporary redirect to their profile elsewhere. The URL <code>http://username.example/</code> returns an HTTP 302 temporary redirect to <code>https://example.com/username</code>, so the client discovers the authorization endpoint at that URL. Since the redirect is temporary, the client still uses the user-entered <code>http://username.example/</code> when setting the <code>me</code> parameter in the initial request. At the end of the flow, the authorization endpoint will return a <code>me</code> value of <code>https://username.example/</code>, which is not on the same domain as the authorization endpoint, but is the same domain as the user entered. This allows users to still use a profile URL under their control while delegating the authentication or authorization flow to an external account.</p>
           </section>
         </section>
       </section>
@@ -358,7 +358,7 @@ title IndieAuth Authentication Flow Diagram
 
 Browser->Client: User enters their profile URL
 Client->User URL: Client fetches URL to discover\n**rel=authorization_endpoint**
-Browser<--Client: Client builds authorization request and\nredirects to **authorization_endpoint**
+Browser<--Client: Client builds authentication request and\nredirects to **authorization_endpoint**
 Browser->Authorization Endpoint: User visits their authorization endpoint and sees the authentication request
 Authorization Endpoint->Client: Authorization endpoint fetches client information (name, icon)
 Browser<--Authorization Endpoint: User authenticates, and approves the request.\nAuthorization endpoint issues code, builds redirect back to client.
@@ -368,7 +368,7 @@ Client<--Authorization Endpoint: Authorization endpoint returns canonical user p
 Browser<--Client: Client initiates login session\nand the user is logged in
 ---
 
-https://sequencediagram.org/index.html?initialData=C4S2BsFMAIEkDsAmJIEECuwAW0PcvKAMYCGoA9vNAGLjkDu0AIiCQOYBOJAtgFC8AhDgwDOkDgFoAfAGFwKQgC5oAVTEdoBYOJHR8IDQAdhAMxBRVAJQAyvOQuDS14q9eX2t0E5GBEskXRUbPXJoZBEicgA3cQAdeAAqBI5IcABeEkwscg4QAC8yEEoAfQJEQ3IQQiTBYXp1AB4JCQ8laFbgaAAjdHNEXUzsHPzCymgUgEd0AM6SJHiU5BSiYF1gUKTB7NyCinhSpAqq4BqhUXFpPG2RvegAUUPKtucNKJARMDX-A2gt4d2ilQykdCL8kNAxAE9P5flktCBSLdJtMRMBeFd-qMqA9yk9HLJ5FplBidljNI9jl4fH4oURCaCqiYctwyQAKeA8SAAGmgCMoAEpaucOE0JCSboD7hTnupYfhCAiyAEeXNEL9DMZolD8ONIFMZgA6eLigFjYF43kiEQo6CRRDc7q9cD9XVLSArbokIgAaxCtvpwANQvqFwJDmULwA5LounVZe9XQZ3do1et4nSHNB6GAcHNoJsspjbnbIDUOpdC6TbjiQcB3AHoDFcmYoX8q5KS90AJ7QFneqpsX7QAAKAHkAMoAFV1+tR8XW0JgbYlJXNxzsAdFJrJNbxxMrK6B0s6KWA6A48F0pHglEV4Gg6FlmrMFiCtjOIZFzQ69czVTArDaLodBsFUEIBB8lDxKqi4PvGwHkGwbCQGqVS8EAA
+https://sequencediagram.org/index.html?initialData=C4S2BsFMAIEkDsAmJIEECuwAW0PcvKAMYCGoA9vNAGLjkDu0AIiCQOYBOJAtgFC8AhDgwDOkDgFoAfAGFwKQgC5oAVTEdoBYOJHR8IDQAdhAMxBRVAJQAyvOQuDS14q9eX2t0E5GBEskXRUbPXJoZBEicgA3cQAdeAAqBI5IcABeEkwscg4QAC8yEEoAfQJEQ3IQQiTBYXp1AB4JCQ8laFbgaAAjdHNEXUz8QhBSCioUgEd0AM6SJHiU5BSiYF1gUKTB7NyCsdKkCqrgGqFRcWk8bfzCymgAUQPKtucNKJARMDX-A2gtnOuxppHkdfkhoGIAnp-L8sloRjdxpApjNeJd-rsilQHuUno5ZPItMo0TsEUCcSDvL5-LoiATCNAqiYctxSQAKeA8SAAGgZkXgAEpamcOE0JMSAZj7sDnuoYUNiGQAjy5ohfoZjNFIfhoJNpiJgAA6eLijG3MqHenvER66CRRDc7q9cD9HWQJaQFbdEhEADWIVtdMNQvq53xDmULwA5LounVZe9Xe6Vm6QvFaQ5oPQwDg5tBNll0aS7ZAah0LgWSYDsRbgO5A9AYrkzJC-pXJcXugBPaAsn1VNi-aAABQA8gBlAAqruR+vi6yhMFbEpK5txdkDopNpOruKJFeXVFXIJSwHQHHgNLmlHh4Gg6FlGrMFiCtlOIZFzQ6dYzVTArG0uh0GwVTggEHyUPEKoLne8aAeQbBsCmVS8EAA
 
 Note: Change width/height to e.g.
 viewbox="0 0 906 716" style="width: 100%; height: auto;"
@@ -379,7 +379,7 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
       <ul>
         <li>The End-User enters their profile URL in the login form of the client and clicks "Sign in"</li>
         <li>The client discovers the End-User's authorization endpoint by fetching the End-User's profile URL and looking for the <code>rel=authorization_endpoint</code> value</li>
-        <li>The client builds the authorization request including its client identifier, local state, and a redirect URI, and redirects the browser to the authorization endpoint</li>
+        <li>The client builds the authentication request including its client identifier, local state, and a redirect URI, and redirects the browser to the authorization endpoint</li>
         <li>The authorization endpoint fetches the client information from the client identifier URL in order to have an application name and icon to display to the user</li>
         <li>The authorization endpoint verifies the End-User, e.g. by logging in, and establishes whether the End-User grants or denies the client's authentication request</li>
         <li>The authorization endpoint generates an authorization code and redirects the browser back to the client, including an authorization code in the URL</li>
@@ -456,8 +456,8 @@ Location: https://app.example.com/redirect?code=xxxxxxxx&
 
         <ul>
           <li><code>code</code> - The authorization code received from the authorization endpoint in the redirect</li>
-          <li><code>client_id</code> - The client's URL, which MUST match the client_id used in the authorization request.</li>
-          <li><code>redirect_uri</code> - The client's redirect URL, which MUST match the initial authorization request.</li>
+          <li><code>client_id</code> - The client's URL, which MUST match the client_id used in the authentication request.</li>
+          <li><code>redirect_uri</code> - The client's redirect URL, which MUST match the initial authentication request.</li>
         </ul>
 
         <pre class="example nohighlight"><?= htmlspecialchars(
@@ -774,7 +774,7 @@ action=revoke
       <section>
         <h3>Preventing Phishing and Redirect Attacks</h3>
 
-        <p>Authorization servers SHOULD fetch the <code>client_id</code> provided in the authorization request in order to provide users with additional information about the authorization request, such as the application name and logo. If the server does not fetch the client information, then it SHOULD take additional measures to ensure the user is provided with as much information as possible about the authorization request.</p>
+        <p>Authorization servers SHOULD fetch the <code>client_id</code> provided in the authentication or authorization request in order to provide users with additional information about the request, such as the application name and logo. If the server does not fetch the client information, then it SHOULD take additional measures to ensure the user is provided with as much information as possible about the request.</p>
 
         <p>The authorization server SHOULD display the full <code>client_id</code> on the authorization interface, in addition to displaying the fetched application information if any. Displaying the <code>client_id</code> helps users know that they are authorizing the expected application.</p>
 
