@@ -8,10 +8,12 @@
     <script class='remove'>
       var respecConfig = {
           useExperimentalStyles: true,
-          publishDate: "2019-03-03",
-          specStatus: "ED",
+          publishDate: "2020-01-25",
+          specStatus: "LS",
+          previousPublishDate: "2019-03-03",
+          previousMaturity: "LS",
           shortName:  "indieauth",
-          edDraftURI: "https://indieauth.spec.indieweb.org/",
+          lsURI: "https://indieauth.spec.indieweb.org/",
           testSuiteURI: "https://indieauth.rocks/",
           editors: [
                 {   name:       "Aaron Parecki",
@@ -863,11 +865,28 @@ action=revoke
 
       <p>The editor wishes to thank the <a href="https://indieweb.org/">IndieWeb</a>
         community and other implementers for their support, encouragement and enthusiasm,
-        including but not limited to: Amy Guy, Barnaby Walters, Benjamin Roberts, Bret Comnes, Christian Weiske, François Kooman, Jeena Paradies, Martijn van der Ven, Sebastiaan Andeweg, Sven Knebel, and Tantek Çelik.</p>
+        including but not limited to: Amy Guy, Barnaby Walters, Benjamin Roberts, Bret Comnes, Christian Weiske, Dmitri Shuralyov, François Kooman, Jeena Paradies, Martijn van der Ven, Sebastiaan Andeweg, Sven Knebel, and Tantek Çelik.</p>
     </section>
 
     <section class="appendix informative">
       <h2>Change Log</h2>
+
+      <section>
+        <h3>Changes from 03 March 2019 to 25 January 2020</h3>
+        <ul>
+          <li>Use "authentication" and "authorization" more consistently in paragraphs and diagrams</li>
+          <li>Clarify that "Authorization Code Flow" is "OAuth 2.0 Authorization Code Flow"</li>
+          <li>Minor typo fixes</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Changes from 07 July 2018 to 03 March 2019</h3>
+        <ul>
+          <li>Updates the spec header to note that it is a living standard</li>
+          <li>Minor typo fixes</li>
+        </ul>
+      </section>
 
       <section>
         <h3>Changes from <a href="https://www.w3.org/TR/2018/NOTE-indieauth-20180123/">23 January 2018</a> to 07 July 2018</h3>
