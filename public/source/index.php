@@ -634,7 +634,9 @@ grant_type=authorization_code
         <section>
           <h4>Access Token Response</h4>
 
-          <p>The token endpoint needs to verify that the authorization code is valid, and that it was issued for the matching <code>me</code>, <code>client_id</code> and <code>redirect_uri</code>, and contains at least one <code>scope</code>. If the authorization code was issued with no <code>scope</code>, the token endpoint MUST NOT issue an access token, as empty scopes are invalid per Section 3.3 of OAuth 2.0 [[!RFC6749]].</p>
+          <p>The token endpoint needs to verify that the authorization code is valid, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>, and contains at least one <code>scope</code>. If the authorization code was issued with no <code>scope</code>, the token endpoint MUST NOT issue an access token, as empty scopes are invalid per Section 3.3 of OAuth 2.0 [[!RFC6749]].</p>
+
+          <p>The specifics of how the token endpoint verifies the authorization code are out of scope of this document, as typically the authorization endpoint and token endpoint are part of the same system and can share storage or other private communication mechanism.</p>
 
           <p>If the request is valid, then the token endpoint can generate an access token and return the appropriate response. The token response is a JSON [[!RFC7159]] object containing the OAuth 2.0 Bearer Token [[!RFC6750]], as well as a property <code>me</code>, containing the canonical user profile URL for the user this access token corresponds to. For example:</p>
 
