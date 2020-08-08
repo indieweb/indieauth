@@ -632,47 +632,9 @@ grant_type=authorization_code
         </section>
 
         <section>
-          <h4>Authorization Code Verification</h4>
+          <h4>Access Token Response</h4>
 
           <p>The token endpoint needs to verify that the authorization code is valid, and that it was issued for the matching <code>me</code>, <code>client_id</code> and <code>redirect_uri</code>, and contains at least one <code>scope</code>. If the authorization code was issued with no <code>scope</code>, the token endpoint MUST NOT issue an access token, as empty scopes are invalid per Section 3.3 of OAuth 2.0 [[!RFC6749]].</p>
-
-          <p>If the authorization endpoint and token endpoint are tightly integrated, then they can use any mechanism to share the information about the authorization code, such as looking up the code in a database, or sharing a JWT secret. If the authorization endpoint and token endpoint are separate, then they MUST use the mechanism described below to communicate.</p>
-
-          <p>The token endpoint MUST make a POST request to the authorization endpoint to verify the authorization code if it is not able to verify it using other means. To find the authorization endpoint, the token endpoint uses the user's profile URL in the <code>me</code> parameter and performs <a href="#discovery-by-clients">discovery</a> to find the user's <code>authorization_endpoint</code>. The token endpoint makes a POST request to the authorization endpoint with the following parameters:</p>
-
-          <ul>
-            <li><code>code</code> - The authorization code received from the authorization endpoint in the redirect</li>
-            <li><code>client_id</code> - The client's URL, which MUST match the client_id used in the authorization request.</li>
-            <li><code>redirect_uri</code> - The client's redirect URL, which MUST match the initial authorization request.</li>
-          </ul>
-
-          <pre class="example nohighlight"><?= htmlspecialchars(
-'POST https://example.org/auth
-Content-type: application/x-www-form-urlencoded
-Accept: application/json
-
-code=xxxxxxxx
-&client_id=https://app.example.com/
-&redirect_uri=https://app.example.com/redirect
-') ?></pre>
-
-          <p>Note that this is the same request that clients make to the authorization endpoint in the <a href="#authorization-code-verification">authentication flow</a>.</p>
-
-          <p>The authorization endpoint will validate that the code corresponds with the given <code>client_id</code> and <code>redirect_uri</code> and respond with a JSON response containing the <code>me</code> URL corresponding to this authorization code as well as the <code>scope</code> that was authorized, or an OAuth 2.0 error response. The error returned from the authorization endpoint is acceptable to pass through to the client.</p>
-
-          <pre class="example nohighlight"><?= htmlspecialchars(
-'HTTP/1.1 200 OK
-Content-Type: application/json
-
-{
-  "me": "https://user.example.net/",
-  "scope": "create update delete"
-}') ?></pre>
-
-        </section>
-
-        <section>
-          <h4>Access Token Response</h4>
 
           <p>If the request is valid, then the token endpoint can generate an access token and return the appropriate response. The token response is a JSON [[!RFC7159]] object containing the OAuth 2.0 Bearer Token [[!RFC6750]], as well as a property <code>me</code>, containing the canonical user profile URL for the user this access token corresponds to. For example:</p>
 
