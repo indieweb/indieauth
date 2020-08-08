@@ -615,7 +615,6 @@ Link: <https://example.org/token>; rel="token_endpoint"
             <li><code>code</code> - The authorization code received from the authorization endpoint in the redirect</li>
             <li><code>client_id</code> - The client's URL, which MUST match the client_id used in the authorization request.</li>
             <li><code>redirect_uri</code> - The client's redirect URL, which MUST match the initial authorization request.</li>
-            <li><code>me</code> - The user's profile URL as originally used in the authorization request</li>
           </ul>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
@@ -627,7 +626,6 @@ grant_type=authorization_code
 &code=xxxxxxxx
 &client_id=https://app.example.com/
 &redirect_uri=https://app.example.com/redirect
-&me=https://user.example.net/
 ') ?></pre>
         </section>
 
