@@ -4,14 +4,15 @@
     <title>IndieAuth</title>
     <meta charset='utf-8'>
     <script src='https://www.w3.org/Tools/respec/respec-w3c-common' async class='remove'></script>
-    <script src='../assets/add-paragraph-ids.js' class='remove'></script>
+    <script src='add-paragraph-ids.js' class='remove'></script>
+    <script src='indieweb-cleanup.js' class='remove'></script>
     <script class='remove'>
       var respecConfig = {
           useExperimentalStyles: true,
-          publishDate: "2020-01-25",
-          specStatus: "LS",
-          previousPublishDate: "2019-03-03",
-          previousMaturity: "LS",
+          publishDate: "2020-08-08",
+          specStatus: "NOTE",
+          previousPublishDate: "2018-01-23",
+          previousMaturity: "NOTE",
           shortName:  "indieauth",
           lsURI: "https://indieauth.spec.indieweb.org/",
           testSuiteURI: "https://indieauth.rocks/",
@@ -26,7 +27,7 @@
           wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/72531/status",
           errata: "https://indieauth.net/errata",
           license: "w3c-software-doc",
-          postProcess: [addParagraphIDs],
+          postProcess: [addParagraphIDs, indiewebCleanup],
           maxTocLevel: 3,
           otherLinks: [{
             key: 'Repository',
