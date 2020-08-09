@@ -354,7 +354,7 @@ Link: <https://app.example.com/redirect>; rel="redirect_uri"
     <section class="normative">
       <h2>Authorization</h2>
 
-      <p>This section describes how to obtain an access token using the OAuth 2.0 Authorization Code Flow.</p>
+      <p>This section describes how to authenticate users and optionally obtain an access token using the OAuth 2.0 Authorization Code Flow with IndieAuth.</p>
 
 <?php /*
 ---
@@ -389,6 +389,8 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
         <li>The authorization endpoint generates an authorization code and redirects the browser back to the client, including an authorization code in the URL</li>
         <li>The client exchanges the authorization code for an access token by making a POST request to the token endpoint. The token endpoint validates the authorization code, and responds with the End-User's canonical profile URL and an access token</li>
       </ul>
+
+      <p>Note: If the client is only trying to learn who the user is and does not need an access token, the client exchanges the authorization code for the user profile information at the Authorization Endpoint instead.</p>
 
       <section>
         <h3>Discovery</h3>
