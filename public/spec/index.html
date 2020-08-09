@@ -1,539 +1,22 @@
-<!DOCTYPE html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="generator" content="ReSpec 25.1.0"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><style>/* --- EXAMPLES --- */
-span.example-title {
-    text-transform: none;
-}
-aside.example, div.example, div.illegal-example {
-    padding: 0.5em;
-    margin: 1em 0;
-    position: relative;
-    clear: both;
-}
-div.illegal-example { color: red }
-div.illegal-example p { color: black }
-aside.example, div.example {
-    padding: .5em;
-    border-left-width: .5em;
-    border-left-style: solid;
-    border-color: #e0cb52;
-    background: #fcfaee;
-}
-
-aside.example div.example {
-    border-left-width: .1em;
-    border-color: #999;
-    background: #fff;
-}
-aside.example div.example span.example-title {
-    color: #999;
-}
-</style><style>/* dfn popup panel that list all local references to a dfn */
-dfn {
-  cursor: pointer;
-}
-
-.dfn-panel {
-  position: absolute;
-  left: var(--left); /* set via JS */
-  top: var(--top); /* set via JS */
-  z-index: 35;
-  height: auto;
-  width: max-content;
-  max-width: 300px;
-  max-height: 500px;
-  overflow: auto;
-  padding: 0.5em 0.75em;
-  font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-  background: #dddddd;
-  color: black;
-  border: outset 0.2em;
-}
-
-.dfn-panel * {
-  margin: 0;
-}
-
-.dfn-panel > b {
-  display: block;
-}
-
-.dfn-panel ul a[href] {
-  color: black;
-}
-
-.dfn-panel a:not(:hover) {
-  text-decoration: none !important;
-  border-bottom: none !important;
-}
-
-.dfn-panel a[href]:hover {
-  border-bottom-width: 1px;
-}
-
-.dfn-panel > b + b {
-  margin-top: 0.25em;
-}
-
-.dfn-panel ul {
-  padding: 0;
-}
-
-.dfn-panel li {
-  list-style: inside;
-}
-
-.dfn-panel.docked {
-  display: inline-block;
-  position: fixed;
-  left: 0.5em;
-  top: unset;
-  bottom: 2em;
-  margin: 0 auto;
-  /* 0.75em from padding (x2), 0.5em from left position, 0.2em border (x2) */
-  max-width: calc(100vw - 0.75em * 2 - 0.5em - 0.2em * 2);
-  max-height: 30vh;
-}
-</style>
+<!DOCTYPE html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="generator" content="ReSpec 25.6.0"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><style>span.example-title{text-transform:none}aside.example,div.example,div.illegal-example{padding:.5em;margin:1em 0;position:relative;clear:both}div.illegal-example{color:red}div.illegal-example p{color:#000}aside.example,div.example{padding:.5em;border-left-width:.5em;border-left-style:solid;border-color:#e0cb52;background:#fcfaee}aside.example div.example{border-left-width:.1em;border-color:#999;background:#fff}aside.example div.example span.example-title{color:#999}</style>
     <title>IndieAuth</title>
+    
     
     
     
     
     <link rel="pingback" href="https://indieauth.net/pingback">
     <link rel="webmention" href="https://indieauth.net/webmention">
-  <style id="respec-mainstyle">/*****************************************************************
- * ReSpec specific CSS
- *****************************************************************/
-@keyframes pop {
-  0% {
-    transform: scale(1, 1);
-  }
-  25% {
-    transform: scale(1.25, 1.25);
-    opacity: 0.75;
-  }
-  100% {
-    transform: scale(1, 1);
-  }
-}
-
-/* Override code highlighter background */
-.hljs {
-  background: transparent !important;
-}
-
-/* --- INLINES --- */
-h1 abbr,
-h2 abbr,
-h3 abbr,
-h4 abbr,
-h5 abbr,
-h6 abbr,
-a abbr {
-  border: none;
-}
-
-dfn {
-  font-weight: bold;
-}
-
-a.internalDFN {
-  color: inherit;
-  border-bottom: 1px solid #99c;
-  text-decoration: none;
-}
-
-a.externalDFN {
-  color: inherit;
-  border-bottom: 1px dotted #ccc;
-  text-decoration: none;
-}
-
-a.bibref {
-  text-decoration: none;
-}
-
-.respec-offending-element:target {
-  animation: pop 0.25s ease-in-out 0s 1;
-}
-
-.respec-offending-element,
-a[href].respec-offending-element {
-  text-decoration: red wavy underline;
-}
-@supports not (text-decoration: red wavy underline) {
-  .respec-offending-element:not(pre) {
-    display: inline-block;
-  }
-  .respec-offending-element {
-    /* Red squiggly line */
-    background: url(data:image/gif;base64,R0lGODdhBAADAPEAANv///8AAP///wAAACwAAAAABAADAEACBZQjmIAFADs=)
-      bottom repeat-x;
-  }
-}
-
-#references :target {
-  background: #eaf3ff;
-  animation: pop 0.4s ease-in-out 0s 1;
-}
-
-cite .bibref {
-  font-style: normal;
-}
-
-code {
-  color: #c83500;
-}
-
-th code {
-  color: inherit;
-}
-
-a[href].orcid {
-    padding-left: 4px;
-    padding-right: 4px;
-}
-
-a[href].orcid > svg {
-    margin-bottom: -2px;
-}
-
-/* --- TOC --- */
-
-.toc a,
-.tof a {
-  text-decoration: none;
-}
-
-a .secno,
-a .figno {
-  color: #000;
-}
-
-ul.tof,
-ol.tof {
-  list-style: none outside none;
-}
-
-.caption {
-  margin-top: 0.5em;
-  font-style: italic;
-}
-
-/* --- TABLE --- */
-
-table.simple {
-  border-spacing: 0;
-  border-collapse: collapse;
-  border-bottom: 3px solid #005a9c;
-}
-
-.simple th {
-  background: #005a9c;
-  color: #fff;
-  padding: 3px 5px;
-  text-align: left;
-}
-
-.simple th a {
-  color: #fff;
-  padding: 3px 5px;
-  text-align: left;
-}
-
-.simple th[scope="row"] {
-  background: inherit;
-  color: inherit;
-  border-top: 1px solid #ddd;
-}
-
-.simple td {
-  padding: 3px 10px;
-  border-top: 1px solid #ddd;
-}
-
-.simple tr:nth-child(even) {
-  background: #f0f6ff;
-}
-
-/* --- DL --- */
-
-.section dd > p:first-child {
-  margin-top: 0;
-}
-
-.section dd > p:last-child {
-  margin-bottom: 0;
-}
-
-.section dd {
-  margin-bottom: 1em;
-}
-
-.section dl.attrs dd,
-.section dl.eldef dd {
-  margin-bottom: 0;
-}
-
-#issue-summary > ul,
-.respec-dfn-list {
-  column-count: 2;
-}
-
-#issue-summary li,
-.respec-dfn-list li {
-  list-style: none;
-}
-
-details.respec-tests-details {
-  margin-left: 1em;
-  display: inline-block;
-  vertical-align: top;
-}
-
-details.respec-tests-details > * {
-  padding-right: 2em;
-}
-
-details.respec-tests-details[open] {
-  z-index: 999999;
-  position: absolute;
-  border: thin solid #cad3e2;
-  border-radius: 0.3em;
-  background-color: white;
-  padding-bottom: 0.5em;
-}
-
-details.respec-tests-details[open] > summary {
-  border-bottom: thin solid #cad3e2;
-  padding-left: 1em;
-  margin-bottom: 1em;
-  line-height: 2em;
-}
-
-details.respec-tests-details > ul {
-  width: 100%;
-  margin-top: -0.3em;
-}
-
-details.respec-tests-details > li {
-  padding-left: 1em;
-}
-
-a[href].self-link:hover {
-  opacity: 1;
-  text-decoration: none;
-  background-color: transparent;
-}
-
-h2,
-h3,
-h4,
-h5,
-h6 {
-  position: relative;
-}
-
-aside.example .marker > a.self-link {
-  color: inherit;
-}
-
-h2 > a.self-link,
-h3 > a.self-link,
-h4 > a.self-link,
-h5 > a.self-link,
-h6 > a.self-link {
-  border: none;
-  color: inherit;
-  font-size: 83%;
-  height: 2em;
-  left: -1.6em;
-  opacity: 0.5;
-  position: absolute;
-  text-align: center;
-  text-decoration: none;
-  top: 0;
-  transition: opacity 0.2s;
-  width: 2em;
-}
-
-h2 > a.self-link::before,
-h3 > a.self-link::before,
-h4 > a.self-link::before,
-h5 > a.self-link::before,
-h6 > a.self-link::before {
-  content: "§";
-  display: block;
-}
-
-@media (max-width: 767px) {
-  dd {
-    margin-left: 0;
-  }
-
-  /* Don't position self-link in headings off-screen */
-  h2 > a.self-link,
-  h3 > a.self-link,
-  h4 > a.self-link,
-  h5 > a.self-link,
-  h6 > a.self-link {
-    left: auto;
-    top: auto;
-  }
-}
-
-@media print {
-  .removeOnSave {
-    display: none;
-  }
-}
-</style><meta name="description" content="IndieAuth is an identity layer on top of OAuth 2.0 [RFC6749], primarily used to obtain
+  <style id="respec-mainstyle">@keyframes pop{0%{transform:scale(1,1)}25%{transform:scale(1.25,1.25);opacity:.75}100%{transform:scale(1,1)}}.hljs{background:0 0!important}a abbr,h1 abbr,h2 abbr,h3 abbr,h4 abbr,h5 abbr,h6 abbr{border:none}dfn{font-weight:700}a.internalDFN{color:inherit;border-bottom:1px solid #99c;text-decoration:none}a.externalDFN{color:inherit;border-bottom:1px dotted #ccc;text-decoration:none}a.bibref{text-decoration:none}.respec-offending-element:target{animation:pop .25s ease-in-out 0s 1}.respec-offending-element,a[href].respec-offending-element{text-decoration:red wavy underline}@supports not (text-decoration:red wavy underline){.respec-offending-element:not(pre){display:inline-block}.respec-offending-element{background:url(data:image/gif;base64,R0lGODdhBAADAPEAANv///8AAP///wAAACwAAAAABAADAEACBZQjmIAFADs=) bottom repeat-x}}#references :target{background:#eaf3ff;animation:pop .4s ease-in-out 0s 1}cite .bibref{font-style:normal}code{color:#c63501}th code{color:inherit}a[href].orcid{padding-left:4px;padding-right:4px}a[href].orcid>svg{margin-bottom:-2px}.toc a,.tof a{text-decoration:none}a .figno,a .secno{color:#000}ol.tof,ul.tof{list-style:none outside none}.caption{margin-top:.5em;font-style:italic}table.simple{border-spacing:0;border-collapse:collapse;border-bottom:3px solid #005a9c}.simple th{background:#005a9c;color:#fff;padding:3px 5px;text-align:left}.simple th a{color:#fff;padding:3px 5px;text-align:left}.simple th[scope=row]{background:inherit;color:inherit;border-top:1px solid #ddd}.simple td{padding:3px 10px;border-top:1px solid #ddd}.simple tr:nth-child(even){background:#f0f6ff}.section dd>p:first-child{margin-top:0}.section dd>p:last-child{margin-bottom:0}.section dd{margin-bottom:1em}.section dl.attrs dd,.section dl.eldef dd{margin-bottom:0}#issue-summary>ul,.respec-dfn-list{column-count:2}#issue-summary li,.respec-dfn-list li{list-style:none}details.respec-tests-details{margin-left:1em;display:inline-block;vertical-align:top}details.respec-tests-details>*{padding-right:2em}details.respec-tests-details[open]{z-index:999999;position:absolute;border:thin solid #cad3e2;border-radius:.3em;background-color:#fff;padding-bottom:.5em}details.respec-tests-details[open]>summary{border-bottom:thin solid #cad3e2;padding-left:1em;margin-bottom:1em;line-height:2em}details.respec-tests-details>ul{width:100%;margin-top:-.3em}details.respec-tests-details>li{padding-left:1em}a[href].self-link:hover{opacity:1;text-decoration:none;background-color:transparent}h2,h3,h4,h5,h6{position:relative}aside.example .marker>a.self-link{color:inherit}h2>a.self-link,h3>a.self-link,h4>a.self-link,h5>a.self-link,h6>a.self-link{border:none;color:inherit;font-size:83%;height:2em;left:-1.6em;opacity:.5;position:absolute;text-align:center;text-decoration:none;top:0;transition:opacity .2s;width:2em}h2>a.self-link::before,h3>a.self-link::before,h4>a.self-link::before,h5>a.self-link::before,h6>a.self-link::before{content:"§";display:block}@media (max-width:767px){dd{margin-left:0}h2>a.self-link,h3>a.self-link,h4>a.self-link,h5>a.self-link,h6>a.self-link{left:auto;top:auto}}@media print{.removeOnSave{display:none}}</style><meta name="description" content="IndieAuth is an identity layer on top of OAuth 2.0 [RFC6749], primarily used to obtain
         an OAuth 2.0 Bearer Token [RFC6750] for use by [Micropub] clients. End-Users
         and Clients are all represented by URLs. IndieAuth enables Clients to
         verify the identity of an End-User, as well as to obtain an access
-        token that can be used to access resources under the control of the End-User."><link rel="canonical" href="https://www.w3.org/TR/indieauth/"><style>/*
-Atom One Light by Daniel Gamage
-Original One Light Syntax theme from https://github.com/atom/one-light-syntax
-base:    #fafafa
-mono-1:  #383a42
-mono-2:  #686b77
-mono-3:  #a0a1a7
-hue-1:   #0184bb
-hue-2:   #4078f2
-hue-3:   #a626a4
-hue-4:   #50a14f
-hue-5:   #e45649
-hue-5-2: #c91243
-hue-6:   #986801
-hue-6-2: #c18401
-*/
-
-.hljs {
-  display: block;
-  overflow-x: auto;
-  padding: 0.5em;
-  color: #383a42;
-  background: #fafafa;
-}
-
-.hljs-comment,
-.hljs-quote {
-  color: #a0a1a7;
-  font-style: italic;
-}
-
-.hljs-doctag,
-.hljs-keyword,
-.hljs-formula {
-  color: #a626a4;
-}
-
-.hljs-section,
-.hljs-name,
-.hljs-selector-tag,
-.hljs-deletion,
-.hljs-subst {
-  color: #e45649;
-}
-
-.hljs-literal {
-  color: #0184bb;
-}
-
-.hljs-string,
-.hljs-regexp,
-.hljs-addition,
-.hljs-attribute,
-.hljs-meta-string {
-  color: #50a14f;
-}
-
-.hljs-built_in,
-.hljs-class .hljs-title {
-  color: #c18401;
-}
-
-.hljs-attr,
-.hljs-variable,
-.hljs-template-variable,
-.hljs-type,
-.hljs-selector-class,
-.hljs-selector-attr,
-.hljs-selector-pseudo,
-.hljs-number {
-  color: #986801;
-}
-
-.hljs-symbol,
-.hljs-bullet,
-.hljs-link,
-.hljs-meta,
-.hljs-selector-id,
-.hljs-title {
-  color: #4078f2;
-}
-
-.hljs-emphasis {
-  font-style: italic;
-}
-
-.hljs-strong {
-  font-weight: bold;
-}
-
-.hljs-link {
-  text-decoration: underline;
-}
-</style><style>var {
-  position: relative;
-  cursor: pointer;
-}
-
-var[data-type]::before,
-var[data-type]::after {
-  position: absolute;
-  left: 50%;
-  top: -6px;
-  opacity: 0;
-  transition: opacity 0.4s;
-  pointer-events: none;
-}
-
-/* the triangle or arrow or caret or whatever */
-var[data-type]::before {
-  content: "";
-  transform: translateX(-50%);
-  border-width: 4px 6px 0 6px;
-  border-style: solid;
-  border-color: transparent;
-  border-top-color: #000;
-}
-
-/* actual text */
-var[data-type]::after {
-  content: attr(data-type);
-  transform: translateX(-50%) translateY(-100%);
-  background: #000;
-  text-align: center;
-  /* additional styling */
-  font-family: "Dank Mono", "Fira Code", monospace;
-  font-style: normal;
-  padding: 6px;
-  border-radius: 3px;
-  color: #daca88;
-  text-indent: 0;
-  font-weight: normal;
-}
-
-var[data-type]:hover::after,
-var[data-type]:hover::before {
-  opacity: 1;
-}
-</style><script id="initialUserConfig" type="application/json">{
+        token that can be used to access resources under the control of the End-User."><link rel="canonical" href="https://www.w3.org/TR/indieauth/"><style>.hljs{display:block;overflow-x:auto;padding:.5em;color:#383a42;background:#fafafa}.hljs-comment,.hljs-quote{color:#717277;font-style:italic}.hljs-doctag,.hljs-formula,.hljs-keyword{color:#a626a4}.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#ca4706;font-weight:700}.hljs-literal{color:#0b76c5}.hljs-addition,.hljs-attribute,.hljs-meta-string,.hljs-regexp,.hljs-string{color:#42803c}.hljs-built_in,.hljs-class .hljs-title{color:#9a6a01}.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#986801}.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#336ae3}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}.hljs-link{text-decoration:underline}</style><style>var{position:relative;cursor:pointer}var[data-type]::after,var[data-type]::before{position:absolute;left:50%;top:-6px;opacity:0;transition:opacity .4s;pointer-events:none}var[data-type]::before{content:"";transform:translateX(-50%);border-width:4px 6px 0 6px;border-style:solid;border-color:transparent;border-top-color:#000}var[data-type]::after{content:attr(data-type);transform:translateX(-50%) translateY(-100%);background:#000;text-align:center;font-family:"Dank Mono","Fira Code",monospace;font-style:normal;padding:6px;border-radius:3px;color:#daca88;text-indent:0;font-weight:400}var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}</style><script id="initialUserConfig" type="application/json">{
   "useExperimentalStyles": true,
-  "publishDate": "2020-01-25",
-  "specStatus": "LS",
-  "previousPublishDate": "2019-03-03",
-  "previousMaturity": "LS",
+  "publishDate": "2020-08-08",
+  "specStatus": "NOTE",
+  "previousPublishDate": "2018-01-23",
+  "previousMaturity": "NOTE",
   "shortName": "indieauth",
   "lsURI": "https://indieauth.spec.indieweb.org/",
   "testSuiteURI": "https://indieauth.rocks/",
@@ -551,6 +34,7 @@ var[data-type]:hover::before {
   "errata": "https://indieauth.net/errata",
   "license": "w3c-software-doc",
   "postProcess": [
+    null,
     null
   ],
   "maxTocLevel": 3,
@@ -576,7 +60,7 @@ var[data-type]:hover::before {
   "localBiblio": {
     "microformats2-parsing": {
       "title": "Microformats2 Parsing",
-      "href": "http://microformats.org/wiki/microformats2-parsing",
+      "href": "https://microformats.org/wiki/microformats2-parsing",
       "authors": [
         "Tantek Çelik"
       ],
@@ -585,7 +69,7 @@ var[data-type]:hover::before {
     },
     "h-entry": {
       "title": "h-entry",
-      "href": "http://microformats.org/wiki/h-entry",
+      "href": "https://microformats.org/wiki/h-entry",
       "authors": [
         "Tantek Çelik"
       ],
@@ -594,7 +78,7 @@ var[data-type]:hover::before {
     },
     "h-app": {
       "title": "h-app",
-      "href": "http://microformats.org/wiki/h-app",
+      "href": "https://microformats.org/wiki/h-app",
       "authors": [
         "Aaron Parecki"
       ],
@@ -604,7 +88,7 @@ var[data-type]:hover::before {
     },
     "RelMeAuth": {
       "title": "RelMeAuth",
-      "href": "http://microformats.org/wiki/RelMeAuth",
+      "href": "https://microformats.org/wiki/RelMeAuth",
       "authors": [
         "Tantek Çelik"
       ],
@@ -621,8 +105,7 @@ var[data-type]:hover::before {
         "Eric Meyer"
       ],
       "status": "Stable",
-      "publisher": "Global Multimedia Protocols Group",
-      "id": "xfn11"
+      "publisher": "Global Multimedia Protocols Group"
     },
     "URL": {
       "title": "URL Standard",
@@ -635,68 +118,45 @@ var[data-type]:hover::before {
       "id": "url"
     }
   },
-  "publishISODate": "2020-01-25T00:00:00.000Z",
-  "generatedSubtitle": "Living Standard 25 January 2020"
-}</script>
-<link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2016/W3C-NOTE">
-<style>
-body {
-  background-image: url(/LIVINGSTANDARD.svg);
-}
-</style>
-</head>
-  <body class="h-entry informative"><div class="head">
-      <a class="logo" href="https://www.w3.org/"><img alt="W3C" width="72" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C"></a> <h1 id="title" class="title p-name">IndieAuth</h1>
+  "publishISODate": "2020-08-08T00:00:00.000Z",
+  "generatedSubtitle": "Working Group Note 08 August 2020"
+}</script><link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2016/W3C-NOTE"></head>
+  <body class="h-entry informative" style="background-image: url(https://spec.indieweb.org/INDIEWEB-LIVING-STANDARD.svg);"><div class="head">
+    <a class="logo" href="https://www.w3.org/"><img alt="W3C" width="120" height="100" src="https://spec.indieweb.org/index_files/logo.svg"></a> <h1 id="title" class="title">IndieAuth</h1>
+    
+    <h2>IndieWeb Living Standard 08 August 2020</h2>
+    <dl>
+      <dt>This version:</dt><dd>
+              <a class="u-url" href="https://indieauth.spec.indieweb.org">https://indieauth.spec.indieweb.org</a>
+            </dd>
       
-      <h2>
-        W3C Living Standard
-        <time class="dt-published" datetime="2020-01-25">25 January 2020</time>
-      </h2>
-      <dl>
-        <dt>This version:</dt><dd>
-                <a class="u-url" href="https://indieauth.spec.indieweb.org/">https://indieauth.spec.indieweb.org/</a>
-              </dd><dt>Latest published version:</dt><dd>
-                <a href="https://www.w3.org/TR/indieauth/">https://www.w3.org/TR/indieauth/</a>
-              </dd>
-        
-        <dt>Test suite:</dt><dd><a href="https://indieauth.rocks/">https://indieauth.rocks/</a></dd>
-        
-        
-        <dt>Previous version:</dt><dd><a href="/20190303/">https://indieauth.spec.indieweb.org/20190303/</a></dd>
-        
-        <dt>Editor:</dt>
-        <dd class="p-author h-card vcard" data-editor-id="59996"><a class="u-url url p-name fn" href="https://aaronparecki.com/">Aaron Parecki</a></dd>
-        
-        
-        <dt>Repository:</dt><dd>
-      <a href="https://github.com/indieweb/indieauth">Github</a>
-    </dd><dd>
-      <a href="https://github.com/indieweb/indieauth/issues">Issues</a>
-    </dd><dd>
-      <a href="https://github.com/indieweb/indieauth/commits/master">Commits</a>
-    </dd>
-      </dl>
-      <p>
-              Please check the
-              <a href="https://indieauth.net/errata"><strong>errata</strong></a> for any
-              errors or issues reported since publication.
-            </p>
+      <dt>Test suite:</dt><dd><a href="https://indieauth.rocks/">https://indieauth.rocks/</a></dd>
       
       
-      <p class="copyright">
-      <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a>
-      ©
-      2020
+      <dt>Previous version:</dt><dd><a href="https://www.w3.org/TR/2018/NOTE-indieauth-20180123/">https://www.w3.org/TR/2018/NOTE-indieauth-20180123/</a></dd>
       
-      <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>,
-      <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>,
-      <a href="https://ev.buaa.edu.cn/">Beihang</a>). 
-      W3C <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
-      <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a rel="license" href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document">permissive document license</a> rules
-      apply.
-    </p>
-      <hr title="Separator for header">
-    </div>
+      <dt>Editor:</dt>
+      <dd class="p-author h-card vcard" data-editor-id="59996"><a class="u-url url p-name fn" href="https://aaronparecki.com/">Aaron Parecki</a></dd>
+      
+      
+      <dt>Repository:</dt><dd>
+    <a href="https://github.com/indieweb/indieauth">Github</a>
+  </dd><dd>
+    <a href="https://github.com/indieweb/indieauth/issues">Issues</a>
+  </dd><dd>
+    <a href="https://github.com/indieweb/indieauth/commits/master">Commits</a>
+  </dd>
+    </dl>
+    <p>
+          Please check the
+          <a href="https://indieauth.net/errata"><strong>errata</strong></a> for any errors or
+          issues reported since publication.
+        </p>
+    
+    
+    <p class="copyright"><b>License:</b> Per <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>, to the extent possible under law, the editor(s) and contributors have waived all copyright and related or neighboring rights to this work. In addition, the editor(s) and contributors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0">Open Web Foundation Agreement Version 1.0</a>.</p>
+    <hr title="Separator for header">
+  </div>
     <section id="abstract" class="introductory"><h2>Abstract</h2>
       <p id="abstract-p-1">
         IndieAuth is an identity layer on top of OAuth 2.0 [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6749" title="The OAuth 2.0 Authorization Framework">RFC6749</a></cite>], primarily used to obtain
@@ -715,45 +175,12 @@ body {
       </section>
     </section>
 
-    <section id="sotd" class="introductory"><h2>Status of This Document</h2><p id="sotd-p-1"><em>This section describes the status of this document at the time of its publication. Other documents may supersede this document. A list of current <abbr title="World Wide Web Consortium">W3C</abbr> publications and the latest revision of this technical report can be found in the <a href="https://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> technical reports index</a> at https://www.w3.org/TR/.</em></p>
-    <p id="sotd-p-2">
-      This document was published by the <a href="https://www.w3.org/Social/WG">Social Web Working Group</a> as a
-      Living Standard.
-      
-    </p><p id="sotd-p-3">
-      
-      Comments regarding this document are welcome.
-            Please send them to
-            <a href="mailto:public-socialweb@w3.org">public-socialweb@w3.org</a>
-            (<a href="https://lists.w3.org/Archives/Public/public-socialweb/">archives</a>).
-          
-    </p><p id="sotd-p-4">
-      Publication as a Living Standard does not imply endorsement by the
-      <abbr title="World Wide Web Consortium">W3C</abbr> Membership. This is a draft document and may be updated, replaced or
-      obsoleted by other documents at any time. It is inappropriate to cite this
-      document as other than work in progress.
-    </p><p id="sotd-p-5">
-      
-        This document was produced by a group
-        operating under the
-        <a href="https://www.w3.org/Consortium/Patent-Policy/"><abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
-       The group does not expect this document to become a <abbr title="World Wide Web Consortium">W3C</abbr> Recommendation.
-      
-                  <abbr title="World Wide Web Consortium">W3C</abbr> maintains a
-                  <a rel="disclosure" href="https://www.w3.org/2004/01/pp-impl/72531/status">public list of any patent disclosures</a>
-            made in connection with the deliverables of
-            the group; that page also includes
-            instructions for disclosing a patent. An individual who has actual
-            knowledge of a patent which the individual believes contains
-            <a href="https://www.w3.org/Consortium/Patent-Policy/#def-essential">Essential Claim(s)</a>
-            must disclose the information in accordance with
-            <a href="https://www.w3.org/Consortium/Patent-Policy/#sec-Disclosure">section 6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
-          
-      
-    </p><p id="sotd-p-6">
-                  This document is governed by the
-                  <a id="w3c_process_revision" href="https://www.w3.org/2019/Process-20190301/">1 March 2019 <abbr title="World Wide Web Consortium">W3C</abbr> Process Document</a>.
-                </p></section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#introduction"><bdi class="secno">1. </bdi>Introduction</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#background"><bdi class="secno">1.1 </bdi>Background</a></li><li class="tocline"><a class="tocxref" href="#oauth-2-0-extension"><bdi class="secno">1.2 </bdi>OAuth 2.0 Extension</a></li></ol></li><li class="tocline"><a class="tocxref" href="#conformance"><bdi class="secno">2. </bdi>Conformance</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#conformance-classes"><bdi class="secno">2.1 </bdi>Conformance Classes</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#authorization-endpoint"><bdi class="secno">2.1.1 </bdi>Authorization Endpoint</a></li><li class="tocline"><a class="tocxref" href="#token-endpoint"><bdi class="secno">2.1.2 </bdi>Token Endpoint</a></li><li class="tocline"><a class="tocxref" href="#micropub-client"><bdi class="secno">2.1.3 </bdi>Micropub Client</a></li><li class="tocline"><a class="tocxref" href="#indieauth-client"><bdi class="secno">2.1.4 </bdi>IndieAuth Client</a></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#identifiers"><bdi class="secno">3. </bdi>Identifiers</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#user-profile-url"><bdi class="secno">3.1 </bdi>User Profile URL</a></li><li class="tocline"><a class="tocxref" href="#client-identifier"><bdi class="secno">3.2 </bdi>Client Identifier</a></li><li class="tocline"><a class="tocxref" href="#url-canonicalization"><bdi class="secno">3.3 </bdi>URL Canonicalization</a></li></ol></li><li class="tocline"><a class="tocxref" href="#discovery"><bdi class="secno">4. </bdi>Discovery</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#discovery-by-clients"><bdi class="secno">4.1 </bdi>Discovery by Clients</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#redirect-examples"><bdi class="secno">4.1.1 </bdi>Redirect Examples</a><ol class="toc"></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#client-information-discovery"><bdi class="secno">4.2 </bdi>Client Information Discovery</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#application-information"><bdi class="secno">4.2.1 </bdi>Application Information</a></li><li class="tocline"><a class="tocxref" href="#redirect-url"><bdi class="secno">4.2.2 </bdi>Redirect URL</a></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#authentication"><bdi class="secno">5. </bdi>Authentication</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#discovery-0"><bdi class="secno">5.1 </bdi>Discovery</a></li><li class="tocline"><a class="tocxref" href="#authentication-request"><bdi class="secno">5.2 </bdi>Authentication Request</a></li><li class="tocline"><a class="tocxref" href="#authentication-response"><bdi class="secno">5.3 </bdi>Authentication Response</a></li><li class="tocline"><a class="tocxref" href="#authorization-code-verification"><bdi class="secno">5.4 </bdi>Authorization Code Verification</a></li></ol></li><li class="tocline"><a class="tocxref" href="#authorization"><bdi class="secno">6. </bdi>Authorization</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#discovery-1"><bdi class="secno">6.1 </bdi>Discovery</a></li><li class="tocline"><a class="tocxref" href="#authorization-endpoint-0"><bdi class="secno">6.2 </bdi>Authorization Endpoint</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#authorization-request"><bdi class="secno">6.2.1 </bdi>Authorization Request</a></li><li class="tocline"><a class="tocxref" href="#authorization-response"><bdi class="secno">6.2.2 </bdi>Authorization Response</a></li></ol></li><li class="tocline"><a class="tocxref" href="#token-endpoint-0"><bdi class="secno">6.3 </bdi>Token Endpoint</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#token-request"><bdi class="secno">6.3.1 </bdi>Token Request</a></li><li class="tocline"><a class="tocxref" href="#authorization-code-verification-0"><bdi class="secno">6.3.2 </bdi>Authorization Code Verification</a></li><li class="tocline"><a class="tocxref" href="#access-token-response"><bdi class="secno">6.3.3 </bdi>Access Token Response</a></li><li class="tocline"><a class="tocxref" href="#access-token-verification"><bdi class="secno">6.3.4 </bdi>Access Token Verification</a></li><li class="tocline"><a class="tocxref" href="#token-revocation"><bdi class="secno">6.3.5 </bdi>Token Revocation</a></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#security-considerations"><bdi class="secno">7. </bdi>Security Considerations</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#differing-user-profile-urls"><bdi class="secno">7.1 </bdi>Differing User Profile URLs</a></li><li class="tocline"><a class="tocxref" href="#preventing-phishing-and-redirect-attacks"><bdi class="secno">7.2 </bdi>Preventing Phishing and Redirect Attacks</a></li></ol></li><li class="tocline"><a class="tocxref" href="#iana-considerations"><bdi class="secno">8. </bdi>IANA Considerations</a></li><li class="tocline"><a class="tocxref" href="#resources"><bdi class="secno">A. </bdi>Resources</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#articles"><bdi class="secno">A.1 </bdi>Articles</a></li><li class="tocline"><a class="tocxref" href="#implementations"><bdi class="secno">A.2 </bdi>Implementations</a></li></ol></li><li class="tocline"><a class="tocxref" href="#acknowledgements"><bdi class="secno">B. </bdi>Acknowledgements</a></li><li class="tocline"><a class="tocxref" href="#change-log"><bdi class="secno">C. </bdi>Change Log</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#changes-from-03-march-2019-to-25-january-2020"><bdi class="secno">C.1 </bdi>Changes from 03 March 2019 to 25 January 2020</a></li><li class="tocline"><a class="tocxref" href="#changes-from-07-july-2018-to-03-march-2019"><bdi class="secno">C.2 </bdi>Changes from 07 July 2018 to 03 March 2019</a></li><li class="tocline"><a class="tocxref" href="#changes-from-23-january-2018-to-07-july-2018"><bdi class="secno">C.3 </bdi>Changes from <span class="formerLink">23 January 2018</span> to 07 July 2018</a></li><li class="tocline"><a class="tocxref" href="#changes-from-07-july-2018-to-03-march-2019-0"><bdi class="secno">C.4 </bdi>Changes from 07 July 2018 to 03 March 2019</a></li></ol></li><li class="tocline"><a class="tocxref" href="#references"><bdi class="secno">D. </bdi>References</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#normative-references"><bdi class="secno">D.1 </bdi>Normative references</a></li><li class="tocline"><a class="tocxref" href="#informative-references"><bdi class="secno">D.2 </bdi>Informative references</a></li></ol></li></ol></nav>
+    <section id="sotd" class="introductory"><h2>Status of This Document</h2>
+    <p>This document was published by the IndieWeb community as a Living Standard.</p><p>Per <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>, to the extent possible under law, the editor(s) and contributors have waived all copyright and related or neighboring rights to this work. In addition, the editor(s) and contributors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0">Open Web Foundation Agreement Version 1.0</a>.</p></section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#introduction"><bdi class="secno">1. </bdi>Introduction</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#background"><bdi class="secno">1.1 </bdi>Background</a></li><li class="tocline"><a class="tocxref" href="#oauth-2-0-extension"><bdi class="secno">1.2 </bdi>OAuth 2.0 Extension</a></li></ol></li><li class="tocline"><a class="tocxref" href="#conformance"><bdi class="secno">2. </bdi>Conformance</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#conformance-classes"><bdi class="secno">2.1 </bdi>Conformance Classes</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#authorization-endpoint"><bdi class="secno">2.1.1 </bdi>Authorization Endpoint</a></li><li class="tocline"><a class="tocxref" href="#token-endpoint"><bdi class="secno">2.1.2 </bdi>Token Endpoint</a></li><li class="tocline"><a class="tocxref" href="#micropub-client"><bdi class="secno">2.1.3 </bdi>Micropub Client</a></li><li class="tocline"><a class="tocxref" href="#indieauth-client"><bdi class="secno">2.1.4 </bdi>IndieAuth Client</a></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#identifiers"><bdi class="secno">3. </bdi>Identifiers</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#user-profile-url"><bdi class="secno">3.1 </bdi>User Profile URL</a></li><li class="tocline"><a class="tocxref" href="#client-identifier"><bdi class="secno">3.2 </bdi>Client Identifier</a></li><li class="tocline"><a class="tocxref" href="#url-canonicalization"><bdi class="secno">3.3 </bdi>URL Canonicalization</a></li></ol></li><li class="tocline"><a class="tocxref" href="#discovery"><bdi class="secno">4. </bdi>Discovery</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#discovery-by-clients"><bdi class="secno">4.1 </bdi>Discovery by Clients</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#redirect-examples"><bdi class="secno">4.1.1 </bdi>Redirect Examples</a><ol class="toc"></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#client-information-discovery"><bdi class="secno">4.2 </bdi>Client Information Discovery</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#application-information"><bdi class="secno">4.2.1 </bdi>Application Information</a></li><li class="tocline"><a class="tocxref" href="#redirect-url"><bdi class="secno">4.2.2 </bdi>Redirect URL</a></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#authorization"><bdi class="secno">5. </bdi>Authorization</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#discovery-0"><bdi class="secno">5.1 </bdi>Discovery</a></li><li class="tocline"><a class="tocxref" href="#authorization-request"><bdi class="secno">5.2 </bdi>Authorization Request</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#authorization-response"><bdi class="secno">5.2.1 </bdi>Authorization Response</a></li></ol></li><li class="tocline"><a class="tocxref" href="#redeeming-the-authorization-code"><bdi class="secno">5.3 </bdi>Redeeming the Authorization Code</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#request"><bdi class="secno">5.3.1 </bdi>Request</a></li><li class="tocline"><a class="tocxref" href="#profile-url-response"><bdi class="secno">5.3.2 </bdi>Profile URL Response</a></li><li class="tocline"><a class="tocxref" href="#access-token-response"><bdi class="secno">5.3.3 </bdi>Access Token Response</a></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#access-token-verification"><bdi class="secno">6. </bdi>Access Token Verification</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#access-token-verification-request"><bdi class="secno">6.1 </bdi>Access Token Verification Request</a></li><li class="tocline"><a class="tocxref" href="#access-token-verification-response"><bdi class="secno">6.2 </bdi>Access Token Verification Response</a></li></ol></li><li class="tocline"><a class="tocxref" href="#token-revocation"><bdi class="secno">7. </bdi>Token Revocation</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#token-revocation-request"><bdi class="secno">7.1 </bdi>Token Revocation Request</a></li></ol></li><li class="tocline"><a class="tocxref" href="#security-considerations"><bdi class="secno">8. </bdi>Security Considerations</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#differing-user-profile-urls"><bdi class="secno">8.1 </bdi>Differing User Profile URLs</a></li><li class="tocline"><a class="tocxref" href="#preventing-phishing-and-redirect-attacks"><bdi class="secno">8.2 </bdi>Preventing Phishing and Redirect Attacks</a></li></ol></li><li class="tocline"><a class="tocxref" href="#iana-considerations"><bdi class="secno">9. </bdi>IANA Considerations</a></li><li class="tocline"><a class="tocxref" href="#resources"><bdi class="secno">A. </bdi>Resources</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#articles"><bdi class="secno">A.1 </bdi>Articles</a></li><li class="tocline"><a class="tocxref" href="#implementations"><bdi class="secno">A.2 </bdi>Implementations</a></li></ol></li><li class="tocline"><a class="tocxref" href="#acknowledgements"><bdi class="secno">B. </bdi>Acknowledgements</a></li><li class="tocline"><a class="tocxref" href="#change-log"><bdi class="secno">C. </bdi>Change Log</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#changes-from-25-january-2020-to-this-version"><bdi class="secno">C.1 </bdi>Changes from 25 January 2020 to this version</a></li><li class="tocline"><a class="tocxref" href="#changes-from-03-march-2019-to-25-january-2020"><bdi class="secno">C.2 </bdi>Changes from 03 March 2019 to 25 January 2020</a></li><li class="tocline"><a class="tocxref" href="#changes-from-07-july-2018-to-03-march-2019"><bdi class="secno">C.3 </bdi>Changes from 07 July 2018 to 03 March 2019</a></li><li class="tocline"><a class="tocxref" href="#changes-from-23-january-2018-to-07-july-2018"><bdi class="secno">C.4 </bdi>Changes from <span class="formerLink">23 January 2018</span> to 07 July 2018</a></li><li class="tocline"><a class="tocxref" href="#changes-from-07-july-2018-to-03-march-2019-0"><bdi class="secno">C.5 </bdi>Changes from 07 July 2018 to 03 March 2019</a></li></ol></li><li class="tocline"><a class="tocxref" href="#references"><bdi class="secno">D. </bdi>References</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#normative-references"><bdi class="secno">D.1 </bdi>
+        Normative references
+      </a></li><li class="tocline"><a class="tocxref" href="#informative-references"><bdi class="secno">D.2 </bdi>
+        Informative references
+      </a></li></ol></li></ol></nav>
 
     <section id="introduction">
       <h2 id="x1-introduction"><bdi class="secno">1. </bdi>Introduction<a class="self-link" aria-label="§" href="#introduction"></a></h2>
@@ -877,7 +304,7 @@ body {
       <section id="discovery-by-clients">
         <h3 id="x4-1-discovery-by-clients"><bdi class="secno">4.1 </bdi>Discovery by Clients<a class="self-link" aria-label="§" href="#discovery-by-clients"></a></h3>
 
-        <p id="discovery-by-clients-p-1">Clients need to discover a few pieces of information when a user signs in. For the <a href="#authentication">Authentication</a> flow, the client needs to find the user's <code>authorization_endpoint</code>. For the <a href="#authorization">Authorization</a> flow, the client needs to find the user's <code>authorization_endpoint</code> and <code>token_endpoint</code>. When using the Authorization flow to obtain an access token for use at a [<cite><a class="bibref" data-link-type="biblio" href="#bib-micropub" title="Micropub">Micropub</a></cite>] endpoint, the client will also discover the <code>micropub</code> endpoint.</p>
+        <p id="discovery-by-clients-p-1">Clients need to discover a few pieces of information when a user signs in. The client needs to discover the user's <code>authorization_endpoint</code>, and optionally <code>token_endpoint</code> if the client needs an access token. When using the Authorization flow to obtain an access token for use at a [<cite><a class="bibref" data-link-type="biblio" href="#bib-micropub" title="Micropub">Micropub</a></cite>] endpoint, the client will also discover the <code>micropub</code> endpoint.</p>
 
         <p id="discovery-by-clients-p-2">Clients <em class="rfc2119" title="MUST">MUST</em> start by making a GET or HEAD request to [<cite><a class="bibref" data-link-type="biblio" href="#bib-fetch" title="Fetch Standard">Fetch</a></cite>] the user's profile URL to discover the necessary values. Clients <em class="rfc2119" title="MUST">MUST</em> follow HTTP redirects (up to a self-imposed limit). If an HTTP permament redirect (HTTP 301 or 308) is encountered, the client <em class="rfc2119" title="MUST">MUST</em> use the resulting URL as the canonical profile URL. If an HTTP temporary redirect (HTTP 302 or 307) is encountered, the client <em class="rfc2119" title="MUST">MUST</em> use the previous URL as the profile URL, but use the redirected-to page for discovery.</p>
 
@@ -930,20 +357,20 @@ body {
           <p id="application-information-p-1">Clients <em class="rfc2119" title="SHOULD">SHOULD</em> have a web page at their <code>client_id</code> URL with basic information about the application, at least the application's name and icon. This page serves as a good landing page for human visitors, but can also serve as the place to include machine-readable information about the application. The HTML on the <code>client_id</code> URL <em class="rfc2119" title="SHOULD">SHOULD</em> be marked up with [<cite><a class="bibref" data-link-type="biblio" href="#bib-h-app" title="h-app">h-app</a></cite>] Microformat to indicate the name and icon of the application. Authorization servers <em class="rfc2119" title="SHOULD">SHOULD</em> support parsing the [<cite><a class="bibref" data-link-type="biblio" href="#bib-h-app" title="h-app">h-app</a></cite>] Microformat from the <code>client_id</code>, and if there is an [<cite><a class="bibref" data-link-type="biblio" href="#bib-h-app" title="h-app">h-app</a></cite>] with a <code>url</code> property matching the <code>client_id</code> URL, then it should use the name and icon and display them on the authorization prompt.</p>
 
           <div class="example" id="example-1">
-          <div class="marker">
-      <a class="self-link" href="#example-1">Example<bdi> 1</bdi></a>
-    </div> <pre aria-busy="false"><code class="hljs javascript">&lt;div <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"h-app"</span>&gt;
+        <div class="marker">
+    <a class="self-link" href="#example-1">Example<bdi> 1</bdi></a>
+  </div> <pre aria-busy="false"><code class="hljs javascript">&lt;div <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"h-app"</span>&gt;
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/logo.png"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"u-logo"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"u-url p-name"</span>&gt;</span>Example App<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></code></pre>
-        </div>
+      </div>
 
           <p id="application-information-p-2">This can be parsed with a <a href="http://microformats.org/wiki/microformats2#Parsers">Microformats2 parser</a>, which will result in the following JSON structure.</p>
 
           <div class="example" id="example-2">
-          <div class="marker">
-      <a class="self-link" href="#example-2">Example<bdi> 2</bdi></a>
-    </div> <pre aria-busy="false"><code class="hljs json">{
+        <div class="marker">
+    <a class="self-link" href="#example-2">Example<bdi> 2</bdi></a>
+  </div> <pre aria-busy="false"><code class="hljs json">{
   <span class="hljs-attr">"type"</span>: [
     <span class="hljs-string">"h-app"</span>
   ],
@@ -953,7 +380,7 @@ body {
     <span class="hljs-attr">"url"</span>: [<span class="hljs-string">"https://app.example.com/"</span>]
   }
 }</code></pre>
-        </div>
+      </div>
         </section>
 
         <section id="redirect-url">
@@ -964,166 +391,31 @@ body {
           <p id="redirect-url-p-2">Authorization endpoints verifying that a <code>redirect_uri</code> is allowed for use by a client <em class="rfc2119" title="MUST">MUST</em> look for an exact match of the given <code>redirect_uri</code> in the request against the list of <code>redirect_uri</code>s discovered after resolving any relative URLs.</p>
 
           <div class="example" id="example-3">
-          <div class="marker">
-      <a class="self-link" href="#example-3">Example<bdi> 3</bdi></a>
-    </div> <pre aria-busy="false"><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/</span> HTTP/1.1
+        <div class="marker">
+    <a class="self-link" href="#example-3">Example<bdi> 3</bdi></a>
+  </div> <pre aria-busy="false"><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/</span> HTTP/1.1
 <span class="hljs-attribute">Host</span>: app.example.com
 
 <span class="http">HTTP/1.1 <span class="hljs-number">200</span> Ok
 <span class="hljs-attribute">Content-type</span>: text/html; charset=utf-8
 <span class="hljs-attribute">Link</span>: &lt;https://app.example.com/redirect&gt;; rel="redirect_uri"
 
-<span class="xml"><span class="hljs-meta">&lt;!doctype html&gt;</span>
+<span class="xml"><span class="hljs-meta">&lt;!doctype <span class="hljs-meta-keyword">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"redirect_uri"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/redirect"</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
   ...
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></span></span></code></pre>
-        </div>
+      </div>
         </section>
 
       </section>
 
     </section>
 
-    <section class="normative" id="authentication">
-      <h2 id="x5-authentication"><bdi class="secno">5. </bdi>Authentication<a class="self-link" aria-label="§" href="#authentication"></a></h2>
-
-      <p id="authentication-p-1">This section describes how to perform authentication using the OAuth 2.0 Authorization Code Flow.</p>
-
-      
-      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 906 716" style="width: 100%; height: auto;"><defs></defs><g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g><rect fill="white" stroke="none" x="0" y="0" width="906" height="716"></rect></g><g><text fill="black" stroke="none" font-family="Helvetica" font-size="16.5pt" font-style="normal" font-weight="normal" text-decoration="normal" x="263.19896571137565" y="24.50280495" text-anchor="start" dominant-baseline="alphabetic">IndieAuth Authentication Flow Diagram</text></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 52.77388084866407 95.887643371 L 52.77388084866407 716.6253687710001" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray="12.565541,5.445067766666667"></path><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 345.71152869488805 95.887643371 L 345.71152869488805 716.6253687710001" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray="12.565541,5.445067766666667"></path><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 586.4516209991198 95.887643371 L 586.4516209991198 716.6253687710001" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray="12.565541,5.445067766666667"></path><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 807.065021948599 95.887643371 L 807.065021948599 716.6253687710001" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray="12.565541,5.445067766666667"></path></g><g><path fill="none" stroke="none"></path><g><path fill="white" stroke="black" paint-order="fill stroke markers" d=" M 8.167601650000002 51.782594461 L 97.38016004732813 51.782594461 L 97.38016004732813 95.887643371 L 8.167601650000002 95.887643371 L 8.167601650000002 51.782594461 Z" stroke-miterlimit="10" stroke-width="2.613632528" stroke-dasharray=""></path></g><g><g></g><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="25.891297230500008" y="79.55244007099999" text-anchor="start" dominant-baseline="alphabetic">Browser</text></g><path fill="none" stroke="none"></path><g><path fill="white" stroke="black" paint-order="fill stroke markers" d=" M 309.2476902921224 51.782594461 L 382.17536709765363 51.782594461 L 382.17536709765363 95.887643371 L 309.2476902921224 95.887643371 L 309.2476902921224 51.782594461 Z" stroke-miterlimit="10" stroke-width="2.613632528" stroke-dasharray=""></path></g><g><g></g><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="326.9713858726224" y="79.55244007099999" text-anchor="start" dominant-baseline="alphabetic">Client</text></g><path fill="none" stroke="none"></path><g><path fill="white" stroke="black" paint-order="fill stroke markers" d=" M 536.5518618810221 51.782594461 L 636.3513801172174 51.782594461 L 636.3513801172174 95.887643371 L 536.5518618810221 95.887643371 L 536.5518618810221 51.782594461 Z" stroke-miterlimit="10" stroke-width="2.613632528" stroke-dasharray=""></path></g><g><g></g><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="554.2755574615221" y="79.55244007099999" text-anchor="start" dominant-baseline="alphabetic">User URL</text></g><path fill="none" stroke="none"></path><g><path fill="white" stroke="black" paint-order="fill stroke markers" d=" M 715.5833078744466 51.782594461 L 898.5467360227514 51.782594461 L 898.5467360227514 95.887643371 L 715.5833078744466 95.887643371 L 715.5833078744466 51.782594461 Z" stroke-miterlimit="10" stroke-width="2.613632528" stroke-dasharray=""></path></g><g><g></g><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="733.3070034549467" y="79.55244007099999" text-anchor="start" dominant-baseline="alphabetic">Authorization Endpoint</text></g></g><g><g><g><path fill="none" stroke="none"></path><rect fill="white" stroke="none" x="103.91131313175653" y="128.558049971" width="190.66278328003906" height="21.23576429"></rect></g><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="106.36159362675653" y="143.259732941" text-anchor="start" dominant-baseline="alphabetic">User enters their profile URL</text></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 52.77388084866407 149.793814261 L 345.71152869488805 149.793814261" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray=""></path><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 332.09885927822137 142.98747955266666 L 345.71152869488805 149.793814261 L 332.09885927822137 156.60014896933333 Z"></path></g><g><g><path fill="none" stroke="none"></path><rect fill="white" stroke="none" x="365.0415192665547" y="174.29661921099998" width="202.08011116089844" height="21.23576429"></rect></g><g><path fill="none" stroke="none"></path><rect fill="white" stroke="none" x="365.0415192665547" y="190.63182251099997" width="193.45447029175781" height="21.23576429"></rect></g><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="367.4917997615547" y="188.99830218099996" text-anchor="start" dominant-baseline="alphabetic">Client fetches URL to discover</text><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="367.4917997615547" y="205.33350548099995" text-anchor="start" dominant-baseline="alphabetic"></text><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="bold" text-decoration="normal" x="367.4917997615547" y="205.33350548099995" text-anchor="start" dominant-baseline="alphabetic">rel=authorization_endpoint</text><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="556.0457090633125" y="205.33350548099995" text-anchor="start" dominant-baseline="alphabetic"></text></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 345.71152869488805 211.867586801 L 586.4516209991198 211.867586801" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray=""></path><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 572.8389515824531 205.06125209266665 L 586.4516209991198 211.867586801 L 572.8389515824531 218.67392150933333 Z"></path></g><g><g><path fill="none" stroke="none"></path><rect fill="white" stroke="none" x="72.10387142033075" y="236.370391751" width="254.27766670289063" height="21.23576429"></rect></g><g><path fill="none" stroke="none"></path><rect fill="white" stroke="none" x="72.10387142033075" y="252.705595051" width="243.54748786988281" height="21.23576429"></rect></g><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="74.55415191533075" y="251.07207472099998" text-anchor="start" dominant-baseline="alphabetic">Client builds authentication request and</text><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="74.55415191533075" y="267.40727802099997" text-anchor="start" dominant-baseline="alphabetic">redirects to </text><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="bold" text-decoration="normal" x="151.13964691044794" y="267.40727802099997" text-anchor="start" dominant-baseline="alphabetic">authorization_endpoint</text><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="313.20107879521356" y="267.40727802099997" text-anchor="start" dominant-baseline="alphabetic"></text></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 345.71152869488805 273.941359341 L 52.77388084866407 273.941359341" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray="6.53408132"></path><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 66.38655026533074 267.13502463266667 L 52.77388084866407 273.941359341 L 66.38655026533074 280.74769404933335 Z"></path></g><g><g><path fill="none" stroke="none"></path><rect fill="white" stroke="none" x="188.6969083303894" y="298.444164291" width="482.44508613648435" height="21.23576429"></rect></g><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="191.14718882538938" y="313.145847261" text-anchor="start" dominant-baseline="alphabetic">User visits their authorization endpoint and sees the authentication request</text></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 52.77388084866407 319.679928581 L 807.065021948599 319.679928581" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray=""></path><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 793.4523525319323 312.8735938726667 L 807.065021948599 319.679928581 L 793.4523525319323 326.48626328933335 Z"></path></g><g><g><path fill="none" stroke="none"></path><rect fill="white" stroke="none" x="375.10486494393103" y="344.182733531" width="402.566820755625" height="21.23576429"></rect></g><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="377.55514543893105" y="358.884416501" text-anchor="start" dominant-baseline="alphabetic">Authorization endpoint fetches client information (name, icon)</text></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 807.065021948599 365.418497821 L 345.71152869488805 365.418497821" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray=""></path><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 359.3241981115547 358.6121631126667 L 345.71152869488805 365.418497821 L 359.3241981115547 372.22483252933336 Z"></path></g><g><g><path fill="none" stroke="none"></path><rect fill="white" stroke="none" x="217.22231421417845" y="389.921302771" width="305.6162592321875" height="21.23576429"></rect></g><g><path fill="none" stroke="none"></path><rect fill="white" stroke="none" x="217.22231421417845" y="406.256506071" width="425.3942743689062" height="21.23576429"></rect></g><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="219.67259470917844" y="404.622985741" text-anchor="start" dominant-baseline="alphabetic">User authenticates, and approves the request.</text><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="219.67259470917844" y="420.95818904099997" text-anchor="start" dominant-baseline="alphabetic">Authorization endpoint issues code, builds redirect back to client.</text></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 807.065021948599 427.492270361 L 52.77388084866407 427.492270361" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray="6.53408132"></path><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 66.38655026533074 420.68593565266667 L 52.77388084866407 427.492270361 L 66.38655026533074 434.29860506933335 Z"></path></g><g><g><path fill="none" stroke="none"></path><rect fill="white" stroke="none" x="87.22556789249872" y="451.995075311" width="202.41652168335938" height="21.23576429"></rect></g><g><path fill="none" stroke="none"></path><rect fill="white" stroke="none" x="87.22556789249872" y="468.330278611" width="224.0342737585547" height="21.23576429"></rect></g><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="89.67584838749872" y="466.696758281" text-anchor="start" dominant-baseline="alphabetic">User's browser is redirected to</text><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="89.67584838749872" y="483.03196158099996" text-anchor="start" dominant-baseline="alphabetic">client with an </text><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="bold" text-decoration="normal" x="178.49469604374872" y="483.03196158099996" text-anchor="start" dominant-baseline="alphabetic">authorization code</text><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="308.8095611560534" y="483.03196158099996" text-anchor="start" dominant-baseline="alphabetic"></text></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 52.77388084866407 489.566042901 L 345.71152869488805 489.566042901" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray=""></path><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 332.09885927822137 482.75970819266666 L 345.71152869488805 489.566042901 L 332.09885927822137 496.37237760933334 Z"></path></g><g><g><path fill="none" stroke="none"></path><rect fill="white" stroke="none" x="377.9681919702982" y="514.068847851" width="396.8401667028906" height="21.23576429"></rect></g><g><path fill="none" stroke="none"></path><rect fill="white" stroke="none" x="377.9681919702982" y="530.404051151" width="193.99855293335938" height="21.23576429"></rect></g><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="380.41847246529824" y="528.770530821" text-anchor="start" dominant-baseline="alphabetic">Client verifies authorization code by making a POST request</text><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="380.41847246529824" y="545.105734121" text-anchor="start" dominant-baseline="alphabetic">to the authorization_endpoint</text></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 345.71152869488805 551.639815441 L 807.065021948599 551.639815441" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray=""></path><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 793.4523525319323 544.8334807326667 L 807.065021948599 551.639815441 L 793.4523525319323 558.4461501493333 Z"></path></g><g><g><path fill="none" stroke="none"></path><rect fill="white" stroke="none" x="388.1399601587748" y="576.1426203909999" width="376.4966303259375" height="21.23576429"></rect></g><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="390.5902406537748" y="590.8443033609999" text-anchor="start" dominant-baseline="alphabetic">Authorization endpoint returns canonical user profile URL</text></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 807.065021948599 597.378384681 L 345.71152869488805 597.378384681" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray="6.53408132"></path><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 359.3241981115547 590.5720499726666 L 345.71152869488805 597.378384681 L 359.3241981115547 604.1847193893333 Z"></path></g><g><g><path fill="none" stroke="none"></path><rect fill="white" stroke="none" x="106.74953182072137" y="621.8811896310001" width="184.98634590210938" height="21.23576429"></rect></g><g><path fill="none" stroke="none"></path><rect fill="white" stroke="none" x="106.74953182072137" y="638.2163929310001" width="164.6427942663672" height="21.23576429"></rect></g><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="109.19981231572137" y="636.5828726010001" text-anchor="start" dominant-baseline="alphabetic">Client initiates login session</text><text fill="black" stroke="none" font-family="Arial" font-size="11pt" font-style="normal" font-weight="normal" text-decoration="normal" x="109.19981231572137" y="652.9180759010001" text-anchor="start" dominant-baseline="alphabetic">and the user is logged in</text></g><g><path fill="none" stroke="black" paint-order="fill stroke markers" d=" M 345.71152869488805 659.4521572210001 L 52.77388084866407 659.4521572210001" stroke-miterlimit="10" stroke-width="1.3612669416666667" stroke-dasharray="6.53408132"></path><path fill="black" stroke="none" paint-order="stroke fill markers" d=" M 66.38655026533074 652.6458225126668 L 52.77388084866407 659.4521572210001 L 66.38655026533074 666.2584919293334 Z"></path></g></g><g></g><g></g><g></g><g></g></g></svg>
-      <ul>
-        <li id="authentication-li-1">The End-User enters their profile URL in the login form of the client and clicks "Sign in"</li>
-        <li id="authentication-li-2">The client discovers the End-User's authorization endpoint by fetching the End-User's profile URL and looking for the <code>rel=authorization_endpoint</code> value</li>
-        <li id="authentication-li-3">The client builds the authentication request including its client identifier, local state, and a redirect URI, and redirects the browser to the authorization endpoint</li>
-        <li id="authentication-li-4">The authorization endpoint fetches the client information from the client identifier URL in order to have an application name and icon to display to the user</li>
-        <li id="authentication-li-5">The authorization endpoint verifies the End-User, e.g. by logging in, and establishes whether the End-User grants or denies the client's authentication request</li>
-        <li id="authentication-li-6">The authorization endpoint generates an authorization code and redirects the browser back to the client, including an authorization code in the URL</li>
-        <li id="authentication-li-7">The client verifies the authorization code by making a POST request to the authorization endpoint. The authorization endpoint validates the authorization code, and responds with the End-User's canonical profile URL</li>
-      </ul>
-
-      <section id="discovery-0">
-        <h3 id="x5-1-discovery"><bdi class="secno">5.1 </bdi>Discovery<a class="self-link" aria-label="§" href="#discovery-0"></a></h3>
-
-        <p id="discovery-0-p-1">After obtaining the End-User's profile URL, the client fetches the URL and looks for the <code>authorization_endpoint</code> rel value in the HTTP <code>Link</code> headers and HTML <code>&lt;link&gt;</code> tags.</p>
-
-        <div class="example" id="example-4">
-          <div class="marker">
-      <a class="self-link" href="#example-4">Example<bdi> 4</bdi></a>
-    </div> <pre class="nohighlight">Link: &lt;https://example.org/auth&gt;; rel="authorization_endpoint"
-
-&lt;link rel="authorization_endpoint" href="https://example.org/auth"&gt;</pre>
-        </div>
-      </section>
-
-      <section id="authentication-request">
-        <h3 id="x5-2-authentication-request"><bdi class="secno">5.2 </bdi>Authentication Request<a class="self-link" aria-label="§" href="#authentication-request"></a></h3>
-
-        <p id="authentication-request-p-1">The client builds the authentication request URL by starting with the discovered <code>authorization_endpoint</code> URL and adding the following parameters to the query component:</p>
-
-        <ul>
-          <li id="authentication-request-li-1"><code>me</code> - The user's profile URL</li>
-          <li id="authentication-request-li-2"><code>client_id</code> - The client URL</li>
-          <li id="authentication-request-li-3"><code>redirect_uri</code> - The redirect URL indicating where the user should be redirected to after approving the request</li>
-          <li id="authentication-request-li-4"><code>state</code> - A parameter set by the client which will be included when the user is redirected back to the client. This is used to prevent CSRF attacks. The authorization server <em class="rfc2119" title="MUST">MUST</em> return the unmodified state value back to the client.</li>
-          <li id="authentication-request-li-5"><code>response_type=id</code> - (optional) Indicates to the authorization server that this is an authentication request. If this parameter is missing, the authorization endpoint <em class="rfc2119" title="MUST">MUST</em> default to <code>id</code>.</li>
-        </ul>
-
-        <div class="example" id="example-5">
-          <div class="marker">
-      <a class="self-link" href="#example-5">Example<bdi> 5</bdi></a>
-    </div> <pre class="nohighlight">https://example.org/auth?me=https://user.example.net/&amp;
-                          redirect_uri=https://app.example.com/redirect&amp;
-                          client_id=https://app.example.com/&amp;
-                          state=1234567890&amp;
-                          response_type=id</pre>
-        </div>
-
-        <p id="authentication-request-p-2">The authorization endpoint <em class="rfc2119" title="SHOULD">SHOULD</em> fetch the <code>client_id</code> URL to retrieve application information and the client's registered redirect URLs, see <a href="#client-information-discovery">Client Information Discovery</a> for more information.</p>
-
-        <p id="authentication-request-p-3">If the URL scheme, host or port of the <code>redirect_uri</code> in the request do not match that of the <code>client_id</code>, then the authorization endpoint <em class="rfc2119" title="SHOULD">SHOULD</em> verify that the requested <code>redirect_uri</code> matches one of the <a href="#redirect-url">redirect URLs</a> published by the client, and <em class="rfc2119" title="SHOULD">SHOULD</em> block the request from proceeding if not.</p>
-
-        <p id="authentication-request-p-4">It is up to the authorization endpoint how to authenticate the user. This step is out of scope of OAuth 2.0, and is highly dependent on the particular implementation. Some authorization servers use typical username/password authentication, and others use alternative forms of authentication such as [<cite><a class="bibref" data-link-type="biblio" href="#bib-relmeauth" title="RelMeAuth">RelMeAuth</a></cite>], which uses [<cite><a class="bibref" data-link-type="biblio" href="#bib-xfn11" title="XFN 1.1">XFN11</a></cite>]'s simple <code>rel=me</code> markup.</p>
-
-        <p id="authentication-request-p-5">Once the user is authenticated, the authorization endpoint presents the authentication prompt to the user. The prompt <em class="rfc2119" title="MUST">MUST</em> indicate which application the user is signing in to, and <em class="rfc2119" title="SHOULD">SHOULD</em> provide as much detail as possible about the request.</p>
-      </section>
-
-      <section id="authentication-response">
-        <h3 id="x5-3-authentication-response"><bdi class="secno">5.3 </bdi>Authentication Response<a class="self-link" aria-label="§" href="#authentication-response"></a></h3>
-
-        <p id="authentication-response-p-1">If the user approves the request, the authorization endpoint generates an authorization code and builds the redirect back to the client.</p>
-
-        <p id="authentication-response-p-2">The redirect is built by starting with the <code>redirect_uri</code> in the request, and adding the following parameters to the query component of the redirect URL:</p>
-
-        <ul>
-          <li id="authentication-response-li-1"><code>code</code> - The authorization code generated by the authorization endpoint. The code <em class="rfc2119" title="MUST">MUST</em> expire shortly after it is issued to mitigate the risk of leaks. A maximum lifetime of 10 minutes is recommended. See <a href="https://tools.ietf.org/html/rfc6749#section-4.1.2">OAuth 2.0 Section 4.1.2</a> for additional requirements on the authorization code.</li>
-          <li id="authentication-response-li-2"><code>state</code> - The state parameter <em class="rfc2119" title="MUST">MUST</em> be set to the exact value that the client set in the request.</li>
-        </ul>
-
-        <div class="example" id="example-6">
-          <div class="marker">
-      <a class="self-link" href="#example-6">Example<bdi> 6</bdi></a>
-    </div> <pre class="nohighlight">HTTP/1.1 302 Found
-Location: https://app.example.com/redirect?code=xxxxxxxx&amp;
-                                           state=1234567890</pre>
-        </div>
-
-        <p id="authentication-response-p-3">Upon the redirect back to the client, the client <em class="rfc2119" title="MUST">MUST</em> verify that the state parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</p>
-
-        <p id="authentication-response-p-4">See OAuth 2.0 [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6749" title="The OAuth 2.0 Authorization Framework">RFC6749</a></cite>] <a href="https://tools.ietf.org/html/rfc6749#section-4.1.2.1">Section 4.1.2.1</a> for how to indicate errors and other failures to the user and client.</p>
-      </section>
-
-      <section id="authorization-code-verification">
-        <h3 id="x5-4-authorization-code-verification"><bdi class="secno">5.4 </bdi>Authorization Code Verification<a class="self-link" aria-label="§" href="#authorization-code-verification"></a></h3>
-
-        <h4 id="request">Request<a class="self-link" aria-label="§" href="#authorization-code-verification"></a></h4>
-
-        <p id="authorization-code-verification-p-1">After the state parameter is validated, the client makes a POST request to the authorization endpoint to verify the authorization code and retrieve the final user profile URL. The POST request contains the following parameters:</p>
-
-        <ul>
-          <li id="authorization-code-verification-li-1"><code>code</code> - The authorization code received from the authorization endpoint in the redirect</li>
-          <li id="authorization-code-verification-li-2"><code>client_id</code> - The client's URL, which <em class="rfc2119" title="MUST">MUST</em> match the client_id used in the authentication request.</li>
-          <li id="authorization-code-verification-li-3"><code>redirect_uri</code> - The client's redirect URL, which <em class="rfc2119" title="MUST">MUST</em> match the initial authentication request.</li>
-        </ul>
-
-        <div class="example" id="example-7">
-          <div class="marker">
-      <a class="self-link" href="#example-7">Example<bdi> 7</bdi></a>
-    </div> <pre class="nohighlight">POST https://example.org/auth
-Content-type: application/x-www-form-urlencoded
-Accept: application/json
-
-code=xxxxxxxx
-&amp;client_id=https://app.example.com/
-&amp;redirect_uri=https://app.example.com/redirect</pre>
-        </div>
-
-        <h4 id="response">Response<a class="self-link" aria-label="§" href="#authorization-code-verification"></a></h4>
-
-        <p id="authorization-code-verification-p-2">The authorization endpoint verifies that the authorization code is valid, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>. If the request is valid, then the endpoint responds with a JSON [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc7159" title="The JavaScript Object Notation (JSON) Data Interchange Format">RFC7159</a></cite>] object containing one property, <code>me</code>, with the canonical user profile URL for the user who signed in.</p>
-
-        <div class="example" id="example-8">
-          <div class="marker">
-      <a class="self-link" href="#example-8">Example<bdi> 8</bdi></a>
-    </div> <pre class="nohighlight">HTTP/1.1 200 OK
-Content-Type: application/json
-
-{
-  "me": "https://user.example.net/"
-}</pre>
-        </div>
-
-        <p id="authorization-code-verification-p-3">The resulting profile URL <em class="rfc2119" title="MAY">MAY</em> be different from what the user initially entered, but <em class="rfc2119" title="MUST">MUST</em> be on the same domain. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-examples">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
-
-        <p id="authorization-code-verification-p-4">See OAuth 2.0 [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6749" title="The OAuth 2.0 Authorization Framework">RFC6749</a></cite>] <a href="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
-      </section>
-    </section>
-
-
     <section class="normative" id="authorization">
-      <h2 id="x6-authorization"><bdi class="secno">6. </bdi>Authorization<a class="self-link" aria-label="§" href="#authorization"></a></h2>
+      <h2 id="x5-authorization"><bdi class="secno">5. </bdi>Authorization<a class="self-link" aria-label="§" href="#authorization"></a></h2>
 
       <p id="authorization-p-1">This section describes how to obtain an access token using the OAuth 2.0 Authorization Code Flow.</p>
 
@@ -1139,49 +431,46 @@ Content-Type: application/json
         <li id="authorization-li-7">The client exchanges the authorization code for an access token by making a POST request to the token endpoint. The token endpoint validates the authorization code, and responds with the End-User's canonical profile URL and an access token</li>
       </ul>
 
-      <section id="discovery-1">
-        <h3 id="x6-1-discovery"><bdi class="secno">6.1 </bdi>Discovery<a class="self-link" aria-label="§" href="#discovery-1"></a></h3>
+      <section id="discovery-0">
+        <h3 id="x5-1-discovery"><bdi class="secno">5.1 </bdi>Discovery<a class="self-link" aria-label="§" href="#discovery-0"></a></h3>
 
-        <p id="discovery-1-p-1">After obtaining the End-User's profile URL, the client fetches the URL and looks for the <code>authorization_endpoint</code> and <code>token_endpoint</code> rel values in the HTTP <code>Link</code> headers and HTML <code>&lt;link&gt;</code> tags.</p>
+        <p id="discovery-0-p-1">After obtaining the End-User's profile URL, the client fetches the URL and looks for the <code>authorization_endpoint</code> and <code>token_endpoint</code> rel values in the HTTP <code>Link</code> headers and HTML <code>&lt;link&gt;</code> tags as described in <a href="#discovery-by-clients" class="sec-ref">§&nbsp;<bdi class="secno">4.1 </bdi>Discovery by Clients</a>.</p>
 
-        <div class="example" id="example-9">
-          <div class="marker">
-      <a class="self-link" href="#example-9">Example<bdi> 9</bdi></a>
-    </div> <pre class="nohighlight">Link: &lt;https://example.org/auth&gt;; rel="authorization_endpoint"
+        <div class="example" id="example-4">
+        <div class="marker">
+    <a class="self-link" href="#example-4">Example<bdi> 4</bdi></a>
+  </div> <pre class="nohighlight">Link: &lt;https://example.org/auth&gt;; rel="authorization_endpoint"
 Link: &lt;https://example.org/token&gt;; rel="token_endpoint"
 
 &lt;link rel="authorization_endpoint" href="https://example.org/auth"&gt;
 &lt;link rel="token_endpoint" href="https://example.org/token"&gt;</pre>
-        </div>
+      </div>
       </section>
 
-      <section id="authorization-endpoint-0">
-        <h3 id="x6-2-authorization-endpoint"><bdi class="secno">6.2 </bdi>Authorization Endpoint<a class="self-link" aria-label="§" href="#authorization-endpoint-0"></a></h3>
-
-        <section id="authorization-request">
-          <h4 id="x6-2-1-authorization-request"><bdi class="secno">6.2.1 </bdi>Authorization Request<a class="self-link" aria-label="§" href="#authorization-request"></a></h4>
+      <section id="authorization-request">
+        <h3 id="x5-2-authorization-request"><bdi class="secno">5.2 </bdi>Authorization Request<a class="self-link" aria-label="§" href="#authorization-request"></a></h3>
 
           <p id="authorization-request-p-1">The client builds the authorization request URL by starting with the discovered <code>authorization_endpoint</code> URL and adding the following parameters to the query component:</p>
 
           <ul>
-            <li id="authorization-request-li-1"><code>response_type=code</code> - Indicates to the authorization server that this is an authorization request and an authorization code should be returned</li>
+            <li id="authorization-request-li-1"><code>response_type=code</code> - Indicates to the authorization server that an authorization code should be returned as the response</li>
             <li id="authorization-request-li-2"><code>me</code> - The profile URL that the user entered</li>
             <li id="authorization-request-li-3"><code>client_id</code> - The client URL</li>
             <li id="authorization-request-li-4"><code>redirect_uri</code> - The redirect URL indicating where the user should be redirected to after approving the request</li>
             <li id="authorization-request-li-5"><code>state</code> - A parameter set by the client which will be included when the user is redirected back to the client. This is used to prevent CSRF attacks. The authorization server <em class="rfc2119" title="MUST">MUST</em> return the unmodified state value back to the client.</li>
-            <li id="authorization-request-li-6"><code>scope</code> - (optional) A space-separated list of scopes the client is requesting, e.g. "create". If the client omits this value, the authorization server <em class="rfc2119" title="MUST">MUST</em> use a default value.</li>
+            <li id="authorization-request-li-6"><code>scope</code> - (optional) A space-separated list of scopes the client is requesting, e.g. "profile", or "profile create". If the client omits this value, the authorization server <em class="rfc2119" title="MUST NOT">MUST NOT</em> issue an access token for this authorization code. Only the user's URL may be returned without any scope requested.</li>
           </ul>
 
-          <div class="example" id="example-10">
-          <div class="marker">
-      <a class="self-link" href="#example-10">Example<bdi> 10</bdi></a>
-    </div> <pre class="nohighlight">https://example.org/auth?me=https://user.example.net/&amp;
+          <div class="example" id="example-5">
+        <div class="marker">
+    <a class="self-link" href="#example-5">Example<bdi> 5</bdi></a>
+  </div> <pre class="nohighlight">https://example.org/auth?me=https://user.example.net/&amp;
                           redirect_uri=https://app.example.com/redirect&amp;
                           client_id=https://app.example.com/&amp;
                           state=1234567890&amp;
-                          scope=create+update+delete&amp;
+                          scope=profile+create+update+delete&amp;
                           response_type=code</pre>
-        </div>
+      </div>
 
           <p id="authorization-request-p-2">The authorization endpoint <em class="rfc2119" title="SHOULD">SHOULD</em> fetch the <code>client_id</code> URL to retrieve application information and the client's registered redirect URLs, see <a href="#client-information-discovery">Client Information Discovery</a> for more information.</p>
 
@@ -1189,29 +478,28 @@ Link: &lt;https://example.org/token&gt;; rel="token_endpoint"
 
           <p id="authorization-request-p-4">It is up to the authorization endpoint how to authenticate the user. This step is out of scope of OAuth 2.0, and is highly dependent on the particular implementation. Some authorization servers use typical username/password authentication, and others use alternative forms of authentication such as [<cite><a class="bibref" data-link-type="biblio" href="#bib-relmeauth" title="RelMeAuth">RelMeAuth</a></cite>].</p>
 
-          <p id="authorization-request-p-5">Once the user is authenticated, the authorization endpoint presents the authorization prompt to the user. The prompt <em class="rfc2119" title="MUST">MUST</em> indicate which application the user is signing in to, and <em class="rfc2119" title="SHOULD">SHOULD</em> provide as much detail as possible about the request, such as information about the requested scopes.</p>
+          <p id="authorization-request-p-5">Once the user is authenticated, the authorization endpoint presents the authorization request to the user. The prompt <em class="rfc2119" title="MUST">MUST</em> indicate which application the user is signing in to, and <em class="rfc2119" title="SHOULD">SHOULD</em> provide as much detail as possible about the request, such as information about the requested scopes.</p>
 
-        </section>
 
         <section id="authorization-response">
-          <h4 id="x6-2-2-authorization-response"><bdi class="secno">6.2.2 </bdi>Authorization Response<a class="self-link" aria-label="§" href="#authorization-response"></a></h4>
+          <h4 id="x5-2-1-authorization-response"><bdi class="secno">5.2.1 </bdi>Authorization Response<a class="self-link" aria-label="§" href="#authorization-response"></a></h4>
 
           <p id="authorization-response-p-1">If the user approves the request, the authorization endpoint generates an authorization code and builds the redirect back to the client.</p>
 
           <p id="authorization-response-p-2">The redirect is built by starting with the <code>redirect_uri</code> in the request, and adding the following parameters to the query component of the redirect URL:</p>
 
           <ul>
-            <li id="authorization-response-li-1"><code>code</code> - The authorization code generated by the authorization endpoint. The code <em class="rfc2119" title="MUST">MUST</em> expire shortly after it is issued to mitigate the risk of leaks. A maximum lifetime of 10 minutes is recommended. See <a href="https://tools.ietf.org/html/rfc6749#section-4.1.2">OAuth 2.0 Section 4.1.2</a> for additional requirements on the authorization code.</li>
+            <li id="authorization-response-li-1"><code>code</code> - The authorization code generated by the authorization endpoint. The code <em class="rfc2119" title="MUST">MUST</em> expire shortly after it is issued to mitigate the risk of leaks, and <em class="rfc2119" title="MUST">MUST</em> be valid for only one use. A maximum lifetime of 10 minutes is recommended. See <a href="https://tools.ietf.org/html/rfc6749#section-4.1.2">OAuth 2.0 Section 4.1.2</a> for additional requirements on the authorization code.</li>
             <li id="authorization-response-li-2"><code>state</code> - The state parameter <em class="rfc2119" title="MUST">MUST</em> be set to the exact value that the client set in the request.</li>
           </ul>
 
-          <div class="example" id="example-11">
-          <div class="marker">
-      <a class="self-link" href="#example-11">Example<bdi> 11</bdi></a>
-    </div> <pre class="nohighlight">HTTP/1.1 302 Found
+          <div class="example" id="example-6">
+        <div class="marker">
+    <a class="self-link" href="#example-6">Example<bdi> 6</bdi></a>
+  </div> <pre class="nohighlight">HTTP/1.1 302 Found
   Location: https://app.example.com/redirect?code=xxxxxxxx
                                              state=1234567890</pre>
-        </div>
+      </div>
 
           <p id="authorization-response-p-3">Upon the redirect back to the client, the client <em class="rfc2119" title="MUST">MUST</em> verify that the state parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</p>
 
@@ -1219,91 +507,90 @@ Link: &lt;https://example.org/token&gt;; rel="token_endpoint"
         </section>
       </section>
 
-      <section id="token-endpoint-0">
-        <h3 id="x6-3-token-endpoint"><bdi class="secno">6.3 </bdi>Token Endpoint<a class="self-link" aria-label="§" href="#token-endpoint-0"></a></h3>
+      <section id="redeeming-the-authorization-code">
+        <h3 id="x5-3-redeeming-the-authorization-code"><bdi class="secno">5.3 </bdi>Redeeming the Authorization Code<a class="self-link" aria-label="§" href="#redeeming-the-authorization-code"></a></h3>
 
-        <section id="token-request">
-          <h4 id="x6-3-1-token-request"><bdi class="secno">6.3.1 </bdi>Token Request<a class="self-link" aria-label="§" href="#token-request"></a></h4>
+        <p id="redeeming-the-authorization-code-p-1">Once the client has obtained an authorization code, it can redeem it for an access token or the user's final profile URL.</p>
 
-          <p id="token-request-p-1">After the state parameter is validated, the client makes a POST request to the token endpoint to verify the authorization code and retrieve the final user profile URL. The POST request contains the following parameters:</p>
+        <section id="request">
+          <h4 id="x5-3-1-request"><bdi class="secno">5.3.1 </bdi>Request<a class="self-link" aria-label="§" href="#request"></a></h4>
+
+          <p id="request-p-1">If the client only needs to know the user who logged in and does not need to make requests to resource servers with an access token, the client exchanges the authorization code for the user's profile URL at the <b>authorization endpoint</b>.</p>
+
+          <p id="request-p-2">If the client needs an access token in order to make requests to a resource server such as a [<cite><a class="bibref" data-link-type="biblio" href="#bib-micropub" title="Micropub">Micropub</a></cite>] endpoint, it can exchange the authorization code for an access token and the user's profile URL at the <b>token endpoint</b>.</p>
+
+          <p id="request-p-3">After the client validates the state parameter, the client makes a POST request to the token endpoint or authorization endpoint to exchange the authorization code for the final user profile URL and/or access token. The POST request contains the following parameters:</p>
 
           <ul>
-            <li id="token-request-li-1"><code>grant_type=authorization_code</code></li>
-            <li id="token-request-li-2"><code>code</code> - The authorization code received from the authorization endpoint in the redirect</li>
-            <li id="token-request-li-3"><code>client_id</code> - The client's URL, which <em class="rfc2119" title="MUST">MUST</em> match the client_id used in the authorization request.</li>
-            <li id="token-request-li-4"><code>redirect_uri</code> - The client's redirect URL, which <em class="rfc2119" title="MUST">MUST</em> match the initial authorization request.</li>
-            <li id="token-request-li-5"><code>me</code> - The user's profile URL as originally used in the authorization request</li>
+            <li id="request-li-1"><code>grant_type=authorization_code</code></li>
+            <li id="request-li-2"><code>code</code> - The authorization code received from the authorization endpoint in the redirect</li>
+            <li id="request-li-3"><code>client_id</code> - The client's URL, which <em class="rfc2119" title="MUST">MUST</em> match the client_id used in the authentication request.</li>
+            <li id="request-li-4"><code>redirect_uri</code> - The client's redirect URL, which <em class="rfc2119" title="MUST">MUST</em> match the initial authentication request.</li>
           </ul>
 
-          <div class="example" id="example-12">
-          <div class="marker">
-      <a class="self-link" href="#example-12">Example<bdi> 12</bdi></a>
-    </div> <pre class="nohighlight">POST https://example.org/token
+          <b>Example request to authorization endpoint</b>
+          <div class="example" id="example-7">
+        <div class="marker">
+    <a class="self-link" href="#example-7">Example<bdi> 7</bdi></a>
+  </div> <pre class="nohighlight">POST https://example.org/auth
+  Content-type: application/x-www-form-urlencoded
+  Accept: application/json
+
+  grant_type=authorization_code
+  &amp;code=xxxxxxxx
+  &amp;client_id=https://app.example.com/
+  &amp;redirect_uri=https://app.example.com/redirect</pre>
+      </div>
+
+          <b>Example request to token endpoint</b>
+          <div class="example" id="example-8">
+        <div class="marker">
+    <a class="self-link" href="#example-8">Example<bdi> 8</bdi></a>
+  </div> <pre class="nohighlight">POST https://example.org/token
 Content-type: application/x-www-form-urlencoded
 Accept: application/json
 
 grant_type=authorization_code
 &amp;code=xxxxxxxx
 &amp;client_id=https://app.example.com/
-&amp;redirect_uri=https://app.example.com/redirect
-&amp;me=https://user.example.net/</pre>
-        </div>
+&amp;redirect_uri=https://app.example.com/redirect</pre>
+      </div>
         </section>
 
-        <section id="authorization-code-verification-0">
-          <h4 id="x6-3-2-authorization-code-verification"><bdi class="secno">6.3.2 </bdi>Authorization Code Verification<a class="self-link" aria-label="§" href="#authorization-code-verification-0"></a></h4>
+        <section id="profile-url-response">
+          <h4 id="x5-3-2-profile-url-response"><bdi class="secno">5.3.2 </bdi>Profile URL Response<a class="self-link" aria-label="§" href="#profile-url-response"></a></h4>
 
-          <p id="authorization-code-verification-0-p-1">The token endpoint needs to verify that the authorization code is valid, and that it was issued for the matching <code>me</code>, <code>client_id</code> and <code>redirect_uri</code>, and contains at least one <code>scope</code>. If the authorization code was issued with no <code>scope</code>, the token endpoint <em class="rfc2119" title="MUST NOT">MUST NOT</em> issue an access token, as empty scopes are invalid per Section 3.3 of OAuth 2.0 [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6749" title="The OAuth 2.0 Authorization Framework">RFC6749</a></cite>].</p>
+          <p id="profile-url-response-p-1">The authorization endpoint verifies that the authorization code is valid, has not yet been used, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>. If the request is valid, then the endpoint responds with a JSON [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc7159" title="The JavaScript Object Notation (JSON) Data Interchange Format">RFC7159</a></cite>] object containing one property, <code>me</code>, with the canonical user profile URL for the user who signed in.</p>
 
-          <p id="authorization-code-verification-0-p-2">If the authorization endpoint and token endpoint are tightly integrated, then they can use any mechanism to share the information about the authorization code, such as looking up the code in a database, or sharing a JWT secret. If the authorization endpoint and token endpoint are separate, then they <em class="rfc2119" title="MUST">MUST</em> use the mechanism described below to communicate.</p>
+          <div class="example" id="example-9">
+        <div class="marker">
+    <a class="self-link" href="#example-9">Example<bdi> 9</bdi></a>
+  </div> <pre class="nohighlight">HTTP/1.1 200 OK
+  Content-Type: application/json
 
-          <p id="authorization-code-verification-0-p-3">The token endpoint <em class="rfc2119" title="MUST">MUST</em> make a POST request to the authorization endpoint to verify the authorization code if it is not able to verify it using other means. To find the authorization endpoint, the token endpoint uses the user's profile URL in the <code>me</code> parameter and performs <a href="#discovery-by-clients">discovery</a> to find the user's <code>authorization_endpoint</code>. The token endpoint makes a POST request to the authorization endpoint with the following parameters:</p>
+  {
+    "me": "https://user.example.net/"
+  }</pre>
+      </div>
 
-          <ul>
-            <li id="authorization-code-verification-0-li-1"><code>code</code> - The authorization code received from the authorization endpoint in the redirect</li>
-            <li id="authorization-code-verification-0-li-2"><code>client_id</code> - The client's URL, which <em class="rfc2119" title="MUST">MUST</em> match the client_id used in the authorization request.</li>
-            <li id="authorization-code-verification-0-li-3"><code>redirect_uri</code> - The client's redirect URL, which <em class="rfc2119" title="MUST">MUST</em> match the initial authorization request.</li>
-          </ul>
+          <p id="profile-url-response-p-2">The resulting profile URL <em class="rfc2119" title="MAY">MAY</em> be different from what the user initially entered, but <em class="rfc2119" title="MUST">MUST</em> be on the same domain. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-examples">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
 
-          <div class="example" id="example-13">
-          <div class="marker">
-      <a class="self-link" href="#example-13">Example<bdi> 13</bdi></a>
-    </div> <pre class="nohighlight">POST https://example.org/auth
-Content-type: application/x-www-form-urlencoded
-Accept: application/json
-
-code=xxxxxxxx
-&amp;client_id=https://app.example.com/
-&amp;redirect_uri=https://app.example.com/redirect</pre>
-        </div>
-
-          <p id="authorization-code-verification-0-p-4">Note that this is the same request that clients make to the authorization endpoint in the <a href="#authorization-code-verification">authentication flow</a>.</p>
-
-          <p id="authorization-code-verification-0-p-5">The authorization endpoint will validate that the code corresponds with the given <code>client_id</code> and <code>redirect_uri</code> and respond with a JSON response containing the <code>me</code> URL corresponding to this authorization code as well as the <code>scope</code> that was authorized, or an OAuth 2.0 error response. The error returned from the authorization endpoint is acceptable to pass through to the client.</p>
-
-          <div class="example" id="example-14">
-          <div class="marker">
-      <a class="self-link" href="#example-14">Example<bdi> 14</bdi></a>
-    </div> <pre class="nohighlight">HTTP/1.1 200 OK
-Content-Type: application/json
-
-{
-  "me": "https://user.example.net/",
-  "scope": "create update delete"
-}</pre>
-        </div>
-
+          <p id="profile-url-response-p-3">See OAuth 2.0 [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6749" title="The OAuth 2.0 Authorization Framework">RFC6749</a></cite>] <a href="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
         </section>
 
         <section id="access-token-response">
-          <h4 id="x6-3-3-access-token-response"><bdi class="secno">6.3.3 </bdi>Access Token Response<a class="self-link" aria-label="§" href="#access-token-response"></a></h4>
+          <h4 id="x5-3-3-access-token-response"><bdi class="secno">5.3.3 </bdi>Access Token Response<a class="self-link" aria-label="§" href="#access-token-response"></a></h4>
 
-          <p id="access-token-response-p-1">If the request is valid, then the token endpoint can generate an access token and return the appropriate response. The token response is a JSON [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc7159" title="The JavaScript Object Notation (JSON) Data Interchange Format">RFC7159</a></cite>] object containing the OAuth 2.0 Bearer Token [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6750" title="The OAuth 2.0 Authorization Framework: Bearer Token Usage">RFC6750</a></cite>], as well as a property <code>me</code>, containing the canonical user profile URL for the user this access token corresponds to. For example:</p>
+          <p id="access-token-response-p-1">The token endpoint needs to verify that the authorization code is valid, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>, and contains at least one <code>scope</code>. If the authorization code was issued with no <code>scope</code>, the token endpoint <em class="rfc2119" title="MUST NOT">MUST NOT</em> issue an access token, as empty scopes are invalid per Section 3.3 of OAuth 2.0 [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6749" title="The OAuth 2.0 Authorization Framework">RFC6749</a></cite>].</p>
 
-          <div class="example" id="example-15">
-          <div class="marker">
-      <a class="self-link" href="#example-15">Example<bdi> 15</bdi></a>
-    </div> <pre class="nohighlight">HTTP/1.1 200 OK
+          <p id="access-token-response-p-2">The specifics of how the token endpoint verifies the authorization code are out of scope of this document, as typically the authorization endpoint and token endpoint are part of the same system and can share storage or other private communication mechanism.</p>
+
+          <p id="access-token-response-p-3">If the request is valid, then the token endpoint can generate an access token and return the appropriate response. The token response is a JSON [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc7159" title="The JavaScript Object Notation (JSON) Data Interchange Format">RFC7159</a></cite>] object containing the OAuth 2.0 Bearer Token [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6750" title="The OAuth 2.0 Authorization Framework: Bearer Token Usage">RFC6750</a></cite>], as well as a property <code>me</code>, containing the canonical user profile URL for the user this access token corresponds to. For example:</p>
+
+          <div class="example" id="example-10">
+        <div class="marker">
+    <a class="self-link" href="#example-10">Example<bdi> 10</bdi></a>
+  </div> <pre class="nohighlight">HTTP/1.1 200 OK
 Content-Type: application/json
 
 {
@@ -1312,101 +599,111 @@ Content-Type: application/json
   "scope": "create update delete",
   "me": "https://user.example.net/"
 }</pre>
-        </div>
+      </div>
 
-          <p id="access-token-response-p-2">The resulting profile URL <em class="rfc2119" title="MAY">MAY</em> be different from what the user initially entered, but <em class="rfc2119" title="MUST">MUST</em> be on the same domain. This provides the opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-examples">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
+          <p id="access-token-response-p-4">The resulting profile URL <em class="rfc2119" title="MAY">MAY</em> be different from what the user initially entered, but <em class="rfc2119" title="MUST">MUST</em> be on the same domain. This provides the opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-examples">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
 
-          <p id="access-token-response-p-3">See OAuth 2.0 [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6749" title="The OAuth 2.0 Authorization Framework">RFC6749</a></cite>] <a href="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
-        </section>
-
-        <section id="access-token-verification">
-          <h4 id="x6-3-4-access-token-verification"><bdi class="secno">6.3.4 </bdi>Access Token Verification<a class="self-link" aria-label="§" href="#access-token-verification"></a></h4>
-
-          <p id="access-token-verification-p-1">Since in OAuth 2.0, access tokens are opaque to clients, clients do not need to know anything about the contents or structure of the token itself, if any. Additionally, endpoints that clients make requests to, such as [<cite><a class="bibref" data-link-type="biblio" href="#bib-micropub" title="Micropub">Micropub</a></cite>] endpoints, may not even understand how to interpret tokens if they were issued by a standalone token endpoint. If the token endpoint is not tightly integrated with the endpoint the client is interacting with, then the other endpoint needs a way to verify access tokens that it receives. If the token endpoint and Micropub endpoint are tightly coupled, then they can of course use an internal mechanism to verify access tokens.</p>
-
-          <p id="access-token-verification-p-2">Token endpoints that intend to interoperate with other endpoints <em class="rfc2119" title="MUST">MUST</em> use the mechanism described below to allow other endpoints to verify access tokens.</p>
-
-          <p id="access-token-verification-p-3">If an external endpoint needs to verify that an access token is valid, it <em class="rfc2119" title="MUST">MUST</em> make a GET request to the token endpoint containing an HTTP <code>Authorization</code> header with the Bearer Token according to [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6750" title="The OAuth 2.0 Authorization Framework: Bearer Token Usage">RFC6750</a></cite>]. Note that the request to the endpoint will not contain any user-identifying information, so the external endpoint (e.g. Micropub endpoint) will need to know via out-of-band methods which token endpoint is in use.</p>
-
-          <div class="example" id="example-16">
-          <div class="marker">
-      <a class="self-link" href="#example-16">Example<bdi> 16</bdi></a>
-    </div> <pre class="nohighlight">GET https://example.org/token
-Authorization: Bearer xxxxxxxx
-Accept: application/json</pre>
-        </div>
-
-          <p id="access-token-verification-p-4">The token endpoint verifies the access token using (how this verification is done is up to the implementation), and returns information about the token:</p>
-
-          <ul>
-            <li id="access-token-verification-li-1"><code>me</code> - The profile URL of the user corresponding to this token</li>
-            <li id="access-token-verification-li-2"><code>client_id</code> - The client ID associated with this token</li>
-            <li id="access-token-verification-li-3"><code>scope</code> - A space-separated list of scopes associated with this token</li>
-          </ul>
-
-          <div class="example" id="example-17">
-          <div class="marker">
-      <a class="self-link" href="#example-17">Example<bdi> 17</bdi></a>
-    </div> <pre class="nohighlight">HTTP/1.1 200 OK
-Content-Type: application/json
-
-{
-  "me": "https://user.example.net/",
-  "client_id": https://app.example.com/",
-  "scope": "create update delete"
-}</pre>
-        </div>
-
-          <p id="access-token-verification-p-5">Specific implementations <em class="rfc2119" title="MAY">MAY</em> include additional parameters as top-level JSON properties. Clients <em class="rfc2119" title="SHOULD">SHOULD</em> ignore parameters they don't recognize.</p>
-
-          <p id="access-token-verification-p-6">If the token is not valid, the endpoint <em class="rfc2119" title="MUST">MUST</em> return an appropriate HTTP 400, 401 or 403 response. The response body is not significant.</p>
-
-        </section>
-
-        <section id="token-revocation">
-          <h4 id="x6-3-5-token-revocation"><bdi class="secno">6.3.5 </bdi>Token Revocation<a class="self-link" aria-label="§" href="#token-revocation"></a></h4>
-
-          <p id="token-revocation-p-1">A client may wish to explicitly disable an access token that it has obtained, such as when the user signs out of the client. IndieAuth extends OAuth 2.0 Token Revocation [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc7009" title="OAuth 2.0 Token Revocation">RFC7009</a></cite>] by defining the following:</p>
-
-          <ul>
-            <li id="token-revocation-li-1">The revocation endpoint is the same as the token endpoint.</li>
-            <li id="token-revocation-li-2">The revocation request includes an additional parameter, <code>action=revoke</code>.</li>
-          </ul>
-
-          <p id="token-revocation-p-2">An example revocation request is below.</p>
-
-          <div class="example" id="example-18">
-          <div class="marker">
-      <a class="self-link" href="#example-18">Example<bdi> 18</bdi></a>
-    </div> <pre class="nohighlight">POST https://example.org/token HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-Accept: application/json
-
-action=revoke
-&amp;token=xxxxxxxx</pre>
-        </div>
-
-          <p id="token-revocation-p-3">As described in [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc7009" title="OAuth 2.0 Token Revocation">RFC7009</a></cite>], the revocation endpoint responds with HTTP 200 for both the case where the token was successfully revoked, or if the submitted token was invalid.</p>
-
+          <p id="access-token-response-p-5">See OAuth 2.0 [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6749" title="The OAuth 2.0 Authorization Framework">RFC6749</a></cite>] <a href="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
         </section>
       </section>
 
     </section>
 
+    <section class="normative" id="access-token-verification">
+      <h2 id="x6-access-token-verification"><bdi class="secno">6. </bdi>Access Token Verification<a class="self-link" aria-label="§" href="#access-token-verification"></a></h2>
+
+      <p id="access-token-verification-p-1">In OAuth 2.0, access tokens are opaque to clients, so clients do not need to know anything about the contents or structure of the token itself. Additionally, endpoints that clients make requests to, such as [<cite><a class="bibref" data-link-type="biblio" href="#bib-micropub" title="Micropub">Micropub</a></cite>] endpoints, may not even understand how to interpret tokens if they were issued by a standalone token endpoint. If the token endpoint is not tightly integrated with the resource server the client is interacting with, then the resource server needs a way to verify access tokens that it receives from clients. If the token endpoint and Micropub endpoint are tightly coupled, then they can of course use an internal mechanism to verify access tokens.</p>
+
+      <p id="access-token-verification-p-2">Token endpoints that intend to interoperate with other endpoints <em class="rfc2119" title="MUST">MUST</em> use the mechanism described below to allow resource servers such as Micropub endpoints to verify access tokens.</p>
+
+      <section id="access-token-verification-request">
+        <h3 id="x6-1-access-token-verification-request"><bdi class="secno">6.1 </bdi>Access Token Verification Request<a class="self-link" aria-label="§" href="#access-token-verification-request"></a></h3>
+
+        <p id="access-token-verification-request-p-1">If a resource server needs to verify that an access token is valid, it <em class="rfc2119" title="MUST">MUST</em> make a GET request to the token endpoint containing an HTTP <code>Authorization</code> header with the Bearer Token according to [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6750" title="The OAuth 2.0 Authorization Framework: Bearer Token Usage">RFC6750</a></cite>]. Note that the request to the endpoint will not contain any user-identifying information, so the resource server (e.g. Micropub endpoint) will need to know via out-of-band methods which token endpoint is in use.</p>
+
+        <div class="example" id="example-11">
+        <div class="marker">
+    <a class="self-link" href="#example-11">Example<bdi> 11</bdi></a>
+  </div> <pre class="nohighlight">GET https://example.org/token
+  Authorization: Bearer xxxxxxxx
+  Accept: application/json</pre>
+      </div>
+      </section>
+
+      <section id="access-token-verification-response">
+        <h3 id="x6-2-access-token-verification-response"><bdi class="secno">6.2 </bdi>Access Token Verification Response<a class="self-link" aria-label="§" href="#access-token-verification-response"></a></h3>
+
+        <p id="access-token-verification-response-p-1">The token endpoint verifies the access token using (how this verification is done is up to the implementation), and returns information about the token:</p>
+
+        <ul>
+          <li id="access-token-verification-response-li-1"><code>me</code> - The profile URL of the user corresponding to this token</li>
+          <li id="access-token-verification-response-li-2"><code>client_id</code> - The client ID associated with this token</li>
+          <li id="access-token-verification-response-li-3"><code>scope</code> - A space-separated list of scopes associated with this token</li>
+        </ul>
+
+        <div class="example" id="example-12">
+        <div class="marker">
+    <a class="self-link" href="#example-12">Example<bdi> 12</bdi></a>
+  </div> <pre class="nohighlight">HTTP/1.1 200 OK
+  Content-Type: application/json
+
+  {
+  "me": "https://user.example.net/",
+  "client_id": https://app.example.com/",
+  "scope": "create update delete"
+  }</pre>
+      </div>
+
+        <p id="access-token-verification-response-p-2">Specific implementations <em class="rfc2119" title="MAY">MAY</em> include additional parameters as top-level JSON properties. Clients <em class="rfc2119" title="SHOULD">SHOULD</em> ignore parameters they don't recognize.</p>
+
+        <p id="access-token-verification-response-p-3">If the token is not valid, the endpoint <em class="rfc2119" title="MUST">MUST</em> return an appropriate HTTP 400, 401 or 403 response. The response body is not significant.</p>
+      </section>
+    </section>
+
+    <section class="normative" id="token-revocation">
+      <h2 id="x7-token-revocation"><bdi class="secno">7. </bdi>Token Revocation<a class="self-link" aria-label="§" href="#token-revocation"></a></h2>
+
+      <p id="token-revocation-p-1">A client may wish to explicitly disable an access token that it has obtained, such as when the user signs out of the client. IndieAuth extends OAuth 2.0 Token Revocation [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc7009" title="OAuth 2.0 Token Revocation">RFC7009</a></cite>] by defining the following:</p>
+
+      <ul>
+        <li id="token-revocation-li-1">The revocation endpoint is the same as the token endpoint.</li>
+        <li id="token-revocation-li-2">The revocation request includes an additional parameter, <code>action=revoke</code>.</li>
+      </ul>
+
+      <section id="token-revocation-request">
+        <h3 id="x7-1-token-revocation-request"><bdi class="secno">7.1 </bdi>Token Revocation Request<a class="self-link" aria-label="§" href="#token-revocation-request"></a></h3>
+
+        <p id="token-revocation-request-p-1">An example revocation request is below.</p>
+
+        <div class="example" id="example-13">
+        <div class="marker">
+    <a class="self-link" href="#example-13">Example<bdi> 13</bdi></a>
+  </div> <pre class="nohighlight">POST https://example.org/token HTTP/1.1
+  Content-Type: application/x-www-form-urlencoded
+  Accept: application/json
+
+  action=revoke
+  &amp;token=xxxxxxxx</pre>
+      </div>
+
+        <p id="token-revocation-request-p-2">As described in [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc7009" title="OAuth 2.0 Token Revocation">RFC7009</a></cite>], the revocation endpoint responds with HTTP 200 for both the case where the token was successfully revoked, or if the submitted token was invalid.</p>
+      </section>
+    </section>
+
 
     <section id="security-considerations">
-      <h2 id="x7-security-considerations"><bdi class="secno">7. </bdi>Security Considerations<a class="self-link" aria-label="§" href="#security-considerations"></a></h2>
+      <h2 id="x8-security-considerations"><bdi class="secno">8. </bdi>Security Considerations<a class="self-link" aria-label="§" href="#security-considerations"></a></h2>
 
       <p id="security-considerations-p-1">In addition to the security considerations in OAuth 2.0 Core [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6749" title="The OAuth 2.0 Authorization Framework">RFC6749</a></cite>] and OAuth 2.0 Threat Model and Security Considerations [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6819" title="OAuth 2.0 Threat Model and Security Considerations">RFC6819</a></cite>], the additional considerations apply.</p>
 
       <section id="differing-user-profile-urls">
-        <h3 id="x7-1-differing-user-profile-urls"><bdi class="secno">7.1 </bdi>Differing User Profile URLs<a class="self-link" aria-label="§" href="#differing-user-profile-urls"></a></h3>
+        <h3 id="x8-1-differing-user-profile-urls"><bdi class="secno">8.1 </bdi>Differing User Profile URLs<a class="self-link" aria-label="§" href="#differing-user-profile-urls"></a></h3>
 
         <p id="differing-user-profile-urls-p-1">Clients will initially prompt the user for their profile URL in order to discover the necessary endpoints to perform authentication or authorization. However, there may be slight differences between the URL that the user initially enters vs what the system considers the user's canonical profile URL.</p>
 
         <p id="differing-user-profile-urls-p-2">For example, a user might enter <code>user.example.net</code> in a login interface, and the client may assume a default scheme of <code>http</code>, providing an initial profile URL of <code>http://user.example.net</code>. Once the authentication or authorization flow is complete, the response in the <code>me</code> parameter might be the canonical <code>https://user.example.net/</code>. In some cases, user profile URLs have a full path component such as <code>https://example.net/username</code>, but users may enter just <code>example.net</code> in the login interface.</p>
 
-        <p id="differing-user-profile-urls-p-3">Clients <em class="rfc2119" title="MUST">MUST</em> use the resulting <code>me</code> value from the <a href="#authorization-code-verification">authorization code verification</a> or <a href="#access-token-response">access token response</a> rather than assume the initially-entered URL is correct, with the following condition:</p>
+        <p id="differing-user-profile-urls-p-3">Clients <em class="rfc2119" title="MUST">MUST</em> use the resulting <code>me</code> value from the <a href="#profile-url-response">profile URL response</a> or <a href="#access-token-response">access token response</a> rather than assume the initially-entered URL is correct, with the following condition:</p>
 
         <ul>
           <li id="differing-user-profile-urls-li-1">The resulting profile URL <em class="rfc2119" title="MUST">MUST</em> have a matching domain of the initially-entered profile URL.</li>
@@ -1416,19 +713,19 @@ action=revoke
       </section>
 
       <section id="preventing-phishing-and-redirect-attacks">
-        <h3 id="x7-2-preventing-phishing-and-redirect-attacks"><bdi class="secno">7.2 </bdi>Preventing Phishing and Redirect Attacks<a class="self-link" aria-label="§" href="#preventing-phishing-and-redirect-attacks"></a></h3>
+        <h3 id="x8-2-preventing-phishing-and-redirect-attacks"><bdi class="secno">8.2 </bdi>Preventing Phishing and Redirect Attacks<a class="self-link" aria-label="§" href="#preventing-phishing-and-redirect-attacks"></a></h3>
 
         <p id="preventing-phishing-and-redirect-attacks-p-1">Authorization servers <em class="rfc2119" title="SHOULD">SHOULD</em> fetch the <code>client_id</code> provided in the authentication or authorization request in order to provide users with additional information about the request, such as the application name and logo. If the server does not fetch the client information, then it <em class="rfc2119" title="SHOULD">SHOULD</em> take additional measures to ensure the user is provided with as much information as possible about the request.</p>
 
         <p id="preventing-phishing-and-redirect-attacks-p-2">The authorization server <em class="rfc2119" title="SHOULD">SHOULD</em> display the full <code>client_id</code> on the authorization interface, in addition to displaying the fetched application information if any. Displaying the <code>client_id</code> helps users know that they are authorizing the expected application.</p>
 
-        <p id="preventing-phishing-and-redirect-attacks-p-3">Since all IndieAuth clients are public clients, and no strong client authentication is used, the only measure available to protect against some attacks described in [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6819" title="OAuth 2.0 Threat Model and Security Considerations">RFC6819</a></cite>] is strong verification of the client's <code>redirect_uri</code>. If the <code>redirect_uri</code> scheme, host or port differ from that of the <code>client_id</code>, then the authorization server <em class="rfc2119" title="MUST">MUST</em> either verify the redirect URL as described in <a href="#redirect-url">Redirect URL</a>, or display the redirect URL to the user so they can inspect it manually.</p>
+        <p id="preventing-phishing-and-redirect-attacks-p-3">Since all IndieAuth clients are public clients, and no client authentication is used, the only measure available to protect against some attacks described in [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6819" title="OAuth 2.0 Threat Model and Security Considerations">RFC6819</a></cite>] is strong verification of the client's <code>redirect_uri</code>. If the <code>redirect_uri</code> scheme, host or port differ from that of the <code>client_id</code>, then the authorization server <em class="rfc2119" title="MUST">MUST</em> either verify the redirect URL as described in <a href="#redirect-url">Redirect URL</a>, or display the redirect URL to the user so they can inspect it manually.</p>
       </section>
 
     </section>
 
     <section id="iana-considerations">
-      <h2 id="x8-iana-considerations"><bdi class="secno">8. </bdi>IANA Considerations<a class="self-link" aria-label="§" href="#iana-considerations"></a></h2>
+      <h2 id="x9-iana-considerations"><bdi class="secno">9. </bdi>IANA Considerations<a class="self-link" aria-label="§" href="#iana-considerations"></a></h2>
 
       <p id="iana-considerations-p-1">The link relation types below are documented to be registered by IANA per Section 6.2.1 of [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc8288" title="Web Linking">RFC8288</a></cite>]:</p>
 
@@ -1505,8 +802,18 @@ action=revoke
     <section class="appendix informative" id="change-log">
       <h2 id="c-change-log"><bdi class="secno">C. </bdi>Change Log<a class="self-link" aria-label="§" href="#change-log"></a></h2><p id="change-log-p-1"><em>This section is non-normative.</em></p>
 
+      <section id="changes-from-25-january-2020-to-this-version">
+        <h3 id="c-1-changes-from-25-january-2020-to-this-version"><bdi class="secno">C.1 </bdi>Changes from 25 January 2020 to this version<a class="self-link" aria-label="§" href="#changes-from-25-january-2020-to-this-version"></a></h3>
+        <ul>
+          <li id="changes-from-25-january-2020-to-this-version-li-1">Drop the <code>me</code> parameter from the token endpoint request</li>
+          <li id="changes-from-25-january-2020-to-this-version-li-2">Consolidate the authentication and authorization sections into a single section, describing only the difference which is the response returned.</li>
+          <li id="changes-from-25-january-2020-to-this-version-li-3">Drop the section describing communication between token endpoints and authorization endpoints as it was underused</li>
+          <li id="changes-from-25-january-2020-to-this-version-li-4">Editorial changes and rearranging sections</li>
+        </ul>
+      </section>
+
       <section id="changes-from-03-march-2019-to-25-january-2020">
-        <h3 id="c-1-changes-from-03-march-2019-to-25-january-2020"><bdi class="secno">C.1 </bdi>Changes from 03 March 2019 to 25 January 2020<a class="self-link" aria-label="§" href="#changes-from-03-march-2019-to-25-january-2020"></a></h3>
+        <h3 id="c-2-changes-from-03-march-2019-to-25-january-2020"><bdi class="secno">C.2 </bdi>Changes from 03 March 2019 to 25 January 2020<a class="self-link" aria-label="§" href="#changes-from-03-march-2019-to-25-january-2020"></a></h3>
         <ul>
           <li id="changes-from-03-march-2019-to-25-january-2020-li-1">Use "authentication" and "authorization" more consistently in paragraphs and diagrams</li>
           <li id="changes-from-03-march-2019-to-25-january-2020-li-2">Clarify that "Authorization Code Flow" is "OAuth 2.0 Authorization Code Flow"</li>
@@ -1515,7 +822,7 @@ action=revoke
       </section>
 
       <section id="changes-from-07-july-2018-to-03-march-2019">
-        <h3 id="c-2-changes-from-07-july-2018-to-03-march-2019"><bdi class="secno">C.2 </bdi>Changes from 07 July 2018 to 03 March 2019<a class="self-link" aria-label="§" href="#changes-from-07-july-2018-to-03-march-2019"></a></h3>
+        <h3 id="c-3-changes-from-07-july-2018-to-03-march-2019"><bdi class="secno">C.3 </bdi>Changes from 07 July 2018 to 03 March 2019<a class="self-link" aria-label="§" href="#changes-from-07-july-2018-to-03-march-2019"></a></h3>
         <ul>
           <li id="changes-from-07-july-2018-to-03-march-2019-li-1">Updates the spec header to note that it is a living standard</li>
           <li id="changes-from-07-july-2018-to-03-march-2019-li-2">Minor typo fixes</li>
@@ -1523,7 +830,7 @@ action=revoke
       </section>
 
       <section id="changes-from-23-january-2018-to-07-july-2018">
-        <h3 id="c-3-changes-from-23-january-2018-to-07-july-2018"><bdi class="secno">C.3 </bdi>Changes from <a href="https://www.w3.org/TR/2018/NOTE-indieauth-20180123/">23 January 2018</a> to 07 July 2018<a class="self-link" aria-label="§" href="#changes-from-23-january-2018-to-07-july-2018"></a></h3>
+        <h3 id="c-4-changes-from-23-january-2018-to-07-july-2018"><bdi class="secno">C.4 </bdi>Changes from <a href="https://www.w3.org/TR/2018/NOTE-indieauth-20180123/">23 January 2018</a> to 07 July 2018<a class="self-link" aria-label="§" href="#changes-from-23-january-2018-to-07-july-2018"></a></h3>
         <ul>
           <li id="changes-from-23-january-2018-to-07-july-2018-li-1">Replaced references to RFC 5988 with RFC 8288 (<a href="https://github.com/indieweb/indieauth/commit/69d1d51e9541d8b76233793099b359de898a7154">diff</a>)</li>
           <li id="changes-from-23-january-2018-to-07-july-2018-li-2">Added <code>Accept: application/json</code> header to example requests (<a href="https://github.com/indieweb/indieauth/commit/bfa39332ea3a38ff31efb7101db5b20f2ecbaff7">diff</a>)</li>
@@ -1531,7 +838,7 @@ action=revoke
       </section>
 
       <section id="changes-from-07-july-2018-to-03-march-2019-0">
-        <h3 id="c-4-changes-from-07-july-2018-to-03-march-2019"><bdi class="secno">C.4 </bdi>Changes from 07 July 2018 to 03 March 2019<a class="self-link" aria-label="§" href="#changes-from-07-july-2018-to-03-march-2019-0"></a></h3>
+        <h3 id="c-5-changes-from-07-july-2018-to-03-march-2019"><bdi class="secno">C.5 </bdi>Changes from 07 July 2018 to 03 March 2019<a class="self-link" aria-label="§" href="#changes-from-07-july-2018-to-03-march-2019-0"></a></h3>
 
         <ul>
           <li id="changes-from-07-july-2018-to-03-march-2019-0-li-1">Added missing ampersand in HTTP redirect example (<a href="https://github.com/indieweb/indieauth/commit/ffaf128e01712ca38f3a7dd412749c2bf2f1c99a">diff</a>)</li>
@@ -1560,11 +867,17 @@ action=revoke
   
 
 <section id="references" class="appendix"><h2 id="d-references"><bdi class="secno">D. </bdi>References<a class="self-link" aria-label="§" href="#references"></a></h2><section id="normative-references">
-        <h3 id="d-1-normative-references"><bdi class="secno">D.1 </bdi>Normative references<a class="self-link" aria-label="§" href="#normative-references"></a></h3>
-      <dl class="bibliography">
-        <dt id="bib-fetch">[Fetch]</dt><dd><a href="https://fetch.spec.whatwg.org/"><cite>Fetch Standard</cite></a>. Anne van Kesteren.  WHATWG. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a></dd><dt id="bib-h-app">[h-app]</dt><dd><a href="http://microformats.org/wiki/h-app"><cite>h-app</cite></a>. Aaron Parecki.  microformats.org. Living Specification. URL: <a href="http://microformats.org/wiki/h-app">http://microformats.org/wiki/h-app</a></dd><dt id="bib-html">[HTML]</dt><dd><a href="https://html.spec.whatwg.org/multipage/"><cite>HTML Standard</cite></a>. Anne van Kesteren; Domenic Denicola; Ian Hickson; Philip Jägenstedt; Simon Pieters.  WHATWG. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a></dd><dt id="bib-rfc2119">[RFC2119]</dt><dd><a href="https://tools.ietf.org/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. S. Bradner.  IETF. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a></dd><dt id="bib-rfc6749">[RFC6749]</dt><dd><a href="https://tools.ietf.org/html/rfc6749"><cite>The OAuth 2.0 Authorization Framework</cite></a>. D. Hardt, Ed..  IETF. October 2012. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6749">https://tools.ietf.org/html/rfc6749</a></dd><dt id="bib-rfc6750">[RFC6750]</dt><dd><a href="https://tools.ietf.org/html/rfc6750"><cite>The OAuth 2.0 Authorization Framework: Bearer Token Usage</cite></a>. M. Jones; D. Hardt.  IETF. October 2012. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6750">https://tools.ietf.org/html/rfc6750</a></dd><dt id="bib-rfc7009">[RFC7009]</dt><dd><a href="https://tools.ietf.org/html/rfc7009"><cite>OAuth 2.0 Token Revocation</cite></a>. T. Lodderstedt, Ed.; S. Dronia; M. Scurtescu.  IETF. August 2013. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7009">https://tools.ietf.org/html/rfc7009</a></dd><dt id="bib-rfc7159">[RFC7159]</dt><dd><a href="https://tools.ietf.org/html/rfc7159"><cite>The JavaScript Object Notation (JSON) Data Interchange Format</cite></a>. T. Bray, Ed..  IETF. March 2014. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7159">https://tools.ietf.org/html/rfc7159</a></dd><dt id="bib-rfc7231">[RFC7231]</dt><dd><a href="https://httpwg.org/specs/rfc7231.html"><cite>Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</cite></a>. R. Fielding, Ed.; J. Reschke, Ed..  IETF. June 2014. Proposed Standard. URL: <a href="https://httpwg.org/specs/rfc7231.html">https://httpwg.org/specs/rfc7231.html</a></dd><dt id="bib-rfc8288">[RFC8288]</dt><dd><a href="https://httpwg.org/specs/rfc8288.html"><cite>Web Linking</cite></a>. M. Nottingham.  IETF. October 2017. Proposed Standard. URL: <a href="https://httpwg.org/specs/rfc8288.html">https://httpwg.org/specs/rfc8288.html</a></dd><dt id="bib-url">[URL]</dt><dd><a href="https://url.spec.whatwg.org/"><cite>URL Standard</cite></a>. Anne van Kesteren.  WHATWG. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a></dd>
-      </dl></section><section id="informative-references">
-        <h3 id="d-2-informative-references"><bdi class="secno">D.2 </bdi>Informative references<a class="self-link" aria-label="§" href="#informative-references"></a></h3>
-      <dl class="bibliography">
-        <dt id="bib-micropub">[Micropub]</dt><dd><a href="https://www.w3.org/TR/micropub/"><cite>Micropub</cite></a>. Aaron Parecki.  W3C. 23 May 2017. W3C Recommendation. URL: <a href="https://www.w3.org/TR/micropub/">https://www.w3.org/TR/micropub/</a></dd><dt id="bib-relmeauth">[RelMeAuth]</dt><dd><a href="http://microformats.org/wiki/RelMeAuth"><cite>RelMeAuth</cite></a>. Tantek Çelik.  microformats.org. Living Specification. URL: <a href="http://microformats.org/wiki/RelMeAuth">http://microformats.org/wiki/RelMeAuth</a></dd><dt id="bib-rfc6819">[RFC6819]</dt><dd><a href="https://tools.ietf.org/html/rfc6819"><cite>OAuth 2.0 Threat Model and Security Considerations</cite></a>. T. Lodderstedt, Ed.; M. McGloin; P. Hunt.  IETF. January 2013. Informational. URL: <a href="https://tools.ietf.org/html/rfc6819">https://tools.ietf.org/html/rfc6819</a></dd><dt id="bib-xfn11">[XFN11]</dt><dd><a href="https://gmpg.org/xfn/11"><cite>XFN 1.1</cite></a>. Tantek Çelik; Matthew Mullenweg; Eric Meyer.  Global Multimedia Protocols Group. Stable. URL: <a href="https://gmpg.org/xfn/11">https://gmpg.org/xfn/11</a></dd>
-      </dl></section></section><p role="navigation" id="back-to-top"><a href="#title"><abbr title="Back to Top">↑</abbr></a></p><script src="https://www.w3.org/scripts/TR/2016/fixup.js"></script></body></html>
+      <h3 id="d-1-normative-references"><bdi class="secno">D.1 </bdi>
+        Normative references
+      <a class="self-link" aria-label="§" href="#normative-references"></a></h3>
+    <dl class="bibliography">
+      <dt id="bib-fetch">[Fetch]</dt><dd><a href="https://fetch.spec.whatwg.org/"><cite>Fetch Standard</cite></a>. Anne van Kesteren.  WHATWG. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a></dd><dt id="bib-h-app">[h-app]</dt><dd><a href="https://microformats.org/wiki/h-app"><cite>h-app</cite></a>. Aaron Parecki.  microformats.org. Living Specification. URL: <a href="https://microformats.org/wiki/h-app">https://microformats.org/wiki/h-app</a></dd><dt id="bib-html">[HTML]</dt><dd><a href="https://html.spec.whatwg.org/multipage/"><cite>HTML Standard</cite></a>. Anne van Kesteren; Domenic Denicola; Ian Hickson; Philip Jägenstedt; Simon Pieters.  WHATWG. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a></dd><dt id="bib-rfc2119">[RFC2119]</dt><dd><a href="https://tools.ietf.org/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. S. Bradner.  IETF. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a></dd><dt id="bib-rfc6749">[RFC6749]</dt><dd><a href="https://tools.ietf.org/html/rfc6749"><cite>The OAuth 2.0 Authorization Framework</cite></a>. D. Hardt, Ed..  IETF. October 2012. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6749">https://tools.ietf.org/html/rfc6749</a></dd><dt id="bib-rfc6750">[RFC6750]</dt><dd><a href="https://tools.ietf.org/html/rfc6750"><cite>The OAuth 2.0 Authorization Framework: Bearer Token Usage</cite></a>. M. Jones; D. Hardt.  IETF. October 2012. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6750">https://tools.ietf.org/html/rfc6750</a></dd><dt id="bib-rfc7009">[RFC7009]</dt><dd><a href="https://tools.ietf.org/html/rfc7009"><cite>OAuth 2.0 Token Revocation</cite></a>. T. Lodderstedt, Ed.; S. Dronia; M. Scurtescu.  IETF. August 2013. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7009">https://tools.ietf.org/html/rfc7009</a></dd><dt id="bib-rfc7159">[RFC7159]</dt><dd><a href="https://tools.ietf.org/html/rfc7159"><cite>The JavaScript Object Notation (JSON) Data Interchange Format</cite></a>. T. Bray, Ed..  IETF. March 2014. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7159">https://tools.ietf.org/html/rfc7159</a></dd><dt id="bib-rfc7231">[RFC7231]</dt><dd><a href="https://httpwg.org/specs/rfc7231.html"><cite>Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</cite></a>. R. Fielding, Ed.; J. Reschke, Ed..  IETF. June 2014. Proposed Standard. URL: <a href="https://httpwg.org/specs/rfc7231.html">https://httpwg.org/specs/rfc7231.html</a></dd><dt id="bib-rfc8288">[RFC8288]</dt><dd><a href="https://httpwg.org/specs/rfc8288.html"><cite>Web Linking</cite></a>. M. Nottingham.  IETF. October 2017. Proposed Standard. URL: <a href="https://httpwg.org/specs/rfc8288.html">https://httpwg.org/specs/rfc8288.html</a></dd><dt id="bib-url">[URL]</dt><dd><a href="https://url.spec.whatwg.org/"><cite>URL Standard</cite></a>. Anne van Kesteren.  WHATWG. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a></dd>
+    </dl></section><section id="informative-references">
+      <h3 id="d-2-informative-references"><bdi class="secno">D.2 </bdi>
+        Informative references
+      <a class="self-link" aria-label="§" href="#informative-references"></a></h3>
+    <dl class="bibliography">
+      <dt id="bib-micropub">[Micropub]</dt><dd><a href="https://www.w3.org/TR/micropub/"><cite>Micropub</cite></a>. Aaron Parecki.  W3C. 23 May 2017. W3C Recommendation. URL: <a href="https://www.w3.org/TR/micropub/">https://www.w3.org/TR/micropub/</a></dd><dt id="bib-relmeauth">[RelMeAuth]</dt><dd><a href="https://microformats.org/wiki/RelMeAuth"><cite>RelMeAuth</cite></a>. Tantek Çelik.  microformats.org. Living Specification. URL: <a href="https://microformats.org/wiki/RelMeAuth">https://microformats.org/wiki/RelMeAuth</a></dd><dt id="bib-rfc6819">[RFC6819]</dt><dd><a href="https://tools.ietf.org/html/rfc6819"><cite>OAuth 2.0 Threat Model and Security Considerations</cite></a>. T. Lodderstedt, Ed.; M. McGloin; P. Hunt.  IETF. January 2013. Informational. URL: <a href="https://tools.ietf.org/html/rfc6819">https://tools.ietf.org/html/rfc6819</a></dd>
+    </dl></section></section><p role="navigation" id="back-to-top">
+    <a href="#title"><abbr title="Back to Top">↑</abbr></a>
+  </p><script src="https://www.w3.org/scripts/TR/2016/fixup.js"></script></body></html>
