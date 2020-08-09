@@ -10,7 +10,7 @@
       var respecConfig = {
           useExperimentalStyles: true,
           publishDate: "2020-08-09",
-          specStatus: "LS",
+          specStatus: "NOTE", /* for loading w3c CSS */
           previousPublishDate: "2019-03-03",
           previousMaturity: "LS",
           previousVersionURL: "https://indieauth.spec.indieweb.org/20190303/",
