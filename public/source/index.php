@@ -639,6 +639,9 @@ Content-Type: application/json
         </ul>
 
         <p>This ensures that an authorization endpoint is not able to issue valid responses for arbitrary profile URLs.</p>
+
+        <p>Additionally, if the initial profile URL differs from the resulting profile URL, clients MUST verify that the resulting profile URL declares the same <code>authorization_endpoint</code> as the initial profile URL. This prevents users on a shared domain from forging authorization on behalf of another user of that domain.</p>
+
       </section>
 
       <section>
