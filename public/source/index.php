@@ -632,13 +632,16 @@ Content-Type: application/json
 
         <p>For example, a user might enter <code>user.example.net</code> in a login interface, and the client may assume a default scheme of <code>http</code>, providing an initial profile URL of <code>http://user.example.net</code>. Once the authentication or authorization flow is complete, the response in the <code>me</code> parameter might be the canonical <code>https://user.example.net/</code>. In some cases, user profile URLs have a full path component such as <code>https://example.net/username</code>, but users may enter just <code>example.net</code> in the login interface.</p>
 
-        <p>Clients MUST use the resulting <code>me</code> value from the <a href="#profile-url-response">profile URL response</a> or <a href="#access-token-response">access token response</a> rather than assume the initially-entered URL is correct, with the following condition:</p>
+        <p>Upon validation, clients MUST check the <code>me</code> value from the <a href="#profile-url-response">profile URL response</a> or <a href="#access-token-response">access token response</a>, and take the following validation steps:</p>
 
-        <ul>
-          <li>The resulting profile URL MUST have a matching domain of the initially-entered profile URL.</li>
-        </ul>
+        <ol>
+          <li>It MUST follow any permanent redirections from this URL to discover the canonical profile URL, in the same manner as <a href="#discovery-by-clients">initial profile URL discovery</a>.</li>
+          <li>It MUST verify that the canonical profile URL is on the same domain as the initially-entered profile URL.</li>
+          <li>It MUST verify that the canonical profile URL declares the same <code>authorization_endpoint</code> as the initially-entered profile URL.</li>
+        </ol>
 
-        <p>This ensures that an authorization endpoint is not able to issue valid responses for arbitrary profile URLs.</p>
+        <p>These steps ensure that an authorization endpoint is not able to issue valid responses for arbitrary profile URLs, and that users on a shared domain cannot forge authorization on behalf of other users of that domain.</p>
+
       </section>
 
       <section>
