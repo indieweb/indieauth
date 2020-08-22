@@ -542,7 +542,7 @@ grant_type=authorization_code
     "me": "https://user.example.net/"
   }') ?></pre>
 
-          <p>The resulting profile URL MAY be different from the canonical profile URL as resolved by the client, but MUST be on the same domain. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-examples">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL, and see <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of.</p>
+          <p>The resulting profile URL MAY be different from the canonical profile URL as resolved by the client. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of.</p>
 
           <p>See OAuth 2.0 [[!RFC6749]] <a href="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
         </section>
@@ -568,7 +568,7 @@ Content-Type: application/json
   "me": "https://user.example.net/"
 }</pre>
 
-          <p>The resulting profile URL MAY be different from the canonical profile URL as resolved by the client, but MUST be on the same domain. This provides the opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-examples">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
+          <p>The resulting profile URL MAY be different from the canonical profile URL as resolved by the client. This provides the opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of.</p>
 
           <p>See OAuth 2.0 [[!RFC6749]] <a href="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
         </section>
@@ -709,7 +709,6 @@ Content-Type: application/json
 
         <ol>
           <li>It MUST follow any permanent redirections from this URL to discover the canonical profile URL, in the same manner as <a href="#discovery-by-clients">initial profile URL discovery</a>.</li>
-          <li>It MUST verify that the canonical profile URL is on the same domain as the initially-entered profile URL.</li>
           <li>It MUST verify that the canonical profile URL declares the same <code>authorization_endpoint</code> as the initially-entered profile URL.</li>
         </ol>
 
