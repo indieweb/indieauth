@@ -11,9 +11,9 @@
           useExperimentalStyles: true,
           publishDate: "2020-08-09",
           specStatus: "NOTE", /* for loading w3c CSS */
-          previousPublishDate: "2019-03-03",
+          previousPublishDate: "2020-01-25",
           previousMaturity: "LS",
-          previousVersionURL: "https://indieauth.spec.indieweb.org/20190303/",
+          previousVersionURL: "https://indieauth.spec.indieweb.org/20200125/",
           shortName:  "indieauth",
           lsURI: "https://indieauth.spec.indieweb.org/",
           testSuiteURI: "https://indieauth.rocks/",
