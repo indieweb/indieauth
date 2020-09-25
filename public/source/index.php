@@ -412,29 +412,32 @@ Link: <https://example.org/token>; rel="token_endpoint"
 
           <ul>
             <li><code>response_type=code</code> - Indicates to the authorization server that an authorization code should be returned as the response</li>
-            <li><code>me</code> - The profile URL that the user entered</li>
             <li><code>client_id</code> - The client URL</li>
             <li><code>redirect_uri</code> - The redirect URL indicating where the user should be redirected to after approving the request</li>
             <li><code>state</code> - A parameter set by the client which will be included when the user is redirected back to the client. This is used to prevent CSRF attacks. The authorization server MUST return the unmodified state value back to the client.</li>
             <li><code>scope</code> - (optional) A space-separated list of scopes the client is requesting, e.g. "profile", or "profile create". If the client omits this value, the authorization server MUST NOT issue an access token for this authorization code. Only the user's URL may be returned without any scope requested.</li>
+            <li><code>me</code> - (optional) The profile URL that the user entered</li>
           </ul>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
-'https://example.org/auth?me=https://user.example.net/&
-                          redirect_uri=https://app.example.com/redirect&
+'https://example.org/auth?response_type=code&
                           client_id=https://app.example.com/&
+                          redirect_uri=https://app.example.com/redirect&
                           state=1234567890&
                           scope=profile+create+update+delete&
-                          response_type=code') ?></pre>
+                          me=https://user.example.net/') ?></pre>
+
+          <p>The client SHOULD provide the <code>me</code> query string parameter to the authorization endpoint, either the exact value the user entered, or the canonical profile URL resulting from the discovery step.</p>
 
           <p>The authorization endpoint SHOULD fetch the <code>client_id</code> URL to retrieve application information and the client's registered redirect URLs, see <a href="#client-information-discovery">Client Information Discovery</a> for more information.</p>
 
           <p>If the URL scheme, host or port of the <code>redirect_uri</code> in the request do not match that of the <code>client_id</code>, then the authorization endpoint SHOULD verify that the requested <code>redirect_uri</code> matches one of the <a href="#redirect-url">redirect URLs</a> published by the client, and SHOULD block the request from proceeding if not.</p>
 
-          <p>It is up to the authorization endpoint how to authenticate the user. This step is out of scope of OAuth 2.0, and is highly dependent on the particular implementation. Some authorization servers use typical username/password authentication, and others use alternative forms of authentication such as [[?RelMeAuth]].</p>
+          <p>It is up to the authorization endpoint how to authenticate the user. This step is out of scope of OAuth 2.0, and is highly dependent on the particular implementation. Some authorization servers use typical username/password authentication, and others use alternative forms of authentication such as [[?RelMeAuth]], or delegate to other identity providers.</p>
+
+          <p>The authorization endpoint MAY use the provided <code>me</code> query component as a hint of which user is attempting to sign in, and to indicate which profile URL the client is expecting in the resulting profile URL response or access token response. This is specifically helpful for authorization endpoints where users have multiple supported profile URLs, so the authorization endpoint can make an informed decision as to which profile URL the user meant to identify as. Note that from the authorization endpoint's view, this value as provided by the client is unverified external data and MUST NOT be assumed to be valid data at this stage. If the logged-in user doesn't match the provided <code>me</code> parameter by the client, the authorization endpoint MAY either ignore the <code>me</code> parameter completely or display an error, at the authorization endpoint's discretion.</p>
 
           <p>Once the user is authenticated, the authorization endpoint presents the authorization request to the user. The prompt MUST indicate which application the user is signing in to, and SHOULD provide as much detail as possible about the request, such as information about the requested scopes.</p>
-
 
         <section>
           <h4>Authorization Response</h4>
