@@ -128,7 +128,7 @@
     <h2>IndieWeb Living Standard 26 September 2020</h2>
     <dl>
       <dt>This version:</dt><dd>
-              <a class="u-url" href="https://indieauth.spec.indieweb.org/">https://indieauth.spec.indieweb.org/</a>
+              <a class="u-url" href="https://indieauth.spec.indieweb.org/20200926/">https://indieauth.spec.indieweb.org/20200926/</a>
             </dd>
       
       <dt>Test suite:</dt><dd><a href="https://indieauth.rocks/">https://indieauth.rocks/</a></dd>
@@ -600,7 +600,7 @@ grant_type=authorization_code
   }</pre>
       </div>
 
-          <p id="profile-url-response-p-3">The resulting profile URL <em class="rfc2119" title="MAY">MAY</em> be different from the canonical profile URL as resolved by the client, but <em class="rfc2119" title="MUST">MUST</em> be on the same domain. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-examples">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL, and see <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of.</p>
+          <p id="profile-url-response-p-3">The resulting profile URL <em class="rfc2119" title="MAY">MAY</em> be different from canonical profile URL as resolved by the client, but <em class="rfc2119" title="MUST">MUST</em> be on the same domain. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-examples">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL, and see <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of..</p>
 
           <p id="profile-url-response-p-4">See OAuth 2.0 [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6749" title="The OAuth 2.0 Authorization Framework">RFC6749</a></cite>] <a href="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
         </section>

@@ -9,11 +9,11 @@
     <script class='remove'>
       var respecConfig = {
           useExperimentalStyles: true,
-          publishDate: "2020-08-09",
+          publishDate: "2020-09-26",
           specStatus: "NOTE", /* for loading w3c CSS */
-          previousPublishDate: "2020-01-25",
+          previousPublishDate: "2020-08-09",
           previousMaturity: "LS",
-          previousVersionURL: "https://indieauth.spec.indieweb.org/20200125/",
+          previousVersionURL: "https://indieauth.spec.indieweb.org/20200809/",
           shortName:  "indieauth",
           lsURI: "https://indieauth.spec.indieweb.org/",
           testSuiteURI: "https://indieauth.rocks/",
@@ -151,9 +151,7 @@
           <li>All clients are public clients (no <code>client_secret</code> is used)</li>
           <li>Client registration at the authorization endpoint is not necessary, since client IDs are resolvable URLs</li>
           <li>Redirect URL registration happens by verifying data fetched at the Client ID URL</li>
-          <li>Specifies a mechanism for returning the user identifier for the user who authorized a request</li>
-          <li>Specifies a mechanism for verifying authorization codes</li>
-          <li>Specifies a mechanism for a token endpoint and authorization endpoint to communicate</li>
+          <li>Specifies a mechanism for returning the user identifier and profile information for the user who authorized a request</li>
         </ul>
 
         <p>Additionally, the parameters defined by OAuth 2.0 (in particular <code>state</code>, <code>code</code>, and <code>scope</code>) follow the same syntax requirements as defined by Appendix A of OAuth 2.0 [[!RFC6749]].</p>
@@ -238,7 +236,7 @@
 
         <p>Since domain names are case insensitive, the hostname component of the URL MUST be compared case insensitively. Implementations SHOULD convert the hostname to lowercase when storing and using URLs.</p>
 
-        <p>For ease of use, clients MAY allow users to enter just a hostname part of the URL, in which case the client MUST turn that into a valid URL before beginning the IndieAuth flow, by prepending a either an <code>http</code> or <code>https</code> scheme and appending the path <code>/</code>. For example, if the user enters <code>example.com</code>, the client transforms it into <code>http://example.com/</code> before beginning discovery.</p>
+        <p>For ease of use, clients MAY allow users to enter just a hostname part of the URL, in which case the client MUST turn that into a valid URL before beginning the IndieAuth flow, by prepending either an <code>http</code> or <code>https</code> scheme and appending the path <code>/</code>. For example, if the user enters <code>example.com</code>, the client transforms it into <code>http://example.com/</code> before beginning discovery.</p>
       </section>
 
     </section>
@@ -258,7 +256,7 @@
 
         <p>Clients MUST check for an HTTP <code>Link</code> header [[!RFC8288]] with the appropriate <code>rel</code> value. If the content type of the document is HTML, then the client MUST check for an HTML <code>&lt;link&gt;</code> element with the appropriate <code>rel</code> value. If more than one of these is present, the first HTTP <code>Link</code> header takes precedence, followed by the first <code>&lt;link&gt;</code> element in document order.</p>
 
-        <p>The endpoints discovered MAY be relative URLs, in which case the client MUST resolve them relative to the profile URL according to [[!URL]].</p>
+        <p>The endpoints discovered MAY be relative URLs, in which case the client MUST resolve them relative to the current document URL according to [[!URL]].</p>
 
         <p>Clients MAY initially make an HTTP HEAD request [[!RFC7231]] to follow redirects and check for the <code>Link</code> header before making a GET request.</p>
 
@@ -408,33 +406,52 @@ Link: <https://example.org/token>; rel="token_endpoint"
       <section>
         <h3>Authorization Request</h3>
 
-          <p>The client builds the authorization request URL by starting with the discovered <code>authorization_endpoint</code> URL and adding the following parameters to the query component:</p>
+          <p>The client builds the authorization request URL by starting with the discovered <code>authorization_endpoint</code> URL and adding parameters to the query component.</p>
+
+          <p>All IndieAuth clients MUST use PKCE ([[!RFC7636]]) to protect against authorization code injection and CSRF attacks. A non-canonical description of the PKCE mechanism is described below, but implementers should refer to [[RFC7636]] for details.</p>
+
+          <p>Clients use a unique secret per authorization request to protect against authorization code injection and CSRF attacks. The client first generates this secret, which it can later use along with the authorization code to prove that the application using the authorization code is the same application that requested it.</p>
+
+          <p>The client first creates a code verifier for each authorization request by generating a random string using the characters <code>[A-Z] / [a-z] / [0-9] / - / . / _ / ~</code> with a minimum length of 43 characters and maximum length of 128 characters. This value is stored on the client and will be used in the authorization code exchange step later.</p>
+
+          <p>The client then creates the code challenge derived from the code verifier by calculating the SHA256 hash of the code verifier and Base64-URL-encoding the result.</p>
+
+          <code>code_challenge = BASE64URL-ENCODE(SHA256(ASCII(code_verifier)))</code>
+
+          <p>For backwards compatibility, authorization endpoints MAY accept authorization requests without a code challenge if the authorization server wishes to support older clients.</p>
 
           <ul>
             <li><code>response_type=code</code> - Indicates to the authorization server that an authorization code should be returned as the response</li>
-            <li><code>me</code> - The profile URL that the user entered</li>
             <li><code>client_id</code> - The client URL</li>
             <li><code>redirect_uri</code> - The redirect URL indicating where the user should be redirected to after approving the request</li>
             <li><code>state</code> - A parameter set by the client which will be included when the user is redirected back to the client. This is used to prevent CSRF attacks. The authorization server MUST return the unmodified state value back to the client.</li>
-            <li><code>scope</code> - (optional) A space-separated list of scopes the client is requesting, e.g. "profile", or "profile create". If the client omits this value, the authorization server MUST NOT issue an access token for this authorization code. Only the user's URL may be returned without any scope requested.</li>
+            <li><code>code_challenge</code> - The code challenge as previously described.</li>
+            <li><code>code_challenge_method</code> - The hashing method used to calculate the code challenge, e.g. "S256"</li>
+            <li><code>scope</code> - (optional) A space-separated list of scopes the client is requesting, e.g. "profile", or "profile create". If the client omits this value, the authorization server MUST NOT issue an access token for this authorization code. Only the user's profile URL may be returned without any scope requested. See <a href="#profile-information">Profile Information</a> for details about which scopes to request to return user profile information.</li>
+            <li><code>me</code> - (optional) The profile URL that the user entered</li>
           </ul>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
-'https://example.org/auth?me=https://user.example.net/&
-                          redirect_uri=https://app.example.com/redirect&
+'https://example.org/auth?response_type=code&
                           client_id=https://app.example.com/&
+                          redirect_uri=https://app.example.com/redirect&
                           state=1234567890&
+                          code_challenge=OfYAxt8zU2dAPDWQxTAUIteRzMsoj9QBdMIVEDOErUo&
+                          code_challenge_method=S256&
                           scope=profile+create+update+delete&
-                          response_type=code') ?></pre>
+                          me=https://user.example.net/') ?></pre>
+
+          <p>The client SHOULD provide the <code>me</code> query string parameter to the authorization endpoint, either the exact value the user entered, or the canonical profile URL resulting from the discovery step.</p>
 
           <p>The authorization endpoint SHOULD fetch the <code>client_id</code> URL to retrieve application information and the client's registered redirect URLs, see <a href="#client-information-discovery">Client Information Discovery</a> for more information.</p>
 
           <p>If the URL scheme, host or port of the <code>redirect_uri</code> in the request do not match that of the <code>client_id</code>, then the authorization endpoint SHOULD verify that the requested <code>redirect_uri</code> matches one of the <a href="#redirect-url">redirect URLs</a> published by the client, and SHOULD block the request from proceeding if not.</p>
 
-          <p>It is up to the authorization endpoint how to authenticate the user. This step is out of scope of OAuth 2.0, and is highly dependent on the particular implementation. Some authorization servers use typical username/password authentication, and others use alternative forms of authentication such as [[?RelMeAuth]].</p>
+          <p>It is up to the authorization endpoint how to authenticate the user. This step is out of scope of OAuth 2.0, and is highly dependent on the particular implementation. Some authorization servers use typical username/password authentication, and others use alternative forms of authentication such as [[?RelMeAuth]], or delegate to other identity providers.</p>
+
+          <p>The authorization endpoint MAY use the provided <code>me</code> query component as a hint of which user is attempting to sign in, and to indicate which profile URL the client is expecting in the resulting profile URL response or access token response. This is specifically helpful for authorization endpoints where users have multiple supported profile URLs, so the authorization endpoint can make an informed decision as to which profile URL the user meant to identify as. Note that from the authorization endpoint's view, this value as provided by the client is unverified external data and MUST NOT be assumed to be valid data at this stage. If the logged-in user doesn't match the provided <code>me</code> parameter by the client, the authorization endpoint MAY either ignore the <code>me</code> parameter completely or display an error, at the authorization endpoint's discretion.</p>
 
           <p>Once the user is authenticated, the authorization endpoint presents the authorization request to the user. The prompt MUST indicate which application the user is signing in to, and SHOULD provide as much detail as possible about the request, such as information about the requested scopes.</p>
-
 
         <section>
           <h4>Authorization Response</h4>
@@ -467,17 +484,18 @@ Link: <https://example.org/token>; rel="token_endpoint"
         <section>
           <h4>Request</h4>
 
-          <p>If the client only needs to know the user who logged in and does not need to make requests to resource servers with an access token, the client exchanges the authorization code for the user's profile URL at the <b>authorization endpoint</b>.</p>
-
           <p>If the client needs an access token in order to make requests to a resource server such as a [[?Micropub]] endpoint, it can exchange the authorization code for an access token and the user's profile URL at the <b>token endpoint</b>.</p>
+
+          <p>If the client only needs to know the user who logged in and does not need to make requests to resource servers with an access token, the client exchanges the authorization code for the user's profile URL at the <b>authorization endpoint</b>.</p>
 
           <p>After the client validates the state parameter, the client makes a POST request to the token endpoint or authorization endpoint to exchange the authorization code for the final user profile URL and/or access token. The POST request contains the following parameters:</p>
 
           <ul>
             <li><code>grant_type=authorization_code</code></li>
-            <li><code>code</code> - The authorization code received from the authorization endpoint in the redirect</li>
+            <li><code>code</code> - The authorization code received from the authorization endpoint in the redirect.</li>
             <li><code>client_id</code> - The client's URL, which MUST match the client_id used in the authentication request.</li>
             <li><code>redirect_uri</code> - The client's redirect URL, which MUST match the initial authentication request.</li>
+            <li><code>code_verifier</code> - The original plaintext random string generated before starting the authorization request.</li>
           </ul>
 
           <b>Example request to authorization endpoint</b>
@@ -490,6 +508,7 @@ Link: <https://example.org/token>; rel="token_endpoint"
   &code=xxxxxxxx
   &client_id=https://app.example.com/
   &redirect_uri=https://app.example.com/redirect
+  &code_verifier=a6128783714cfda1d388e2e98b6ae8221ac31aca31959e59512c59f5
   ') ?></pre>
 
           <b>Example request to token endpoint</b>
@@ -502,13 +521,18 @@ grant_type=authorization_code
 &code=xxxxxxxx
 &client_id=https://app.example.com/
 &redirect_uri=https://app.example.com/redirect
+&code_verifier=a6128783714cfda1d388e2e98b6ae8221ac31aca31959e59512c59f5
 ') ?></pre>
         </section>
+
+          <p>Note that for backwards compatibility, the authorization endpoint MAY allow requests without the <code>code_verifier</code>. If an authorization code was issued with no <code>code_challenge</code> present, then the authorization code exchange MUST NOT include a <code>code_verifier</code>, and similarly, if an authorization code was issued with a <code>code_challenge</code> present, then the authorization code exchange MUST include a <code>code_verifier</code>.</p>
 
         <section>
           <h4>Profile URL Response</h4>
 
-          <p>The authorization endpoint verifies that the authorization code is valid, has not yet been used, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>. If the request is valid, then the endpoint responds with a JSON [[!RFC7159]] object containing one property, <code>me</code>, with the canonical user profile URL for the user who signed in.</p>
+          <p>When the client receives an authorization code that was requested with either no scope or only profile scopes (<a href="#profile-information">defined below</a>), the client will exchange the authorization code at the <b>authorization endpoint</b>, and only the canonical user profile URL and possibly profile information is returned.</p>
+
+          <p>The authorization endpoint verifies that the authorization code is valid, has not yet been used, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>, and checks that the provided <code>code_verifier</code> hashes to the same value as given in the <code>code_challenge</code> in the original authorization request. If the request is valid, then the endpoint responds with a JSON [[!RFC7159]] object containing the property <code>me</code>, with the canonical user profile URL for the user who signed in, and optionally the property <code>profile</code> with the user's profile information as defined in <a href="#profile-information">Profile Information</a>.</p>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
   'HTTP/1.1 200 OK
@@ -518,7 +542,7 @@ grant_type=authorization_code
     "me": "https://user.example.net/"
   }') ?></pre>
 
-          <p>The resulting profile URL MAY be different from what the user initially entered, but MUST be on the same domain. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-examples">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
+          <p>The resulting profile URL MAY be different from the canonical profile URL as resolved by the client, but MUST be on the same domain. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-examples">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL, and see <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of.</p>
 
           <p>See OAuth 2.0 [[!RFC6749]] <a href="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
         </section>
@@ -526,11 +550,13 @@ grant_type=authorization_code
         <section>
           <h4>Access Token Response</h4>
 
-          <p>The token endpoint needs to verify that the authorization code is valid, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>, and contains at least one <code>scope</code>. If the authorization code was issued with no <code>scope</code>, the token endpoint MUST NOT issue an access token, as empty scopes are invalid per Section 3.3 of OAuth 2.0 [[!RFC6749]].</p>
+          <p>When the client receives an authorization code that was requested with one or more scopes that will result in an access token being returned, the client will exchange the authorization code at the <b>token endpoint</b>.</p>
 
-          <p>The specifics of how the token endpoint verifies the authorization code are out of scope of this document, as typically the authorization endpoint and token endpoint are part of the same system and can share storage or other private communication mechanism.</p>
+          <p>The token endpoint needs to verify that the authorization code is valid, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>, contains at least one <code>scope</code>, and checks that the provided <code>code_verifier</code> hashes to the same value as given in the <code>code_challenge</code> in the original authorization request. If the authorization code was issued with no <code>scope</code>, the token endpoint MUST NOT issue an access token, as empty scopes are invalid per Section 3.3 of OAuth 2.0 [[!RFC6749]].</p>
 
-          <p>If the request is valid, then the token endpoint can generate an access token and return the appropriate response. The token response is a JSON [[!RFC7159]] object containing the OAuth 2.0 Bearer Token [[!RFC6750]], as well as a property <code>me</code>, containing the canonical user profile URL for the user this access token corresponds to. For example:</p>
+          <p>The specifics of how the token endpoint verifies the authorization code are out of scope of this document, as typically the authorization endpoint and token endpoint are part of the same system and can share storage or another private communication mechanism.</p>
+
+          <p>If the request is valid, then the token endpoint can generate an access token and return the appropriate response. The token response is a JSON [[!RFC7159]] object containing the OAuth 2.0 Bearer Token [[!RFC6750]], as well as a property <code>me</code>, containing the canonical user profile URL for the user this access token corresponds to, and optionally the property <code>profile</code> with the user's profile information as defined in <a href="#profile-information">Profile Information</a>. For example:</p>
 
           <pre class="example nohighlight">HTTP/1.1 200 OK
 Content-Type: application/json
@@ -542,10 +568,57 @@ Content-Type: application/json
   "me": "https://user.example.net/"
 }</pre>
 
-          <p>The resulting profile URL MAY be different from what the user initially entered, but MUST be on the same domain. This provides the opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-examples">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
+          <p>The resulting profile URL MAY be different from the canonical profile URL as resolved by the client, but MUST be on the same domain. This provides the opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-examples">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
 
           <p>See OAuth 2.0 [[!RFC6749]] <a href="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
         </section>
+
+        <section>
+          <h4>Profile Information</h4>
+
+          <h5>Requesting Profile Information</h5>
+
+          <p>If the client would like to request the user's profile information in addition to confirming their profile URL, the client can include one or more scopes in the initial authorization request. The following <code>scope</code> values are defined by this specification to request profile information about the user:</p>
+
+          <ul>
+            <li><code>profile</code> (required) - This scope requests access to the user's default profile information which include the following properties: <code>name</code>, <code>photo</code>, <code>url</code>.</li>
+            <li><code>email</code> - This scope requests access to the user's email address in the following property: <code>email</code>.</li>
+          </ul>
+
+          <p>Note that because the <code>profile</code> scope is required when requesting profile information, the <code>email</code> scope cannot be requested on its own and must be requested along with the <code>profile</code> scope if desired.<p>
+
+          <p>When an authorization code is issued with any of the scopes defined above, then the response when exchanging the authorization code MAY include a new property, <code>profile</code>, alongside the <code>me</code> property in the response from the authorization endpoint or the token endpoint. The <code>profile</code> property is defined as a JSON [[!RFC7159]] object with the properties defined by each scope above.</p>
+
+          <p>For example, a complete response to a request with the scopes <code>profile email create</code>, including an access token and profile information, may look like the following:</p>
+
+          <pre class="example nohighlight">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "access_token": "XXXXXX",
+  "token_type": "Bearer",
+  "scope": "profile email create",
+  "me": "https://user.example.net/",
+  "profile": {
+    "name": "Example User",
+    "url": "https://user.example.net/",
+    "photo": "https://user.example.net/photo.jpg",
+    "email": "user@example.net"
+  }
+}</pre>
+
+          <p>As is always the case with OAuth 2.0, there is no guarantee that the scopes the client requests will be granted by the authorization server or the user. The client should not rely on the presence of profile information even when requesting the profile scope. As such, implementing support for returning profile information from the authorization server is entirely optional.</p>
+
+          <p>The information returned in the <code>profile</code> object is informational, and there is no guarantee that this information is "real" or "verified". The information provided is only what the user has chosen to share with the client, and may even vary depending on which client is requesting this data.</p>
+
+          <p>The client MUST NOT treat the information in the <code>profile</code> object as canonical or authoritative, and MUST NOT make any authentication or identification decisions based on this information.</p>
+
+          <p>For example, attempting to use the <code>email</code> returned in the profile object as a user identifier will lead to security holes, as any user can create an authorization endpoint that returns any email address in the profile response. A client using the email address returned here should treat it the same as if it had been hand-entered in the client application and go through its own verification process before using it.</p>
+
+          <p>Similarly, the <code>url</code> returned in the <code>profile</code> object is not guaranteed to match the <code>me</code> URL, and may even be on a different domain. For example, a multi-author website may use the website's URL as the <code>me</code> URL, but return each specific author's own personal website in the profile data.</p>
+
+        </section>
+
       </section>
 
     </section>
@@ -570,7 +643,7 @@ Content-Type: application/json
       <section>
         <h4>Access Token Verification Response</h4>
 
-        <p>The token endpoint verifies the access token using (how this verification is done is up to the implementation), and returns information about the token:</p>
+        <p>The token endpoint verifies the access token (how this verification is done is up to the implementation), and returns information about the token:</p>
 
         <ul>
           <li><code>me</code> - The profile URL of the user corresponding to this token</li>
@@ -742,7 +815,17 @@ Content-Type: application/json
       <h2>Change Log</h2>
 
       <section>
-        <h3>Changes from 25 January 2020 to this version</h3>
+        <h3>Changes from 09 August 2020 to this version</h3>
+        <ul>
+          <li>Make the <code>me</code> parameter optional (but recommended) in the authorization request</li>
+          <li>Add the option of returning profile information in the response as well as defining profile scopes</li>
+          <li>Incorporate PKCE into the spec</li>
+          <li>Fixed text about which URL to resolve relative authorization/token endpoint URLs from</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Changes from 25 January 2020 to 09 August 2020</h3>
         <ul>
           <li>Drop the <code>me</code> parameter from the token endpoint request</li>
           <li>Consolidate the authentication and authorization sections into a single section, describing only the difference which is the response returned.</li>
