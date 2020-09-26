@@ -151,9 +151,7 @@
           <li>All clients are public clients (no <code>client_secret</code> is used)</li>
           <li>Client registration at the authorization endpoint is not necessary, since client IDs are resolvable URLs</li>
           <li>Redirect URL registration happens by verifying data fetched at the Client ID URL</li>
-          <li>Specifies a mechanism for returning the user identifier for the user who authorized a request</li>
-          <li>Specifies a mechanism for verifying authorization codes</li>
-          <li>Specifies a mechanism for a token endpoint and authorization endpoint to communicate</li>
+          <li>Specifies a mechanism for returning the user identifier and profile information for the user who authorized a request</li>
         </ul>
 
         <p>Additionally, the parameters defined by OAuth 2.0 (in particular <code>state</code>, <code>code</code>, and <code>scope</code>) follow the same syntax requirements as defined by Appendix A of OAuth 2.0 [[!RFC6749]].</p>
@@ -238,7 +236,7 @@
 
         <p>Since domain names are case insensitive, the hostname component of the URL MUST be compared case insensitively. Implementations SHOULD convert the hostname to lowercase when storing and using URLs.</p>
 
-        <p>For ease of use, clients MAY allow users to enter just a hostname part of the URL, in which case the client MUST turn that into a valid URL before beginning the IndieAuth flow, by prepending a either an <code>http</code> or <code>https</code> scheme and appending the path <code>/</code>. For example, if the user enters <code>example.com</code>, the client transforms it into <code>http://example.com/</code> before beginning discovery.</p>
+        <p>For ease of use, clients MAY allow users to enter just a hostname part of the URL, in which case the client MUST turn that into a valid URL before beginning the IndieAuth flow, by prepending either an <code>http</code> or <code>https</code> scheme and appending the path <code>/</code>. For example, if the user enters <code>example.com</code>, the client transforms it into <code>http://example.com/</code> before beginning discovery.</p>
       </section>
 
     </section>
