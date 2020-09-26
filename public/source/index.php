@@ -256,7 +256,7 @@
 
         <p>Clients MUST check for an HTTP <code>Link</code> header [[!RFC8288]] with the appropriate <code>rel</code> value. If the content type of the document is HTML, then the client MUST check for an HTML <code>&lt;link&gt;</code> element with the appropriate <code>rel</code> value. If more than one of these is present, the first HTTP <code>Link</code> header takes precedence, followed by the first <code>&lt;link&gt;</code> element in document order.</p>
 
-        <p>The endpoints discovered MAY be relative URLs, in which case the client MUST resolve them relative to the profile URL according to [[!URL]].</p>
+        <p>The endpoints discovered MAY be relative URLs, in which case the client MUST resolve them relative to the current document URL according to [[!URL]].</p>
 
         <p>Clients MAY initially make an HTTP HEAD request [[!RFC7231]] to follow redirects and check for the <code>Link</code> header before making a GET request.</p>
 
@@ -820,6 +820,7 @@ Content-Type: application/json
           <li>Make the <code>me</code> parameter optional (but recommended) in the authorization request</li>
           <li>Add the option of returning profile information in the response as well as defining profile scopes</li>
           <li>Incorporate PKCE into the spec</li>
+          <li>Fixed text about which URL to resolve relative authorization/token endpoint URLs from</li>
         </ul>
       </section>
 

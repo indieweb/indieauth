@@ -309,7 +309,7 @@
 
         <p id="discovery-by-clients-p-3">Clients <em class="rfc2119" title="MUST">MUST</em> check for an HTTP <code>Link</code> header [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc8288" title="Web Linking">RFC8288</a></cite>] with the appropriate <code>rel</code> value. If the content type of the document is HTML, then the client <em class="rfc2119" title="MUST">MUST</em> check for an HTML <code>&lt;link&gt;</code> element with the appropriate <code>rel</code> value. If more than one of these is present, the first HTTP <code>Link</code> header takes precedence, followed by the first <code>&lt;link&gt;</code> element in document order.</p>
 
-        <p id="discovery-by-clients-p-4">The endpoints discovered <em class="rfc2119" title="MAY">MAY</em> be relative URLs, in which case the client <em class="rfc2119" title="MUST">MUST</em> resolve them relative to the profile URL according to [<cite><a class="bibref" data-link-type="biblio" href="#bib-url" title="URL Standard">URL</a></cite>].</p>
+        <p id="discovery-by-clients-p-4">The endpoints discovered <em class="rfc2119" title="MAY">MAY</em> be relative URLs, in which case the client <em class="rfc2119" title="MUST">MUST</em> resolve them relative to the current document URL according to [<cite><a class="bibref" data-link-type="biblio" href="#bib-url" title="URL Standard">URL</a></cite>].</p>
 
         <p id="discovery-by-clients-p-5">Clients <em class="rfc2119" title="MAY">MAY</em> initially make an HTTP HEAD request [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc7231" title="Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content">RFC7231</a></cite>] to follow redirects and check for the <code>Link</code> header before making a GET request.</p>
 
@@ -891,6 +891,7 @@ Content-Type: application/json
           <li id="changes-from-09-august-2020-to-this-version-li-1">Make the <code>me</code> parameter optional (but recommended) in the authorization request</li>
           <li id="changes-from-09-august-2020-to-this-version-li-2">Add the option of returning profile information in the response as well as defining profile scopes</li>
           <li id="changes-from-09-august-2020-to-this-version-li-3">Incorporate PKCE into the spec</li>
+          <li id="changes-from-09-august-2020-to-this-version-li-4">Fixed text about which URL to resolve relative authorization/token endpoint URLs from</li>
         </ul>
       </section>
 
