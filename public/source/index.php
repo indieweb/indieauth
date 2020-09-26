@@ -415,7 +415,7 @@ Link: <https://example.org/token>; rel="token_endpoint"
             <li><code>client_id</code> - The client URL</li>
             <li><code>redirect_uri</code> - The redirect URL indicating where the user should be redirected to after approving the request</li>
             <li><code>state</code> - A parameter set by the client which will be included when the user is redirected back to the client. This is used to prevent CSRF attacks. The authorization server MUST return the unmodified state value back to the client.</li>
-            <li><code>scope</code> - (optional) A space-separated list of scopes the client is requesting, e.g. "profile", or "profile create". If the client omits this value, the authorization server MUST NOT issue an access token for this authorization code. Only the user's URL may be returned without any scope requested.</li>
+            <li><code>scope</code> - (optional) A space-separated list of scopes the client is requesting, e.g. "profile", or "profile create". If the client omits this value, the authorization server MUST NOT issue an access token for this authorization code. Only the user's profile URL may be returned without any scope requested. See <a href="#profile-information">Profile Information</a> for details about which scopes to request to return user profile information.</li>
             <li><code>me</code> - (optional) The profile URL that the user entered</li>
           </ul>
 
@@ -470,9 +470,9 @@ Link: <https://example.org/token>; rel="token_endpoint"
         <section>
           <h4>Request</h4>
 
-          <p>If the client only needs to know the user who logged in and does not need to make requests to resource servers with an access token, the client exchanges the authorization code for the user's profile URL at the <b>authorization endpoint</b>.</p>
-
           <p>If the client needs an access token in order to make requests to a resource server such as a [[?Micropub]] endpoint, it can exchange the authorization code for an access token and the user's profile URL at the <b>token endpoint</b>.</p>
+
+          <p>If the client only needs to know the user who logged in and does not need to make requests to resource servers with an access token, the client exchanges the authorization code for the user's profile URL at the <b>authorization endpoint</b>.</p>
 
           <p>After the client validates the state parameter, the client makes a POST request to the token endpoint or authorization endpoint to exchange the authorization code for the final user profile URL and/or access token. The POST request contains the following parameters:</p>
 
@@ -511,7 +511,9 @@ grant_type=authorization_code
         <section>
           <h4>Profile URL Response</h4>
 
-          <p>The authorization endpoint verifies that the authorization code is valid, has not yet been used, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>. If the request is valid, then the endpoint responds with a JSON [[!RFC7159]] object containing one property, <code>me</code>, with the canonical user profile URL for the user who signed in.</p>
+          <p>When the client receives an authorization code that was requested with either no scope or only profile scopes (<a href="#profile-information">defined below</a>), the client will exchange the authorization code at the <b>authorization endpoint</b>, and only the canonical user profile URL and possibly profile information is returned.</p>
+
+          <p>The authorization endpoint verifies that the authorization code is valid, has not yet been used, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>. If the request is valid, then the endpoint responds with a JSON [[!RFC7159]] object containing the property <code>me</code>, with the canonical user profile URL for the user who signed in, and optionally the property <code>profile</code> with the user's profile information as defined in <a href="#profile-information">Profile Information</a>.</p>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
   'HTTP/1.1 200 OK
@@ -529,11 +531,13 @@ grant_type=authorization_code
         <section>
           <h4>Access Token Response</h4>
 
+          <p>When the client receives an authorization code that was requested with one or more scopes that will result in an access token being returned, the client will exchange the authorization code at the <b>token endpoint</b>.</p>
+
           <p>The token endpoint needs to verify that the authorization code is valid, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>, and contains at least one <code>scope</code>. If the authorization code was issued with no <code>scope</code>, the token endpoint MUST NOT issue an access token, as empty scopes are invalid per Section 3.3 of OAuth 2.0 [[!RFC6749]].</p>
 
-          <p>The specifics of how the token endpoint verifies the authorization code are out of scope of this document, as typically the authorization endpoint and token endpoint are part of the same system and can share storage or other private communication mechanism.</p>
+          <p>The specifics of how the token endpoint verifies the authorization code are out of scope of this document, as typically the authorization endpoint and token endpoint are part of the same system and can share storage or another private communication mechanism.</p>
 
-          <p>If the request is valid, then the token endpoint can generate an access token and return the appropriate response. The token response is a JSON [[!RFC7159]] object containing the OAuth 2.0 Bearer Token [[!RFC6750]], as well as a property <code>me</code>, containing the canonical user profile URL for the user this access token corresponds to. For example:</p>
+          <p>If the request is valid, then the token endpoint can generate an access token and return the appropriate response. The token response is a JSON [[!RFC7159]] object containing the OAuth 2.0 Bearer Token [[!RFC6750]], as well as a property <code>me</code>, containing the canonical user profile URL for the user this access token corresponds to, and optionally the property <code>profile</code> with the user's profile information as defined in <a href="#profile-information">Profile Information</a>. For example:</p>
 
           <pre class="example nohighlight">HTTP/1.1 200 OK
 Content-Type: application/json
@@ -549,6 +553,53 @@ Content-Type: application/json
 
           <p>See OAuth 2.0 [[!RFC6749]] <a href="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
         </section>
+
+        <section>
+          <h4>Profile Information</h4>
+
+          <h5>Requesting Profile Information</h5>
+
+          <p>If the client would like to request the user's profile information in addition to confirming their profile URL, the client can include one or more scopes in the initial authorization request. The following <code>scope</code> values are defined by this specification to request profile information about the user:</p>
+
+          <ul>
+            <li><code>profile</code> (required) - This scope requests access to the user's default profile information which include the following properties: <code>name</code>, <code>photo</code>, <code>url</code>.</li>
+            <li><code>email</code> - This scope requests access to the user's email address in the following property: <code>email</code>.</li>
+          </ul>
+
+          <p>Note that because the <code>profile</code> scope is required when requesting profile information, the <code>email</code> scope cannot be requested on its own and must be requested along with the <code>profile</code> scope if desired.<p>
+
+          <p>When an authorization code is issued with any of the scopes defined above, then the response when exchanging the authorization code MAY include a new property, <code>profile</code>, alongside the <code>me</code> property in the response from the authorization endpoint or the token endpoint. The <code>profile</code> property is defined as a JSON [[!RFC7159]] object with the properties defined by each scope above.</p>
+
+          <p>For example, a complete response to a request with the scopes <code>profile email create</code>, including an access token and profile information, may look like the following:</p>
+
+          <pre class="example nohighlight">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "access_token": "XXXXXX",
+  "token_type": "Bearer",
+  "scope": "profile email create",
+  "me": "https://user.example.net/",
+  "profile": {
+    "name": "Example User",
+    "url": "https://user.example.net/",
+    "photo": "https://user.example.net/photo.jpg",
+    "email": "user@example.net"
+  }
+}</pre>
+
+          <p>As is always the case with OAuth 2.0, there is no guarantee that the scopes the client requests will be granted by the authorization server or the user. The client should not rely on the presence of profile information even when requesting the profile scope. As such, implementing support for returning profile information from the authorization server is entirely optional.</p>
+
+          <p>The information returned in the <code>profile</code> object is informational, and there is no guarantee that this information is "real" or "verified". The information provided is only what the user has chosen to share with the client, and may even vary depending on which client is requesting this data.</p>
+
+          <p>The client MUST NOT treat the information in the <code>profile</code> object as canonical or authoritative, and MUST NOT make any authentication or identification decisions based on this information.</p>
+
+          <p>For example, attempting to use the <code>email</code> returned in the profile object as a user identifier will lead to security holes, as any user can create an authorization endpoint that returns any email address in the profile response. A client using the email address returned here should treat it the same as if it had been hand-entered in the client application and go through its own verification process before using it.</p>
+
+          <p>Similarly, the <code>url</code> returned in the <code>profile</code> object is not guaranteed to match the <code>me</code> URL, and may even be on a different domain. For example, a multi-author website may use the website's URL as the <code>me</code> URL, but return each specific author's own personal website in the profile data.</p>
+
+        </section>
+
       </section>
 
     </section>
@@ -745,7 +796,15 @@ Content-Type: application/json
       <h2>Change Log</h2>
 
       <section>
-        <h3>Changes from 25 January 2020 to this version</h3>
+        <h3>Changes from 09 August 2020 to this version</h3>
+        <ul>
+          <li>Make the <code>me</code> parameter optional (but recommended) in the authorization request</li>
+          <li>Add the option of returning profile information in the response as well as defining profile scopes</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Changes from 25 January 2020 to 09 August 2020</h3>
         <ul>
           <li>Drop the <code>me</code> parameter from the token endpoint request</li>
           <li>Consolidate the authentication and authorization sections into a single section, describing only the difference which is the response returned.</li>
