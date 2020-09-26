@@ -630,7 +630,7 @@ Content-Type: application/json
 }</pre>
       </div>
 
-          <p id="access-token-response-p-5">The resulting profile URL <em class="rfc2119" title="MAY">MAY</em> be different from what the user initially entered, but <em class="rfc2119" title="MUST">MUST</em> be on the same domain. This provides the opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-examples">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
+          <p id="access-token-response-p-5">The resulting profile URL <em class="rfc2119" title="MAY">MAY</em> be different from the canonical profile URL as resolved by the client, but <em class="rfc2119" title="MUST">MUST</em> be on the same domain. This provides the opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-examples">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
 
           <p id="access-token-response-p-6">See OAuth 2.0 [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6749" title="The OAuth 2.0 Authorization Framework">RFC6749</a></cite>] <a href="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
         </section>
@@ -713,7 +713,7 @@ Content-Type: application/json
       <section id="access-token-verification-response">
         <h3 id="x6-2-access-token-verification-response"><bdi class="secno">6.2 </bdi>Access Token Verification Response<a class="self-link" aria-label="§" href="#access-token-verification-response"></a></h3>
 
-        <p id="access-token-verification-response-p-1">The token endpoint verifies the access token using (how this verification is done is up to the implementation), and returns information about the token:</p>
+        <p id="access-token-verification-response-p-1">The token endpoint verifies the access token (how this verification is done is up to the implementation), and returns information about the token:</p>
 
         <ul>
           <li id="access-token-verification-response-li-1"><code>me</code> - The profile URL of the user corresponding to this token</li>
