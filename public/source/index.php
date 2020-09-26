@@ -408,13 +408,27 @@ Link: <https://example.org/token>; rel="token_endpoint"
       <section>
         <h3>Authorization Request</h3>
 
-          <p>The client builds the authorization request URL by starting with the discovered <code>authorization_endpoint</code> URL and adding the following parameters to the query component:</p>
+          <p>The client builds the authorization request URL by starting with the discovered <code>authorization_endpoint</code> URL and adding parameters to the query component.</p>
+
+          <p>All IndieAuth clients MUST use PKCE ([[!RFC7636]]) to protect against authorization code injection and CSRF attacks. A non-canonical description of the PKCE mechanism is described below, but implementers should refer to [[RFC7636]] for details.</p>
+
+          <p>Clients use a unique secret per authorization request to protect against authorization code injection and CSRF attacks. The client first generates this secret, which it can later use along with the authorization code to prove that the application using the authorization code is the same application that requested it.</p>
+
+          <p>The client first creates a code verifier for each authorization request by generating a random string using the characters <code>[A-Z] / [a-z] / [0-9] / - / . / _ / ~</code> with a minimum length of 43 characters and maximum length of 128 characters. This value is stored on the client and will be used in the authorization code exchange step later.</p>
+
+          <p>The client then creates the code challenge derived from the code verifier by calculating the SHA256 hash of the code verifier and Base64-URL-encoding the result.</p>
+
+          <code>code_challenge = BASE64URL-ENCODE(SHA256(ASCII(code_verifier)))</code>
+
+          <p>For backwards compatibility, authorization endpoints MAY accept authorization requests without a code challenge if the authorization server wishes to support older clients.</p>
 
           <ul>
             <li><code>response_type=code</code> - Indicates to the authorization server that an authorization code should be returned as the response</li>
             <li><code>client_id</code> - The client URL</li>
             <li><code>redirect_uri</code> - The redirect URL indicating where the user should be redirected to after approving the request</li>
             <li><code>state</code> - A parameter set by the client which will be included when the user is redirected back to the client. This is used to prevent CSRF attacks. The authorization server MUST return the unmodified state value back to the client.</li>
+            <li><code>code_challenge</code> - The code challenge as previously described.</li>
+            <li><code>code_challenge_method</code> - The hashing method used to calculate the code challenge, e.g. "S256"</li>
             <li><code>scope</code> - (optional) A space-separated list of scopes the client is requesting, e.g. "profile", or "profile create". If the client omits this value, the authorization server MUST NOT issue an access token for this authorization code. Only the user's profile URL may be returned without any scope requested. See <a href="#profile-information">Profile Information</a> for details about which scopes to request to return user profile information.</li>
             <li><code>me</code> - (optional) The profile URL that the user entered</li>
           </ul>
@@ -424,6 +438,8 @@ Link: <https://example.org/token>; rel="token_endpoint"
                           client_id=https://app.example.com/&
                           redirect_uri=https://app.example.com/redirect&
                           state=1234567890&
+                          code_challenge=OfYAxt8zU2dAPDWQxTAUIteRzMsoj9QBdMIVEDOErUo&
+                          code_challenge_method=S256&
                           scope=profile+create+update+delete&
                           me=https://user.example.net/') ?></pre>
 
@@ -478,9 +494,10 @@ Link: <https://example.org/token>; rel="token_endpoint"
 
           <ul>
             <li><code>grant_type=authorization_code</code></li>
-            <li><code>code</code> - The authorization code received from the authorization endpoint in the redirect</li>
+            <li><code>code</code> - The authorization code received from the authorization endpoint in the redirect.</li>
             <li><code>client_id</code> - The client's URL, which MUST match the client_id used in the authentication request.</li>
             <li><code>redirect_uri</code> - The client's redirect URL, which MUST match the initial authentication request.</li>
+            <li><code>code_verifier</code> - The original plaintext random string generated before starting the authorization request.</li>
           </ul>
 
           <b>Example request to authorization endpoint</b>
@@ -493,6 +510,7 @@ Link: <https://example.org/token>; rel="token_endpoint"
   &code=xxxxxxxx
   &client_id=https://app.example.com/
   &redirect_uri=https://app.example.com/redirect
+  &code_verifier=a6128783714cfda1d388e2e98b6ae8221ac31aca31959e59512c59f5
   ') ?></pre>
 
           <b>Example request to token endpoint</b>
@@ -505,15 +523,18 @@ grant_type=authorization_code
 &code=xxxxxxxx
 &client_id=https://app.example.com/
 &redirect_uri=https://app.example.com/redirect
+&code_verifier=a6128783714cfda1d388e2e98b6ae8221ac31aca31959e59512c59f5
 ') ?></pre>
         </section>
+
+          <p>Note that for backwards compatibility, the authorization endpoint MAY allow requests without the <code>code_verifier</code>. If an authorization code was issued with no <code>code_challenge</code> present, then the authorization code exchange MUST NOT include a <code>code_verifier</code>, and similarly, if an authorization code was issued with a <code>code_challenge</code> present, then the authorization code exchange MUST include a <code>code_verifier</code>.</p>
 
         <section>
           <h4>Profile URL Response</h4>
 
           <p>When the client receives an authorization code that was requested with either no scope or only profile scopes (<a href="#profile-information">defined below</a>), the client will exchange the authorization code at the <b>authorization endpoint</b>, and only the canonical user profile URL and possibly profile information is returned.</p>
 
-          <p>The authorization endpoint verifies that the authorization code is valid, has not yet been used, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>. If the request is valid, then the endpoint responds with a JSON [[!RFC7159]] object containing the property <code>me</code>, with the canonical user profile URL for the user who signed in, and optionally the property <code>profile</code> with the user's profile information as defined in <a href="#profile-information">Profile Information</a>.</p>
+          <p>The authorization endpoint verifies that the authorization code is valid, has not yet been used, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>, and checks that the provided <code>code_verifier</code> hashes to the same value as given in the <code>code_challenge</code> in the original authorization request. If the request is valid, then the endpoint responds with a JSON [[!RFC7159]] object containing the property <code>me</code>, with the canonical user profile URL for the user who signed in, and optionally the property <code>profile</code> with the user's profile information as defined in <a href="#profile-information">Profile Information</a>.</p>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
   'HTTP/1.1 200 OK
@@ -533,7 +554,7 @@ grant_type=authorization_code
 
           <p>When the client receives an authorization code that was requested with one or more scopes that will result in an access token being returned, the client will exchange the authorization code at the <b>token endpoint</b>.</p>
 
-          <p>The token endpoint needs to verify that the authorization code is valid, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>, and contains at least one <code>scope</code>. If the authorization code was issued with no <code>scope</code>, the token endpoint MUST NOT issue an access token, as empty scopes are invalid per Section 3.3 of OAuth 2.0 [[!RFC6749]].</p>
+          <p>The token endpoint needs to verify that the authorization code is valid, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>, contains at least one <code>scope</code>, and checks that the provided <code>code_verifier</code> hashes to the same value as given in the <code>code_challenge</code> in the original authorization request.. If the authorization code was issued with no <code>scope</code>, the token endpoint MUST NOT issue an access token, as empty scopes are invalid per Section 3.3 of OAuth 2.0 [[!RFC6749]].</p>
 
           <p>The specifics of how the token endpoint verifies the authorization code are out of scope of this document, as typically the authorization endpoint and token endpoint are part of the same system and can share storage or another private communication mechanism.</p>
 
