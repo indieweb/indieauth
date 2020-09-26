@@ -9,11 +9,11 @@
     <script class='remove'>
       var respecConfig = {
           useExperimentalStyles: true,
-          publishDate: "2020-08-09",
+          publishDate: "2020-09-26",
           specStatus: "NOTE", /* for loading w3c CSS */
-          previousPublishDate: "2020-01-25",
+          previousPublishDate: "2020-08-09",
           previousMaturity: "LS",
-          previousVersionURL: "https://indieauth.spec.indieweb.org/20200125/",
+          previousVersionURL: "https://indieauth.spec.indieweb.org/20200809/",
           shortName:  "indieauth",
           lsURI: "https://indieauth.spec.indieweb.org/",
           testSuiteURI: "https://indieauth.rocks/",
@@ -821,6 +821,7 @@ Content-Type: application/json
         <ul>
           <li>Make the <code>me</code> parameter optional (but recommended) in the authorization request</li>
           <li>Add the option of returning profile information in the response as well as defining profile scopes</li>
+          <li>Incorporate PKCE into the spec</li>
         </ul>
       </section>
 
