@@ -827,6 +827,7 @@ Content-Type: application/json
       <section>
         <h3>Changes from 25 January 2020 to 09 August 2020</h3>
         <ul>
+          <li>Use <code>response_type=code</code> and make it required, to bring it in line with OAuth 2.0</li>
           <li>Drop the <code>me</code> parameter from the token endpoint request</li>
           <li>Consolidate the authentication and authorization sections into a single section, describing only the difference which is the response returned.</li>
           <li>Drop the section describing communication between token endpoints and authorization endpoints as it was underused</li>
