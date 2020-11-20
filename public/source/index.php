@@ -412,7 +412,7 @@ Link: <https://example.org/token>; rel="token_endpoint"
                           scope=profile+create+update+delete&
                           me=https://user.example.net/') ?></pre>
 
-          <p>The client SHOULD provide the <code>me</code> query string parameter to the authorization endpoint, either the exact value the user entered, or the canonical profile URL resulting from the discovery step.</p>
+          <p>The client SHOULD provide the <code>me</code> query string parameter to the authorization endpoint, either the exact value the user entered, or the value after applying <a href="url-canonicalization">URL Canonicalization</a>.</p>
 
           <p>The authorization endpoint SHOULD fetch the <code>client_id</code> URL to retrieve application information and the client's registered redirect URLs, see <a href="#client-information-discovery">Client Information Discovery</a> for more information.</p>
 
@@ -513,7 +513,7 @@ grant_type=authorization_code
     "me": "https://user.example.net/"
   }') ?></pre>
 
-          <p>The resulting profile URL MAY be different from the canonical profile URL as resolved by the client. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of.</p>
+          <p>The resulting profile URL MAY be different from the URL provided to the client for discovery. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of.</p>
 
           <p>See OAuth 2.0 [[!RFC6749]] <a href="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
         </section>
@@ -539,7 +539,7 @@ Content-Type: application/json
   "me": "https://user.example.net/"
 }</pre>
 
-          <p>The resulting profile URL MAY be different from the canonical profile URL as resolved by the client. This provides the opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of.</p>
+          <p>The resulting profile URL MAY be different from the URL provided to the client for discovery. This gives the token endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of.</p>
 
           <p>See OAuth 2.0 [[!RFC6749]] <a href="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
         </section>
