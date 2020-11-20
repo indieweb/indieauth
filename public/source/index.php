@@ -252,42 +252,13 @@
 
         <p>Clients need to discover a few pieces of information when a user signs in. The client needs to discover the user's <code>authorization_endpoint</code>, and optionally <code>token_endpoint</code> if the client needs an access token. When using the Authorization flow to obtain an access token for use at a [[?Micropub]] endpoint, the client will also discover the <code>micropub</code> endpoint.</p>
 
-        <p>Clients MUST start by making a GET or HEAD request to [[!Fetch]] the user's profile URL to discover the necessary values. Clients MUST follow HTTP redirects (up to a self-imposed limit). If one or more successive HTTP permanent redirects (HTTP 301 or 308) are encountered starting with the very first request, the client MUST use the final permanent redirection's target URL as the canonical profile URL. If any other redirection (such as HTTP 302, 303, or 307) is encountered, it must still be resolved for endpoint discovery, but this redirection does not modify the canonical profile URL, nor do subsequent permanent redirects.</p>
+        <p>Clients MUST start by making a GET or HEAD request to [[!Fetch]] the user's profile URL to discover the necessary values. Clients MUST follow HTTP redirects (up to a self-imposed limit).</p>
 
         <p>Clients MUST check for an HTTP <code>Link</code> header [[!RFC8288]] with the appropriate <code>rel</code> value. If the content type of the document is HTML, then the client MUST check for an HTML <code>&lt;link&gt;</code> element with the appropriate <code>rel</code> value. If more than one of these is present, the first HTTP <code>Link</code> header takes precedence, followed by the first <code>&lt;link&gt;</code> element in document order.</p>
 
         <p>The endpoints discovered MAY be relative URLs, in which case the client MUST resolve them relative to the current document URL according to [[!URL]].</p>
 
         <p>Clients MAY initially make an HTTP HEAD request [[!RFC7231]] to follow redirects and check for the <code>Link</code> header before making a GET request.</p>
-
-        <section>
-          <h4>Redirect Examples</h4>
-
-          <section>
-            <h5>http to https</h5>
-            <p>In this example, the user enters <code>example.com</code> in the sign-in form, so the client initially transforms that to <code>http://example.com/</code> to perform discovery. The URL <code>http://example.com/</code> returns an HTTP 301 permanent redirect to <code>https://example.com/</code>, so the client updates the initial profile URL to <code>https://example.com/</code>, and looks at the contents of that page to find the authorization endpoint.</p>
-          </section>
-
-          <section>
-            <h5>www to no-www</h5>
-            <p>In this example, the user enters <code>www.example.com</code> in the sign-in form, so the client initially transforms that to <code>http://www.example.com/</code> to perform discovery. The URL <code>http://www.example.com/</code> returns an HTTP 301 permanent redirect to <code>https://example.com/</code>, so the client updates the initial profile URL to <code>https://example.com/</code>, and looks at the contents of that page to find the authorization endpoint.</p>
-          </section>
-
-          <section>
-            <h5>Temporary Redirect</h5>
-            <p>In this example, the user enters <code>example.com</code> in the sign-in form, so the client initially transforms that to <code>http://example.com/</code> to perform discovery. The URL <code>http://example.com/</code> returns an HTTP 301 permanent redirect to <code>https://example.com/</code>, and <code>https://example.com/</code> returns an HTTP 302 temporary redirect to <code>https://example.com/username</code>. The client stores the last 301 permanent redirect as the profile URL, <code>https://example.com/</code>, and uses the contents of <code>https://example.com/username</code> to find the authorization endpoint.</p>
-          </section>
-
-          <section>
-            <h5>Permanent Redirect to a Different Domain</h5>
-            <p>In this example, the user enters <code>username.example</code> in the sign-in form, so the client initially transforms that to <code>http://username.example/</code> to perform discovery. However, the user does not host any content there, and instead that page is a redirect to their profile elsewhere. The URL <code>http://username.example/</code> returns an HTTP 301 permanent redirect to <code>https://example.com/username</code>, so the client updates the initial profile URL to <code>https://example.com/username</code> when setting the <code>me</code> parameter in the initial request. At the end of the flow, the authorization endpoint will return a <code>me</code> value of <code>https://example.com/username</code>, which is not on the same domain as what the user entered, but the client can accept it because of the HTTP 301 redirect encountered during discovery.</p>
-          </section>
-
-          <section>
-            <h5>Temporary Redirect to a Different Domain</h5>
-            <p>In this example, the user enters <code>username.example</code> in the sign-in form, so the client initially transforms that to <code>http://username.example/</code> to perform discovery. However, the user does not host any content there, and instead that page is a temporary redirect to their profile elsewhere. The URL <code>http://username.example/</code> returns an HTTP 302 temporary redirect to <code>https://example.com/username</code>, so the client discovers the authorization endpoint at that URL. Since the redirect is temporary, the client still uses the user-entered <code>http://username.example/</code> when setting the <code>me</code> parameter in the initial request. At the end of the flow, the authorization endpoint will return a <code>me</code> value of <code>https://username.example/</code>, which is not on the same domain as the authorization endpoint, but is the same domain as the user entered. This allows users to still use a profile URL under their control while delegating the authentication or authorization flow to an external account.</p>
-          </section>
-        </section>
       </section>
 
       <section>
