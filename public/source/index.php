@@ -592,6 +592,24 @@ Content-Type: application/json
 
       </section>
 
+      <section>
+        <h3>Authorization Server Confirmation</h3>
+
+        <p>Clients will initially prompt the user for their profile URL in order to discover the necessary endpoints to perform authentication or authorization. However, there may be slight differences between the URL that the user initially enters vs what the system considers the user's canonical profile URL.</p>
+
+        <p>For example, a user might enter <code>user.example.net</code> in a login interface, and the client may assume a default scheme of <code>http</code>, providing an initial profile URL of <code>http://user.example.net</code>. Once the authentication or authorization flow is complete, the response in the <code>me</code> parameter might be the canonical <code>https://user.example.net/</code>. In some cases, user profile URLs have a full path component such as <code>https://example.net/username</code>, but users may enter just <code>example.net</code> in the login interface.</p>
+
+        <p>Upon validation, the client MUST check the <code>me</code> value from the <a href="#profile-url-response">profile URL response</a> or <a href="#access-token-response">access token response</a>, and take the following validation steps:</p>
+
+        <ol>
+          <li>It MAY check the value against any URLs encountered during the <a href="#discovery-by-clients">initial endpoint discovery</a>, either from a possible redirect chain or the final value. If found, it MAY then chose to skip the next step.</li>
+          <li>It MUST verify that the canonical profile URL declares the same <code>authorization_endpoint</code> as the initially-discovered authorization endpoint by redoing <a href="#discovery-by-clients">endpoint discovery</a> on the <code>me</code> value.</li>
+        </ol>
+
+        <p>These steps ensure that an authorization endpoint is not able to issue valid responses for arbitrary profile URLs, and that users on a shared domain cannot forge authorization on behalf of other users of that domain.</p>
+
+      </section>
+
     </section>
 
     <section class="normative">
@@ -668,24 +686,6 @@ Content-Type: application/json
       <h2>Security Considerations</h2>
 
       <p>In addition to the security considerations in OAuth 2.0 Core [[RFC6749]] and OAuth 2.0 Threat Model and Security Considerations [[RFC6819]], the additional considerations apply.</p>
-
-      <section>
-        <h3>Differing User Profile URLs</h3>
-
-        <p>Clients will initially prompt the user for their profile URL in order to discover the necessary endpoints to perform authentication or authorization. However, there may be slight differences between the URL that the user initially enters vs what the system considers the user's canonical profile URL.</p>
-
-        <p>For example, a user might enter <code>user.example.net</code> in a login interface, and the client may assume a default scheme of <code>http</code>, providing an initial profile URL of <code>http://user.example.net</code>. Once the authentication or authorization flow is complete, the response in the <code>me</code> parameter might be the canonical <code>https://user.example.net/</code>. In some cases, user profile URLs have a full path component such as <code>https://example.net/username</code>, but users may enter just <code>example.net</code> in the login interface.</p>
-
-        <p>Upon validation, the client MUST check the <code>me</code> value from the <a href="#profile-url-response">profile URL response</a> or <a href="#access-token-response">access token response</a>, and take the following validation steps:</p>
-
-        <ol>
-          <li>It MAY check the value against any URLs encountered during the <a href="#discovery-by-clients">initial endpoint discovery</a>, either from a possible redirect chain or the final value. If found, it MAY then chose to skip the next step.</li>
-          <li>It MUST verify that the canonical profile URL declares the same <code>authorization_endpoint</code> as the initially-discovered authorization endpoint by redoing <a href="#discovery-by-clients">endpoint discovery</a> on the <code>me</code> value.</li>
-        </ol>
-
-        <p>These steps ensure that an authorization endpoint is not able to issue valid responses for arbitrary profile URLs, and that users on a shared domain cannot forge authorization on behalf of other users of that domain.</p>
-
-      </section>
 
       <section>
         <h3>Preventing Phishing and Redirect Attacks</h3>
