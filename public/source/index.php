@@ -252,42 +252,13 @@
 
         <p>Clients need to discover a few pieces of information when a user signs in. The client needs to discover the user's <code>authorization_endpoint</code>, and optionally <code>token_endpoint</code> if the client needs an access token. When using the Authorization flow to obtain an access token for use at a [[?Micropub]] endpoint, the client will also discover the <code>micropub</code> endpoint.</p>
 
-        <p>Clients MUST start by making a GET or HEAD request to [[!Fetch]] the user's profile URL to discover the necessary values. Clients MUST follow HTTP redirects (up to a self-imposed limit). If one or more successive HTTP permanent redirects (HTTP 301 or 308) are encountered starting with the very first request, the client MUST use the final permanent redirection's target URL as the canonical profile URL. If any other redirection (such as HTTP 302, 303, or 307) is encountered, it must still be resolved for endpoint discovery, but this redirection does not modify the canonical profile URL, nor do subsequent permanent redirects.</p>
+        <p>Clients MUST start by making a GET or HEAD request to [[!Fetch]] the user's profile URL to discover the necessary values. Clients MUST follow HTTP redirects (up to a self-imposed limit).</p>
 
         <p>Clients MUST check for an HTTP <code>Link</code> header [[!RFC8288]] with the appropriate <code>rel</code> value. If the content type of the document is HTML, then the client MUST check for an HTML <code>&lt;link&gt;</code> element with the appropriate <code>rel</code> value. If more than one of these is present, the first HTTP <code>Link</code> header takes precedence, followed by the first <code>&lt;link&gt;</code> element in document order.</p>
 
         <p>The endpoints discovered MAY be relative URLs, in which case the client MUST resolve them relative to the current document URL according to [[!URL]].</p>
 
         <p>Clients MAY initially make an HTTP HEAD request [[!RFC7231]] to follow redirects and check for the <code>Link</code> header before making a GET request.</p>
-
-        <section>
-          <h4>Redirect Examples</h4>
-
-          <section>
-            <h5>http to https</h5>
-            <p>In this example, the user enters <code>example.com</code> in the sign-in form, so the client initially transforms that to <code>http://example.com/</code> to perform discovery. The URL <code>http://example.com/</code> returns an HTTP 301 permanent redirect to <code>https://example.com/</code>, so the client updates the initial profile URL to <code>https://example.com/</code>, and looks at the contents of that page to find the authorization endpoint.</p>
-          </section>
-
-          <section>
-            <h5>www to no-www</h5>
-            <p>In this example, the user enters <code>www.example.com</code> in the sign-in form, so the client initially transforms that to <code>http://www.example.com/</code> to perform discovery. The URL <code>http://www.example.com/</code> returns an HTTP 301 permanent redirect to <code>https://example.com/</code>, so the client updates the initial profile URL to <code>https://example.com/</code>, and looks at the contents of that page to find the authorization endpoint.</p>
-          </section>
-
-          <section>
-            <h5>Temporary Redirect</h5>
-            <p>In this example, the user enters <code>example.com</code> in the sign-in form, so the client initially transforms that to <code>http://example.com/</code> to perform discovery. The URL <code>http://example.com/</code> returns an HTTP 301 permanent redirect to <code>https://example.com/</code>, and <code>https://example.com/</code> returns an HTTP 302 temporary redirect to <code>https://example.com/username</code>. The client stores the last 301 permanent redirect as the profile URL, <code>https://example.com/</code>, and uses the contents of <code>https://example.com/username</code> to find the authorization endpoint.</p>
-          </section>
-
-          <section>
-            <h5>Permanent Redirect to a Different Domain</h5>
-            <p>In this example, the user enters <code>username.example</code> in the sign-in form, so the client initially transforms that to <code>http://username.example/</code> to perform discovery. However, the user does not host any content there, and instead that page is a redirect to their profile elsewhere. The URL <code>http://username.example/</code> returns an HTTP 301 permanent redirect to <code>https://example.com/username</code>, so the client updates the initial profile URL to <code>https://example.com/username</code> when setting the <code>me</code> parameter in the initial request. At the end of the flow, the authorization endpoint will return a <code>me</code> value of <code>https://example.com/username</code>, which is not on the same domain as what the user entered, but the client can accept it because of the HTTP 301 redirect encountered during discovery.</p>
-          </section>
-
-          <section>
-            <h5>Temporary Redirect to a Different Domain</h5>
-            <p>In this example, the user enters <code>username.example</code> in the sign-in form, so the client initially transforms that to <code>http://username.example/</code> to perform discovery. However, the user does not host any content there, and instead that page is a temporary redirect to their profile elsewhere. The URL <code>http://username.example/</code> returns an HTTP 302 temporary redirect to <code>https://example.com/username</code>, so the client discovers the authorization endpoint at that URL. Since the redirect is temporary, the client still uses the user-entered <code>http://username.example/</code> when setting the <code>me</code> parameter in the initial request. At the end of the flow, the authorization endpoint will return a <code>me</code> value of <code>https://username.example/</code>, which is not on the same domain as the authorization endpoint, but is the same domain as the user entered. This allows users to still use a profile URL under their control while delegating the authentication or authorization flow to an external account.</p>
-          </section>
-        </section>
       </section>
 
       <section>
@@ -441,7 +412,7 @@ Link: <https://example.org/token>; rel="token_endpoint"
                           scope=profile+create+update+delete&
                           me=https://user.example.net/') ?></pre>
 
-          <p>The client SHOULD provide the <code>me</code> query string parameter to the authorization endpoint, either the exact value the user entered, or the canonical profile URL resulting from the discovery step.</p>
+          <p>The client SHOULD provide the <code>me</code> query string parameter to the authorization endpoint, either the exact value the user entered, or the value after applying <a href="url-canonicalization">URL Canonicalization</a>.</p>
 
           <p>The authorization endpoint SHOULD fetch the <code>client_id</code> URL to retrieve application information and the client's registered redirect URLs, see <a href="#client-information-discovery">Client Information Discovery</a> for more information.</p>
 
@@ -542,7 +513,7 @@ grant_type=authorization_code
     "me": "https://user.example.net/"
   }') ?></pre>
 
-          <p>The resulting profile URL MAY be different from the canonical profile URL as resolved by the client, but MUST be on the same domain. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-examples">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL, and see <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of.</p>
+          <p>The resulting profile URL MAY be different from the URL provided to the client for discovery. This gives the authorization server an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of.</p>
 
           <p>See OAuth 2.0 [[!RFC6749]] <a href="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
         </section>
@@ -568,7 +539,7 @@ Content-Type: application/json
   "me": "https://user.example.net/"
 }</pre>
 
-          <p>The resulting profile URL MAY be different from the canonical profile URL as resolved by the client, but MUST be on the same domain. This provides the opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#redirect-examples">Redirect Examples</a> for an example of how a service can allow a user to enter a URL on a domain different from their resulting <code>me</code> profile URL.</p>
+          <p>The resulting profile URL MAY be different from the URL provided to the client for discovery. This gives the authorization server an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of.</p>
 
           <p>See OAuth 2.0 [[!RFC6749]] <a href="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
         </section>
@@ -705,12 +676,11 @@ Content-Type: application/json
 
         <p>For example, a user might enter <code>user.example.net</code> in a login interface, and the client may assume a default scheme of <code>http</code>, providing an initial profile URL of <code>http://user.example.net</code>. Once the authentication or authorization flow is complete, the response in the <code>me</code> parameter might be the canonical <code>https://user.example.net/</code>. In some cases, user profile URLs have a full path component such as <code>https://example.net/username</code>, but users may enter just <code>example.net</code> in the login interface.</p>
 
-        <p>Upon validation, clients MUST check the <code>me</code> value from the <a href="#profile-url-response">profile URL response</a> or <a href="#access-token-response">access token response</a>, and take the following validation steps:</p>
+        <p>Upon validation, the client MUST check the <code>me</code> value from the <a href="#profile-url-response">profile URL response</a> or <a href="#access-token-response">access token response</a>, and take the following validation steps:</p>
 
         <ol>
-          <li>It MUST follow any permanent redirections from this URL to discover the canonical profile URL, in the same manner as <a href="#discovery-by-clients">initial profile URL discovery</a>.</li>
-          <li>It MUST verify that the canonical profile URL is on the same domain as the initially-entered profile URL.</li>
-          <li>It MUST verify that the canonical profile URL declares the same <code>authorization_endpoint</code> as the initially-entered profile URL.</li>
+          <li>It MAY check the value against any URLs encountered during the <a href="#discovery-by-clients">initial endpoint discovery</a>, either from a possible redirect chain or the final value. If found, it MAY then chose to skip the next step.</li>
+          <li>It MUST verify that the canonical profile URL declares the same <code>authorization_endpoint</code> as the initially-discovered authorization endpoint by redoing <a href="#discovery-by-clients">endpoint discovery</a> on the <code>me</code> value.</li>
         </ol>
 
         <p>These steps ensure that an authorization endpoint is not able to issue valid responses for arbitrary profile URLs, and that users on a shared domain cannot forge authorization on behalf of other users of that domain.</p>
