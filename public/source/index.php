@@ -513,7 +513,7 @@ grant_type=authorization_code
     "me": "https://user.example.net/"
   }') ?></pre>
 
-          <p>The resulting profile URL MAY be different from the URL provided to the client for discovery. This gives the authorization endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of.</p>
+          <p>The resulting profile URL MAY be different from the URL provided to the client for discovery. This gives the authorization server an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of.</p>
 
           <p>See OAuth 2.0 [[!RFC6749]] <a href="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
         </section>
@@ -539,7 +539,7 @@ Content-Type: application/json
   "me": "https://user.example.net/"
 }</pre>
 
-          <p>The resulting profile URL MAY be different from the URL provided to the client for discovery. This gives the token endpoint an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of.</p>
+          <p>The resulting profile URL MAY be different from the URL provided to the client for discovery. This gives the authorization server an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of.</p>
 
           <p>See OAuth 2.0 [[!RFC6749]] <a href="https://tools.ietf.org/html/rfc6749#section-5.2">Section 5.2</a> for how to respond in the case of errors or other failures.</p>
         </section>
