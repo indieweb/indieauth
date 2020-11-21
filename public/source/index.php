@@ -608,6 +608,71 @@ Content-Type: application/json
 
         <p>These steps ensure that an authorization endpoint is not able to issue valid responses for arbitrary profile URLs, and that users on a shared domain cannot forge authorization on behalf of other users of that domain.</p>
 
+        <h4>Examples</h4>
+
+        <p>The following are some non-normative examples of real-world scenarios in which the initial user-entered URL may be different from the final resulting profile URL returned by the authorization server.</p>
+
+        <h5>Basic Redirect</h5>
+
+        <p>The basic redirect example covers cases such as:
+          <ul>
+            <li>entering a domain with a www prefix and resolving it to the main domain</li>
+            <li>entering a URL with no scheme or with http and resolving it to an https URL</li>
+            <li>entering a short domain and resolving it to a different longer domain</li>
+          </ul>
+        </p>
+
+        <ol>
+          <li>The user enters <code>www.example.com</code> into the client</li>
+          <li>The client applies the steps from URL canoncalization to turn it into a URL: <code>http://www.example.com/</code></li>
+          <li>The client makes a GET request to <code>http://www.example.com/</code></li>
+          <li>The server returns a 301 redirect to <code>https://example.com/</code></li>
+          <li>The client makes a GET request to <code>https://example.com/</code> and finds the authorization endpoint</li>
+          <li>The client does the IndieAuth flow with that authorization endpoint. This results in the profile URL response with a <code>me</code> value of <code>https://example.com/</code> as the canonical Profile URL.</li>
+          <li>The client sees that the canonical Profile URL matches the URL that the authorization endpoint was discovered at, and accepts the value <code>https://example.com/</code></li>
+        </ol>
+
+        <h5>Service Domain to Subdomain</h5>
+
+        <ol>
+          <li>The user enters <code>example.com</code> into the client</li>
+          <li>The client applies the steps from URL canoncalization to turn it into a URL: <code>http://example.com/</code></li>
+          <li>The client makes a GET request to <code>http://example.com/</code></li>
+          <li>The server returns a 301 redirect to <code>https://example.com/</code></li>
+          <li>The client makes a GET request to <code>https://example.com/</code> and finds the authorization endpoint, <code>https://login.example.com</code></li>
+          <li>The client does the IndieAuth flow with <code>https://login.example.com</code>. This results in the profile URL response with a <code>me</code> value of <code>https://username.example.com/</code> as the canonical Profile URL.</li>
+          <li>This is the first time the client has seen this URL, so must verify the relationship between this subdomain and the authorization server. It fetches <code>https://username.example.com/</code> and finds the same authorization endpoint <code>https://login.example.com</code></li>
+          <li>The client accepts the <code>me</code> value of <code>https://username.example.com/</code></li>
+        </ol>
+
+        <h5>Service Domain to Path</h5>
+
+        <ol>
+          <li>The user enters <code>example.com</code> into the client</li>
+          <li>The client applies the steps from URL canoncalization to turn it into a URL: <code>http://example.com/</code></li>
+          <li>The client makes a GET request to <code>http://example.com/</code></li>
+          <li>The server returns a 301 redirect to <code>https://example.com/</code></li>
+          <li>The client makes a GET request to <code>https://example.com/</code> and finds the authorization endpoint, <code>https://login.example.com</code></li>
+          <li>The client does the IndieAuth flow with <code>https://login.example.com</code>. This results in the profile URL response with a <code>me</code> value of <code>https://example.com/username</code> as the canonical Profile URL.</li>
+          <li>This is the first time the client has seen this URL, so must verify the relationship between this subdomain and the authorization server. It fetches <code>https://example.com/username</code> and finds the same authorization endpoint <code>https://login.example.com</code></li>
+          <li>The client accepts the <code>me</code> value of <code>https://example.com/username</code></li>
+        </ol>
+
+        <h5>Email-like Identifier</h5>
+
+        <ol>
+          <li>The user enters <code>user@example.com</code> into the client</li>
+          <li>The client applies the steps from URL canoncalization to turn it into a URL: <code>http://user@example.com/</code></li>
+          <li>The client makes a GET request to <code>http://example.com/</code> providing the HTTP Basic Auth username <code>user</code></li>
+          <li>The server returns a 301 redirect to <code>https://example.com/</code></li>
+          <li>The client makes a GET request to <code>https://example.com/</code> and finds the authorization endpoint, <code>https://login.example.com</code>
+            <ul><li>Note: Alternatively the server can advertise the authorization endpoint in the response to the <code>http://user@example.com/</code> request directly instead of needing a separate redirect</li></ul>
+          </li>
+          <li>The client does the IndieAuth flow with <code>https://login.example.com</code>, providing the user-entered <code>user@example.com</code> in the request as a hint to the server. This results in the profile URL response with a <code>me</code> value of <code>https://example.com/username</code> as the canonical Profile URL.</li>
+          <li>This is the first time the client has seen this URL, so must verify the relationship between this subdomain and the authorization server. It fetches <code>https://example.com/username</code> and finds the same authorization endpoint <code>https://login.example.com</code></li>
+          <li>The client accepts the <code>me</code> value of <code>https://example.com/username</code></li>
+        </ol>
+
       </section>
 
     </section>
