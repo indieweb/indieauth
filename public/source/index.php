@@ -598,14 +598,13 @@ Content-Type: application/json
 
         <p>Clients will initially prompt the user to enter a URL in order to discover the necessary endpoints to perform authentication or authorization. However, there may be differences between the URL that the user initially enters and the final resulting profile URL as returned by the authorization server. The differences may be anything from a differing scheme (http vs https), to even a URL on a different domain.</p>
 
-        <p>Upon receiving the <code>me</code> URL in the response from the authorization server (either in the <a href="#profile-url-response">profile URL response</a> or <a href="#access-token-response">access token response</a>) the client MUST verify the authorization server is authorized to make claims about the profile URL returned by checking that either of the following is true:</p>
+        <p>Upon receiving the <code>me</code> URL in the response from the authorization server (either in the <a href="#profile-url-response">profile URL response</a> or <a href="#access-token-response">access token response</a>) the client MUST verify the authorization server is authorized to make claims about the profile URL returned by confirming the returned profile URL declares the same authorization server.</p>
 
-        <ul>
-          <li>checking the returned <code>me</code> URL to see if it is an exact match of any of the URLs encountered during the <a href="#discovery-by-clients">initial endpoint discovery</a>, either from a possible redirect chain or as the final value, OR</li>
-          <li>verifying that the returned profile URL declares the same <code>authorization_endpoint</code> as the initially-discovered authorization endpoint by redoing <a href="#discovery-by-clients">endpoint discovery</a> on the <code>me</code> value.</li>
-        </ul>
+        <p>The client MUST perform <a href="#discovery-by-clients">endpoint discovery</a> on the returned <code>me</code> URL and verify that URL declares the same authorization endpoint as was discovered in the initial discovery step, <b>unless</b> the returned <code>me</code> URL is an exact match of any of the URLs encountered during the <a href="#discovery-by-clients">initial endpoint discovery</a> either from a possible redirect chain or as the final value.</p>
 
-        <p>These steps ensure that an authorization endpoint is not able to issue valid responses for arbitrary profile URLs, and that users on a shared domain cannot forge authorization on behalf of other users of that domain.</p>
+        <p>Note that the step of checking for the existence of the returned profile URL in the initial endpoint discovery is an optional optimization step which may save the client from possibly needing to make another HTTP request. This step may be skipped for simplicity, as discovering the authorization server from the returned profile URL is sufficient to confirm the returned profile URL declares the same authorization server.</p>
+
+        <p>This verification step ensures that an authorization endpoint is not able to issue valid responses for arbitrary profile URLs, and that users on a shared domain cannot forge authorization on behalf of other users of that domain.</p>
 
         <h4>Examples</h4>
 
