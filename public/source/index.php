@@ -676,7 +676,7 @@ Content-Type: application/json
 
         <p>For example, a user might enter <code>user.example.net</code> in a login interface, and the client may assume a default scheme of <code>http</code>, providing an initial profile URL of <code>http://user.example.net</code>. Once the authentication or authorization flow is complete, the response in the <code>me</code> parameter might be the canonical <code>https://user.example.net/</code>. In some cases, user profile URLs have a full path component such as <code>https://example.net/username</code>, but users may enter just <code>example.net</code> in the login interface.</p>
 
-        <p>Upon validation, clients MUST check the <code>me</code> value from the <a href="#profile-url-response">profile URL response</a> or <a href="#access-token-response">access token response</a>, and take the following validation steps:</p>
+        <p>Upon validation, the client MUST check the <code>me</code> value from the <a href="#profile-url-response">profile URL response</a> or <a href="#access-token-response">access token response</a>, and take the following validation steps:</p>
 
         <ol>
           <li>It MAY check the value against any URLs encountered during the <a href="#discovery-by-clients">initial endpoint discovery</a>, either from a possible redirect chain or the final value. If found, it MAY then chose to skip the next step.</li>
