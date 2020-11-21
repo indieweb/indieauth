@@ -622,6 +622,8 @@ Content-Type: application/json
           </ul>
         </p>
 
+        <p>Steps</p>
+
         <ol>
           <li>The user enters <code>www.example.com</code> into the client</li>
           <li>The client applies the steps from URL canoncalization to turn it into a URL: <code>http://www.example.com/</code></li>
