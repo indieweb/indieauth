@@ -785,7 +785,14 @@ Content-Type: application/json
       <h2>Change Log</h2>
 
       <section>
-        <h3>Changes from 09 August 2020 to this version</h3>
+        <h3>Changes from 26 September 2020 to this version</h3>
+        <ul>
+          <li>Remove same-domain requirement for entered and final profile URL by instead confirming the authorization server</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Changes from 09 August 2020 to 26 September 2020</h3>
         <ul>
           <li>Make the <code>me</code> parameter optional (but recommended) in the authorization request</li>
           <li>Add the option of returning profile information in the response as well as defining profile scopes</li>
