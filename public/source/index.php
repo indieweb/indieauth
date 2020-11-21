@@ -679,7 +679,7 @@ Content-Type: application/json
         <p>Upon validation, clients MUST check the <code>me</code> value from the <a href="#profile-url-response">profile URL response</a> or <a href="#access-token-response">access token response</a>, and take the following validation steps:</p>
 
         <ol>
-          <li>It MAY check the value against any URLs encountered during the <a href="#discovery-by-clients">initial endpoint discovery</a>, either from a possible redirect chain or the final value. If found, tt MAY then chose to skip the next step.</li>
+          <li>It MAY check the value against any URLs encountered during the <a href="#discovery-by-clients">initial endpoint discovery</a>, either from a possible redirect chain or the final value. If found, it MAY then chose to skip the next step.</li>
           <li>It MUST verify that the canonical profile URL declares the same <code>authorization_endpoint</code> as the initially-discovered authorization endpoint by redoing <a href="#discovery-by-clients">endpoint discovery</a> on the <code>me</code> value.</li>
         </ol>
 
