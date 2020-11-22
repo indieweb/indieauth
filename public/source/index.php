@@ -296,7 +296,7 @@
         <section>
           <h4>Redirect URL</h4>
 
-          <p>If a client wishes to use a redirect URL that is on a different domain than their <code>client_id</code>, or if the redirect URL uses a custom scheme (such as when the client is a native application), then the client will need to whitelist those redirect URLs so that authorization endpoints can be sure it is safe to redirect users there. The client SHOULD publish one or more <code>&lt;link&gt;</code> tags or <code>Link</code> HTTP headers with a <code>rel</code> attribute of <code>redirect_uri</code> at the <code>client_id</code> URL.</p>
+          <p>If a client wishes to use a redirect URL that is on a different domain than their <code>client_id</code>, or if the redirect URL uses a custom scheme (such as when the client is a native application), then the client will need to explicitly list those redirect URLs so that authorization endpoints can be sure it is safe to redirect users there. The client SHOULD publish one or more <code>&lt;link&gt;</code> tags or <code>Link</code> HTTP headers with a <code>rel</code> attribute of <code>redirect_uri</code> at the <code>client_id</code> URL.</p>
 
           <p>Authorization endpoints verifying that a <code>redirect_uri</code> is allowed for use by a client MUST look for an exact match of the given <code>redirect_uri</code> in the request against the list of <code>redirect_uri</code>s discovered after resolving any relative URLs.</p>
 
@@ -327,9 +327,11 @@ Link: <https://app.example.com/redirect>; rel="redirect_uri"
 
 <?php /*
 ---
-title IndieAuth Authorization Flow Diagram
+title IndieAuth Flow Diagram
 
-Browser->Client: User enters a resolvable\n(after canonicalization) URL
+title IndieAuth Flow Diagram
+
+Browser->Client: User enters a URL, and the\nclient canonicalizes the URL
 Client->User URL: Client fetches URL to discover\n**rel=authorization_endpoint**\nand **rel=token_endpoint**
 Browser<--Client: Client builds authorization request and\nredirects to **authorization_endpoint**
 Browser->Authorization Endpoint: User visits their authorization endpoint and sees the authorization request
@@ -338,10 +340,11 @@ Browser<--Authorization Endpoint: User authenticates, and approves the request.\
 Browser->Client: User's browser is redirected to\nclient with an **authorization code**
 Client->Token Endpoint: Client exchanges authorization code for an \naccess token by making a POST request\nto the token_endpoint
 Client<--Token Endpoint: Token endpoint verifies code and returns\ncanonical user profile URL with an access token
+Client->User URL: Client confirms the user's profile URL\ndeclares the same authorization server
 Browser<--Client: Client initiates login session\nand the user is logged in
 ---
 
-https://sequencediagram.org/index.html#initialData=C4S2BsFMAIEkDsAmJIEECuwAW0PYPYBOIAXgIaj7zQBi4+A7tACIhkDmhZAtgFC8AhQowDOkQgFoAfAGFwKeMABc0AKpjC0SIvEjoZaIUgj84AG5kARlAA68ABRkAZsHHQAxmXhUQn+eUp4AEo1ACUAGV45BWBpdTdVCJVo7WBoJ0hgdyxjMPDoYHxoZBF3fDNxOwAqKqNwAF4yTCwiUgoQKgB9bUQAB3wQRRq7L0RoGrr6woBrbW6kfsHgGsFhBg0AHgkJFMVk+VToS3QQcEQ9JoJiAI7qIwBHdGM00bsjZCN3YD1C8arLlrXdpdHqLIZVVaicTSPCAtqBaAAUQWAz2ag00DMIBEYB+ORAmgBrRuVC0KKW+iQ0DEuWwMCJQIRDyeImAvFhxOB1GRfVRsVkBzRHMZtzJvIpGSyOT07kFaUGTiI3C50Hs8B4kAANNBfFQgpD1uIthJhfDRTywcp0W4AalfBRjNrRvper1hBU8TBmc8AHR2U0k6igvk6kQiFkefCILVHE5nPTvAmQL5HMjuaYFIqymI+g0aaS7K3xQgAcj0ljWGOxhkgH2TrjGhTs2cODDAOC8fwZZtJZWjK0L0gAKvhZtzyWjC1oAB7ZLzsXLdwOR6PpIiU6AjdzuYw-UfaI4AT2gyumg3Y+mgAAUAPIAZSHNcezzsvzpmbH83FiiicuNI7HJEJytACD2DCkKmIJwUBlKN6SpIxgHQQh4BEZsvB8PxoHQDE3XwaCoDyaA22wDc0x3MMP20PMjW2Qt9hiHV4DANhXD0eh2EGald1uEYqXfHC3GrDiFzGQZeCAA
+https://sequencediagram.org/index.html#initialData=C4S2BsFMAIEkDsAmJIEECuwAW0Bi4B7Ad2gBEQBDAcwCcKBbAKEYCEbiBnSGgWgD4AwuBTxgALmgBVLjWiRR3DtApSASgBkANMqTRskADrwAxsPnBoxivALwQV4QC9IS-WvWMhI4P2nd3El7m0ABmkMDGWC7uegTQyBzGBABu3EYAVOk0kOAAvBSYWAQ0II4UoLYA+vKIAA4EIKKZRtaI0JnZecAEANby1Uj1jcCZrOxEMgA8PDxBooFmotAARugg4IhKBdjFpeUgttDZAI7oLhatRtnI2cbArnGZ20UlZRXwA3UNTeljnNz8DA7V77Q4AUUG33EUhk0GSIA4YFcURAsmeuzeB3gckhwx0bS40Tc6JB7yOkFO50YQJeezJEK+w34c2hNIxoOxNSGSzCESiSlM3mgjRCxXoHOgAAp4AxINp7LYAJR-CbcaY8NmkrHQBnc6F+NGFcz2coubStZS1WrsVLImAnM4cYAAOiMmrp2q5UOFHA4jssBEQcpWaw2SmuqMgdxWFGMPVilkWLpVMmZSYkBoA5EpluNYQjyTco8BIG1ukZBcEiGAcNZ2ukSR7Dkkg6MWfwACq9eQ63HzaAsuQAD0i1io0UbmObgZgorR2JaxmMLgefWxywAntBxT1GlRlNAAAoAeQAyh3yZSnUZunoorE1589Z4k+qu2ve4z+++e168akShCFABRnfFyWAdAaHgDgK2sWwTXAaB0Fha0CCAqAYmrbAdGUJcVwfeQX28XxYUkDQFiFJJ4CAmh6DtJCZGzaBUPQmAyPUIwg1MChsnojhZWUQp2TJGQAJTNUZhZCjgkaMBKBLJRCCoRpoC4X0sRaXQ3GQ-wCyU8c2kaIA
 
 Note: Set a viewbox matching "0 0 width height" and have the image scale, e.g.
 viewbox="0 0 1163 721" style="width: 100%; height: auto;"
@@ -350,13 +353,14 @@ viewbox="0 0 1163 721" style="width: 100%; height: auto;"
       <?= file_get_contents('authorization-flow-diagram.svg') ?>
 
       <ul>
-        <li>The End-User enters a resolvable (after canonicalization) URL in the login form of the client and clicks "Sign in"</li>
+        <li>The End-User enters a URL in the login form of the client and clicks "Sign in". The client canonicalizes the URL.</li>
         <li>The client discovers the End-User's authorization endpoint and token endpoint by fetching the provided URL and looking for the <code>rel=authorization_endpoint</code> and <code>rel=token_endpoint</code> values</li>
         <li>The client builds the authorization request including its client identifier, requested scope, local state, and a redirect URI, and redirects the browser to the authorization endpoint</li>
         <li>The authorization endpoint fetches the client information from the client identifier URL in order to have an application name and icon to display to the user</li>
         <li>The authorization endpoint verifies the End-User, e.g. by logging in, and establishes whether the End-User grants or denies the client's request</li>
         <li>The authorization endpoint generates an authorization code and redirects the browser back to the client, including an authorization code in the URL</li>
         <li>The client exchanges the authorization code for an access token by making a POST request to the token endpoint. The token endpoint validates the authorization code, and responds with the End-User's canonical profile URL and an access token</li>
+        <li>The client confirms the returned profile URL declares the same authorization server and accepts the profile URL</li>
       </ul>
 
       <p>Note: If the client is only trying to learn who the user is and does not need an access token, the client exchanges the authorization code for the user profile information at the Authorization Endpoint instead.</p>
@@ -594,19 +598,17 @@ Content-Type: application/json
 
       <section>
         <h3>Authorization Server Confirmation</h3>
+        <span id="differing-user-profile-urls"></span><!-- preserve old fragment identifier -->
 
-        <p>Clients will initially prompt the user for a resolvable URL in order to discover the necessary endpoints to perform authentication or authorization. However, there may be slight differences between the URL that the user initially enters vs what the system considers the user's canonical profile URL.</p>
+        <p>Clients will initially prompt the user to enter a URL in order to discover the necessary endpoints to perform authentication or authorization. However, there may be differences between the URL that the user initially enters and the final resulting profile URL as returned by the authorization server. The differences may be anything from a differing scheme (http vs https), to even a URL on a different domain.</p>
 
-        <p>For example, a user might enter <code>user.example.net</code> in a login interface, and the client may assume a default scheme of <code>http</code>, providing a resolvable URL of <code>http://user.example.net</code>. Once the authentication or authorization flow is complete, the response in the <code>me</code> parameter might be the canonical <code>https://user.example.net/</code>. In some cases, user profile URLs have a full path component such as <code>https://example.net/username</code>, but users may enter just <code>example.net</code> in the login interface.</p>
+        <p>Upon receiving the <code>me</code> URL in the response from the authorization server (either in the <a href="#profile-url-response">profile URL response</a> or <a href="#access-token-response">access token response</a>) the client MUST verify the authorization server is authorized to make claims about the profile URL returned by confirming the returned profile URL declares the same authorization server.</p>
 
-        <p>Upon validation, the client MUST check the <code>me</code> value from the <a href="#profile-url-response">profile URL response</a> or <a href="#access-token-response">access token response</a>, and take the following validation steps:</p>
+        <p>The client MUST perform <a href="#discovery-by-clients">endpoint discovery</a> on the returned <code>me</code> URL and verify that URL declares the same authorization endpoint as was discovered in the initial discovery step, <b>unless</b> the returned <code>me</code> URL is an exact match of the initially entered URL or any of the URLs encountered during the <a href="#discovery-by-clients">initial endpoint discovery</a>, either from a possible redirect chain or as the final value.</p>
 
-        <ol>
-          <li>It MAY check the value against any URLs encountered during the <a href="#discovery-by-clients">initial endpoint discovery</a>, either from a possible redirect chain or the final value. If found, it MAY then chose to skip the next step.</li>
-          <li>It MUST verify that the canonical profile URL declares the same <code>authorization_endpoint</code> as the initially-discovered authorization endpoint by redoing <a href="#discovery-by-clients">endpoint discovery</a> on the <code>me</code> value.</li>
-        </ol>
+        <p>Note that the step of checking for the existence of the returned profile URL in the initial endpoint discovery is an optional optimization step which may save the client from possibly needing to make another HTTP request. This step may be skipped for simplicity, as discovering the authorization server from the returned profile URL is sufficient to confirm the returned profile URL declares the same authorization server.</p>
 
-        <p>These steps ensure that an authorization endpoint is not able to issue valid responses for arbitrary profile URLs, and that users on a shared domain cannot forge authorization on behalf of other users of that domain.</p>
+        <p>This verification step ensures that an authorization endpoint is not able to issue valid responses for arbitrary profile URLs, and that users on a shared domain cannot forge authorization on behalf of other users of that domain.</p>
 
         <h4>Examples</h4>
 
