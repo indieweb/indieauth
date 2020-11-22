@@ -146,7 +146,7 @@
 
         <ul>
           <li>Specifies a format for user identifiers (a resolvable URL)</li>
-          <li>Specifies a method of discovering the authorization and token endpoints given a profile URL</li>
+          <li>Specifies a method of discovering the authorization and token endpoints given a resolvable URL</li>
           <li>Specifies a format for the Client ID (a resolvable URL)</li>
           <li>All clients are public clients (no <code>client_secret</code> is used)</li>
           <li>Client registration at the authorization endpoint is not necessary, since client IDs are resolvable URLs</li>
@@ -184,12 +184,12 @@
 
         <section>
           <h4>Micropub Client</h4>
-          <p>A Micropub client will attempt to obtain an OAuth 2.0 Bearer Token given an IndieAuth profile URL, and will use the token when making Micropub requests.</p>
+          <p>A Micropub client will attempt to obtain an OAuth 2.0 Bearer Token given a URL that allows the discovery of an Authorization Endpoint, and will use the token when making Micropub requests.</p>
         </section>
 
         <section>
           <h4>IndieAuth Client</h4>
-          <p>An IndieAuth client is a client that is attempting to authenticate a user given their profile URL, but does not need an OAuth 2.0 Bearer Token.</p>
+          <p>An IndieAuth client is a client that is attempting to authenticate a user given a URL that allows the discovery of an Authorization Endpoint, but does not need an OAuth 2.0 Bearer Token.</p>
         </section>
 
       </section>
@@ -232,7 +232,7 @@
       <section>
         <h3>URL Canonicalization</h3>
 
-        <p>Since IndieAuth uses https/http URLs which fall under what [[!URL]] calls "<a href="https://url.spec.whatwg.org/#special-scheme">Special URLs</a>", a string with no path component is not a valid [[!URL]]. As such, if a URL with no path component is ever encountered, it MUST be treated as if it had the path <code>/</code>. For example, if a user enters <code>https://example.com</code> as their profile URL, the client MUST transform it to <code>https://example.com/</code> when using it and comparing it.</p>
+        <p>Since IndieAuth uses https/http URLs which fall under what [[!URL]] calls "<a href="https://url.spec.whatwg.org/#special-scheme">Special URLs</a>", a string with no path component is not a valid [[!URL]]. As such, if a URL with no path component is ever encountered, it MUST be treated as if it had the path <code>/</code>. For example, if a user provides <code>https://example.com</code> for Discovery, the client MUST transform it to <code>https://example.com/</code> when using it and comparing it.</p>
 
         <p>Since domain names are case insensitive, the hostname component of the URL MUST be compared case insensitively. Implementations SHOULD convert the hostname to lowercase when storing and using URLs.</p>
 
@@ -252,7 +252,7 @@
 
         <p>Clients need to discover a few pieces of information when a user signs in. The client needs to discover the user's <code>authorization_endpoint</code>, and optionally <code>token_endpoint</code> if the client needs an access token. When using the Authorization flow to obtain an access token for use at a [[?Micropub]] endpoint, the client will also discover the <code>micropub</code> endpoint.</p>
 
-        <p>Clients MUST start by making a GET or HEAD request to [[!Fetch]] the user's profile URL to discover the necessary values. Clients MUST follow HTTP redirects (up to a self-imposed limit).</p>
+        <p>Clients MUST start by making a GET or HEAD request to [[!Fetch]] the user provided URL to discover the necessary values. Clients MUST follow HTTP redirects (up to a self-imposed limit).</p>
 
         <p>Clients MUST check for an HTTP <code>Link</code> header [[!RFC8288]] with the appropriate <code>rel</code> value. If the content type of the document is HTML, then the client MUST check for an HTML <code>&lt;link&gt;</code> element with the appropriate <code>rel</code> value. If more than one of these is present, the first HTTP <code>Link</code> header takes precedence, followed by the first <code>&lt;link&gt;</code> element in document order.</p>
 
@@ -329,7 +329,7 @@ Link: <https://app.example.com/redirect>; rel="redirect_uri"
 ---
 title IndieAuth Authorization Flow Diagram
 
-Browser->Client: User enters their profile URL
+Browser->Client: User enters a resolvable\n(after canonicalization) URL
 Client->User URL: Client fetches URL to discover\n**rel=authorization_endpoint**\nand **rel=token_endpoint**
 Browser<--Client: Client builds authorization request and\nredirects to **authorization_endpoint**
 Browser->Authorization Endpoint: User visits their authorization endpoint and sees the authorization request
@@ -341,17 +341,17 @@ Client<--Token Endpoint: Token endpoint verifies code and returns\ncanonical use
 Browser<--Client: Client initiates login session\nand the user is logged in
 ---
 
-https://sequencediagram.org/index.html?initialData=C4S2BsFMAIEkDsAmJIEECuwAW0PYPYBOIAXgIaj7zQBi4+A7tACIhkDmhZAtgFC8AhQowDOkQgFoAfAGFwKeMABc0AKpjC0SIvEjo2SCE0AHYQDMQUNQCUAMrzkLg09eJu2Vj7cGhnIwAGMsSD1VO318aGQRAPwAN3EAHXgAKhTCSHAAXjJMLCJSChAqAH1tRGN8EEU05LIkaDSM7OB8AGttMqRK6uA0wWEGDQAeCQkvRU95b2gAI3RLRD1cgmJySmoMgEd0EJ96xGSM5AyA4D1WxpSV-LWi0vKempSB0XFpPFvCjegAUW6qpM1BpoHEQCIwBdgkZoDcCutitRHoD9g0xCF9MFYXl4fdNpAdnteJ9cT9-hUUdIJspcDi7j9kb1fP4ghiAtNFNBqmYiNw8dAABTwHiQAA0XNi8AAlK8huJRhISfTEX8Ab0VK5NDdvCAAhQQuKDrDjKZ4hiDNBtrsRMAAHTJJXfFWMzngkTW6CxRBiuYLcBLS2QE6QM5zMgBNoRT0cu2yjRUmMajQAcj0s0GIPBgeDZyDEWS7Kc0AYYBw9SucOVVE9+G9-Wp0gAKu1tKqKeroNStAAPIL1dgYytO6temA8rXUOoBAIhC4t6izACe0D5bWq7Fh0AACgB5ADKjcDhJtyUuFtaHXgXXbigcMYVzcvbaeNMfrZdPgSxAsbNrMCNGTAOghDwCIBb1FQupkOA0DoCCpoWFYYS2MWpawtQ4YziIc6XnG8pjNSUxFtUYBsMAGL0Ow1TQGI2GInUDQWnBbhZpRA6IFy8C8EAA
+https://sequencediagram.org/index.html#initialData=C4S2BsFMAIEkDsAmJIEECuwAW0PYPYBOIAXgIaj7zQBi4+A7tACIhkDmhZAtgFC8AhQowDOkQgFoAfAGFwKeMABc0AKpjC0SIvEjoZaIUgj84AG5kARlAA68ABRkAZsHHQAxmXhUQn+eUp4AEo1ACUAGV45BWBpdTdVCJVo7WBoJ0hgdyxjMPDoYHxoZBF3fDNxOwAqKqNwAF4yTCwiUgoQKgB9bUQAB3wQRRq7L0RoGrr6woBrbW6kfsHgGsFhBg0AHgkJFMVk+VToS3QQcEQ9JoJiAI7qIwBHdGM00bsjZCN3YD1C8arLlrXdpdHqLIZVVaicTSPCAtqBaAAUQWAz2ag00DMIBEYB+ORAmgBrRuVC0KKW+iQ0DEuWwMCJQIRDyeImAvFhxOB1GRfVRsVkBzRHMZtzJvIpGSyOT07kFaUGTiI3C50Hs8B4kAANNBfFQgpD1uIthJhfDRTywcp0W4AalfBRjNrRvper1hBU8TBmc8AHR2U0k6igvk6kQiFkefCILVHE5nPTvAmQL5HMjuaYFIqymI+g0aaS7K3xQgAcj0ljWGOxhkgH2TrjGhTs2cODDAOC8fwZZtJZWjK0L0gAKvhZtzyWjC1oAB7ZLzsXLdwOR6PpIiU6AjdzuYw-UfaI4AT2gyumg3Y+mgAAUAPIAZSHNcezzsvzpmbH83FiiicuNI7HJEJytACD2DCkKmIJwUBlKN6SpIxgHQQh4BEZsvB8PxoHQDE3XwaCoDyaA22wDc0x3MMP20PMjW2Qt9hiHV4DANhXD0eh2EGald1uEYqXfHC3GrDiFzGQZeCAA
 
-Note: Change width/height to e.g.
-viewbox="0 0 906 716" style="width: 100%; height: auto;"
+Note: Set a viewbox matching "0 0 width height" and have the image scale, e.g.
+viewbox="0 0 1163 721" style="width: 100%; height: auto;"
 */ ?>
 
       <?= file_get_contents('authorization-flow-diagram.svg') ?>
 
       <ul>
-        <li>The End-User enters their profile URL in the login form of the client and clicks "Sign in"</li>
-        <li>The client discovers the End-User's authorization endpoint and token endpoint by fetching the profile URL and looking for the <code>rel=authorization_endpoint</code> and <code>rel=token_endpoint</code> values</li>
+        <li>The End-User enters a resolvable (after canonicalization) URL in the login form of the client and clicks "Sign in"</li>
+        <li>The client discovers the End-User's authorization endpoint and token endpoint by fetching the provided URL and looking for the <code>rel=authorization_endpoint</code> and <code>rel=token_endpoint</code> values</li>
         <li>The client builds the authorization request including its client identifier, requested scope, local state, and a redirect URI, and redirects the browser to the authorization endpoint</li>
         <li>The authorization endpoint fetches the client information from the client identifier URL in order to have an application name and icon to display to the user</li>
         <li>The authorization endpoint verifies the End-User, e.g. by logging in, and establishes whether the End-User grants or denies the client's request</li>
@@ -364,7 +364,7 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
       <section>
         <h3>Discovery</h3>
 
-        <p>After obtaining the End-User's profile URL, the client fetches the URL and looks for the <code>authorization_endpoint</code> and <code>token_endpoint</code> rel values in the HTTP <code>Link</code> headers and HTML <code>&lt;link&gt;</code> tags as described in <a href="#discovery-by-clients"></a>.</p>
+        <p>After obtaining a URL from the End-User, and optionally applying <a href="url-canonicalization">URL Canonicalization</a> to it, the client fetches the URL and looks for the <code>authorization_endpoint</code> and <code>token_endpoint</code> rel values in the HTTP <code>Link</code> headers and HTML <code>&lt;link&gt;</code> tags as described in <a href="#discovery-by-clients"></a>.</p>
 
         <pre class="example nohighlight"><?= htmlspecialchars(
 'Link: <https://example.org/auth>; rel="authorization_endpoint"
@@ -399,7 +399,7 @@ Link: <https://example.org/token>; rel="token_endpoint"
             <li><code>code_challenge</code> - The code challenge as previously described.</li>
             <li><code>code_challenge_method</code> - The hashing method used to calculate the code challenge, e.g. "S256"</li>
             <li><code>scope</code> - (optional) A space-separated list of scopes the client is requesting, e.g. "profile", or "profile create". If the client omits this value, the authorization server MUST NOT issue an access token for this authorization code. Only the user's profile URL may be returned without any scope requested. See <a href="#profile-information">Profile Information</a> for details about which scopes to request to return user profile information.</li>
-            <li><code>me</code> - (optional) The profile URL that the user entered</li>
+            <li><code>me</code> - (optional) The URL that the user entered</li>
           </ul>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
@@ -595,9 +595,9 @@ Content-Type: application/json
       <section>
         <h3>Authorization Server Confirmation</h3>
 
-        <p>Clients will initially prompt the user for their profile URL in order to discover the necessary endpoints to perform authentication or authorization. However, there may be slight differences between the URL that the user initially enters vs what the system considers the user's canonical profile URL.</p>
+        <p>Clients will initially prompt the user for a resolvable URL in order to discover the necessary endpoints to perform authentication or authorization. However, there may be slight differences between the URL that the user initially enters vs what the system considers the user's canonical profile URL.</p>
 
-        <p>For example, a user might enter <code>user.example.net</code> in a login interface, and the client may assume a default scheme of <code>http</code>, providing an initial profile URL of <code>http://user.example.net</code>. Once the authentication or authorization flow is complete, the response in the <code>me</code> parameter might be the canonical <code>https://user.example.net/</code>. In some cases, user profile URLs have a full path component such as <code>https://example.net/username</code>, but users may enter just <code>example.net</code> in the login interface.</p>
+        <p>For example, a user might enter <code>user.example.net</code> in a login interface, and the client may assume a default scheme of <code>http</code>, providing a resolvable URL of <code>http://user.example.net</code>. Once the authentication or authorization flow is complete, the response in the <code>me</code> parameter might be the canonical <code>https://user.example.net/</code>. In some cases, user profile URLs have a full path component such as <code>https://example.net/username</code>, but users may enter just <code>example.net</code> in the login interface.</p>
 
         <p>Upon validation, the client MUST check the <code>me</code> value from the <a href="#profile-url-response">profile URL response</a> or <a href="#access-token-response">access token response</a>, and take the following validation steps:</p>
 
@@ -855,6 +855,7 @@ Content-Type: application/json
         <h3>Changes from 26 September 2020 to this version</h3>
         <ul>
           <li>Remove same-domain requirement for entered and final profile URL by instead confirming the authorization server</li>
+          <li>Only the <code>me</code> value returned by the authorization server is a profile URL, do not refer to the user provided URL as such</li>
         </ul>
       </section>
 
