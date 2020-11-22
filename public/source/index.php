@@ -469,6 +469,8 @@ Link: <https://example.org/token>; rel="token_endpoint"
             <li><code>code_verifier</code> - The original plaintext random string generated before starting the authorization request.</li>
           </ul>
 
+          <p>The POST request parameters MUST be formatted following how [[!URL]] defines <a href="https://url.spec.whatwg.org/#application/x-www-form-urlencoded"><code>application/x-www-form-urlencoded</code></a>. The POST request MUST define the <code>Content-Type</code> and <code>Accept</code> HTTP headers as <code>application/x-www-form-urlencoded</code> and <code>application/json</code> respectively.</p>
+
           <b>Example request to authorization endpoint</b>
           <pre class="example nohighlight"><?= htmlspecialchars(
   'POST https://example.org/auth
@@ -689,7 +691,7 @@ Content-Type: application/json
       <section>
         <h4>Access Token Verification Request</h4>
 
-        <p>If a resource server needs to verify that an access token is valid, it MUST make a GET request to the token endpoint containing an HTTP <code>Authorization</code> header with the Bearer Token according to [[!RFC6750]]. Note that the request to the endpoint will not contain any user-identifying information, so the resource server (e.g. Micropub endpoint) will need to know via out-of-band methods which token endpoint is in use.</p>
+        <p>If a resource server needs to verify that an access token is valid, it MUST make a GET request to the token endpoint containing an HTTP <code>Authorization</code> header with the Bearer Token according to [[!RFC6750]] and an HTTP <code>Accept</code> header set to <code>application/json</code>. Note that the request to the endpoint will not contain any user-identifying information, so the resource server (e.g. Micropub endpoint) will need to know via out-of-band methods which token endpoint is in use.</p>
 
         <pre class="example nohighlight">GET https://example.org/token
   Authorization: Bearer xxxxxxxx
@@ -855,6 +857,7 @@ Content-Type: application/json
         <h3>Changes from 26 September 2020 to this version</h3>
         <ul>
           <li>Remove same-domain requirement for entered and final profile URL by instead confirming the authorization server</li>
+          <li>Add normative requirement for Accept headers in requests outside of HTTP examples</li>
         </ul>
       </section>
 
