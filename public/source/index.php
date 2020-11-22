@@ -338,10 +338,11 @@ Browser<--Authorization Endpoint: User authenticates, and approves the request.\
 Browser->Client: User's browser is redirected to\nclient with an **authorization code**
 Client->Token Endpoint: Client exchanges authorization code for an \naccess token by making a POST request\nto the token_endpoint
 Client<--Token Endpoint: Token endpoint verifies code and returns\ncanonical user profile URL with an access token
+Client->User URL: Client confirms the user's profile URL\ndeclares the same authorization server
 Browser<--Client: Client initiates login session\nand the user is logged in
 ---
 
-https://sequencediagram.org/index.html?initialData=C4S2BsFMAIEkDsAmJIEECuwAW0PYPYBOIAXgIaj7zQBi4+A7tACIhkDmhZAtgFC8AhQowDOkQgFoAfAGFwKeMABc0AKpjC0SIvEjo2SCE0AHYQDMQUNQCUAMrzkLg09eJu2Vj7cGhnIwAGMsSD1VO318aGQRAPwAN3EAHXgAKhTCSHAAXjJMLCJSChAqAH1tRGN8EEU05LIkaDSM7OB8AGttMqRK6uA0wWEGDQAeCQkvRU95b2gAI3RLRD1cgmJySmoMgEd0EJ96xGSM5AyA4D1WxpSV-LWi0vKempSB0XFpPFvCjegAUW6qpM1BpoHEQCIwBdgkZoDcCutitRHoD9g0xCF9MFYXl4fdNpAdnteJ9cT9-hUUdIJspcDi7j9kb1fP4ghiAtNFNBqmYiNw8dAABTwHiQAA0XNi8AAlK8huJRhISfTEX8Ab0VK5NDdvCAAhQQuKDrDjKZ4hiDNBtrsRMAAHTJJXfFWMzngkTW6CxRBiuYLcBLS2QE6QM5zMgBNoRT0cu2yjRUmMajQAcj0s0GIPBgeDZyDEWS7Kc0AYYBw9SucOVVE9+G9-Wp0gAKu1tKqKeroNStAAPIL1dgYytO6temA8rXUOoBAIhC4t6izACe0D5bWq7Fh0AACgB5ADKjcDhJtyUuFtaHXgXXbigcMYVzcvbaeNMfrZdPgSxAsbNrMCNGTAOghDwCIBb1FQupkOA0DoCCpoWFYYS2MWpawtQ4YziIc6XnG8pjNSUxFtUYBsMAGL0Ow1TQGI2GInUDQWnBbhZpRA6IFy8C8EAA
+https://sequencediagram.org/index.html#initialData=C4S2BsFMAIEkDsAmJIEECuwAW0Bi4B7Ad2gBEQBDAcwCcKBbAKEYCEbiBnSGgWgD4AwuBTxgALmgBVLjWiRR3DtGyQQsgA7sAZiChSASgBlGQkcH7TuBwxNPzg0LZGABjLJCWSjygtGQcXAgA3bgAdeAAqCJpIcABeCkwsAhoQAC8KUAJ4AH15RHUCEFEo8IokaCiY+OACAGt5PKRC4uAo1nYiGQAeHh47UVthe2gAI3RdRCVE7BT0zJBs6BiAR3QPB3LEcJjkGJdgJVrKiJnk1Iys3PyWkoiOzm5+DFmLhaWAUWaiwakZaCCIA4YCO7jU0DOc0ui3gcm+rQhFS4HmU7ghSSh71hq3WHGAjBe53mV2gXwKP3MgmGv0JmJJNwpjmcbhRLmpDmKWhS9Cx0AAFPAGJAADTQECBeAASgeXW4vR4tLeJLJt3EfysZ3s4syHlFWwh6k0wRRKmWkDWGwAdOFFcSYXDyQigRxcdBAogRWMJuApma9pADmMKC46j43ezLTKZPwBmrLDQAORKUadf5Av1qAPASCIHzhNlmaBEMA4conSFK+3uyDtWP8AAq9XkpPhv1jcgAHm5ylQURW7Utq44UojoGUXC4PEcm7DRgBPaA8urFKgQ6AABQA8gBletmi148LHU21BrXVv42PyxtnluO3435sMhEhVI6VkED2I3MxYDoGjwBw+blNk2rgNA6D-EaOh6F4hhFiWo7BpOHDTmeJjshY-xwUMhYSjoND0KCMCQdwSbQNBugwHB4QemyFAxMR0AcEK6KvAOsIyK+UZyn0sa4SMxRgJQ2ZKIQVDFMxU4wmUFSmqRsjpuJva5sUQA
 
 Note: Change width/height to e.g.
 viewbox="0 0 906 716" style="width: 100%; height: auto;"
@@ -357,6 +358,7 @@ viewbox="0 0 906 716" style="width: 100%; height: auto;"
         <li>The authorization endpoint verifies the End-User, e.g. by logging in, and establishes whether the End-User grants or denies the client's request</li>
         <li>The authorization endpoint generates an authorization code and redirects the browser back to the client, including an authorization code in the URL</li>
         <li>The client exchanges the authorization code for an access token by making a POST request to the token endpoint. The token endpoint validates the authorization code, and responds with the End-User's canonical profile URL and an access token</li>
+        <li>The client confirms the returned profile URL declares the same authorization server and accepts the profile URL</li>
       </ul>
 
       <p>Note: If the client is only trying to learn who the user is and does not need an access token, the client exchanges the authorization code for the user profile information at the Authorization Endpoint instead.</p>
