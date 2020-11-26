@@ -9,11 +9,11 @@
     <script class='remove'>
       var respecConfig = {
           useExperimentalStyles: true,
-          publishDate: "2020-09-26",
+          publishDate: "2020-11-26",
           specStatus: "NOTE", /* for loading w3c CSS */
-          previousPublishDate: "2020-08-09",
+          previousPublishDate: "2020-09-26",
           previousMaturity: "LS",
-          previousVersionURL: "https://indieauth.spec.indieweb.org/20200809/",
+          previousVersionURL: "https://indieauth.spec.indieweb.org/20200926/",
           shortName:  "indieauth",
           lsURI: "https://indieauth.spec.indieweb.org/",
           testSuiteURI: "https://indieauth.rocks/",
@@ -856,8 +856,9 @@ Content-Type: application/json
       <section>
         <h3>Changes from 26 September 2020 to this version</h3>
         <ul>
-          <li>Remove same-domain requirement for entered and final profile URL by instead confirming the authorization server</li>
+          <li>Remove same-domain requirement for entered and final profile URL by instead having the client confirm the authorization server</li>
           <li>Only the <code>me</code> value returned by the authorization server is a profile URL, do not refer to the user provided URL as such</li>
+          <li>Editorial changes to use the term "hostname" instead of "domain" where appropriate</li>
         </ul>
       </section>
 
