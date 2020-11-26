@@ -1,10 +1,10 @@
 <!DOCTYPE html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="generator" content="ReSpec 25.6.0"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><style>span.example-title{text-transform:none}aside.example,div.example,div.illegal-example{padding:.5em;margin:1em 0;position:relative;clear:both}div.illegal-example{color:red}div.illegal-example p{color:#000}aside.example,div.example{padding:.5em;border-left-width:.5em;border-left-style:solid;border-color:#e0cb52;background:#fcfaee}aside.example div.example{border-left-width:.1em;border-color:#999;background:#fff}aside.example div.example span.example-title{color:#999}</style>
     <title>IndieAuth</title>
-    
-    
-    
-    
-    
+
+
+
+
+
     <link rel="pingback" href="https://indieauth.net/pingback">
     <link rel="webmention" href="https://indieauth.net/webmention">
   <style id="respec-mainstyle">@keyframes pop{0%{transform:scale(1,1)}25%{transform:scale(1.25,1.25);opacity:.75}100%{transform:scale(1,1)}}.hljs{background:0 0!important}a abbr,h1 abbr,h2 abbr,h3 abbr,h4 abbr,h5 abbr,h6 abbr{border:none}dfn{font-weight:700}a.internalDFN{color:inherit;border-bottom:1px solid #99c;text-decoration:none}a.externalDFN{color:inherit;border-bottom:1px dotted #ccc;text-decoration:none}a.bibref{text-decoration:none}.respec-offending-element:target{animation:pop .25s ease-in-out 0s 1}.respec-offending-element,a[href].respec-offending-element{text-decoration:red wavy underline}@supports not (text-decoration:red wavy underline){.respec-offending-element:not(pre){display:inline-block}.respec-offending-element{background:url(data:image/gif;base64,R0lGODdhBAADAPEAANv///8AAP///wAAACwAAAAABAADAEACBZQjmIAFADs=) bottom repeat-x}}#references :target{background:#eaf3ff;animation:pop .4s ease-in-out 0s 1}cite .bibref{font-style:normal}code{color:#c63501}th code{color:inherit}a[href].orcid{padding-left:4px;padding-right:4px}a[href].orcid>svg{margin-bottom:-2px}.toc a,.tof a{text-decoration:none}a .figno,a .secno{color:#000}ol.tof,ul.tof{list-style:none outside none}.caption{margin-top:.5em;font-style:italic}table.simple{border-spacing:0;border-collapse:collapse;border-bottom:3px solid #005a9c}.simple th{background:#005a9c;color:#fff;padding:3px 5px;text-align:left}.simple th a{color:#fff;padding:3px 5px;text-align:left}.simple th[scope=row]{background:inherit;color:inherit;border-top:1px solid #ddd}.simple td{padding:3px 10px;border-top:1px solid #ddd}.simple tr:nth-child(even){background:#f0f6ff}.section dd>p:first-child{margin-top:0}.section dd>p:last-child{margin-bottom:0}.section dd{margin-bottom:1em}.section dl.attrs dd,.section dl.eldef dd{margin-bottom:0}#issue-summary>ul,.respec-dfn-list{column-count:2}#issue-summary li,.respec-dfn-list li{list-style:none}details.respec-tests-details{margin-left:1em;display:inline-block;vertical-align:top}details.respec-tests-details>*{padding-right:2em}details.respec-tests-details[open]{z-index:999999;position:absolute;border:thin solid #cad3e2;border-radius:.3em;background-color:#fff;padding-bottom:.5em}details.respec-tests-details[open]>summary{border-bottom:thin solid #cad3e2;padding-left:1em;margin-bottom:1em;line-height:2em}details.respec-tests-details>ul{width:100%;margin-top:-.3em}details.respec-tests-details>li{padding-left:1em}a[href].self-link:hover{opacity:1;text-decoration:none;background-color:transparent}h2,h3,h4,h5,h6{position:relative}aside.example .marker>a.self-link{color:inherit}h2>a.self-link,h3>a.self-link,h4>a.self-link,h5>a.self-link,h6>a.self-link{border:none;color:inherit;font-size:83%;height:2em;left:-1.6em;opacity:.5;position:absolute;text-align:center;text-decoration:none;top:0;transition:opacity .2s;width:2em}h2>a.self-link::before,h3>a.self-link::before,h4>a.self-link::before,h5>a.self-link::before,h6>a.self-link::before{content:"§";display:block}@media (max-width:767px){dd{margin-left:0}h2>a.self-link,h3>a.self-link,h4>a.self-link,h5>a.self-link,h6>a.self-link{left:auto;top:auto}}@media print{.removeOnSave{display:none}}</style><meta name="description" content="IndieAuth is an identity layer on top of OAuth 2.0 [RFC6749], primarily used to obtain
@@ -13,7 +13,7 @@
         verify the identity of an End-User, as well as to obtain an access
         token that can be used to access resources under the control of the End-User."><link rel="canonical" href="https://www.w3.org/TR/indieauth/"><style>.hljs{display:block;overflow-x:auto;padding:.5em;color:#383a42;background:#fafafa}.hljs-comment,.hljs-quote{color:#717277;font-style:italic}.hljs-doctag,.hljs-formula,.hljs-keyword{color:#a626a4}.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#ca4706;font-weight:700}.hljs-literal{color:#0b76c5}.hljs-addition,.hljs-attribute,.hljs-meta-string,.hljs-regexp,.hljs-string{color:#42803c}.hljs-built_in,.hljs-class .hljs-title{color:#9a6a01}.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#986801}.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#336ae3}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}.hljs-link{text-decoration:underline}</style><style>var{position:relative;cursor:pointer}var[data-type]::after,var[data-type]::before{position:absolute;left:50%;top:-6px;opacity:0;transition:opacity .4s;pointer-events:none}var[data-type]::before{content:"";transform:translateX(-50%);border-width:4px 6px 0 6px;border-style:solid;border-color:transparent;border-top-color:#000}var[data-type]::after{content:attr(data-type);transform:translateX(-50%) translateY(-100%);background:#000;text-align:center;font-family:"Dank Mono","Fira Code",monospace;font-style:normal;padding:6px;border-radius:3px;color:#daca88;text-indent:0;font-weight:400}var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}</style><script id="initialUserConfig" type="application/json">{
   "useExperimentalStyles": true,
-  "publishDate": "2020-11-25",
+  "publishDate": "2020-11-26",
   "specStatus": "NOTE",
   "previousPublishDate": "2020-09-26",
   "previousMaturity": "LS",
@@ -119,27 +119,27 @@
       "id": "url"
     }
   },
-  "publishISODate": "2020-11-25T00:00:00.000Z",
-  "generatedSubtitle": "Working Group Note 25 November 2020"
+  "publishISODate": "2020-11-26T00:00:00.000Z",
+  "generatedSubtitle": "Working Group Note 26 November 2020"
 }</script><link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2016/W3C-NOTE"></head>
   <body class="h-entry informative" style="background-image: url(&quot;https://spec.indieweb.org/INDIEWEB-LIVING-STANDARD.svg&quot;);"><div class="head">
     <a class="logo" href="https://www.w3.org/"><img alt="W3C" width="120" height="100" src="https://spec.indieweb.org/index_files/logo.svg"></a> <h1 id="title" class="title">IndieAuth</h1>
-    
-    <h2>IndieWeb Living Standard 25 November 2020</h2>
+
+    <h2>IndieWeb Living Standard 26 November 2020</h2>
     <dl>
       <dt>This version:</dt><dd>
               <a class="u-url" href="https://indieauth.spec.indieweb.org/">https://indieauth.spec.indieweb.org/</a>
             </dd>
-      
+
       <dt>Test suite:</dt><dd><a href="https://indieauth.rocks/">https://indieauth.rocks/</a></dd>
-      
-      
+
+
       <dt>Previous version:</dt><dd><a href="https://indieauth.spec.indieweb.org/20200926/">https://indieauth.spec.indieweb.org/20200926/</a></dd>
-      
+
       <dt>Editor:</dt>
       <dd class="p-author h-card vcard" data-editor-id="59996"><a class="u-url url p-name fn" href="https://aaronparecki.com/">Aaron Parecki</a></dd>
-      
-      
+
+
       <dt>Repository:</dt><dd>
     <a href="https://github.com/indieweb/indieauth">Github</a>
   </dd><dd>
@@ -153,8 +153,8 @@
           <a href="https://indieauth.net/errata"><strong>errata</strong></a> for any errors or
           issues reported since publication.
         </p>
-    
-    
+
+
     <p class="copyright"><b>License:</b> Per <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>, to the extent possible under law, the editor(s) and contributors have waived all copyright and related or neighboring rights to this work. In addition, the editor(s) and contributors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0">Open Web Foundation Agreement Version 1.0</a>.</p>
     <hr title="Separator for header">
   </div>
@@ -254,7 +254,7 @@
       <section id="user-profile-url">
         <h3 id="x3-1-user-profile-url"><bdi class="secno">3.1 </bdi>User Profile URL<a class="self-link" aria-label="§" href="#user-profile-url"></a></h3>
 
-        <p id="user-profile-url-p-1">Users are identified by a [<cite><a class="bibref" data-link-type="biblio" href="#bib-url" title="URL Standard">URL</a></cite>]. Profile URLs <em class="rfc2119" title="MUST">MUST</em> have either an <code>https</code> or <code>http</code> scheme, <em class="rfc2119" title="MUST">MUST</em> contain a path component (<code>/</code> is a valid path), <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain single-dot or double-dot path segments, <em class="rfc2119" title="MAY">MAY</em> contain a query string component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a fragment component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a username or password component, and <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a port. Additionally, hostnames <em class="rfc2119" title="MUST">MUST</em> be domain names and <em class="rfc2119" title="MUST NOT">MUST NOT</em> be ipv4 or ipv6 addresses.</p>
+        <p id="user-profile-url-p-1">Users are identified by a [<cite><a class="bibref" data-link-type="biblio" href="#bib-url" title="URL Standard">URL</a></cite>]. Profile URLs <em class="rfc2119" title="MUST">MUST</em> have either an <code>https</code> or <code>http</code> scheme, <em class="rfc2119" title="MUST">MUST</em> contain a path component (<code>/</code> is a valid path), <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain single-dot or double-dot path segments, <em class="rfc2119" title="MAY">MAY</em> contain a query string component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a fragment component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a username or password component, and <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a port. Additionally, host names <em class="rfc2119" title="MUST">MUST</em> be domain names and <em class="rfc2119" title="MUST NOT">MUST NOT</em> be ipv4 or ipv6 addresses.</p>
 
         <p id="user-profile-url-p-2">Some examples of valid profile URLs are:</p>
 
@@ -279,7 +279,7 @@
       <section id="client-identifier">
         <h3 id="x3-2-client-identifier"><bdi class="secno">3.2 </bdi>Client Identifier<a class="self-link" aria-label="§" href="#client-identifier"></a></h3>
 
-        <p id="client-identifier-p-1">Clients are identified by a [<cite><a class="bibref" data-link-type="biblio" href="#bib-url" title="URL Standard">URL</a></cite>]. Client identifier URLs <em class="rfc2119" title="MUST">MUST</em> have either an <code>https</code> or <code>http</code> scheme, <em class="rfc2119" title="MUST">MUST</em> contain a path component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain single-dot or double-dot path segments, <em class="rfc2119" title="MAY">MAY</em> contain a query string component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a fragment component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a username or password component, and <em class="rfc2119" title="MAY">MAY</em> contain a port. Additionally, hostnames <em class="rfc2119" title="MUST">MUST</em> be domain names or a loopback interface and <em class="rfc2119" title="MUST NOT">MUST NOT</em> be IPv4 or IPv6 addresses except for IPv4 <code>127.0.0.1</code> or IPv6 <code>[::1]</code>.</p>
+        <p id="client-identifier-p-1">Clients are identified by a [<cite><a class="bibref" data-link-type="biblio" href="#bib-url" title="URL Standard">URL</a></cite>]. Client identifier URLs <em class="rfc2119" title="MUST">MUST</em> have either an <code>https</code> or <code>http</code> scheme, <em class="rfc2119" title="MUST">MUST</em> contain a path component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain single-dot or double-dot path segments, <em class="rfc2119" title="MAY">MAY</em> contain a query string component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a fragment component, <em class="rfc2119" title="MUST NOT">MUST NOT</em> contain a username or password component, and <em class="rfc2119" title="MAY">MAY</em> contain a port. Additionally, host names <em class="rfc2119" title="MUST">MUST</em> be domain names or a loopback interface and <em class="rfc2119" title="MUST NOT">MUST NOT</em> be IPv4 or IPv6 addresses except for IPv4 <code>127.0.0.1</code> or IPv6 <code>[::1]</code>.</p>
       </section>
 
       <section id="url-canonicalization">
@@ -287,9 +287,9 @@
 
         <p id="url-canonicalization-p-1">Since IndieAuth uses https/http URLs which fall under what [<cite><a class="bibref" data-link-type="biblio" href="#bib-url" title="URL Standard">URL</a></cite>] calls "<a href="https://url.spec.whatwg.org/#special-scheme">Special URLs</a>", a string with no path component is not a valid [<cite><a class="bibref" data-link-type="biblio" href="#bib-url" title="URL Standard">URL</a></cite>]. As such, if a URL with no path component is ever encountered, it <em class="rfc2119" title="MUST">MUST</em> be treated as if it had the path <code>/</code>. For example, if a user provides <code>https://example.com</code> for Discovery, the client <em class="rfc2119" title="MUST">MUST</em> transform it to <code>https://example.com/</code> when using it and comparing it.</p>
 
-        <p id="url-canonicalization-p-2">Since domain names are case insensitive, the hostname component of the URL <em class="rfc2119" title="MUST">MUST</em> be compared case insensitively. Implementations <em class="rfc2119" title="SHOULD">SHOULD</em> convert the hostname to lowercase when storing and using URLs.</p>
+        <p id="url-canonicalization-p-2">Since domain names are case insensitive, the host component of the URL <em class="rfc2119" title="MUST">MUST</em> be compared case insensitively. Implementations <em class="rfc2119" title="SHOULD">SHOULD</em> convert the host to lowercase when storing and using URLs.</p>
 
-        <p id="url-canonicalization-p-3">For ease of use, clients <em class="rfc2119" title="MAY">MAY</em> allow users to enter just a hostname part of the URL, in which case the client <em class="rfc2119" title="MUST">MUST</em> turn that into a valid URL before beginning the IndieAuth flow, by prepending either an <code>http</code> or <code>https</code> scheme and appending the path <code>/</code>. For example, if the user enters <code>example.com</code>, the client transforms it into <code>http://example.com/</code> before beginning discovery.</p>
+        <p id="url-canonicalization-p-3">For ease of use, clients <em class="rfc2119" title="MAY">MAY</em> allow users to enter just the host part of the URL, in which case the client <em class="rfc2119" title="MUST">MUST</em> turn that into a valid URL before beginning the IndieAuth flow, by prepending either an <code>http</code> or <code>https</code> scheme and appending the path <code>/</code>. For example, if the user enters <code>example.com</code>, the client transforms it into <code>http://example.com/</code> before beginning discovery.</p>
       </section>
 
     </section>
@@ -356,7 +356,7 @@
         <section id="redirect-url">
           <h4 id="x4-2-2-redirect-url"><bdi class="secno">4.2.2 </bdi>Redirect URL<a class="self-link" aria-label="§" href="#redirect-url"></a></h4>
 
-          <p id="redirect-url-p-1">If a client wishes to use a redirect URL that has a different hostname than their <code>client_id</code>, or if the redirect URL uses a custom scheme (such as when the client is a native application), then the client will need to explicitly list those redirect URLs so that authorization endpoints can be sure it is safe to redirect users there. The client <em class="rfc2119" title="SHOULD">SHOULD</em> publish one or more <code>&lt;link&gt;</code> tags or <code>Link</code> HTTP headers with a <code>rel</code> attribute of <code>redirect_uri</code> at the <code>client_id</code> URL.</p>
+          <p id="redirect-url-p-1">If a client wishes to use a redirect URL that has a different host than their <code>client_id</code>, or if the redirect URL uses a custom scheme (such as when the client is a native application), then the client will need to explicitly list those redirect URLs so that authorization endpoints can be sure it is safe to redirect users there. The client <em class="rfc2119" title="SHOULD">SHOULD</em> publish one or more <code>&lt;link&gt;</code> tags or <code>Link</code> HTTP headers with a <code>rel</code> attribute of <code>redirect_uri</code> at the <code>client_id</code> URL.</p>
 
           <p id="redirect-url-p-2">Authorization endpoints verifying that a <code>redirect_uri</code> is allowed for use by a client <em class="rfc2119" title="MUST">MUST</em> look for an exact match of the given <code>redirect_uri</code> in the request against the list of <code>redirect_uri</code>s discovered after resolving any relative URLs.</p>
 
@@ -654,7 +654,7 @@ Content-Type: application/json
 
           <p id="profile-information-p-9">For example, attempting to use the <code>email</code> returned in the profile object as a user identifier will lead to security holes, as any user can create an authorization endpoint that returns any email address in the profile response. A client using the email address returned here should treat it the same as if it had been hand-entered in the client application and go through its own verification process before using it.</p>
 
-          <p id="profile-information-p-10">Similarly, the <code>url</code> returned in the <code>profile</code> object is not guaranteed to match the <code>me</code> URL, and may even have a different hostname. For example, a multi-author website may use the website's URL as the <code>me</code> URL, but return each specific author's own personal website in the profile data.</p>
+          <p id="profile-information-p-10">Similarly, the <code>url</code> returned in the <code>profile</code> object is not guaranteed to match the <code>me</code> URL, and may even have a different host. For example, a multi-author website may use the website's URL as the <code>me</code> URL, but return each specific author's own personal website in the profile data.</p>
 
         </section>
 
@@ -664,7 +664,7 @@ Content-Type: application/json
         <h3 id="x5-4-authorization-server-confirmation"><bdi class="secno">5.4 </bdi>Authorization Server Confirmation<a class="self-link" aria-label="§" href="#authorization-server-confirmation"></a></h3>
         <span id="differing-user-profile-urls"></span>
 
-        <p id="authorization-server-confirmation-p-1">Clients will initially prompt the user to enter a URL in order to discover the necessary endpoints to perform authentication or authorization. However, there may be differences between the URL that the user initially enters and the final resulting profile URL as returned by the authorization server. The differences may be anything from a differing scheme (http vs https), to even a URL with a different hostname.</p>
+        <p id="authorization-server-confirmation-p-1">Clients will initially prompt the user to enter a URL in order to discover the necessary endpoints to perform authentication or authorization. However, there may be differences between the URL that the user initially enters and the final resulting profile URL as returned by the authorization server. The differences may be anything from a differing scheme (http vs https), to even a URL with a different host.</p>
 
         <p id="authorization-server-confirmation-p-2">Upon receiving the <code>me</code> URL in the response from the authorization server (either in the <a href="#profile-url-response">profile URL response</a> or <a href="#access-token-response">access token response</a>) the client <em class="rfc2119" title="MUST">MUST</em> verify the authorization server is authorized to make claims about the profile URL returned by confirming the returned profile URL declares the same authorization server.</p>
 
@@ -883,14 +883,14 @@ Content-Type: application/json
       </dl>
     </section>
 
-    
+
 
     <section class="appendix informative" id="resources">
       <h2 id="a-resources"><bdi class="secno">A. </bdi>Resources<a class="self-link" aria-label="§" href="#resources"></a></h2><p id="resources-p-1"><em>This section is non-normative.</em></p>
 
       <p id="resources-p-2">
         </p><ul>
-          
+
           <li id="resources-li-1"><a href="https://indieweb.org/Category:IndieAuth">More IndieAuth resources</a></li>
           <li id="resources-li-2"><a href="https://indieweb.org/obtaining-an-access-token">Implementation guide for obtaining an access token using IndieAuth</a></li>
           <li id="resources-li-3"><a href="https://indieweb.org/indieauth-for-login">Implementation guide for authenticating users without obtaining an access token</a></li>
@@ -927,7 +927,7 @@ Content-Type: application/json
         <ul>
           <li id="changes-from-26-september-2020-to-this-version-li-1">Remove same-domain requirement for entered and final profile URL by instead having the client confirm the authorization server</li>
           <li id="changes-from-26-september-2020-to-this-version-li-2">Only the <code>me</code> value returned by the authorization server is a profile URL, do not refer to the user provided URL as such</li>
-          <li id="changes-from-26-september-2020-to-this-version-li-3">Editorial changes to use the term "hostname" instead of "domain" where appropriate</li>
+          <li id="changes-from-26-september-2020-to-this-version-li-3">Editorial changes to use the term "host" instead of "domain" where appropriate</li>
         </ul>
       </section>
 
@@ -1005,7 +1005,7 @@ Content-Type: application/json
       }
     };
     </script>
-  
+
 
 <section id="references" class="appendix"><h2 id="d-references"><bdi class="secno">D. </bdi>References<a class="self-link" aria-label="§" href="#references"></a></h2><section id="normative-references">
       <h3 id="d-1-normative-references"><bdi class="secno">D.1 </bdi>
