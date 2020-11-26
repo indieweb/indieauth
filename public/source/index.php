@@ -856,7 +856,7 @@ Content-Type: application/json
       <section>
         <h3>Changes from 26 September 2020 to this version</h3>
         <ul>
-          <li>Remove same-domain requirement for entered and final profile URL by instead having the client confirm the authorization server</li>
+          <li>Remove same-domain requirement for entered and final profile URL by instead having the client <a href="#authorization-server-confirmation">confirm the authorization server</a></li>
           <li>Only the <code>me</code> value returned by the authorization server is a profile URL, do not refer to the user provided URL as such</li>
           <li>Editorial changes to use the term "host" instead of "domain" where appropriate</li>
         </ul>
