@@ -296,7 +296,7 @@
         <section>
           <h4>Redirect URL</h4>
 
-          <p>If a client wishes to use a redirect URL that is on a different domain than their <code>client_id</code>, or if the redirect URL uses a custom scheme (such as when the client is a native application), then the client will need to explicitly list those redirect URLs so that authorization endpoints can be sure it is safe to redirect users there. The client SHOULD publish one or more <code>&lt;link&gt;</code> tags or <code>Link</code> HTTP headers with a <code>rel</code> attribute of <code>redirect_uri</code> at the <code>client_id</code> URL.</p>
+          <p>If a client wishes to use a redirect URL that has a different hostname than their <code>client_id</code>, or if the redirect URL uses a custom scheme (such as when the client is a native application), then the client will need to explicitly list those redirect URLs so that authorization endpoints can be sure it is safe to redirect users there. The client SHOULD publish one or more <code>&lt;link&gt;</code> tags or <code>Link</code> HTTP headers with a <code>rel</code> attribute of <code>redirect_uri</code> at the <code>client_id</code> URL.</p>
 
           <p>Authorization endpoints verifying that a <code>redirect_uri</code> is allowed for use by a client MUST look for an exact match of the given <code>redirect_uri</code> in the request against the list of <code>redirect_uri</code>s discovered after resolving any relative URLs.</p>
 
@@ -590,7 +590,7 @@ Content-Type: application/json
 
           <p>For example, attempting to use the <code>email</code> returned in the profile object as a user identifier will lead to security holes, as any user can create an authorization endpoint that returns any email address in the profile response. A client using the email address returned here should treat it the same as if it had been hand-entered in the client application and go through its own verification process before using it.</p>
 
-          <p>Similarly, the <code>url</code> returned in the <code>profile</code> object is not guaranteed to match the <code>me</code> URL, and may even be on a different domain. For example, a multi-author website may use the website's URL as the <code>me</code> URL, but return each specific author's own personal website in the profile data.</p>
+          <p>Similarly, the <code>url</code> returned in the <code>profile</code> object is not guaranteed to match the <code>me</code> URL, and may even have a different hostname. For example, a multi-author website may use the website's URL as the <code>me</code> URL, but return each specific author's own personal website in the profile data.</p>
 
         </section>
 
@@ -600,7 +600,7 @@ Content-Type: application/json
         <h3>Authorization Server Confirmation</h3>
         <span id="differing-user-profile-urls"></span><!-- preserve old fragment identifier -->
 
-        <p>Clients will initially prompt the user to enter a URL in order to discover the necessary endpoints to perform authentication or authorization. However, there may be differences between the URL that the user initially enters and the final resulting profile URL as returned by the authorization server. The differences may be anything from a differing scheme (http vs https), to even a URL on a different domain.</p>
+        <p>Clients will initially prompt the user to enter a URL in order to discover the necessary endpoints to perform authentication or authorization. However, there may be differences between the URL that the user initially enters and the final resulting profile URL as returned by the authorization server. The differences may be anything from a differing scheme (http vs https), to even a URL with a different hostname.</p>
 
         <p>Upon receiving the <code>me</code> URL in the response from the authorization server (either in the <a href="#profile-url-response">profile URL response</a> or <a href="#access-token-response">access token response</a>) the client MUST verify the authorization server is authorized to make claims about the profile URL returned by confirming the returned profile URL declares the same authorization server.</p>
 
