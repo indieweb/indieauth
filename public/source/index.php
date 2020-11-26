@@ -9,11 +9,11 @@
     <script class='remove'>
       var respecConfig = {
           useExperimentalStyles: true,
-          publishDate: "2020-09-26",
+          publishDate: "2020-11-26",
           specStatus: "NOTE", /* for loading w3c CSS */
-          previousPublishDate: "2020-08-09",
+          previousPublishDate: "2020-09-26",
           previousMaturity: "LS",
-          previousVersionURL: "https://indieauth.spec.indieweb.org/20200809/",
+          previousVersionURL: "https://indieauth.spec.indieweb.org/20200926/",
           shortName:  "indieauth",
           lsURI: "https://indieauth.spec.indieweb.org/",
           testSuiteURI: "https://indieauth.rocks/",
@@ -201,7 +201,7 @@
       <section>
         <h3>User Profile URL</h3>
 
-        <p>Users are identified by a [[!URL]]. Profile URLs MUST have either an <code>https</code> or <code>http</code> scheme, MUST contain a path component (<code>/</code> is a valid path), MUST NOT contain single-dot or double-dot path segments, MAY contain a query string component, MUST NOT contain a fragment component, MUST NOT contain a username or password component, and MUST NOT contain a port. Additionally, hostnames MUST be domain names and MUST NOT be ipv4 or ipv6 addresses.</p>
+        <p>Users are identified by a [[!URL]]. Profile URLs MUST have either an <code>https</code> or <code>http</code> scheme, MUST contain a path component (<code>/</code> is a valid path), MUST NOT contain single-dot or double-dot path segments, MAY contain a query string component, MUST NOT contain a fragment component, MUST NOT contain a username or password component, and MUST NOT contain a port. Additionally, host names MUST be domain names and MUST NOT be ipv4 or ipv6 addresses.</p>
 
         <p>Some examples of valid profile URLs are:</p>
 
@@ -226,7 +226,7 @@
       <section>
         <h3>Client Identifier</h3>
 
-        <p>Clients are identified by a [[!URL]]. Client identifier URLs MUST have either an <code>https</code> or <code>http</code> scheme, MUST contain a path component, MUST NOT contain single-dot or double-dot path segments, MAY contain a query string component, MUST NOT contain a fragment component, MUST NOT contain a username or password component, and MAY contain a port. Additionally, hostnames MUST be domain names or a loopback interface and MUST NOT be IPv4 or IPv6 addresses except for IPv4 <code>127.0.0.1</code> or IPv6 <code>[::1]</code>.</p>
+        <p>Clients are identified by a [[!URL]]. Client identifier URLs MUST have either an <code>https</code> or <code>http</code> scheme, MUST contain a path component, MUST NOT contain single-dot or double-dot path segments, MAY contain a query string component, MUST NOT contain a fragment component, MUST NOT contain a username or password component, and MAY contain a port. Additionally, host names MUST be domain names or a loopback interface and MUST NOT be IPv4 or IPv6 addresses except for IPv4 <code>127.0.0.1</code> or IPv6 <code>[::1]</code>.</p>
       </section>
 
       <section>
@@ -234,9 +234,9 @@
 
         <p>Since IndieAuth uses https/http URLs which fall under what [[!URL]] calls "<a href="https://url.spec.whatwg.org/#special-scheme">Special URLs</a>", a string with no path component is not a valid [[!URL]]. As such, if a URL with no path component is ever encountered, it MUST be treated as if it had the path <code>/</code>. For example, if a user provides <code>https://example.com</code> for Discovery, the client MUST transform it to <code>https://example.com/</code> when using it and comparing it.</p>
 
-        <p>Since domain names are case insensitive, the hostname component of the URL MUST be compared case insensitively. Implementations SHOULD convert the hostname to lowercase when storing and using URLs.</p>
+        <p>Since domain names are case insensitive, the host component of the URL MUST be compared case insensitively. Implementations SHOULD convert the host to lowercase when storing and using URLs.</p>
 
-        <p>For ease of use, clients MAY allow users to enter just a hostname part of the URL, in which case the client MUST turn that into a valid URL before beginning the IndieAuth flow, by prepending either an <code>http</code> or <code>https</code> scheme and appending the path <code>/</code>. For example, if the user enters <code>example.com</code>, the client transforms it into <code>http://example.com/</code> before beginning discovery.</p>
+        <p>For ease of use, clients MAY allow users to enter just the host part of the URL, in which case the client MUST turn that into a valid URL before beginning the IndieAuth flow, by prepending either an <code>http</code> or <code>https</code> scheme and appending the path <code>/</code>. For example, if the user enters <code>example.com</code>, the client transforms it into <code>http://example.com/</code> before beginning discovery.</p>
       </section>
 
     </section>
@@ -296,7 +296,7 @@
         <section>
           <h4>Redirect URL</h4>
 
-          <p>If a client wishes to use a redirect URL that has a different hostname than their <code>client_id</code>, or if the redirect URL uses a custom scheme (such as when the client is a native application), then the client will need to explicitly list those redirect URLs so that authorization endpoints can be sure it is safe to redirect users there. The client SHOULD publish one or more <code>&lt;link&gt;</code> tags or <code>Link</code> HTTP headers with a <code>rel</code> attribute of <code>redirect_uri</code> at the <code>client_id</code> URL.</p>
+          <p>If a client wishes to use a redirect URL that has a different host than their <code>client_id</code>, or if the redirect URL uses a custom scheme (such as when the client is a native application), then the client will need to explicitly list those redirect URLs so that authorization endpoints can be sure it is safe to redirect users there. The client SHOULD publish one or more <code>&lt;link&gt;</code> tags or <code>Link</code> HTTP headers with a <code>rel</code> attribute of <code>redirect_uri</code> at the <code>client_id</code> URL.</p>
 
           <p>Authorization endpoints verifying that a <code>redirect_uri</code> is allowed for use by a client MUST look for an exact match of the given <code>redirect_uri</code> in the request against the list of <code>redirect_uri</code>s discovered after resolving any relative URLs.</p>
 
@@ -590,7 +590,7 @@ Content-Type: application/json
 
           <p>For example, attempting to use the <code>email</code> returned in the profile object as a user identifier will lead to security holes, as any user can create an authorization endpoint that returns any email address in the profile response. A client using the email address returned here should treat it the same as if it had been hand-entered in the client application and go through its own verification process before using it.</p>
 
-          <p>Similarly, the <code>url</code> returned in the <code>profile</code> object is not guaranteed to match the <code>me</code> URL, and may even have a different hostname. For example, a multi-author website may use the website's URL as the <code>me</code> URL, but return each specific author's own personal website in the profile data.</p>
+          <p>Similarly, the <code>url</code> returned in the <code>profile</code> object is not guaranteed to match the <code>me</code> URL, and may even have a different host. For example, a multi-author website may use the website's URL as the <code>me</code> URL, but return each specific author's own personal website in the profile data.</p>
 
         </section>
 
@@ -600,7 +600,7 @@ Content-Type: application/json
         <h3>Authorization Server Confirmation</h3>
         <span id="differing-user-profile-urls"></span><!-- preserve old fragment identifier -->
 
-        <p>Clients will initially prompt the user to enter a URL in order to discover the necessary endpoints to perform authentication or authorization. However, there may be differences between the URL that the user initially enters and the final resulting profile URL as returned by the authorization server. The differences may be anything from a differing scheme (http vs https), to even a URL with a different hostname.</p>
+        <p>Clients will initially prompt the user to enter a URL in order to discover the necessary endpoints to perform authentication or authorization. However, there may be differences between the URL that the user initially enters and the final resulting profile URL as returned by the authorization server. The differences may be anything from a differing scheme (http vs https), to even a URL with a different host.</p>
 
         <p>Upon receiving the <code>me</code> URL in the response from the authorization server (either in the <a href="#profile-url-response">profile URL response</a> or <a href="#access-token-response">access token response</a>) the client MUST verify the authorization server is authorized to make claims about the profile URL returned by confirming the returned profile URL declares the same authorization server.</p>
 
@@ -856,8 +856,9 @@ Content-Type: application/json
       <section>
         <h3>Changes from 26 September 2020 to this version</h3>
         <ul>
-          <li>Remove same-domain requirement for entered and final profile URL by instead confirming the authorization server</li>
+          <li>Remove same-domain requirement for entered and final profile URL by instead having the client <a href="#authorization-server-confirmation">confirm the authorization server</a></li>
           <li>Only the <code>me</code> value returned by the authorization server is a profile URL, do not refer to the user provided URL as such</li>
+          <li>Editorial changes to use the term "host" instead of "domain" where appropriate</li>
         </ul>
       </section>
 
