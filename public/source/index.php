@@ -368,7 +368,7 @@ viewbox="0 0 1163 721" style="width: 100%; height: auto;"
       <section>
         <h3>Discovery</h3>
 
-        <p>After obtaining a URL from the End-User, and optionally applying <a href="url-canonicalization">URL Canonicalization</a> to it, the client fetches the URL and looks for the <code>authorization_endpoint</code> and <code>token_endpoint</code> rel values in the HTTP <code>Link</code> headers and HTML <code>&lt;link&gt;</code> tags as described in <a href="#discovery-by-clients"></a>.</p>
+        <p>After obtaining a URL from the End-User, and optionally applying <a href="#url-canonicalization">URL Canonicalization</a> to it, the client fetches the URL and looks for the <code>authorization_endpoint</code> and <code>token_endpoint</code> rel values in the HTTP <code>Link</code> headers and HTML <code>&lt;link&gt;</code> tags as described in <a href="#discovery-by-clients"></a>.</p>
 
         <pre class="example nohighlight"><?= htmlspecialchars(
 'Link: <https://example.org/auth>; rel="authorization_endpoint"
@@ -416,7 +416,7 @@ Link: <https://example.org/token>; rel="token_endpoint"
                           scope=profile+create+update+delete&
                           me=https://user.example.net/') ?></pre>
 
-          <p>The client SHOULD provide the <code>me</code> query string parameter to the authorization endpoint, either the exact value the user entered, or the value after applying <a href="url-canonicalization">URL Canonicalization</a>.</p>
+          <p>The client SHOULD provide the <code>me</code> query string parameter to the authorization endpoint, either the exact value the user entered, or the value after applying <a href="#url-canonicalization">URL Canonicalization</a>.</p>
 
           <p>The authorization endpoint SHOULD fetch the <code>client_id</code> URL to retrieve application information and the client's registered redirect URLs, see <a href="#client-information-discovery">Client Information Discovery</a> for more information.</p>
 
