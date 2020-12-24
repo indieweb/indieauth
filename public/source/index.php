@@ -43,7 +43,7 @@
               },
               {
                 value: 'Commits',
-                href: 'https://github.com/indieweb/indieauth/commits/master'
+                href: 'https://github.com/indieweb/indieauth/commits/main'
               }
             ]
           }],
