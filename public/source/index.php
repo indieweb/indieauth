@@ -854,7 +854,15 @@ Content-Type: application/json
       <h2>Change Log</h2>
 
       <section>
-        <h3>Changes from 26 September 2020 to this version</h3>
+        <h3>Changes from 26 November 2020 to this version</h3>
+        <ul>
+          <li>Fixed redirect URL example in Authorization Response</li>
+          <li>Clarifications around the use of the profile scope in profile response and token response</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Changes from 26 September 2020 to 26 November 2020</h3>
         <ul>
           <li>Remove same-domain requirement for entered and final profile URL by instead having the client <a href="#authorization-server-confirmation">confirm the authorization server</a></li>
           <li>Only the <code>me</code> value returned by the authorization server is a profile URL, do not refer to the user provided URL as such</li>
