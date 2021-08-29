@@ -531,7 +531,17 @@ grant_type=authorization_code
 
           <p>The specifics of how the token endpoint verifies the authorization code are out of scope of this document, as typically the authorization endpoint and token endpoint are part of the same system and can share storage or another private communication mechanism.</p>
 
-          <p>If the request is valid, then the token endpoint can generate an access token and return the appropriate response. The token response is a JSON [[!RFC7159]] object containing the OAuth 2.0 Bearer Token [[!RFC6750]], as well as a property <code>me</code>, containing the canonical user profile URL for the user this access token corresponds to, and optionally the property <code>profile</code> with the user's profile information as defined in <a href="#profile-information">Profile Information</a>. For example:</p>
+          <p>If the request is valid, then the token endpoint can generate an access token and return the appropriate response. The token response is a JSON [[!RFC7159]] object containing:</p>
+	  
+	  <ul>
+	    <li><code>access_token</code> (required) - the OAuth 2.0 Bearer Token [[!RFC6750]].<li>
+	    <li><code>me</code> (required) - the canonical user profile URL for the user this access token corresponds to.</li>
+	    <li><code>profile</code> (optional) - the user's profile information as defined in <a href="#profile-information">Profile Information</a>.</li>
+	    <li><code>expires_in</code> (recommended) - The lifetime in seconds of the access token. If omitted, the authorization server SHOULD provide the expiration time via other means or document the default value.</li>
+	    <li><code>refresh_token</code> (optional) - The refresh token, which can be used to obtain new access tokens as defined in <a href="#refresh-tokens">Refresh Tokens</a>.</li>
+	  </ul>
+
+	  <p>For example:</p>
 
           <pre class="example nohighlight">HTTP/1.1 200 OK
 Content-Type: application/json
@@ -540,7 +550,7 @@ Content-Type: application/json
   "access_token": "XXXXXX",
   "token_type": "Bearer",
   "scope": "create update delete",
-  "me": "https://user.example.net/"
+  "me": "https://user.example.net/",
 }</pre>
 
           <p>The resulting profile URL MAY be different from the URL provided to the client for discovery. This gives the authorization server an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of.</p>
@@ -678,6 +688,43 @@ Content-Type: application/json
         </ol>
 
       </section>
+
+      <section>
+        <h3>Refresh Tokens</h3>
+
+	<p>Refresh tokens are issued to the client by the authorization server and are used to obtain a new access token when the current access token becomes invalid or expires, or to obtain additional access tokens with identical or narrower scope (access tokens may have a shorter lifetime and fewer permissions than authorized by the resource owner).</p>
+
+	<p>Use of short-lived access tokens and the offering of refresh tokens is RECOMMENDED, however, issuing a refresh token is at the discretion of the authorization server, and may be issued based on properties of the client, properties of the request, policies within the authorization server, or any other criteria.  If the authorization server issues a refresh token, it is included in the return when issuing an access token. If the authorization server decides not to issue refresh tokens, the client MAY obtain new access tokens by starting the authorization flow over.</p>
+
+	<p>Authorization servers MAY revoke refresh tokens automatically in case of a security event, such as a password change or a logout at the authorization server, or when they are redeemed, in which case a new refresh token MAY be provided. Refresh tokens SHOULD expire if the client has been inactive for some time, i.e., the refresh token has not been used to obtain fresh access tokens for some time.  The expiration time is at the discretion of the authorization server.</p>
+
+	<p>The authorization server validates the refresh token, and if valid, issues a new access token (and, optionally, a new refresh token). 
+
+	<section>
+	  <h4>Refreshing an Access Token</h4>
+
+	  <p>To refresh an access token, the client makes a POST request to the token endpoint to exchange the refresh token for the new access token. The POST request contains the following parameters:</p>
+
+	  <ul>
+	    <li><code>grant_type=refresh_token</code></li>
+	    <li><code>refresh_token</code> - The refresh token previously offered to the client.</li>
+	    <li><code>scope</code> (optional) - The client may request a token with the same or fewer scopes than the original access token. If omitted, is treated as equal to the original scopes granted.</li>
+	  </ul>
+
+	  <p>For example:</p>
+
+          <pre class="example nohighlight"><?= htmlspecialchars(
+'POST https://example.org/token
+Content-type: application/x-www-form-urlencoded
+Accept: application/json
+
+grant_type=refresh_token
+&refresh_token=xxxxxxxx
+') ?></pre>
+
+	  <p>If valid and authorized, the authorization server issues an access token as noted in <a href="#access-token-response">Access Token Response</a>. If an authorization server chooses to issue a new refresh token, then the refresh token scope MUST be identical to the one included by the client in the request.</p>
+
+	  </section> 
 
     </section>
 
