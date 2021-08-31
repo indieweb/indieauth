@@ -389,7 +389,7 @@ Link: <https://example.org/token>; rel="token_endpoint"
 
           <p>The client first creates a code verifier for each authorization request by generating a random string using the characters <code>[A-Z] / [a-z] / [0-9] / - / . / _ / ~</code> with a minimum length of 43 characters and maximum length of 128 characters. This value is stored on the client and will be used in the authorization code exchange step later.</p>
 
-          <p>The client then creates the code challenge derived from the code verifier by calculating the SHA256 hash of the code verifier and Base64-URL-encoding the result.</p>
+          <p>The client then creates the code challenge derived from the code verifier by calculating the SHA256 hash of the code verifier and <a href="https://datatracker.ietf.org/doc/html/rfc7636#appendix-A">Base64-URL-encoding</a> the result.</p>
 
           <code>code_challenge = BASE64URL-ENCODE(SHA256(ASCII(code_verifier)))</code>
 
