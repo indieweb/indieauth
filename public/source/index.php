@@ -738,8 +738,23 @@ Content-Type: application/json
       <section>
         <h4>Access Token Verification Request</h4>
 
-        <p>If a resource server needs to verify that an access token is valid, it MUST make a GET request to the token endpoint containing an HTTP <code>Authorization</code> header with the Bearer Token according to [[!RFC6750]]. Note that the request to the endpoint will not contain any user-identifying information, so the resource server (e.g. Micropub endpoint) will need to know via out-of-band methods which token endpoint is in use.</p>
+        <p>If a resource server needs to verify that an access token is valid, it may do so using Token Introspection. IndieAuth extends OAuth 2.0 Token Introspection [[!RFC7662]] by defining the following:</p>
+      <ul>
+        <li>The introspection endpoint is the same as the token endpoint.</li>
+        <li>The introspection response MUST include an additional parameter, <code>me</code>.</li>
+      </ul>
+	<p>Note that the request to the endpoint will not contain any user-identifying information, so the resource server (e.g. Micropub endpoint) will need to know via out-of-band methods which token endpoint is in use.</p>
+	<p>The resource server SHOULD make a POST request to the token endpoint containing the bearer token in a 'token' parameter, which will generate a token verification response. The introspection endpoint MAY accept other OPTIONAL parameters to provide further context to the query.</p>
 
+          <pre class="example nohighlight"><?= htmlspecialchars(
+  'POST https://example.org/token
+  Content-type: application/x-www-form-urlencoded
+  Accept: application/json
+
+  token=xxxxxxxx
+  ') ?></pre>
+
+	<p>Alternatively, the resource server MAY make a GET request to the token endpoint containing an HTTP <code>Authorization</code> header with the Bearer Token according to [[!RFC6750]], but GET may not be supported by all token endpoints.</p>
         <pre class="example nohighlight">GET https://example.org/token
   Authorization: Bearer xxxxxxxx
   Accept: application/json</pre>
@@ -754,6 +769,9 @@ Content-Type: application/json
           <li><code>me</code> - The profile URL of the user corresponding to this token</li>
           <li><code>client_id</code> - The client ID associated with this token</li>
           <li><code>scope</code> - A space-separated list of scopes associated with this token</li>
+	  <li><code>active</code> - Boolean indicator of whether or not the presented token is currently active
+	  <li><code>exp</code> - (optional) Integer timestamp, measured in the number of seconds since January 1 1970 UTC, indicating when this token will expire</li>
+	  <li><code>iat</code> - (optional) Integer timestamp, measured in the number of seconds since January 1 1970 UTC, indicating when this token was originally issued</li>
         </ul>
 
         <pre class="example nohighlight">HTTP/1.1 200 OK
@@ -767,7 +785,7 @@ Content-Type: application/json
 
         <p>Specific implementations MAY include additional parameters as top-level JSON properties. Clients SHOULD ignore parameters they don't recognize.</p>
 
-        <p>If the token is not valid, the endpoint MUST return an appropriate HTTP 400, 401 or 403 response. The response body is not significant.</p>
+        <p>If the token is not valid, the endpoint still MUST return a 200 Response, with the only parameter being active(with its value set to "false"). The response SHOULD NOT include any additional information about an inactive token, including why the token is inactive.</p>
       </section>
     </section>
 
