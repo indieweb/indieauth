@@ -692,7 +692,7 @@ Content-Type: application/json
       <section>
         <h3>Refresh Tokens</h3>
 
-	<p>Refresh tokens are issued to the client by the authorization server and are used to obtain a new access token when the current access token becomes invalid or expires, or to obtain additional access tokens with identical or narrower scope (access tokens may have a shorter lifetime and fewer permissions than authorized by the resource owner).</p>
+	<p>Refresh tokens are issued to the client by the authorization server and MAY be used at any time to obtain a new access token, usually when the current access token becomes invalid or expires, or to obtain additional access tokens with identical or narrower scope (access tokens may have a shorter lifetime and fewer permissions than authorized by the resource owner).</p>
 
 	<p>Use of short-lived access tokens and the offering of refresh tokens is RECOMMENDED, however, issuing a refresh token is at the discretion of the authorization server, and may be issued based on properties of the client, properties of the request, policies within the authorization server, or any other criteria.  If the authorization server issues a refresh token, it is included in the return when issuing an access token. If the authorization server decides not to issue refresh tokens, the client MAY obtain new access tokens by starting the authorization flow over.</p>
 
