@@ -534,7 +534,7 @@ grant_type=authorization_code
           <p>If the request is valid, then the token endpoint can generate an access token and return the appropriate response. The token response is a JSON [[!RFC7159]] object containing:</p>
 	  
 	  <ul>
-	    <li><code>access_token</code> (required) - the OAuth 2.0 Bearer Token [[!RFC6750]].<li>
+	    <li><code>access_token</code> (required) - the OAuth 2.0 Bearer Token [[!RFC6750]].</li>
 	    <li><code>me</code> (required) - the canonical user profile URL for the user this access token corresponds to.</li>
 	    <li><code>profile</code> (optional) - the user's profile information as defined in <a href="#profile-information">Profile Information</a>.</li>
 	    <li><code>expires_in</code> (recommended) - The lifetime in seconds of the access token. If omitted, the authorization server SHOULD provide the expiration time via other means or document the default value.</li>
