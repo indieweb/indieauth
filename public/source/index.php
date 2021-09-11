@@ -550,7 +550,7 @@ Content-Type: application/json
   "access_token": "XXXXXX",
   "token_type": "Bearer",
   "scope": "create update delete",
-  "me": "https://user.example.net/",
+  "me": "https://user.example.net/"
 }</pre>
 
           <p>The resulting profile URL MAY be different from the URL provided to the client for discovery. This gives the authorization server an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of.</p>
