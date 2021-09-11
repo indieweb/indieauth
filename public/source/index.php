@@ -744,7 +744,7 @@ Content-Type: application/json
         <li>The introspection response MUST include an additional parameter, <code>me</code>.</li>
       </ul>
 	<p>Note that the request to the endpoint will not contain any user-identifying information, so the resource server (e.g. Micropub endpoint) will need to know via out-of-band methods which token endpoint is in use.</p>
-	<p>The resource server SHOULD make a POST request to the token endpoint containing the bearer token in a 'token' parameter, which will generate a token verification response.</p>
+	<p>The resource server SHOULD make a POST request to the token endpoint containing the Bearer token in the <code>token</code> parameter, which will generate a token verification response. The introspection endpoint MAY accept other OPTIONAL parameters to provide further context to the query.</p>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
   'POST https://example.org/token
