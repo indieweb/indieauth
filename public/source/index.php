@@ -744,7 +744,7 @@ Content-Type: application/json
         <li>The introspection response MUST include an additional parameter, <code>me</code>.</li>
       </ul>
 	<p>Note that the request to the endpoint will not contain any user-identifying information, so the resource server (e.g. Micropub endpoint) will need to know via out-of-band methods which token endpoint is in use.</p>
-	<p>The resource server SHOULD make a POST request to the token endpoint containing the bearer token in a 'token' parameter, which will generate a token verification response. The introspection endpoint MAY accept other OPTIONAL parameters to provide further context to the query.</p>
+	<p>The resource server SHOULD make a POST request to the token endpoint containing the bearer token in a 'token' parameter, which will generate a token verification response.</p>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
   'POST https://example.org/token
@@ -754,22 +754,16 @@ Content-Type: application/json
   token=xxxxxxxx
   ') ?></pre>
 
-	<p>Alternatively, the resource server MAY make a GET request to the token endpoint containing an HTTP <code>Authorization</code> header with the Bearer Token according to [[!RFC6750]], but GET may not be supported by all token endpoints.</p>
-        <pre class="example nohighlight">GET https://example.org/token
-  Authorization: Bearer xxxxxxxx
-  Accept: application/json</pre>
-      </section>
-
       <section>
         <h4>Access Token Verification Response</h4>
 
         <p>The token endpoint verifies the access token (how this verification is done is up to the implementation), and returns information about the token:</p>
 
         <ul>
+	  <li><code>active</code> - (required) Boolean indicator of whether or not the presented token is currently active
           <li><code>me</code> - The profile URL of the user corresponding to this token</li>
           <li><code>client_id</code> - The client ID associated with this token</li>
           <li><code>scope</code> - A space-separated list of scopes associated with this token</li>
-	  <li><code>active</code> - Boolean indicator of whether or not the presented token is currently active
 	  <li><code>exp</code> - (optional) Integer timestamp, measured in the number of seconds since January 1 1970 UTC, indicating when this token will expire</li>
 	  <li><code>iat</code> - (optional) Integer timestamp, measured in the number of seconds since January 1 1970 UTC, indicating when this token was originally issued</li>
         </ul>
