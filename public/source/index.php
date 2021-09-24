@@ -752,6 +752,29 @@ Content-Type: application/json
 
 
     <section>
+      <h2>Accessing Protected Resources</h2>
+
+      <p>The client accesses protected resources by presenting the access token to the resource server.  The resource server MUST validate the access token and ensure that it has not expired and that its scope covers the requested resource.</p>
+
+     <section>
+     <h3>Error Responses</h3>
+
+     <p>When a request fails, the resource server responds using the appropriate HTTP status codes, and includes one of the following error codes in the response:</p>
+
+     <ul>
+       <li><code>"invalid_request"</code> - The request is not valid. The resource server SHOULD respond with HTTP 400</li>
+       <li><code>"invalid_token"</code> - The access token provided is expired, revoked, or invalid. The resource server SHOULD respond with HTTP 401</li>
+       <li><code>"insufficient_scope"</code> - The request requires higher privileges than provided. The resource server SHOULD respond with HTTP 403</li>
+     </ul>
+
+     <p>If the requests lacks any authentication information, the resource server SHOULD NOT include an error code or other information.</p>
+
+     </section>
+
+
+    </section>
+
+    <section>
       <h2>Security Considerations</h2>
 
       <p>In addition to the security considerations in OAuth 2.0 Core [[RFC6749]] and OAuth 2.0 Threat Model and Security Considerations [[RFC6819]], the additional considerations apply.</p>
