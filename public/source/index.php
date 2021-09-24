@@ -772,9 +772,12 @@ Content-Type: application/json
   Content-Type: application/json
 
   {
+  "active": "true",
   "me": "https://user.example.net/",
   "client_id": https://app.example.com/",
   "scope": "create update delete"
+  "exp": "1632443647",
+  "iat": "1632443147"
   }</pre>
 
         <p>Specific implementations MAY include additional parameters as top-level JSON properties. Clients SHOULD ignore parameters they don't recognize.</p>
