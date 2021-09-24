@@ -444,6 +444,7 @@ viewbox="0 0 1169 1010" style="width: 100%; height: auto;"
             <li><code>code_challenge_method</code> - The hashing method used to calculate the code challenge, e.g. "S256"</li>
             <li><code>scope</code> - (optional) A space-separated list of scopes the client is requesting, e.g. "profile", or "profile create". If the client omits this value, the authorization server MUST NOT issue an access token for this authorization code. Only the user's profile URL may be returned without any scope requested. See <a href="#profile-information">Profile Information</a> for details about which scopes to request to return user profile information.</li>
             <li><code>me</code> - (optional) The URL that the user entered</li>
+	    <li><code>resource</code> - (optional) Indicates the target service or resource to which access is being requested. Its value MUST be an absolute URI, which MUST be a locator that corresponds to a network-addressable location where the target resource is located. Multiple "resource" parameters MAY be used to indicate that the requested token is intended to be used at multiple resources. See <a href="#accessing-protected-resources">Accessing Protected Resources</a> for more information.</li>
           </ul>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
@@ -518,6 +519,7 @@ viewbox="0 0 1169 1010" style="width: 100%; height: auto;"
             <li><code>client_id</code> - The client's URL, which MUST match the client_id used in the authentication request.</li>
             <li><code>redirect_uri</code> - The client's redirect URL, which MUST match the initial authentication request.</li>
             <li><code>code_verifier</code> - The original plaintext random string generated before starting the authorization request.</li>
+	    <li><code>resource</code> - (optional) Indicates the target service or resource to which access is being requested.
           </ul>
 
           <b>Example request to authorization endpoint</b>
@@ -803,6 +805,18 @@ Content-Type: application/json
 
       <p>The client accesses protected resources by presenting the access token to the resource server.  The resource server MUST validate the access token and ensure that it has not expired and that its scope covers the requested resource.</p>
 
+     <section>
+     <h3>Resource Indicators</h3>
+
+     <p>In requests to the authorization server, a client MAY indicate the protected resource (a.k.a. resource server, application, API, etc.) to which it is requesting access by including a "resource" parameter in the request, as described in [[RFC8707]] <a href="https://datatracker.ietf.org/doc/html/rfc8707">Resource Indicators for OAuth 2.0</a>.</p> 
+
+     <p>The parameter value identifies a resource to which the client is requesting access. The client SHOULD provide the most specific URI that it can for the complete API or set of resources it intends to access. It differs from [[RRFC8707]] in that the parameter value MUST correspond to a network addressable location of the protect resource.  The authorization server SHOULD audience-restrict issued access tokens to the resource(s) indicated by the "resource" parameter.</p>
+     <p> If the client omits the "resource" parameter when requesting authorization, the authorization server MAY process the request with no specific resource or by using a predefined default resource value.</p>
+
+     <p>When the "resource" parameter is used on an access token request made to the token endpoint, for all grant types, it indicates the target service or protected resource where the client intends to use the requested access token.</p>
+
+     <p>If the authorization server fails to parse the provided value(s) or does not consider the resource(s) acceptable, it should reject the request with an error response using the error code "invalid_target". It can also be used to inform the client that it has requested an invalid combination of resource and scope.</p>
+     </section>
      <section>
      <h3>Error Responses</h3>
 
