@@ -389,7 +389,7 @@ Link: <https://example.org/token>; rel="token_endpoint"
 
           <p>The client first creates a code verifier for each authorization request by generating a random string using the characters <code>[A-Z] / [a-z] / [0-9] / - / . / _ / ~</code> with a minimum length of 43 characters and maximum length of 128 characters. This value is stored on the client and will be used in the authorization code exchange step later.</p>
 
-          <p>The client then creates the code challenge derived from the code verifier by calculating the SHA256 hash of the code verifier and Base64-URL-encoding the result.</p>
+          <p>The client then creates the code challenge derived from the code verifier by calculating the SHA256 hash of the code verifier and <a href="https://datatracker.ietf.org/doc/html/rfc7636#appendix-A">Base64-URL-encoding</a> the result.</p>
 
           <code>code_challenge = BASE64URL-ENCODE(SHA256(ASCII(code_verifier)))</code>
 
@@ -442,7 +442,7 @@ Link: <https://example.org/token>; rel="token_endpoint"
 
           <pre class="example nohighlight"><?= htmlspecialchars(
   'HTTP/1.1 302 Found
-  Location: https://app.example.com/redirect?code=xxxxxxxx
+  Location: https://app.example.com/redirect?code=xxxxxxxx&
                                              state=1234567890') ?></pre>
 
           <p>Upon the redirect back to the client, the client MUST verify that the state parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</p>
@@ -505,7 +505,7 @@ grant_type=authorization_code
         <section>
           <h4>Profile URL Response</h4>
 
-          <p>When the client receives an authorization code that was requested with either no scope or only profile scopes (<a href="#profile-information">defined below</a>), the client will exchange the authorization code at the <b>authorization endpoint</b>, and only the canonical user profile URL and possibly profile information is returned.</p>
+          <p>If the client only needs to know the user who logged in, the client will exchange the authorization code at the <b>authorization endpoint</b>, and only the canonical user profile URL and possibly profile information is returned.</p>
 
           <p>The authorization endpoint verifies that the authorization code is valid, has not yet been used, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>, and checks that the provided <code>code_verifier</code> hashes to the same value as given in the <code>code_challenge</code> in the original authorization request. If the request is valid, then the endpoint responds with a JSON [[!RFC7159]] object containing the property <code>me</code>, with the canonical user profile URL for the user who signed in, and optionally the property <code>profile</code> with the user's profile information as defined in <a href="#profile-information">Profile Information</a>.</p>
 
@@ -901,7 +901,15 @@ grant_type=refresh_token
       <h2>Change Log</h2>
 
       <section>
-        <h3>Changes from 26 September 2020 to this version</h3>
+        <h3>Changes from 26 November 2020 to this version</h3>
+        <ul>
+          <li>Fixed redirect URL example in Authorization Response</li>
+          <li>Clarifications around the use of the profile scope in profile response and token response</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Changes from 26 September 2020 to 26 November 2020</h3>
         <ul>
           <li>Remove same-domain requirement for entered and final profile URL by instead having the client <a href="#authorization-server-confirmation">confirm the authorization server</a></li>
           <li>Only the <code>me</code> value returned by the authorization server is a profile URL, do not refer to the user provided URL as such</li>
