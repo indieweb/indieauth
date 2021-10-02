@@ -744,12 +744,13 @@ Content-Type: application/json
         <li>The introspection response MUST include an additional parameter, <code>me</code>.</li>
       </ul>
 	<p>Note that the request to the endpoint will not contain any user-identifying information, so the resource server (e.g. Micropub endpoint) will need to know via out-of-band methods which token endpoint is in use.</p>
-	<p>The resource server SHOULD make a POST request to the token endpoint containing the Bearer token in the <code>token</code> parameter, which will generate a token verification response.</p>
+	<p>The resource server SHOULD make a POST request to the token endpoint containing the Bearer token in the <code>token</code> parameter, which will generate a token verification response. The endpoint MUST also require a HTTP Authorization header with a separate OAuth 2.0 access token to allow the call to this endpoint. If the token does not contain sufficient privileges or is otherwise invalid for the request, the authorization server MUST respond with an HTTP 401 code.</p>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
   'POST https://example.org/token
   Content-type: application/x-www-form-urlencoded
   Accept: application/json
+  Authorization: Bearer xxxxxxxx
 
   token=xxxxxxxx
   ') ?></pre>
@@ -761,7 +762,7 @@ Content-Type: application/json
 
         <ul>
 	  <li><code>active</code> - (required) Boolean indicator of whether or not the presented token is currently active
-          <li><code>me</code> - The profile URL of the user corresponding to this token</li>
+          <li><code>me</code> - (required) The profile URL of the user corresponding to this token</li>
           <li><code>client_id</code> - The client ID associated with this token</li>
           <li><code>scope</code> - A space-separated list of scopes associated with this token</li>
 	  <li><code>exp</code> - (optional) Integer timestamp, measured in the number of seconds since January 1 1970 UTC, indicating when this token will expire</li>
