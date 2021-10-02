@@ -784,6 +784,14 @@ Content-Type: application/json
         <p>Specific implementations MAY include additional parameters as top-level JSON properties. Clients SHOULD ignore parameters they don't recognize.</p>
 
         <p>If the token is not valid, the endpoint still MUST return a 200 Response, with the only parameter being active(with its value set to "false"). The response SHOULD NOT include any additional information about an inactive token, including why the token is inactive.</p>
+
+        <pre class="example nohighlight">HTTP/1.1 200 OK
+  Content-Type: application/json
+
+  {
+  "active": "false",
+  }</pre>
+
       </section>
     </section>
 
