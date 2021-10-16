@@ -811,7 +811,7 @@ Content-Type: application/json
      <p>In requests to the authorization server, a client MAY indicate the protected resource (a.k.a. resource server, application, API, etc.) to which it is requesting access by including a "resource" parameter in the request, as described in [[RFC8707]] <a href="https://datatracker.ietf.org/doc/html/rfc8707">Resource Indicators for OAuth 2.0</a>.</p> 
 
      <p>The parameter value identifies a resource to which the client is requesting access. The client SHOULD provide the most specific URI that it can for the complete API or set of resources it intends to access. It differs from [[RRFC8707]] in that the parameter value MUST correspond to a network addressable location of the protect resource.  The authorization server SHOULD audience-restrict issued access tokens to the resource(s) indicated by the "resource" parameter.</p>
-     <p> If the client omits the "resource" parameter when requesting authorization, the authorization server MAY process the request with no specific resource or by using a predefined default resource value.</p>
+     <p>If the client omits the "resource" parameter when requesting authorization, the authorization server MAY process the request with no specific resource or by using a predefined default resource value.</p>
 
      <p>When the "resource" parameter is used on an access token request made to the token endpoint, for all grant types, it indicates the target service or protected resource where the client intends to use the requested access token.</p>
 
