@@ -250,15 +250,47 @@
       <section>
         <h3>Discovery by Clients</h3>
 
-        <p>Clients need to discover a few pieces of information when a user signs in. The client needs to discover the user's <code>authorization_endpoint</code>, and optionally <code>token_endpoint</code> if the client needs an access token. When using the Authorization flow to obtain an access token for use at a [[?Micropub]] endpoint, the client will also discover the <code>micropub</code> endpoint.</p>
-
-        <p>Clients MUST start by making a GET or HEAD request to [[!Fetch]] the user provided URL to discover the necessary values. Clients MUST follow HTTP redirects (up to a self-imposed limit).</p>
+        <p>Clients need to discover a few pieces of information when a user signs in. The client needs to discover the user's <code>indieauth-metadata</code> endpoint. Clients MUST start by making a GET or HEAD request to [[!Fetch]] the user provided URL to discover the necessary values. Clients MUST follow HTTP redirects (up to a self-imposed limit). When using the Authorization flow to obtain an access token for use at another endpoint, such as a [[?Micropub]] endpoint, the client will also discover the <code>micropub</code> endpoint.</p>
 
         <p>Clients MUST check for an HTTP <code>Link</code> header [[!RFC8288]] with the appropriate <code>rel</code> value. If the content type of the document is HTML, then the client MUST check for an HTML <code>&lt;link&gt;</code> element with the appropriate <code>rel</code> value. If more than one of these is present, the first HTTP <code>Link</code> header takes precedence, followed by the first <code>&lt;link&gt;</code> element in document order.</p>
 
-        <p>The endpoints discovered MAY be relative URLs, in which case the client MUST resolve them relative to the current document URL according to [[!URL]].</p>
+        <p>The URL discovered MAY be relative URLs, in which case the client MUST resolve them relative to the current document URL according to [[!URL]].</p>
 
         <p>Clients MAY initially make an HTTP HEAD request [[!RFC7231]] to follow redirects and check for the <code>Link</code> header before making a GET request.</p>
+
+	<p>In the event there is no <code>indieauth-metadata</code> URL provided, for compatibility with previous revisions of IndieAuth, the client needs to discover the user's <code>authorization_endpoint</code>, and optionally <code>token_endpoint</code> if the client needs an access token.</p>
+
+         <section>
+            <h4>IndieAuth Server Metadata</h4>
+
+	    <p>IndieAuth metadata adopts OAuth 2.0 Authorization Server Metadata[RFC8414], with the notable difference that usage of .well-known is RECOMMENDED, for compatibility with other OAuth2.0 implementation, as per Defining Well-Known Uniform Resource Identifiers[RFC5875] but OPTIONAL as well as any differences outlined below.</p>
+
+            <p>The metadata endpoint returns information about the server:</p>
+
+            <ul>
+              <li><code>issuer</code> - The server's issuer identifier. The issuer identifier is a URL that uses the "https" scheme and has no query or fragment components. The identifier is the base URL of the authorization endpoint, e.g. for an authorization endpoint <code>https://example.com/auth</code>, <code>https://example.com/</code></li>
+              <li><code>authorization_endpoint</code> - The Authorization Endpoint</li>
+              <li><code>token_endpoint</code> - The Token Endpoint</li>
+	      <li><code>scopes_supported</code> (recommended) - JSON Array containing scope values supported. Servers MAY choose not to advertise some supported scope values even when this parameter is used.</li>
+	      <li><code>response_types_supported</code> (optional) - JSON Array containing the response_type values supported. This differs from [RFC8414] in that this parameter is OPTIONAL and that, if omitted, the default is <code>code</code></li>
+	      <li><code>grant_types_supported</code> (optional) - JSON Array containing grant type values supported. If omitted, the default value differs from [RFC8414] and is <code>authorization_code</code></li>
+	      <li><code>service_documentation</code> (optional) - URL of a page containing human-readable information for developers.
+	      <li><code>code_challenge_methods_supported</code> - JSON Array containing the methods supported for PKCE. This parameter differs from [RFC8414] in that it is not optional as PKCE is REQUIRED.</li>
+	      <li><code>authorization_response_iss_parameter_supported</code> (optional) - Boolean parameter indicating whether the authorization server provides the <code>iss</code> parameter. If omitted, the default value is false. As this parameter is REQUIRED, this is provided for compatibility with OAuth 2.0 servers implementing the parameter.</li>
+            </ul>
+
+        <pre class="example nohighlight">HTTP/1.1 200 OK
+  Content-Type: application/json
+
+  {
+  "issuer": "https://indieauth.example.com/",
+  "authorization_endpoint": "https://indieauth.example.com/auth",
+  "token_endpoint": "https://indieauth.example.com/token",
+  "code_challenge_methods_supported": ["S256"]
+  }</pre>
+
+         </section>
+
       </section>
 
       <section>
@@ -438,14 +470,22 @@ Link: <https://example.org/token>; rel="token_endpoint"
           <ul>
             <li><code>code</code> - The authorization code generated by the authorization endpoint. The code MUST expire shortly after it is issued to mitigate the risk of leaks, and MUST be valid for only one use. A maximum lifetime of 10 minutes is recommended. See <a href="https://tools.ietf.org/html/rfc6749#section-4.1.2">OAuth 2.0 Section 4.1.2</a> for additional requirements on the authorization code.</li>
             <li><code>state</code> - The state parameter MUST be set to the exact value that the client set in the request.</li>
+            <li><code>iss</code> - The issuer identifier for client validation.</li>
           </ul>
+
 
           <pre class="example nohighlight"><?= htmlspecialchars(
   'HTTP/1.1 302 Found
   Location: https://app.example.com/redirect?code=xxxxxxxx&
-                                             state=1234567890') ?></pre>
+                                             state=1234567890&
+					     iss=https%3A%2F%2Findieauth.example.com') ?></pre>
 
-          <p>Upon the redirect back to the client, the client MUST verify that the state parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</p>
+          <p>Upon the redirect back to the client, the client MUST verify:</p>
+	  
+	  <ul>
+	    <li>That the <code>state</code> parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</li>
+	    <li>That the <code>iss</code> parameter in the request is valid and matches the issuer parameter provided by the Server Metadata endpoint during Discovery as outlined in <a href="https://www.ietf.org/archive/id/draft-ietf-oauth-iss-auth-resp-02.html">OAuth 2.0 Authorization Server Issuer Identification]</a>. Clients MUST compare the parameters using simple string comparison. If the value does not match the expected issuer identifier, clients MUST reject the authorization response and MUST NOT proceed with the authorization grant. For error responses, clients MUST NOT assume that the error originates from the intended authorization server. </li>
+	  </ul>
 
           <p>See OAuth 2.0 [[!RFC6749]] <a href="https://tools.ietf.org/html/rfc6749#section-4.1.2.1">Section 4.1.2.1</a> for how to indicate errors and other failures to the user and client.</p>
         </section>
