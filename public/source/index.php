@@ -272,11 +272,11 @@
               <li><code>authorization_endpoint</code> - The Authorization Endpoint</li>
               <li><code>token_endpoint</code> - The Token Endpoint</li>
 	      <li><code>scopes_supported</code> (recommended) - JSON Array containing scope values supported. Servers MAY choose not to advertise some supported scope values even when this parameter is used.</li>
-	      <li><code>response_types_supported</code> (optional) - JSON Array containing the response_type values supported. This differs from [RFC8414] in that this parameter is OPTIONAL and that, if omitted, the default is <code>code</code></li>
-	      <li><code>grant_types_supported</code> (optional) - JSON Array containing grant type values supported. If omitted, the default value differs from [RFC8414] and is <code>authorization_code</code></li>
-	      <li><code>service_documentation</code> (optional) - URL of a page containing human-readable information for developers.
-	      <li><code>code_challenge_methods_supported</code> - JSON Array containing the methods supported for PKCE. This parameter differs from [RFC8414] in that it is not optional as PKCE is REQUIRED.</li>
-	      <li><code>authorization_response_iss_parameter_supported</code> (optional) - Boolean parameter indicating whether the authorization server provides the <code>iss</code> parameter. If omitted, the default value is false. As this parameter is REQUIRED, this is provided for compatibility with OAuth 2.0 servers implementing the parameter.</li>
+              <li><code>response_types_supported</code> (optional) - JSON Array containing the response_type values supported. This differs from [RFC8414] in that this parameter is OPTIONAL and that, if omitted, the default is <code>code</code></li>
+              <li><code>grant_types_supported</code> (optional) - JSON Array containing grant type values supported. If omitted, the default value differs from [RFC8414] and is <code>authorization_code</code></li>
+              <li><code>service_documentation</code> (optional) - URL of a page containing human-readable information that developers might need to know when using the server. This might be a link to the IndieAuth spec or something more personal to your implementation.
+              <li><code>code_challenge_methods_supported</code> - JSON Array containing the methods supported for PKCE. This parameter differs from [RFC8414] in that it is not optional as PKCE is REQUIRED.</li>
+              <li><code>authorization_response_iss_parameter_supported</code> (optional) - Boolean parameter indicating whether the authorization server provides the <code>iss</code> parameter. If omitted, the default value is false. As this parameter is REQUIRED, this is provided for compatibility with OAuth 2.0 servers implementing the parameter.</li>
             </ul>
 
         <pre class="example nohighlight">HTTP/1.1 200 OK
@@ -473,7 +473,6 @@ Link: <https://example.org/token>; rel="token_endpoint"
             <li><code>iss</code> - The issuer identifier for client validation.</li>
           </ul>
 
-
           <pre class="example nohighlight"><?= htmlspecialchars(
   'HTTP/1.1 302 Found
   Location: https://app.example.com/redirect?code=xxxxxxxx&
@@ -484,7 +483,7 @@ Link: <https://example.org/token>; rel="token_endpoint"
 	  
 	  <ul>
 	    <li>That the <code>state</code> parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</li>
-	    <li>That the <code>iss</code> parameter in the request is valid and matches the issuer parameter provided by the Server Metadata endpoint during Discovery as outlined in <a href="https://www.ietf.org/archive/id/draft-ietf-oauth-iss-auth-resp-02.html">OAuth 2.0 Authorization Server Issuer Identification]</a>. Clients MUST compare the parameters using simple string comparison. If the value does not match the expected issuer identifier, clients MUST reject the authorization response and MUST NOT proceed with the authorization grant. For error responses, clients MUST NOT assume that the error originates from the intended authorization server. </li>
+	    <li>That the <code>iss</code> parameter in the request is valid and matches the issuer parameter provided by the Server Metadata endpoint during Discovery as outlined in <a href="https://www.ietf.org/archive/id/draft-ietf-oauth-iss-auth-resp-02.html">OAuth 2.0 Authorization Server Issuer Identification</a>. Clients MUST compare the parameters using simple string comparison. If the value does not match the expected issuer identifier, clients MUST reject the authorization response and MUST NOT proceed with the authorization grant. For error responses, clients MUST NOT assume that the error originates from the intended authorization server. </li>
 	  </ul>
 
           <p>See OAuth 2.0 [[!RFC6749]] <a href="https://tools.ietf.org/html/rfc6749#section-4.1.2.1">Section 4.1.2.1</a> for how to indicate errors and other failures to the user and client.</p>
