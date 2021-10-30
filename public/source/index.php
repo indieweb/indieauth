@@ -254,24 +254,24 @@
 
         <p>Clients MUST check for an HTTP <code>Link</code> header [[!RFC8288]] with the appropriate <code>rel</code> value. If the content type of the document is HTML, then the client MUST check for an HTML <code>&lt;link&gt;</code> element with the appropriate <code>rel</code> value. If more than one of these is present, the first HTTP <code>Link</code> header takes precedence, followed by the first <code>&lt;link&gt;</code> element in document order.</p>
 
-        <p>The URL discovered MAY be relative URLs, in which case the client MUST resolve them relative to the current document URL according to [[!URL]].</p>
+        <p>The URLs discovered MAY be relative URLs, in which case the client MUST resolve them relative to the current document URL according to [[!URL]].</p>
 
         <p>Clients MAY initially make an HTTP HEAD request [[!RFC7231]] to follow redirects and check for the <code>Link</code> header before making a GET request.</p>
 
-	<p>In the event there is no <code>indieauth-metadata</code> URL provided, for compatibility with previous revisions of IndieAuth, the client needs to discover the user's <code>authorization_endpoint</code>, and optionally <code>token_endpoint</code> if the client needs an access token.</p>
+        <p>In the event there is no <code>indieauth-metadata</code> URL provided, for compatibility with previous revisions of IndieAuth, the client needs to discover the user's <code>authorization_endpoint</code>, and optionally <code>token_endpoint</code> if the client needs an access token.</p>
 
          <section>
             <h4>IndieAuth Server Metadata</h4>
 
-	    <p>IndieAuth metadata adopts OAuth 2.0 Authorization Server Metadata[RFC8414], with the notable difference that usage of .well-known is RECOMMENDED, for compatibility with other OAuth2.0 implementation, as per Defining Well-Known Uniform Resource Identifiers[RFC5875] but OPTIONAL as well as any differences outlined below.</p>
+            <p>IndieAuth metadata adopts OAuth 2.0 Authorization Server Metadata[RFC8414], with the notable difference that usage of .well-known is RECOMMENDED, for compatibility with other OAuth2.0 implementation, as per Defining Well-Known Uniform Resource Identifiers[RFC5875] but OPTIONAL as well as any differences outlined below.</p>
 
             <p>The metadata endpoint returns information about the server:</p>
 
             <ul>
-              <li><code>issuer</code> - The server's issuer identifier. The issuer identifier is a URL that uses the "https" scheme and has no query or fragment components. The identifier is the base URL of the authorization endpoint, e.g. for an authorization endpoint <code>https://example.com/auth</code>, <code>https://example.com/</code></li>
+              <li><code>issuer</code> - The server's issuer identifier. The issuer identifier is a URL that uses the "https" scheme and has no query or fragment components. The identifier is the base URL of the authorization endpoint, e.g. for an authorization endpoint <code>https://example.com/auth</code>, the issuer URL would be<code>https://example.com/</code>, or for an authorization endpoint of <code>https://example.com/wp-json/indieauth/1.0/token</code>, the issuer URL would be <code>https://example.com/wp-json/indieauth/1.0</code></li>
               <li><code>authorization_endpoint</code> - The Authorization Endpoint</li>
               <li><code>token_endpoint</code> - The Token Endpoint</li>
-	      <li><code>scopes_supported</code> (recommended) - JSON Array containing scope values supported. Servers MAY choose not to advertise some supported scope values even when this parameter is used.</li>
+              <li><code>scopes_supported</code> (recommended) - JSON Array containing scope values supported. Servers MAY choose not to advertise some supported scope values even when this parameter is used.</li>
               <li><code>response_types_supported</code> (optional) - JSON Array containing the response_type values supported. This differs from [RFC8414] in that this parameter is OPTIONAL and that, if omitted, the default is <code>code</code></li>
               <li><code>grant_types_supported</code> (optional) - JSON Array containing grant type values supported. If omitted, the default value differs from [RFC8414] and is <code>authorization_code</code></li>
               <li><code>service_documentation</code> (optional) - URL of a page containing human-readable information that developers might need to know when using the server. This might be a link to the IndieAuth spec or something more personal to your implementation.
