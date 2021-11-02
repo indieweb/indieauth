@@ -263,12 +263,12 @@
          <section>
             <h4>IndieAuth Server Metadata</h4>
 
-            <p>IndieAuth metadata adopts OAuth 2.0 Authorization Server Metadata[RFC8414], with the notable difference that discovery of the URL happens via the IndieAuth link relations rather than the <code>.well-known discovery</code> method specified by RFC8414. For compatibility with other OAuth2.0 implementation, use of the <code>.well-known</code> path as defined in RFC5875 is RECOMMENDED but optional.</p>
+            <p>IndieAuth metadata adopts OAuth 2.0 Authorization Server Metadata[RFC8414], with the notable difference that discovery of the URL happens via the IndieAuth link relation rather than the <code>.well-known discovery</code> method specified by RFC8414. For compatibility with other OAuth 2.0 implementations, use of the <code>.well-known</code> path as defined in RFC5875 is RECOMMENDED but optional.</p>
 
             <p>The metadata endpoint returns information about the server:</p>
 
             <ul>
-              <li><code>issuer</code> - The server's issuer identifier. The issuer identifier is a URL that uses the "https" scheme and has no query or fragment components. The identifier MUST be a prefix of the authorization endpoint, e.g. for an authorization endpoint <code>https://example.com/auth</code>, the issuer URL would be<code>https://example.com/</code>, or for an authorization endpoint of <code>https://example.com/wp-json/indieauth/1.0/token</code>, the issuer URL would be <code>https://example.com/wp-json/indieauth/1.0</code></li>
+              <li><code>issuer</code> - The server's issuer identifier. The issuer identifier is a URL that uses the "https" scheme and has no query or fragment components. The identifier MUST be a prefix of the authorization endpoint, e.g. for an authorization endpoint <code>https://example.com/auth</code>, the issuer URL could be <code>https://example.com/</code>, or for an authorization endpoint of <code>https://example.com/wp-json/indieauth/1.0/token</code>, the issuer URL could be <code>https://example.com/wp-json/indieauth/1.0</code></li>
               <li><code>authorization_endpoint</code> - The Authorization Endpoint</li>
               <li><code>token_endpoint</code> - The Token Endpoint</li>
               <li><code>scopes_supported</code> (recommended) - JSON Array containing scope values supported. Servers MAY choose not to advertise some supported scope values even when this parameter is used.</li>
