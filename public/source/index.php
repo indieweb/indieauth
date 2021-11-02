@@ -268,7 +268,7 @@
             <p>The metadata endpoint returns information about the server:</p>
 
             <ul>
-              <li><code>issuer</code> - The server's issuer identifier. The issuer identifier is a URL that uses the "https" scheme and has no query or fragment components. The identifier MUST be a prefix of the authorization endpoint, e.g. for an authorization endpoint <code>https://example.com/auth</code>, the issuer URL could be <code>https://example.com/</code>, or for an authorization endpoint of <code>https://example.com/wp-json/indieauth/1.0/token</code>, the issuer URL could be <code>https://example.com/wp-json/indieauth/1.0</code></li>
+              <li><code>issuer</code> - The server's issuer identifier. The issuer identifier is a URL that uses the "https" scheme and has no query or fragment components. The identifier MUST be a prefix of the <code>indieauth-metadata</code> endpoint, e.g. for an <code>indieauth-metadata</code> endpoint <code>https://example.com/.well-known</code>, the issuer URL could be <code>https://example.com/</code>, or for an authorization endpoint of <code>https://example.com/wp-json/indieauth/1.0/metadata</code>, the issuer URL could be <code>https://example.com/wp-json/indieauth/1.0</code></li>
               <li><code>authorization_endpoint</code> - The Authorization Endpoint</li>
               <li><code>token_endpoint</code> - The Token Endpoint</li>
               <li><code>scopes_supported</code> (recommended) - JSON Array containing scope values supported. Servers MAY choose not to advertise some supported scope values even when this parameter is used.</li>
