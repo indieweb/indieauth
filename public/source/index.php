@@ -268,14 +268,14 @@
             <p>The metadata endpoint returns information about the server as a JSON object with the following properties:</p>
 
             <ul>
-              <li><code>issuer</code> - The server's issuer identifier. The issuer identifier is a URL that uses the "https" scheme and has no query or fragment components. The identifier MUST be a prefix of the <code>indieauth-metadata</code> endpoint, e.g. for an <code>indieauth-metadata</code> endpoint <code>https://example.com/.well-known</code>, the issuer URL could be <code>https://example.com/</code>, or for an authorization endpoint of <code>https://example.com/wp-json/indieauth/1.0/metadata</code>, the issuer URL could be <code>https://example.com/wp-json/indieauth/1.0</code></li>
+              <li><code>issuer</code> - The server's issuer identifier. The issuer identifier is a URL that uses the "https" scheme and has no query or fragment components. The identifier MUST be a prefix of the <code>indieauth-metadata</code> URL. e.g. for an <code>indieauth-metadata</code> endpoint <code>https://example.com/.well-known/oauth-authorization-server</code>, the issuer URL could be <code>https://example.com/</code>, or for a metadata URL of <code>https://example.com/wp-json/indieauth/1.0/metadata</code>, the issuer URL could be <code>https://example.com/wp-json/indieauth/1.0</code></li>
               <li><code>authorization_endpoint</code> - The Authorization Endpoint</li>
               <li><code>token_endpoint</code> - The Token Endpoint</li>
               <li><code>scopes_supported</code> (recommended) - JSON array containing scope values supported by the IndieAuth server. Servers MAY choose not to advertise some supported scope values even when this parameter is used.</li>
               <li><code>response_types_supported</code> (optional) - JSON array containing the response_type values supported. This differs from [RFC8414] in that this parameter is OPTIONAL and that, if omitted, the default is <code>code</code></li>
               <li><code>grant_types_supported</code> (optional) - JSON array containing grant type values supported. If omitted, the default value differs from [RFC8414] and is <code>authorization_code</code></li>
               <li><code>service_documentation</code> (optional) - URL of a page containing human-readable information that developers might need to know when using the server. This might be a link to the IndieAuth spec or something more personal to your implementation.
-              <li><code>code_challenge_methods_supported</code> - JSON Array containing the methods supported for PKCE. This parameter differs from [RFC8414] in that it is not optional as PKCE is REQUIRED.</li>
+              <li><code>code_challenge_methods_supported</code> - JSON array containing the methods supported for PKCE. This parameter differs from [RFC8414] in that it is not optional as PKCE is REQUIRED.</li>
               <li><code>authorization_response_iss_parameter_supported</code> (optional) - Boolean parameter indicating whether the authorization server provides the <code>iss</code> parameter. If omitted, the default value is false. As the <code>iss</code> parameter is REQUIRED, this is provided for compatibility with OAuth 2.0 servers implementing the parameter.</li>
             </ul>
 
@@ -400,14 +400,22 @@ viewbox="0 0 1169 1010" style="width: 100%; height: auto;"
       <section>
         <h3>Discovery</h3>
 
-        <p>After obtaining a URL from the End-User, and optionally applying <a href="url-canonicalization">URL Canonicalization</a> to it, the client fetches the URL and looks for the <code>authorization_endpoint</code> and <code>token_endpoint</code> rel values in the HTTP <code>Link</code> headers and HTML <code>&lt;link&gt;</code> tags as described in <a href="#discovery-by-clients"></a>.</p>
+        <p>After obtaining a URL from the End-User, and optionally applying <a href="url-canonicalization">URL Canonicalization</a> to it, the client fetches the URL and looks for the <code>indieauth-metadata</code> rel values in the HTTP <code>Link</code> headers and HTML <code>&lt;link&gt;</code> tags as described in <a href="#discovery-by-clients"></a>.</p>
 
         <pre class="example nohighlight"><?= htmlspecialchars(
-'Link: <https://example.org/auth>; rel="authorization_endpoint"
-Link: <https://example.org/token>; rel="token_endpoint"
+'Link: <https://example.org/.well-known/oauth-authorization-server>; rel="indieauth-metadata"
 
-<link rel="authorization_endpoint" href="https://example.org/auth">
-<link rel="token_endpoint" href="https://example.org/token">') ?></pre>
+<link rel="indieauth-metadata" href="https://example.org/.well-known/oauth-authorization-server">') ?></pre>
+
+        <p>The client fetches the metadata document and finds the <code>authorization_endpoint</code> and <code>token_endpoint</code> in the JSON body.</p>
+
+        <pre class="example nohighlight">{
+  "issuer": "https://indieauth.example.com/",
+  "authorization_endpoint": "https://indieauth.example.com/auth",
+  "token_endpoint": "https://indieauth.example.com/token",
+  "code_challenge_methods_supported": ["S256"]
+}</pre>
+
       </section>
 
       <section>
