@@ -403,9 +403,9 @@ viewbox="0 0 1169 1010" style="width: 100%; height: auto;"
         <p>After obtaining a URL from the End-User, and optionally applying <a href="url-canonicalization">URL Canonicalization</a> to it, the client fetches the URL and looks for the <code>indieauth-metadata</code> rel values in the HTTP <code>Link</code> headers and HTML <code>&lt;link&gt;</code> tags as described in <a href="#discovery-by-clients"></a>.</p>
 
         <pre class="example nohighlight"><?= htmlspecialchars(
-'Link: <https://example.org/.well-known/oauth-authorization-server>; rel="indieauth-metadata"
+'Link: <https://indieauth.example.com/.well-known/oauth-authorization-server>; rel="indieauth-metadata"
 
-<link rel="indieauth-metadata" href="https://example.org/.well-known/oauth-authorization-server">') ?></pre>
+<link rel="indieauth-metadata" href="https://indieauth.example.com/.well-known/oauth-authorization-server">') ?></pre>
 
         <p>The client fetches the metadata document and finds the <code>authorization_endpoint</code> and <code>token_endpoint</code> in the JSON body.</p>
 
