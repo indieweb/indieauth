@@ -250,44 +250,44 @@
       <section>
         <h3>Discovery by Clients</h3>
 
-        <p>Clients need to discover a few pieces of information when a user signs in. The client needs to discover the user's <code>indieauth-metadata</code> endpoint. Clients MUST start by making a GET or HEAD request to [[!Fetch]] the user provided URL to discover the necessary values. Clients MUST follow HTTP redirects (up to a self-imposed limit). When using the Authorization flow to obtain an access token for use at another endpoint, such as a [[?Micropub]] endpoint, the client will also discover the <code>micropub</code> endpoint.</p>
+        <p>Clients need to discover a few pieces of information when a user signs in. The client needs to discover the user's <code>indieauth-metadata</code> endpoint, which provides the location of the IndieAuth server's authorization endpoint and token endpoint, as well as other relevant information for the client. Clients MUST start by making a GET or HEAD request to [[!Fetch]] the user provided URL to discover the necessary values. Clients MUST follow HTTP redirects (up to a self-imposed limit). When using the Authorization flow to obtain an access token for use at another endpoint, such as a [[?Micropub]] endpoint, the client will also discover the <code>micropub</code> endpoint.</p>
 
-        <p>Clients MUST check for an HTTP <code>Link</code> header [[!RFC8288]] with the appropriate <code>rel</code> value. If the content type of the document is HTML, then the client MUST check for an HTML <code>&lt;link&gt;</code> element with the appropriate <code>rel</code> value. If more than one of these is present, the first HTTP <code>Link</code> header takes precedence, followed by the first <code>&lt;link&gt;</code> element in document order.</p>
+        <p>Clients MUST check for an HTTP <code>Link</code> header [[!RFC8288]] with a <code>rel</code> value of <code>indieauth-metadata</code>. If the content type of the document is HTML, then the client MUST check for an HTML <code>&lt;link&gt;</code> element with a <code>rel</code> value of <code>indieauth-metadata</code>. If more than one of these is present, the first HTTP <code>Link</code> header takes precedence, followed by the first <code>&lt;link&gt;</code> element in document order.</p>
 
         <p>The URLs discovered MAY be relative URLs, in which case the client MUST resolve them relative to the current document URL according to [[!URL]].</p>
 
         <p>Clients MAY initially make an HTTP HEAD request [[!RFC7231]] to follow redirects and check for the <code>Link</code> header before making a GET request.</p>
 
-        <p>In the event there is no <code>indieauth-metadata</code> URL provided, for compatibility with previous revisions of IndieAuth, the client needs to discover the user's <code>authorization_endpoint</code>, and optionally <code>token_endpoint</code> if the client needs an access token.</p>
+        <p>In the event there is no <code>indieauth-metadata</code> URL provided, for compatibility with previous revisions of IndieAuth, the client SHOULD look for an HTTP <code>Link</code> header and HTML <code>&lt;link&gt;</code> element with a <code>rel</code> value of <code>authorization_endpoint</code> (and optionally <code>token_endpoint</code>) following the same order of predence as described above.</p>
 
          <section>
             <h4>IndieAuth Server Metadata</h4>
 
-            <p>IndieAuth metadata adopts OAuth 2.0 Authorization Server Metadata[RFC8414], with the notable difference that discovery of the URL happens via the IndieAuth link relation rather than the <code>.well-known discovery</code> method specified by RFC8414. For compatibility with other OAuth 2.0 implementations, use of the <code>.well-known</code> path as defined in RFC5875 is RECOMMENDED but optional.</p>
+            <p>IndieAuth metadata adopts OAuth 2.0 Authorization Server Metadata [[RFC8414]], with the notable difference that discovery of the URL happens via the IndieAuth link relation rather than the <code>.well-known discovery</code> method specified by RFC8414. For compatibility with other OAuth 2.0 implementations, use of the <code>.well-known</code> path as defined in RFC8414 is RECOMMENDED but optional.</p>
 
-            <p>The metadata endpoint returns information about the server:</p>
+            <p>The metadata endpoint returns information about the server as a JSON object with the following properties:</p>
 
             <ul>
               <li><code>issuer</code> - The server's issuer identifier. The issuer identifier is a URL that uses the "https" scheme and has no query or fragment components. The identifier MUST be a prefix of the <code>indieauth-metadata</code> endpoint, e.g. for an <code>indieauth-metadata</code> endpoint <code>https://example.com/.well-known</code>, the issuer URL could be <code>https://example.com/</code>, or for an authorization endpoint of <code>https://example.com/wp-json/indieauth/1.0/metadata</code>, the issuer URL could be <code>https://example.com/wp-json/indieauth/1.0</code></li>
               <li><code>authorization_endpoint</code> - The Authorization Endpoint</li>
               <li><code>token_endpoint</code> - The Token Endpoint</li>
-              <li><code>scopes_supported</code> (recommended) - JSON Array containing scope values supported. Servers MAY choose not to advertise some supported scope values even when this parameter is used.</li>
-              <li><code>response_types_supported</code> (optional) - JSON Array containing the response_type values supported. This differs from [RFC8414] in that this parameter is OPTIONAL and that, if omitted, the default is <code>code</code></li>
-              <li><code>grant_types_supported</code> (optional) - JSON Array containing grant type values supported. If omitted, the default value differs from [RFC8414] and is <code>authorization_code</code></li>
+              <li><code>scopes_supported</code> (recommended) - JSON array containing scope values supported by the IndieAuth server. Servers MAY choose not to advertise some supported scope values even when this parameter is used.</li>
+              <li><code>response_types_supported</code> (optional) - JSON array containing the response_type values supported. This differs from [RFC8414] in that this parameter is OPTIONAL and that, if omitted, the default is <code>code</code></li>
+              <li><code>grant_types_supported</code> (optional) - JSON array containing grant type values supported. If omitted, the default value differs from [RFC8414] and is <code>authorization_code</code></li>
               <li><code>service_documentation</code> (optional) - URL of a page containing human-readable information that developers might need to know when using the server. This might be a link to the IndieAuth spec or something more personal to your implementation.
               <li><code>code_challenge_methods_supported</code> - JSON Array containing the methods supported for PKCE. This parameter differs from [RFC8414] in that it is not optional as PKCE is REQUIRED.</li>
-              <li><code>authorization_response_iss_parameter_supported</code> (optional) - Boolean parameter indicating whether the authorization server provides the <code>iss</code> parameter. If omitted, the default value is false. As this parameter is REQUIRED, this is provided for compatibility with OAuth 2.0 servers implementing the parameter.</li>
+              <li><code>authorization_response_iss_parameter_supported</code> (optional) - Boolean parameter indicating whether the authorization server provides the <code>iss</code> parameter. If omitted, the default value is false. As the <code>iss</code> parameter is REQUIRED, this is provided for compatibility with OAuth 2.0 servers implementing the parameter.</li>
             </ul>
 
         <pre class="example nohighlight">HTTP/1.1 200 OK
-  Content-Type: application/json
+Content-Type: application/json
 
-  {
+{
   "issuer": "https://indieauth.example.com/",
   "authorization_endpoint": "https://indieauth.example.com/auth",
   "token_endpoint": "https://indieauth.example.com/token",
   "code_challenge_methods_supported": ["S256"]
-  }</pre>
+}</pre>
 
          </section>
 
@@ -361,32 +361,32 @@ Link: <https://app.example.com/redirect>; rel="redirect_uri"
 ---
 title IndieAuth Flow Diagram
 
-title IndieAuth Flow Diagram
-
 Browser->Client: User enters a URL, and the\nclient canonicalizes the URL
-Client->User URL: Client fetches URL to discover\n**rel=authorization_endpoint**\nand **rel=token_endpoint**
+Client->User URL: Client fetches URL to discover\n**rel=indieauth-metadata**
+Client->Metadata URL: Client fetches metadata URL to find\n**authorization_endpoint**\nand **token_endpoint**
 Browser<--Client: Client builds authorization request and\nredirects to **authorization_endpoint**
 Browser->Authorization Endpoint: User visits their authorization endpoint and sees the authorization request
 Authorization Endpoint->Client: Authorization endpoint fetches client information (name, icon)
-Browser<--Authorization Endpoint: User authenticates, and approves the request.\nAuthorization endpoint issues code, builds redirect back to client.
+Browser<--Authorization Endpoint: User authenticates, and approves the request. Authorization\nendpoint issues authorization code, builds redirect back to client.
 Browser->Client: User's browser is redirected to\nclient with an **authorization code**
 Client->Token Endpoint: Client exchanges authorization code for an \naccess token by making a POST request\nto the token_endpoint
 Client<--Token Endpoint: Token endpoint verifies code and returns\ncanonical user profile URL with an access token
-Client->User URL: Client confirms the user's profile URL\ndeclares the same authorization server
+Client->User URL: Client fetches the user URL\nif it differs from the original,\nand confirms the it declares\nthe same authorization server
 Browser<--Client: Client initiates login session\nand the user is logged in
 ---
 
-https://sequencediagram.org/index.html#initialData=C4S2BsFMAIEkDsAmJIEECuwAW0Bi4B7Ad2gBEQBDAcwCcKBbAKEYCEbiBnSGgWgD4AwuBTxgALmgBVLjWiRR3DtApSASgBkANMqTRskADrwAxsPnBoxivALwQV4QC9IS-WvWMhI4P2nd3El7m0ABmkMDGWC7uegTQyBzGBABu3EYAVOk0kOAAvBSYWAQ0II4UoLYA+vKIAA4EIKKZRtaI0JnZecAEANby1Uj1jcCZrOxEMgA8PDxBooFmotAARugg4IhKBdjFpeUgttDZAI7oLhatRtnI2cbArnGZ20UlZRXwA3UNTeljnNz8DA7V77Q4AUUG33EUhk0GSIA4YFcURAsmeuzeB3gckhwx0bS40Tc6JB7yOkFO50YQJeezJEK+w34c2hNIxoOxNSGSzCESiSlM3mgjRCxXoHOgAAp4AxINp7LYAJR-CbcaY8NmkrHQBnc6F+NGFcz2coubStZS1WrsVLImAnM4cYAAOiMmrp2q5UOFHA4jssBEQcpWaw2SmuqMgdxWFGMPVilkWLpVMmZSYkBoA5EpluNYQjyTco8BIG1ukZBcEiGAcNZ2ukSR7Dkkg6MWfwACq9eQ63HzaAsuQAD0i1io0UbmObgZgorR2JaxmMLgefWxywAntBxT1GlRlNAAAoAeQAyh3yZSnUZunoorE1589Z4k+qu2ve4z+++e168akShCFABRnfFyWAdAaHgDgK2sWwTXAaB0Fha0CCAqAYmrbAdGUJcVwfeQX28XxYUkDQFiFJJ4CAmh6DtJCZGzaBUPQmAyPUIwg1MChsnojhZWUQp2TJGQAJTNUZhZCjgkaMBKBLJRCCoRpoC4X0sRaXQ3GQ-wCyU8c2kaIA
+https://sequencediagram.org/index.html#initialData=C4S2BsFMAIEkDsAmJIEECuwAW0Bi4B7Ad2gBEQBDAcwCcKBbAKEYCEbiBnSGgWgD4AwuBTxgALmgBVLjWiRR3DtApSASgBkANMqTRskADrwAxsPnBoxivALwQV4QC9IS-WvWMhI4P2nd3El7m0ABmkMDGWC7uegTQyBzGBABu3EYAVOk0kOAAvCBIKBSYWDz04RSIFMAUmZ5movwAshVVNQHQQaKh4ZHR5TVtKpIasaEFiBnpxdgENCCO1SC2APryiAAOBAXAmUbWiNCZwAQA1vJrSFs7dWyc3AA8PDxd4p0NFgBG6CDgiEozLBzBZLWzQbIAR3QLgsByM2WQ2WMwFccUygOBi1Aq3W11Et3YRBk-Aws3mWOW8GgAFErttRBI-LJkiAOGBXFEQLIMeTQVTcfTYbouNE3DyQdiqZDoRxgIxSUDeZKaXSdvxXhIFZi+XJVd0whEokpTN5oAUQnN6DqABTwBiQbT2WwASlYhJkTx4WqVlJVm0FjJkyhK5ns1Rc2gOyg2G3YqQ5MGlMIAdNBvRLKUYBTszRwODLg2SM2CkogHdBvr9-uDIIjIMiKxRjKcxibzMm3fdeIIPoHuAByJSfd3+Vk1uvI2uxIxt7pEMA4axHaYlbXK0uQOqvfgAFTO8j9eLerzkAA9ItYqNFxRSSwQy6E5jpoPtjMYXKjzlTPgBPaBW04CioZRoAABQAeQAZR3GsoRhIwTj0KJYi-S5-R2epvE9Pcv0PANoBwg9s26VJ5hCFBjXvGAo2yYB0BoeAOBnaxbDDcBoHQINYwIcioBiedsGfJt3zzFD5Ew8xfCDEZ1ECD4ekNUVkM4-wZKMEAQjNCxkBCMIaCUEJ2HoJCYGBKgCgocBNH2XQkngciaHoBMtPietwAobImNEZCOHtQtFWLKkZFIzsiUeZ4NXeU0CjAShgGiQhzKCj9MztXQ3BU2Qx0Sq9DgKIA
 
 Note: Set a viewbox matching "0 0 width height" and have the image scale, e.g.
-viewbox="0 0 1163 721" style="width: 100%; height: auto;"
+viewbox="0 0 1169 1010" style="width: 100%; height: auto;"
 */ ?>
 
       <?= file_get_contents('authorization-flow-diagram.svg') ?>
 
       <ul>
         <li>The End-User enters a URL in the login form of the client and clicks "Sign in". The client canonicalizes the URL.</li>
-        <li>The client discovers the End-User's authorization endpoint and token endpoint by fetching the provided URL and looking for the <code>rel=authorization_endpoint</code> and <code>rel=token_endpoint</code> values</li>
+        <li>The client discovers the End-User's IndieAuth server metadata endpoint by fetching the provided URL and looking for the <code>rel=indieauth-metadata</code> value</li>
+        <li>The client discovers the server's authorization endpoint and token endpoint by fetching the metadata URL and looking for the <code>authorization_endpoint</code> and <code>token_endpoint</code> values</li>
         <li>The client builds the authorization request including its client identifier, requested scope, local state, and a redirect URI, and redirects the browser to the authorization endpoint</li>
         <li>The authorization endpoint fetches the client information from the client identifier URL in order to have an application name and icon to display to the user</li>
         <li>The authorization endpoint verifies the End-User, e.g. by logging in, and establishes whether the End-User grants or denies the client's request</li>
@@ -837,21 +837,10 @@ Content-Type: application/json
 
       <dl>
         <dt>Relation Name:</dt>
-        <dd>authorization_endpoint</dd>
+        <dd>indieauth-metadata</dd>
 
         <dt>Description:</dt>
-        <dd>Used for discovery of the OAuth 2.0 authorization endpoint given an IndieAuth profile URL.</dd>
-
-        <dt>Reference:</dt>
-        <dd><a href="https://indieauth.spec.indieweb.org/">IndieAuth Specification (https://indieauth.spec.indieweb.org/)</a></dd>
-      </dl>
-
-      <dl>
-        <dt>Relation Name:</dt>
-        <dd>token_endpoint</dd>
-
-        <dt>Description:</dt>
-        <dd>Used for discovery of the OAuth 2.0 token endpoint given an IndieAuth profile URL.</dd>
+        <dd>Used for discovery of the OAuth 2.0 metadata document given an IndieAuth profile URL.</dd>
 
         <dt>Reference:</dt>
         <dd><a href="https://indieauth.spec.indieweb.org/">IndieAuth Specification (https://indieauth.spec.indieweb.org/)</a></dd>
@@ -862,7 +851,7 @@ Content-Type: application/json
         <dd>redirect_uri</dd>
 
         <dt>Description:</dt>
-        <dd>Used for discovery of the OAuth 2.0 redirect URI given an IndieAuth client ID.</dd>
+        <dd>Used for an authorization server to discover the OAuth 2.0 redirect URI for a client given the client's IndieAuth client ID.</dd>
 
         <dt>Reference:</dt>
         <dd><a href="https://indieauth.spec.indieweb.org/">IndieAuth Specification (https://indieauth.spec.indieweb.org/)</a></dd>
@@ -873,7 +862,7 @@ Content-Type: application/json
     <section class="appendix informative">
       <h2>Extensions</h2>
 
-      <p>The following Webmention Extension Specifications have 2+ interoperable implementations live on the web and are thus listed here:</p>
+      <p>The following IndieAuth Extension Specifications have 2+ interoperable implementations live on the web and are thus listed here:</p>
 
     </section>
   -->
@@ -908,8 +897,8 @@ Content-Type: application/json
       <h2>Acknowledgements</h2>
 
       <p>The editor wishes to thank the <a href="https://indieweb.org/">IndieWeb</a>
-        community and other implementers for their support, encouragement and enthusiasm,
-        including but not limited to: Amy Guy, Barnaby Walters, Benjamin Roberts, Bret Comnes, Christian Weiske, Dmitri Shuralyov, François Kooman, Jeena Paradies, Martijn van der Ven, Sebastiaan Andeweg, Sven Knebel, and Tantek Çelik.</p>
+        community and other implementers for their contributions, support, encouragement and enthusiasm,
+        including but not limited to: Angelo Gladding, Amy Guy, Barnaby Walters, Benjamin Roberts, Bret Comnes, Christian Weiske, David Shanske, David Somers, Dmitri Shuralyov, Fluffy, François Kooman, Jamie Tanna, Jeena Paradies, Manton Reece, Martijn van der Ven, Sebastiaan Andeweg, Sven Knebel, and Tantek Çelik.</p>
     </section>
 
     <section class="appendix informative">
@@ -918,6 +907,7 @@ Content-Type: application/json
       <section>
         <h3>Changes from 26 November 2020 to this version</h3>
         <ul>
+          <li>IndieAuth servers now use OAuth Server Metadata to publish their endpoints, and user profile URLs should link to the metadata document instead of the individual authorization endpoint and token endpoint</li>
           <li>Fixed redirect URL example in Authorization Response</li>
           <li>Clarifications around the use of the profile scope in profile response and token response</li>
         </ul>
