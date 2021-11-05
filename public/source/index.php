@@ -271,6 +271,8 @@
               <li><code>issuer</code> - The server's issuer identifier. The issuer identifier is a URL that uses the "https" scheme and has no query or fragment components. The identifier MUST be a prefix of the <code>indieauth-metadata</code> URL. e.g. for an <code>indieauth-metadata</code> endpoint <code>https://example.com/.well-known/oauth-authorization-server</code>, the issuer URL could be <code>https://example.com/</code>, or for a metadata URL of <code>https://example.com/wp-json/indieauth/1.0/metadata</code>, the issuer URL could be <code>https://example.com/wp-json/indieauth/1.0</code></li>
               <li><code>authorization_endpoint</code> - The Authorization Endpoint</li>
               <li><code>token_endpoint</code> - The Token Endpoint</li>
+	      <li><code>introspection_endpoint</code> - The Introspection Endpoint</li>
+	      <li><code>introspection_endpoint_auth_methods_supported</code> (optional) - SON array containing a list of client authentication methods supported by this introspection endpoint.
               <li><code>scopes_supported</code> (recommended) - JSON array containing scope values supported by the IndieAuth server. Servers MAY choose not to advertise some supported scope values even when this parameter is used.</li>
               <li><code>response_types_supported</code> (optional) - JSON array containing the response_type values supported. This differs from [RFC8414] in that this parameter is OPTIONAL and that, if omitted, the default is <code>code</code></li>
               <li><code>grant_types_supported</code> (optional) - JSON array containing grant type values supported. If omitted, the default value differs from [RFC8414] and is <code>authorization_code</code></li>
@@ -738,13 +740,10 @@ Content-Type: application/json
       <section>
         <h4>Access Token Verification Request</h4>
 
-        <p>If a resource server needs to verify that an access token is valid, it may do so using Token Introspection. IndieAuth extends OAuth 2.0 Token Introspection [[!RFC7662]] by defining the following:</p>
-      <ul>
-        <li>The introspection endpoint is the same as the token endpoint.</li>
-        <li>The introspection response MUST include an additional parameter, <code>me</code>.</li>
+        <p>If a resource server needs to verify that an access token is valid, it may do so using Token Introspection. IndieAuth extends OAuth 2.0 Token Introspection [[!RFC7662]] by adding that the  introspection response MUST include an additional parameter, <code>me</code>.</li>
       </ul>
 	<p>Note that the request to the endpoint will not contain any user-identifying information, so the resource server (e.g. Micropub endpoint) will need to know via out-of-band methods which token endpoint is in use.</p>
-	<p>The resource server SHOULD make a POST request to the token endpoint containing the Bearer token in the <code>token</code> parameter, which will generate a token verification response. The endpoint MUST also require a HTTP Authorization header with a separate OAuth 2.0 access token to allow the call to this endpoint. If the token does not contain sufficient privileges or is otherwise invalid for the request, the authorization server MUST respond with an HTTP 401 code.</p>
+	<p>The resource server SHOULD make a POST request to the token endpoint containing the Bearer token in the <code>token</code> parameter, which will generate a token verification response. The endpoint MUST also require some form of authorization to access this endpoint and MAY identify that in the <code>introspection_endpoint_auth_methods_supported</code> parameter of the metadata response. If the authorization is insufficient for the request, the authorization server MUST respond with an HTTP 401 code.</p>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
   'POST https://example.org/token
