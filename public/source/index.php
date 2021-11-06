@@ -271,7 +271,7 @@
               <li><code>issuer</code> - The server's issuer identifier. The issuer identifier is a URL that uses the "https" scheme and has no query or fragment components. The identifier MUST be a prefix of the <code>indieauth-metadata</code> URL. e.g. for an <code>indieauth-metadata</code> endpoint <code>https://example.com/.well-known/oauth-authorization-server</code>, the issuer URL could be <code>https://example.com/</code>, or for a metadata URL of <code>https://example.com/wp-json/indieauth/1.0/metadata</code>, the issuer URL could be <code>https://example.com/wp-json/indieauth/1.0</code></li>
               <li><code>authorization_endpoint</code> - The Authorization Endpoint</li>
               <li><code>token_endpoint</code> - The Token Endpoint</li>
-	      <li><code>revocation_endpoint</code> (optional) - The Revocation Endpoint</li>
+              <li><code>revocation_endpoint</code> (optional) - The Revocation Endpoint</li>
               <li><code>scopes_supported</code> (recommended) - JSON array containing scope values supported by the IndieAuth server. Servers MAY choose not to advertise some supported scope values even when this parameter is used.</li>
               <li><code>response_types_supported</code> (optional) - JSON array containing the response_type values supported. This differs from [RFC8414] in that this parameter is OPTIONAL and that, if omitted, the default is <code>code</code></li>
               <li><code>grant_types_supported</code> (optional) - JSON array containing grant type values supported. If omitted, the default value differs from [RFC8414] and is <code>authorization_code</code></li>
