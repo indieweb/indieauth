@@ -271,6 +271,7 @@
               <li><code>issuer</code> - The server's issuer identifier. The issuer identifier is a URL that uses the "https" scheme and has no query or fragment components. The identifier MUST be a prefix of the <code>indieauth-metadata</code> URL. e.g. for an <code>indieauth-metadata</code> endpoint <code>https://example.com/.well-known/oauth-authorization-server</code>, the issuer URL could be <code>https://example.com/</code>, or for a metadata URL of <code>https://example.com/wp-json/indieauth/1.0/metadata</code>, the issuer URL could be <code>https://example.com/wp-json/indieauth/1.0</code></li>
               <li><code>authorization_endpoint</code> - The Authorization Endpoint</li>
               <li><code>token_endpoint</code> - The Token Endpoint</li>
+	      <li><code>revocation_endpoint</code> (optional) - The Revocation Endpoint</li>
               <li><code>scopes_supported</code> (recommended) - JSON array containing scope values supported by the IndieAuth server. Servers MAY choose not to advertise some supported scope values even when this parameter is used.</li>
               <li><code>response_types_supported</code> (optional) - JSON array containing the response_type values supported. This differs from [RFC8414] in that this parameter is OPTIONAL and that, if omitted, the default is <code>code</code></li>
               <li><code>grant_types_supported</code> (optional) - JSON array containing grant type values supported. If omitted, the default value differs from [RFC8414] and is <code>authorization_code</code></li>
@@ -774,24 +775,18 @@ Content-Type: application/json
     <section class="normative">
       <h3>Token Revocation</h3>
 
-      <p>A client may wish to explicitly disable an access token that it has obtained, such as when the user signs out of the client. IndieAuth extends OAuth 2.0 Token Revocation [[!RFC7009]] by defining the following:</p>
-
-      <ul>
-        <li>The revocation endpoint is the same as the token endpoint.</li>
-        <li>The revocation request includes an additional parameter, <code>action=revoke</code>.</li>
-      </ul>
+      <p>A client may wish to explicitly disable an access token that it has obtained, such as when the user signs out of the client. IndieAuth implements OAuth 2.0 Token Revocation [[!RFC7009]] using a revocation endpoint defined in metadata:</p>
 
       <section>
         <h4>Token Revocation Request</h4>
 
         <p>An example revocation request is below.</p>
 
-        <pre class="example nohighlight">POST https://example.org/token HTTP/1.1
+        <pre class="example nohighlight">POST https://example.org/revocation HTTP/1.1
   Content-Type: application/x-www-form-urlencoded
   Accept: application/json
 
-  action=revoke
-  &token=xxxxxxxx</pre>
+  token=xxxxxxxx</pre>
 
         <p>As described in [[!RFC7009]], the revocation endpoint responds with HTTP 200 for both the case where the token was successfully revoked, or if the submitted token was invalid.</p>
       </section>
