@@ -832,7 +832,7 @@ Content-Type: application/json
       <h2>User Information</h2>
 
       <p>A client may wish to refresh or receive additional information about the authenticated end-user outside of the authorization response. The client would do so by making a GET request to the userinfo endpoint, providing a token with the <code>profile</code> or <code>email</code> scopes. The return would be a JSON [[!RFC7159]] object identical to the profile property identified in <a href="#profile-information">Profile Information</a> when a response_type value is used that results in an Access Token being issued and would require the same <code>profile> or <code>email</code> scopes. The considerations identified in <a href="#profile-information">Profile Information</a> regarding the non-authoritative nature of the information would also apply here.</p>
-      <p>If the request lacks a provided access token, or the token does not contain appropriate scopes, the endpoint SHOULD respond with a HTTP 401.</p>
+      <p>If the request lacks a provided access token, or the token does not contain appropriate scopes, the endpoint SHOULD respond with an error response as noted in <a href="#accessing-protected-resources">Accessing Protected Resources</a>.</p>
       <p>Like the return of profile information in the authorization response, implementation of the userinfo endpoint is entirely optional. If implemented, discovery would be through the <code>userinfo_endpoint</code> return property in the metadata endpoint.</p>
 
           <pre class="example nohighlight">HTTP/1.1 200 OK
