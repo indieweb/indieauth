@@ -271,6 +271,8 @@
               <li><code>issuer</code> - The server's issuer identifier. The issuer identifier is a URL that uses the "https" scheme and has no query or fragment components. The identifier MUST be a prefix of the <code>indieauth-metadata</code> URL. e.g. for an <code>indieauth-metadata</code> endpoint <code>https://example.com/.well-known/oauth-authorization-server</code>, the issuer URL could be <code>https://example.com/</code>, or for a metadata URL of <code>https://example.com/wp-json/indieauth/1.0/metadata</code>, the issuer URL could be <code>https://example.com/wp-json/indieauth/1.0</code></li>
               <li><code>authorization_endpoint</code> - The Authorization Endpoint</li>
               <li><code>token_endpoint</code> - The Token Endpoint</li>
+              <li><code>introspection_endpoint</code> - The Introspection Endpoint</li>
+              <li><code>introspection_endpoint_auth_methods_supported</code> (optional) - JSON array containing a list of client authentication methods supported by this introspection endpoint.
               <li><code>revocation_endpoint</code> (optional) - The Revocation Endpoint</li>
               <li><code>revocation_endpoint_auth_methods_supported</code> (optional) - <code>"none"</code> If a revocation endpoint is provided, this property should also be provided with the value <code>"none"</code>, since the omission of this value defaults to <code>client_secret_basic</code> according to [[RFC8414]].</li>
               <li><code>scopes_supported</code> (recommended) - JSON array containing scope values supported by the IndieAuth server. Servers MAY choose not to advertise some supported scope values even when this parameter is used.</li>
@@ -744,12 +746,18 @@ Content-Type: application/json
       <section>
         <h4>Access Token Verification Request</h4>
 
-        <p>If a resource server needs to verify that an access token is valid, it MUST make a GET request to the token endpoint containing an HTTP <code>Authorization</code> header with the Bearer Token according to [[!RFC6750]]. Note that the request to the endpoint will not contain any user-identifying information, so the resource server (e.g. Micropub endpoint) will need to know via out-of-band methods which token endpoint is in use.</p>
+        <p>If a resource server needs to verify that an access token is valid, it may do so using Token Introspection. IndieAuth extends OAuth 2.0 Token Introspection [[!RFC7662]] by adding that the  introspection response MUST include an additional parameter, <code>me</code>.</li>
+	<p>Note that the request to the endpoint will not contain any user-identifying information, so the resource server (e.g. Micropub endpoint) will need to know via out-of-band methods which token endpoint is in use.</p>
+	<p>The resource server SHOULD make a POST request to the token endpoint containing the Bearer token in the <code>token</code> parameter, which will generate a token verification response. The endpoint MUST also require some form of authorization to access this endpoint and MAY identify that in the <code>introspection_endpoint_auth_methods_supported</code> parameter of the metadata response. If the authorization is insufficient for the request, the authorization server MUST respond with an HTTP 401 code.</p>
 
-        <pre class="example nohighlight">GET https://indieauth.example.com/token
+          <pre class="example nohighlight"><?= htmlspecialchars(
+  'POST https://indieauth.example.com/introspect
+  Content-type: application/x-www-form-urlencoded
+  Accept: application/json
   Authorization: Bearer xxxxxxxx
-  Accept: application/json</pre>
-      </section>
+
+  token=xxxxxxxx
+  ') ?></pre>
 
       <section>
         <h4>Access Token Verification Response</h4>
@@ -757,23 +765,37 @@ Content-Type: application/json
         <p>The token endpoint verifies the access token (how this verification is done is up to the implementation), and returns information about the token:</p>
 
         <ul>
-          <li><code>me</code> - The profile URL of the user corresponding to this token</li>
+	  <li><code>active</code> - (required) Boolean indicator of whether or not the presented token is currently active
+          <li><code>me</code> - (required) The profile URL of the user corresponding to this token</li>
           <li><code>client_id</code> - The client ID associated with this token</li>
           <li><code>scope</code> - A space-separated list of scopes associated with this token</li>
+	  <li><code>exp</code> - (optional) Integer timestamp, measured in the number of seconds since January 1 1970 UTC, indicating when this token will expire</li>
+	  <li><code>iat</code> - (optional) Integer timestamp, measured in the number of seconds since January 1 1970 UTC, indicating when this token was originally issued</li>
         </ul>
 
         <pre class="example nohighlight">HTTP/1.1 200 OK
   Content-Type: application/json
 
   {
+  "active": "true",
   "me": "https://user.example.net/",
   "client_id": https://app.example.com/",
   "scope": "create update delete"
+  "exp": "1632443647",
+  "iat": "1632443147"
   }</pre>
 
         <p>Specific implementations MAY include additional parameters as top-level JSON properties. Clients SHOULD ignore parameters they don't recognize.</p>
 
-        <p>If the token is not valid, the endpoint MUST return an appropriate HTTP 400, 401 or 403 response. The response body is not significant.</p>
+        <p>If the token is not valid, the endpoint still MUST return a 200 Response, with the only parameter being active(with its value set to "false"). The response SHOULD NOT include any additional information about an inactive token, including why the token is inactive.</p>
+
+        <pre class="example nohighlight">HTTP/1.1 200 OK
+  Content-Type: application/json
+
+  {
+  "active": "false",
+  }</pre>
+
       </section>
     </section>
 
