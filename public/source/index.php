@@ -523,7 +523,7 @@ viewbox="0 0 1169 1010" style="width: 100%; height: auto;"
 
           <b>Example request to authorization endpoint</b>
           <pre class="example nohighlight"><?= htmlspecialchars(
-  'POST https://example.org/auth
+  'POST https://indieauth.example.com/auth
   Content-type: application/x-www-form-urlencoded
   Accept: application/json
 
@@ -536,7 +536,7 @@ viewbox="0 0 1169 1010" style="width: 100%; height: auto;"
 
           <b>Example request to token endpoint</b>
           <pre class="example nohighlight"><?= htmlspecialchars(
-'POST https://example.org/token
+'POST https://indieauth.example.com/token
 Content-type: application/x-www-form-urlencoded
 Accept: application/json
 
@@ -741,7 +741,7 @@ Content-Type: application/json
 
         <p>If a resource server needs to verify that an access token is valid, it MUST make a GET request to the token endpoint containing an HTTP <code>Authorization</code> header with the Bearer Token according to [[!RFC6750]]. Note that the request to the endpoint will not contain any user-identifying information, so the resource server (e.g. Micropub endpoint) will need to know via out-of-band methods which token endpoint is in use.</p>
 
-        <pre class="example nohighlight">GET https://example.org/token
+        <pre class="example nohighlight">GET https://indieauth.example.com/token
   Authorization: Bearer xxxxxxxx
   Accept: application/json</pre>
       </section>
@@ -775,14 +775,14 @@ Content-Type: application/json
     <section class="normative">
       <h3>Token Revocation</h3>
 
-      <p>A client may wish to explicitly disable an access token that it has obtained, such as when the user signs out of the client. IndieAuth implements OAuth 2.0 Token Revocation [[!RFC7009]] using a revocation endpoint defined in metadata:</p>
+      <p>A client may wish to explicitly disable an access token that it has obtained, such as when the user signs out of the client. IndieAuth implements OAuth 2.0 Token Revocation [[!RFC7009]] using the revocation endpoint defined in the server metadata:</p>
 
       <section>
         <h4>Token Revocation Request</h4>
 
         <p>An example revocation request is below.</p>
 
-        <pre class="example nohighlight">POST https://example.org/revocation HTTP/1.1
+        <pre class="example nohighlight">POST https://indieauth.example.com/revocation HTTP/1.1
   Content-Type: application/x-www-form-urlencoded
   Accept: application/json
 
