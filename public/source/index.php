@@ -761,7 +761,7 @@ Content-Type: application/json
           <ul>
             <li><code>grant_type=refresh_token</code></li>
             <li><code>refresh_token</code> - The refresh token previously offered to the client.</li>
-            <li><code>client_id</code> - The client ID that was used when the refresh token was issued.
+            <li><code>client_id</code> - The client ID that was used when the refresh token was issued.</li>
             <li><code>scope</code> (optional) - The client may request a token with the same or fewer scopes than the original access token. If omitted, is treated as equal to the original scopes granted.</li>
           </ul>
 
@@ -780,7 +780,8 @@ grant_type=refresh_token
           
           <p>Refresh tokens SHOULD expire if the client has not used the refresh token to obtain new access tokens for some time. The expiration time is at the discretion of the authorization server.</p>
 
-	  </section> 
+        </section>
+      </section>
 
     </section>
 
@@ -794,11 +795,11 @@ grant_type=refresh_token
       <section>
         <h4>Access Token Verification Request</h4>
 
-        <p>If a resource server needs to verify that an access token is valid, it may do so using Token Introspection. IndieAuth extends OAuth 2.0 Token Introspection [[!RFC7662]] by adding that the  introspection response MUST include an additional parameter, <code>me</code>.</li>
-	<p>Note that the request to the endpoint will not contain any user-identifying information, so the resource server (e.g. Micropub endpoint) will need to know via out-of-band methods which token endpoint is in use.</p>
-	<p>The resource server SHOULD make a POST request to the token endpoint containing the Bearer token in the <code>token</code> parameter, which will generate a token verification response. The endpoint MUST also require some form of authorization to access this endpoint and MAY identify that in the <code>introspection_endpoint_auth_methods_supported</code> parameter of the metadata response. If the authorization is insufficient for the request, the authorization server MUST respond with an HTTP 401 code.</p>
+        <p>If a resource server needs to verify that an access token is valid, it may do so using Token Introspection. IndieAuth extends OAuth 2.0 Token Introspection [[!RFC7662]] by adding that the  introspection response MUST include an additional parameter, <code>me</code>.</p>
+        <p>Note that the request to the endpoint will not contain any user-identifying information, so the resource server (e.g. Micropub endpoint) will need to know via out-of-band methods which token endpoint is in use.</p>
+        <p>The resource server SHOULD make a POST request to the token endpoint containing the Bearer token in the <code>token</code> parameter, which will generate a token verification response. The endpoint MUST also require some form of authorization to access this endpoint and MAY identify that in the <code>introspection_endpoint_auth_methods_supported</code> parameter of the metadata response. If the authorization is insufficient for the request, the authorization server MUST respond with an HTTP 401 code.</p>
 
-          <pre class="example nohighlight"><?= htmlspecialchars(
+        <pre class="example nohighlight"><?= htmlspecialchars(
   'POST https://indieauth.example.com/introspect
   Content-type: application/x-www-form-urlencoded
   Accept: application/json
@@ -806,6 +807,7 @@ grant_type=refresh_token
 
   token=xxxxxxxx
   ') ?></pre>
+      </section>
 
       <section>
         <h4>Access Token Verification Response</h4>
@@ -813,12 +815,12 @@ grant_type=refresh_token
         <p>The token endpoint verifies the access token (how this verification is done is up to the implementation), and returns information about the token:</p>
 
         <ul>
-	  <li><code>active</code> - (required) Boolean indicator of whether or not the presented token is currently active
+          <li><code>active</code> - (required) Boolean indicator of whether or not the presented token is currently active</li>
           <li><code>me</code> - (required) The profile URL of the user corresponding to this token</li>
           <li><code>client_id</code> - The client ID associated with this token</li>
           <li><code>scope</code> - A space-separated list of scopes associated with this token</li>
-	  <li><code>exp</code> - (optional) Integer timestamp, measured in the number of seconds since January 1 1970 UTC, indicating when this token will expire</li>
-	  <li><code>iat</code> - (optional) Integer timestamp, measured in the number of seconds since January 1 1970 UTC, indicating when this token was originally issued</li>
+          <li><code>exp</code> - (optional) Integer timestamp, measured in the number of seconds since January 1 1970 UTC, indicating when this token will expire</li>
+          <li><code>iat</code> - (optional) Integer timestamp, measured in the number of seconds since January 1 1970 UTC, indicating when this token was originally issued</li>
         </ul>
 
         <pre class="example nohighlight">HTTP/1.1 200 OK
@@ -847,6 +849,7 @@ grant_type=refresh_token
       </section>
     </section>
 
+
     <section class="normative">
       <h3>Token Revocation</h3>
 
@@ -869,7 +872,6 @@ grant_type=refresh_token
       <p class="advisement">
         A previous version of the spec used the token endpoint as the revocation endpoint with the additional parameter <code>action=revoke</code>. Servers that wish to support older versions of clients may wish to retain this behavior for backwards compatibility.</p>
       </p>
-
     </section>
 
 
@@ -878,22 +880,19 @@ grant_type=refresh_token
 
       <p>The client accesses protected resources by presenting the access token to the resource server.  The resource server MUST validate the access token and ensure that it has not expired and that its scope covers the requested resource.</p>
 
-     <section>
-     <h3>Error Responses</h3>
+      <section>
+        <h3>Error Responses</h3>
 
-     <p>When a request fails, the resource server responds using the appropriate HTTP status codes, and includes one of the following error codes in the response:</p>
+        <p>When a request fails, the resource server responds using the appropriate HTTP status codes, and includes one of the following error codes in the response:</p>
 
-     <ul>
-       <li><code>"invalid_request"</code> - The request is not valid. The resource server SHOULD respond with HTTP 400</li>
-       <li><code>"invalid_token"</code> - The access token provided is expired, revoked, or invalid. The resource server SHOULD respond with HTTP 401</li>
-       <li><code>"insufficient_scope"</code> - The request requires higher privileges than provided. The resource server SHOULD respond with HTTP 403</li>
-     </ul>
+        <ul>
+          <li><code>"invalid_request"</code> - The request is not valid. The resource server SHOULD respond with HTTP 400</li>
+          <li><code>"invalid_token"</code> - The access token provided is expired, revoked, or invalid. The resource server SHOULD respond with HTTP 401</li>
+          <li><code>"insufficient_scope"</code> - The request requires higher privileges than provided. The resource server SHOULD respond with HTTP 403</li>
+        </ul>
 
-     <p>If the requests lacks any authentication information, the resource server SHOULD NOT include an error code or other information.</p>
-
-     </section>
-
-
+        <p>If the requests lacks any authentication information, the resource server SHOULD NOT include an error code or other information.</p>
+      </section>
     </section>
 
     <section>
