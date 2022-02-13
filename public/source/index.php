@@ -454,15 +454,15 @@ viewbox="0 0 1169 1010" style="width: 100%; height: auto;"
             <li><code>me</code> - (optional) The URL that the user entered</li>
           </ul>
 
-          <pre class="example nohighlight"><?= htmlspecialchars(
-'https://example.org/auth?response_type=code&
-                          client_id=https://app.example.com/&
-                          redirect_uri=https://app.example.com/redirect&
-                          state=1234567890&
-                          code_challenge=OfYAxt8zU2dAPDWQxTAUIteRzMsoj9QBdMIVEDOErUo&
-                          code_challenge_method=S256&
-                          scope=profile+create+update+delete&
-                          me=https://user.example.net/') ?></pre>
+          <pre class="example nohighlight"><?= htmlspecialchars('
+https://example.org/auth?response_type=code&
+                         client_id=https://app.example.com/&
+                         redirect_uri=https://app.example.com/redirect&
+                         state=1234567890&
+                         code_challenge=OfYAxt8zU2dAPDWQxTAUIteRzMsoj9QBdMIVEDOErUo&
+                         code_challenge_method=S256&
+                         scope=profile+create+update+delete&
+                         me=https://user.example.net/') ?></pre>
 
           <p>The client SHOULD provide the <code>me</code> query string parameter to the authorization endpoint, either the exact value the user entered, or the value after applying <a href="url-canonicalization">URL Canonicalization</a>.</p>
 
@@ -490,10 +490,10 @@ viewbox="0 0 1169 1010" style="width: 100%; height: auto;"
           </ul>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
-  'HTTP/1.1 302 Found
-  Location: https://app.example.com/redirect?code=xxxxxxxx&
-                                             state=1234567890&
-					     iss=https%3A%2F%2Findieauth.example.com') ?></pre>
+'HTTP/1.1 302 Found
+Location: https://app.example.com/redirect?code=xxxxxxxx&
+                                           state=1234567890&
+                                           iss=https%3A%2F%2Findieauth.example.com') ?></pre>
 
           <p>Upon the redirect back to the client, the client MUST verify:</p>
 	  
@@ -530,16 +530,16 @@ viewbox="0 0 1169 1010" style="width: 100%; height: auto;"
 
           <b>Example request to authorization endpoint</b>
           <pre class="example nohighlight"><?= htmlspecialchars(
-  'POST https://indieauth.example.com/auth
-  Content-type: application/x-www-form-urlencoded
-  Accept: application/json
+'POST https://indieauth.example.com/auth
+Content-type: application/x-www-form-urlencoded
+Accept: application/json
 
-  grant_type=authorization_code
-  &code=xxxxxxxx
-  &client_id=https://app.example.com/
-  &redirect_uri=https://app.example.com/redirect
-  &code_verifier=a6128783714cfda1d388e2e98b6ae8221ac31aca31959e59512c59f5
-  ') ?></pre>
+grant_type=authorization_code
+&code=xxxxxxxx
+&client_id=https://app.example.com/
+&redirect_uri=https://app.example.com/redirect
+&code_verifier=a6128783714cfda1d388e2e98b6ae8221ac31aca31959e59512c59f5
+') ?></pre>
 
           <b>Example request to token endpoint</b>
           <pre class="example nohighlight"><?= htmlspecialchars(
@@ -565,12 +565,12 @@ grant_type=authorization_code
           <p>The authorization endpoint verifies that the authorization code is valid, has not yet been used, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>, and checks that the provided <code>code_verifier</code> hashes to the same value as given in the <code>code_challenge</code> in the original authorization request. If the request is valid, then the endpoint responds with a JSON [[!RFC7159]] object containing the property <code>me</code>, with the canonical user profile URL for the user who signed in, and optionally the property <code>profile</code> with the user's profile information as defined in <a href="#profile-information">Profile Information</a>.</p>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
-  'HTTP/1.1 200 OK
-  Content-Type: application/json
+'HTTP/1.1 200 OK
+Content-Type: application/json
 
-  {
-    "me": "https://user.example.net/"
-  }') ?></pre>
+{
+  "me": "https://user.example.net/"
+}') ?></pre>
 
           <p>The resulting profile URL MAY be different from the URL provided to the client for discovery. This gives the authorization server an opportunity to canonicalize the user's URL, such as correcting <code>http</code> to <code>https</code>, or adding a path if required. See <a href="#differing-user-profile-urls">Differing User Profile URLs</a> for security considerations client developers should be aware of.</p>
 
@@ -588,15 +588,15 @@ grant_type=authorization_code
 
           <p>If the request is valid, then the token endpoint can generate an access token and return the appropriate response. The token response is a JSON [[!RFC7159]] object containing:</p>
 	  
-	  <ul>
-	    <li><code>access_token</code> (required) - the OAuth 2.0 Bearer Token [[!RFC6750]].</li>
-	    <li><code>me</code> (required) - the canonical user profile URL for the user this access token corresponds to.</li>
-	    <li><code>profile</code> (optional) - the user's profile information as defined in <a href="#profile-information">Profile Information</a>.</li>
-	    <li><code>expires_in</code> (recommended) - The lifetime in seconds of the access token.</li>
-	    <li><code>refresh_token</code> (optional) - The refresh token, which can be used to obtain new access tokens as defined in <a href="#refresh-tokens">Refresh Tokens</a>.</li>
-	  </ul>
+          <ul>
+            <li><code>access_token</code> (required) - the OAuth 2.0 Bearer Token [[!RFC6750]].</li>
+            <li><code>me</code> (required) - the canonical user profile URL for the user this access token corresponds to.</li>
+            <li><code>profile</code> (optional) - the user's profile information as defined in <a href="#profile-information">Profile Information</a>.</li>
+            <li><code>expires_in</code> (recommended) - The lifetime in seconds of the access token.</li>
+            <li><code>refresh_token</code> (optional) - The refresh token, which can be used to obtain new access tokens as defined in <a href="#refresh-tokens">Refresh Tokens</a>.</li>
+          </ul>
 
-	  <p>For example:</p>
+          <p>For example:</p>
 
           <pre class="example nohighlight">HTTP/1.1 200 OK
 Content-Type: application/json
@@ -801,12 +801,11 @@ grant_type=refresh_token
 
         <pre class="example nohighlight"><?= htmlspecialchars(
   'POST https://indieauth.example.com/introspect
-  Content-type: application/x-www-form-urlencoded
-  Accept: application/json
-  Authorization: Bearer xxxxxxxx
+Content-type: application/x-www-form-urlencoded
+Accept: application/json
+Authorization: Bearer xxxxxxxx
 
-  token=xxxxxxxx
-  ') ?></pre>
+token=xxxxxxxx') ?></pre>
       </section>
 
       <section>
@@ -824,27 +823,27 @@ grant_type=refresh_token
         </ul>
 
         <pre class="example nohighlight">HTTP/1.1 200 OK
-  Content-Type: application/json
+Content-Type: application/json
 
-  {
+{
   "active": "true",
   "me": "https://user.example.net/",
   "client_id": https://app.example.com/",
   "scope": "create update delete"
   "exp": "1632443647",
   "iat": "1632443147"
-  }</pre>
+}</pre>
 
         <p>Specific implementations MAY include additional parameters as top-level JSON properties. Clients SHOULD ignore parameters they don't recognize.</p>
 
         <p>If the token is not valid, the endpoint still MUST return a 200 Response, with the only parameter being active(with its value set to "false"). The response SHOULD NOT include any additional information about an inactive token, including why the token is inactive.</p>
 
         <pre class="example nohighlight">HTTP/1.1 200 OK
-  Content-Type: application/json
+Content-Type: application/json
 
-  {
+{
   "active": "false",
-  }</pre>
+}</pre>
 
       </section>
     </section>
@@ -861,10 +860,10 @@ grant_type=refresh_token
         <p>An example revocation request is below.</p>
 
         <pre class="example nohighlight">POST https://indieauth.example.com/revocation HTTP/1.1
-  Content-Type: application/x-www-form-urlencoded
-  Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Accept: application/json
 
-  token=xxxxxxxx</pre>
+token=xxxxxxxx</pre>
 
         <p>As described in [[!RFC7009]], the revocation endpoint responds with HTTP 200 for both the case where the token was successfully revoked, or if the submitted token was invalid.</p>
       </section>
