@@ -9,9 +9,9 @@
     <script class='remove'>
       var respecConfig = {
           useExperimentalStyles: true,
-          publishDate: "2021-11-03",
+          publishDate: "2022-02-12",
           specStatus: "NOTE", /* for loading w3c CSS */
-          previousPublishDate: "2021-11-03",
+          previousPublishDate: "2020-11-26",
           previousMaturity: "LS",
           previousVersionURL: "https://indieauth.spec.indieweb.org/20201126/",
           shortName:  "indieauth",
