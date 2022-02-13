@@ -260,10 +260,14 @@
 
         <p>In the event there is no <code>indieauth-metadata</code> URL provided, for compatibility with previous revisions of IndieAuth, the client SHOULD look for an HTTP <code>Link</code> header and HTML <code>&lt;link&gt;</code> element with a <code>rel</code> value of <code>authorization_endpoint</code> (and optionally <code>token_endpoint</code>) following the same order of predence as described above.</p>
 
+        <p class="advisement">
+          Note that the recommendation of looking for the <code>rel=authorization_endpoint</code> and <code>rel=token_endpoint</code> are included for backwards compatibility with previous IndieAuth profiles and may be removed from this specification in the future after wide enough adoption of the newer <code>indieauth-metadata</code> discovery method.
+        </p>
+
          <section>
             <h4>IndieAuth Server Metadata</h4>
 
-            <p>IndieAuth metadata adopts OAuth 2.0 Authorization Server Metadata [[RFC8414]], with the notable difference that discovery of the URL happens via the IndieAuth link relation rather than the <code>.well-known discovery</code> method specified by RFC8414. For compatibility with other OAuth 2.0 implementations, use of the <code>.well-known</code> path as defined in RFC8414 is RECOMMENDED but optional.</p>
+            <p>IndieAuth metadata adopts OAuth 2.0 Authorization Server Metadata [[RFC8414]], with the notable difference that discovery of the URL happens via the IndieAuth link relation rather than the <code>.well-known</code> discovery method specified by RFC8414. For compatibility with other OAuth 2.0 implementations, use of the <code>.well-known</code> path as defined in RFC8414 is RECOMMENDED but optional.</p>
 
             <p>The metadata endpoint returns information about the server as a JSON object with the following properties:</p>
 
