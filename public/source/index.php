@@ -272,7 +272,7 @@
               <li><code>authorization_endpoint</code> - The Authorization Endpoint</li>
               <li><code>token_endpoint</code> - The Token Endpoint</li>
               <li><code>revocation_endpoint</code> (optional) - The Revocation Endpoint</li>
-              <li><code>revocation_endpoint_auth_methods_supported</code> (optional) - <code>"none"</code> If a revocation endpoint is provided, this property should also be provided with the value <code>"none"</code>, since the omission of this value defaults to <code>client_secret_basic</code> according to [[RFC 8414]].</li>
+              <li><code>revocation_endpoint_auth_methods_supported</code> (optional) - <code>"none"</code> If a revocation endpoint is provided, this property should also be provided with the value <code>"none"</code>, since the omission of this value defaults to <code>client_secret_basic</code> according to [[RFC8414]].</li>
               <li><code>scopes_supported</code> (recommended) - JSON array containing scope values supported by the IndieAuth server. Servers MAY choose not to advertise some supported scope values even when this parameter is used.</li>
               <li><code>response_types_supported</code> (optional) - JSON array containing the response_type values supported. This differs from [RFC8414] in that this parameter is OPTIONAL and that, if omitted, the default is <code>code</code></li>
               <li><code>grant_types_supported</code> (optional) - JSON array containing grant type values supported. If omitted, the default value differs from [RFC8414] and is <code>authorization_code</code></li>
@@ -305,7 +305,7 @@ Content-Type: application/json
         <p>If the <code>client_id</code> contains the permitted IPv4 and IPv6 addresses <code>127.0.0.1</code> or <code>[::1]</code>, or if the domain name resolves to these addresses, the authorization endpoint MUST NOT fetch the <code>client_id</code>.</p>
 
         <p>Note that the server may want to perform some additional checks on the <code>client_id</code> before fetching it to avoid SSRF attacks. In particular, the server may want to resolve the domain name first and avoid fetching the document if the IP address is within the loopback range defined by [[RFC5735]] or any other implementation-specific internal IP address.</p>
-        
+
         <section>
           <h4>Application Information</h4>
 
