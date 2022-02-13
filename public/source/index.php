@@ -281,6 +281,7 @@
               <li><code>service_documentation</code> (optional) - URL of a page containing human-readable information that developers might need to know when using the server. This might be a link to the IndieAuth spec or something more personal to your implementation.
               <li><code>code_challenge_methods_supported</code> - JSON array containing the methods supported for PKCE. This parameter differs from [RFC8414] in that it is not optional as PKCE is REQUIRED.</li>
               <li><code>authorization_response_iss_parameter_supported</code> (optional) - Boolean parameter indicating whether the authorization server provides the <code>iss</code> parameter. If omitted, the default value is false. As the <code>iss</code> parameter is REQUIRED, this is provided for compatibility with OAuth 2.0 servers implementing the parameter.</li>
+              <li><code>userinfo_endpoint</code> (optional) - The User Info Endpoint</li>
             </ul>
 
         <pre class="example nohighlight">HTTP/1.1 200 OK
@@ -651,11 +652,17 @@ Content-Type: application/json
 
           <p>The information returned in the <code>profile</code> object is informational, and there is no guarantee that this information is "real" or "verified". The information provided is only what the user has chosen to share with the client, and may even vary depending on which client is requesting this data.</p>
 
+          <ul>
+            <li><code>name</code> - Name the user wishes to provide to the client. This is not to be considered by the client to be the full name of the user. Clients are expected to use this as a display name.</li>
+            <li><code>url</code> - URL of the user's website. The <code>url</code> is not guaranteed to match the <code>me</code> URL, and may even have a different host. For example, a multi-author website may use the website's URL as the <code>me</code> URL, but return each specific author's own personal website in the profile data.</li>
+            <li><code>photo</code> - A photo or image that the user wishes clients to use as a profile image.</li>
+            <li><code>email</code> - (if email scope is requested) The email address a user wishes to provide to the client.</li>
+          </ul>
+
           <p>The client MUST NOT treat the information in the <code>profile</code> object as canonical or authoritative, and MUST NOT make any authentication or identification decisions based on this information.</p>
 
           <p>For example, attempting to use the <code>email</code> returned in the profile object as a user identifier will lead to security holes, as any user can create an authorization endpoint that returns any email address in the profile response. A client using the email address returned here should treat it the same as if it had been hand-entered in the client application and go through its own verification process before using it.</p>
 
-          <p>Similarly, the <code>url</code> returned in the <code>profile</code> object is not guaranteed to match the <code>me</code> URL, and may even have a different host. For example, a multi-author website may use the website's URL as the <code>me</code> URL, but return each specific author's own personal website in the profile data.</p>
 
         </section>
 
@@ -892,6 +899,25 @@ grant_type=refresh_token
 
      </section>
 
+
+    </section>
+
+    <section>
+      <h2>User Information</h2>
+
+      <p>A client may wish to refresh or receive additional information about the authenticated end-user outside of the authorization response. The client would do so by making a GET request to the userinfo endpoint, providing a token with the <code>profile</code> or <code>email</code> scopes. The return would be a JSON [[!RFC7159]] object identical to the profile property identified in <a href="#profile-information">Profile Information</a> when a response_type value is used that results in an Access Token being issued and would require the same <code>profile> or <code>email</code> scopes. The considerations identified in <a href="#profile-information">Profile Information</a> regarding the non-authoritative nature of the information would also apply here.</p>
+      <p>If the request lacks a provided access token, or the token does not contain appropriate scopes, the endpoint SHOULD respond with an error response as noted in <a href="#accessing-protected-resources">Accessing Protected Resources</a>.</p>
+      <p>Like the return of profile information in the authorization response, implementation of the userinfo endpoint is entirely optional. If implemented, discovery would be through the <code>userinfo_endpoint</code> return property in the metadata endpoint.</p>
+
+          <pre class="example nohighlight">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "name": "Example User",
+    "url": "https://user.example.net/",
+    "photo": "https://user.example.net/photo.jpg",
+    "email": "user@example.net"
+}</pre>
 
     </section>
 
