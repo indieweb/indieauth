@@ -921,8 +921,12 @@ Content-Type: application/json
         <h3>Changes from 26 November 2020 to this version</h3>
         <ul>
           <li>IndieAuth servers now use OAuth Server Metadata to publish their endpoints, and user profile URLs should link to the metadata document instead of the individual authorization endpoint and token endpoint</li>
+          <li>Defines the revocation endpoint in the server metadata instead of overriding the token endpoint</li>
+          <li>Defines token introspection as a new endpoint and new response format instead of overriding the token endpoint</li>
+          <li>Adds the OAuth 2.0 <code>iss</code> parameter to the authorization response</li>
           <li>Fixed redirect URL example in Authorization Response</li>
           <li>Clarifications around the use of the profile scope in profile response and token response</li>
+          <li>Note that the authorization server must not fetch the client_id URL if it's a localhost URL</li>
         </ul>
       </section>
 
