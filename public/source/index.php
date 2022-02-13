@@ -926,11 +926,17 @@ token=xxxxxxxx</pre>
     <section>
       <h2>User Information</h2>
 
-      <p>A client may wish to refresh or receive additional information about the authenticated end-user outside of the authorization response. The client would do so by making a GET request to the userinfo endpoint, providing a token with the <code>profile</code> or <code>email</code> scopes. The return would be a JSON [[!RFC7159]] object identical to the profile property identified in <a href="#profile-information">Profile Information</a> when a response_type value is used that results in an Access Token being issued and would require the same <code>profile> or <code>email</code> scopes. The considerations identified in <a href="#profile-information">Profile Information</a> regarding the non-authoritative nature of the information would also apply here.</p>
-      <p>If the request lacks a provided access token, or the token does not contain appropriate scopes, the endpoint SHOULD respond with an error response as noted in <a href="#accessing-protected-resources">Accessing Protected Resources</a>.</p>
-      <p>Like the return of profile information in the authorization response, implementation of the userinfo endpoint is entirely optional. If implemented, discovery would be through the <code>userinfo_endpoint</code> return property in the metadata endpoint.</p>
+      <p>A client may wish to refresh or receive additional information about the authenticated end user outside of the authorization response. To fetch the user's profile information, the client makes a GET request to the userinfo endpoint, providing an access token that was issued with the <code>profile</code> and/or <code>email</code> scopes.</p>
 
-          <pre class="example nohighlight">HTTP/1.1 200 OK
+      <pre class="example nohighlight">GET /userinfo HTTP/1.1
+Host: indieauth.example.com
+Authorization: Bearer xxxxxxxxxxx</pre>
+
+      <p>The authorization server returns a JSON [[!RFC7159]] object identical to the profile property identified in <a href="#profile-information">Profile Information</a> when a <code>response_type</code> value is used that results in an access token being issued and would require the same <code>profile</code> or <code>email</code> scopes. The considerations identified in <a href="#profile-information">Profile Information</a> regarding the non-authoritative nature of the information would also apply here.</p>
+      <p>If the request lacks a provided access token, or the token does not contain appropriate scopes, the endpoint SHOULD respond with an error response as noted in <a href="#accessing-protected-resources">Accessing Protected Resources</a>.</p>
+      <p>Like the return of profile information in the authorization response, implementation of the userinfo endpoint is entirely optional. If implemented, discovery would be through the <code>userinfo_endpoint</code> property in the authorization server metadata document.</p>
+
+      <pre class="example nohighlight">HTTP/1.1 200 OK
 Content-Type: application/json
 
 {
@@ -1039,6 +1045,7 @@ Content-Type: application/json
           <li>IndieAuth servers now use OAuth Server Metadata to publish their endpoints, and user profile URLs should link to the metadata document instead of the individual authorization endpoint and token endpoint</li>
           <li>Defines the revocation endpoint in the server metadata instead of overriding the token endpoint</li>
           <li>Defines token introspection as a new endpoint and new response format instead of overriding the token endpoint</li>
+          <li>Adds a new <code>userinfo</code> endpoint to fetch updated profile data</li>
           <li>Adds the OAuth 2.0 <code>iss</code> parameter to the authorization response</li>
           <li>Adds a section describing refresh token usage. (Note that this was always possible in IndieAuth, but many people didn't know it was an option because it wasn't described here.)</li>
           <li>Fixed redirect URL example in Authorization Response</li>
