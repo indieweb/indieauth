@@ -790,6 +790,11 @@ Content-Type: application/json
 
         <p>As described in [[!RFC7009]], the revocation endpoint responds with HTTP 200 for both the case where the token was successfully revoked, or if the submitted token was invalid.</p>
       </section>
+
+      <p class="advisement">
+        A previous version of the spec used the token endpoint as the revocation endpoint with the additional parameter <code>action=revoke</code>. Servers that wish to support older versions of clients may wish to retain this behavior for backwards compatibility.</p>
+      </p>
+
     </section>
 
 
