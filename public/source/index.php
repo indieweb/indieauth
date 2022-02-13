@@ -9,9 +9,9 @@
     <script class='remove'>
       var respecConfig = {
           useExperimentalStyles: true,
-          publishDate: "2021-11-03",
+          publishDate: "2022-02-12",
           specStatus: "NOTE", /* for loading w3c CSS */
-          previousPublishDate: "2021-11-03",
+          previousPublishDate: "2020-11-26",
           previousMaturity: "LS",
           previousVersionURL: "https://indieauth.spec.indieweb.org/20201126/",
           shortName:  "indieauth",
@@ -271,8 +271,10 @@
               <li><code>issuer</code> - The server's issuer identifier. The issuer identifier is a URL that uses the "https" scheme and has no query or fragment components. The identifier MUST be a prefix of the <code>indieauth-metadata</code> URL. e.g. for an <code>indieauth-metadata</code> endpoint <code>https://example.com/.well-known/oauth-authorization-server</code>, the issuer URL could be <code>https://example.com/</code>, or for a metadata URL of <code>https://example.com/wp-json/indieauth/1.0/metadata</code>, the issuer URL could be <code>https://example.com/wp-json/indieauth/1.0</code></li>
               <li><code>authorization_endpoint</code> - The Authorization Endpoint</li>
               <li><code>token_endpoint</code> - The Token Endpoint</li>
-	      <li><code>introspection_endpoint</code> - The Introspection Endpoint</li>
-	      <li><code>introspection_endpoint_auth_methods_supported</code> (optional) - JSON array containing a list of client authentication methods supported by this introspection endpoint.
+              <li><code>introspection_endpoint</code> - The Introspection Endpoint</li>
+              <li><code>introspection_endpoint_auth_methods_supported</code> (optional) - JSON array containing a list of client authentication methods supported by this introspection endpoint.
+              <li><code>revocation_endpoint</code> (optional) - The Revocation Endpoint</li>
+              <li><code>revocation_endpoint_auth_methods_supported</code> (optional) - <code>"none"</code> If a revocation endpoint is provided, this property should also be provided with the value <code>"none"</code>, since the omission of this value defaults to <code>client_secret_basic</code> according to [[RFC 8414]].</li>
               <li><code>scopes_supported</code> (recommended) - JSON array containing scope values supported by the IndieAuth server. Servers MAY choose not to advertise some supported scope values even when this parameter is used.</li>
               <li><code>response_types_supported</code> (optional) - JSON array containing the response_type values supported. This differs from [RFC8414] in that this parameter is OPTIONAL and that, if omitted, the default is <code>code</code></li>
               <li><code>grant_types_supported</code> (optional) - JSON array containing grant type values supported. If omitted, the default value differs from [RFC8414] and is <code>authorization_code</code></li>
@@ -302,6 +304,10 @@ Content-Type: application/json
 
         <p>Since client identifiers are URLs, the authorization server SHOULD [[!Fetch]] the URL to find more information about the client.</p>
 
+        <p>If the <code>client_id</code> contains the permitted IPv4 and IPv6 addresses <code>127.0.0.1</code> or <code>[::1]</code>, or if the domain name resolves to these addresses, the authorization endpoint MUST NOT fetch the <code>client_id</code>.</p>
+
+        <p>Note that the server may want to perform some additional checks on the <code>client_id</code> before fetching it to avoid SSRF attacks. In particular, the server may want to resolve the domain name first and avoid fetching the document if the IP address is within the loopback range defined by [[RFC5735]] or any other implementation-specific internal IP address.</p>
+        
         <section>
           <h4>Application Information</h4>
 
@@ -524,7 +530,7 @@ viewbox="0 0 1169 1010" style="width: 100%; height: auto;"
 
           <b>Example request to authorization endpoint</b>
           <pre class="example nohighlight"><?= htmlspecialchars(
-  'POST https://example.org/auth
+  'POST https://indieauth.example.com/auth
   Content-type: application/x-www-form-urlencoded
   Accept: application/json
 
@@ -537,7 +543,7 @@ viewbox="0 0 1169 1010" style="width: 100%; height: auto;"
 
           <b>Example request to token endpoint</b>
           <pre class="example nohighlight"><?= htmlspecialchars(
-'POST https://example.org/token
+'POST https://indieauth.example.com/token
 Content-type: application/x-www-form-urlencoded
 Accept: application/json
 
@@ -745,7 +751,7 @@ Content-Type: application/json
 	<p>The resource server SHOULD make a POST request to the token endpoint containing the Bearer token in the <code>token</code> parameter, which will generate a token verification response. The endpoint MUST also require some form of authorization to access this endpoint and MAY identify that in the <code>introspection_endpoint_auth_methods_supported</code> parameter of the metadata response. If the authorization is insufficient for the request, the authorization server MUST respond with an HTTP 401 code.</p>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
-  'POST https://example.org/token
+  'POST https://indieauth.example.com/introspect
   Content-type: application/x-www-form-urlencoded
   Accept: application/json
   Authorization: Bearer xxxxxxxx
@@ -796,27 +802,26 @@ Content-Type: application/json
     <section class="normative">
       <h3>Token Revocation</h3>
 
-      <p>A client may wish to explicitly disable an access token that it has obtained, such as when the user signs out of the client. IndieAuth extends OAuth 2.0 Token Revocation [[!RFC7009]] by defining the following:</p>
-
-      <ul>
-        <li>The revocation endpoint is the same as the token endpoint.</li>
-        <li>The revocation request includes an additional parameter, <code>action=revoke</code>.</li>
-      </ul>
+      <p>A client may wish to explicitly disable an access token that it has obtained, such as when the user signs out of the client. IndieAuth implements OAuth 2.0 Token Revocation [[!RFC7009]] using the revocation endpoint defined in the server metadata:</p>
 
       <section>
         <h4>Token Revocation Request</h4>
 
         <p>An example revocation request is below.</p>
 
-        <pre class="example nohighlight">POST https://example.org/token HTTP/1.1
+        <pre class="example nohighlight">POST https://indieauth.example.com/revocation HTTP/1.1
   Content-Type: application/x-www-form-urlencoded
   Accept: application/json
 
-  action=revoke
-  &token=xxxxxxxx</pre>
+  token=xxxxxxxx</pre>
 
         <p>As described in [[!RFC7009]], the revocation endpoint responds with HTTP 200 for both the case where the token was successfully revoked, or if the submitted token was invalid.</p>
       </section>
+
+      <p class="advisement">
+        A previous version of the spec used the token endpoint as the revocation endpoint with the additional parameter <code>action=revoke</code>. Servers that wish to support older versions of clients may wish to retain this behavior for backwards compatibility.</p>
+      </p>
+
     </section>
 
 
