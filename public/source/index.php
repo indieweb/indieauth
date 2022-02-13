@@ -373,21 +373,39 @@ Link: <https://app.example.com/redirect>; rel="redirect_uri"
 ---
 title IndieAuth Flow Diagram
 
-Browser->Client: User enters a URL, and the\nclient canonicalizes the URL
-Client->User URL: Client fetches URL to discover\n**rel=indieauth-metadata**
-Client->Metadata URL: Client fetches metadata URL to find\n**authorization_endpoint**\nand **token_endpoint**
-Browser<--Client: Client builds authorization request and\nredirects to **authorization_endpoint**
-Browser->Authorization Endpoint: User visits their authorization endpoint and sees the authorization request
-Authorization Endpoint->Client: Authorization endpoint fetches client information (name, icon)
-Browser<--Authorization Endpoint: User authenticates, and approves the request. Authorization\nendpoint issues authorization code, builds redirect back to client.
-Browser->Client: User's browser is redirected to\nclient with an **authorization code**
-Client->Token Endpoint: Client exchanges authorization code for an \naccess token by making a POST request\nto the token_endpoint
-Client<--Token Endpoint: Token endpoint verifies code and returns\ncanonical user profile URL with an access token
-Client->User URL: Client fetches the user URL\nif it differs from the original,\nand confirms the it declares\nthe same authorization server
-Browser<--Client: Client initiates login session\nand the user is logged in
+participantgroup #lightgrey ****
+participant Browser
+end
+
+participantgroup #lightgrey ****
+participant Client
+end
+
+participantgroup #lightgrey ****
+participant Profile URL
+end
+
+participantgroup #lightgrey **Authorization Server**
+participant Metadata URL
+participant Authorization Endpoint
+participant Token Endpoint
+end
+
+Browser->Client:<stroke:1.5:#white> User enters a URL, and the\nclient canonicalizes the URL
+Client->Profile URL:<stroke:1.5:#white> Client fetches URL to discover\n**rel=indieauth-metadata**
+Client->Metadata URL:<stroke:1.5:#white> Client fetches metadata URL to find\n**authorization_endpoint**\nand **token_endpoint**
+Browser<--Client:<stroke:1.5:#white> Client builds authorization request and\nredirects to **authorization_endpoint**
+Browser->Authorization Endpoint:<stroke:1.5:#white> User visits their authorization endpoint and sees the authorization request
+Authorization Endpoint->Client:<stroke:1.5:#white> Authorization endpoint fetches client information (name, icon)
+Browser<--Authorization Endpoint:<stroke:1.5:#white> User authenticates, and approves the request. Authorization\nendpoint issues authorization code, builds redirect back to client.
+Browser->Client:<stroke:1.5:#white> User's browser is redirected to\nclient with an **authorization code**
+Client->Token Endpoint:<stroke:1.5:#white> Client exchanges authorization code for an \naccess token by making a POST request\nto the token_endpoint
+Client<--Token Endpoint:<stroke:1.5:#white> Token endpoint verifies code and returns\ncanonical user profile URL with an access token
+Client->Profile URL:<stroke:1.5:#white> Client fetches the user URL\nif it differs from the original,\nand confirms the it declares\nthe same authorization server
+Browser<--Client:<stroke:1.5:#white> Client initiates login session\nand the user is logged in
 ---
 
-https://sequencediagram.org/index.html#initialData=C4S2BsFMAIEkDsAmJIEECuwAW0Bi4B7Ad2gBEQBDAcwCcKBbAKEYCEbiBnSGgWgD4AwuBTxgALmgBVLjWiRR3DtApSASgBkANMqTRskADrwAxsPnBoxivALwQV4QC9IS-WvWMhI4P2nd3El7m0ABmkMDGWC7uegTQyBzGBABu3EYAVOk0kOAAvCBIKBSYWDz04RSIFMAUmZ5movwAshVVNQHQQaKh4ZHR5TVtKpIasaEFiBnpxdgENCCO1SC2APryiAAOBAXAmUbWiNCZwAQA1vJrSFs7dWyc3AA8PDxd4p0NFgBG6CDgiEozLBzBZLWzQbIAR3QLgsByM2WQ2WMwFccUygOBi1Aq3W11Et3YRBk-Aws3mWOW8GgAFErttRBI-LJkiAOGBXFEQLIMeTQVTcfTYbouNE3DyQdiqZDoRxgIxSUDeZKaXSdvxXhIFZi+XJVd0whEokpTN5oAUQnN6DqABTwBiQbT2WwASlYhJkTx4WqVlJVm0FjJkyhK5ns1Rc2gOyg2G3YqQ5MGlMIAdNBvRLKUYBTszRwODLg2SM2CkogHdBvr9-uDIIjIMiKxRjKcxibzMm3fdeIIPoHuAByJSfd3+Vk1uvI2uxIxt7pEMA4axHaYlbXK0uQOqvfgAFTO8j9eLerzkAA9ItYqNFxRSSwQy6E5jpoPtjMYXKjzlTPgBPaBW04CioZRoAABQAeQAZR3GsoRhIwTj0KJYi-S5-R2epvE9Pcv0PANoBwg9s26VJ5hCFBjXvGAo2yYB0BoeAOBnaxbDDcBoHQINYwIcioBiedsGfJt3zzFD5Ew8xfCDEZ1ECD4ekNUVkM4-wZKMEAQjNCxkBCMIaCUEJ2HoJCYGBKgCgocBNH2XQkngciaHoBMtPietwAobImNEZCOHtQtFWLKkZFIzsiUeZ4NXeU0CjAShgGiQhzKCj9MztXQ3BU2Qx0Sq9DgKIA
+https://sequencediagram.org/index.html#initialData=C4S2BsFMAIEkDsAmJIEECuwAW0Bi4B7Ad2gBEQBDAcwCcKBbAKEYAcKbQBjEN+YWguhbQAxOBBUs-GpACe0AFRKFrdlx4U+0AEI1iAZ0g1GkJMzYcQ3XtMHCxEqbTmLlqy9c3BoAYXGngEzN3dRsBIVFxSWkXZRULUK9oAAU9ADMQKGgAVQAlABkgxGYQqw0+cPsopxl5JQxsAhoQAC8KUAJ4aABlIwA3IyVSzy0AWUhgCkR2ihyC4fLvBqwm1vaQTugAUSQWAhA+BZtoABUCAGtTbd39w9Nixl0DIwBaAD4-FD4ALgAefWAeku3wAjAA6ACs3xERCwYEgbxyhho0ACRn00FmeXyABpMUhoNhIAAdeCcfxaTiaTpWCjiFqQDFEuaFT4Bd6pAgZLLYv4AoGQUGQ6Gw+GItlaNITThYRkswkEaDIfScAgDGikpQycAAXgOyEgFEwWBe9AmUxmQwlwHe40m00mLL5gIugvBUJhcOACN8FO8UuAMrlZvtM3lwEVGSQmoURsazTaHXgAH17nsDsAlKTNIhXBHLim07dMyonkRkb8Xi9rc6BUKPaLveK-dAAEboTKIDFxlYJ9abGQAR3QjO8OdJMmQMk4wCZiqUPdWiY2hZuGaGZeR72WS-7XR2iHTP3+LuB7pFXp92WR0D6IH0YCZspAKMXfaTqLXWhz0EMcuZb5rB+Q4jgCjA7u+K7XIexbvDWJ51uenpitAEFAVBRYZtAAZBhi5JfN4BxpE09B7tAAAU8AMJAeJWJ0ACUjx6OWRiVi8aHLpsB5HsAtauvWF4odeRiYsaAS0t6+h4j+FAsCwegDE+MAgaOYKocau5JqSmFaPe+igaJ8boZsqqIDRbYduAXbQJOL6QDObYUJw5wKtA+EBGCTHPDQcF+nxZ7CshTZIkYADkGKtsxN73jZkBTvZ3q5hGpLuVoRBgDgmiuIBnFdKZkBWn67xnAW0E8f5bqBY2PrWqiAAeMqaFQco5WR+XYU0+LQNmnCcIyc6la28ikecBxUJiKQAPLdCcsXDqOpIRoSsoKgWqZfoE1psSVVzccWFUCUFPo7V0OneOqIAZHK7U-jIwDoDQ8D6Cl1LwLS4DQOgN7yVymQwNi0DpdgXVOX1+gDaYjDWhy6R-U6CH8Uh1XNgR2HSrKSmfTe2Kkpd0BgEql1SjQGJpHo9DLTAqxUAcdI4tmBKqvAGQ0PQmME2Z5LsIyi0rfo1GGb2xldMi6peSxNBsfB-KI1Vl4owE+NvaA7RyoQNMi-1K4M0lK1fSJMXq81uYHEAA
 
 Note: Set a viewbox matching "0 0 width height" and have the image scale, e.g.
 viewbox="0 0 1169 1010" style="width: 100%; height: auto;"
