@@ -450,9 +450,12 @@ viewbox="0 0 1169 1010" style="width: 100%; height: auto;"
             <li><code>state</code> - A parameter set by the client which will be included when the user is redirected back to the client. This is used to prevent CSRF attacks. The authorization server MUST return the unmodified state value back to the client.</li>
             <li><code>code_challenge</code> - The code challenge as previously described.</li>
             <li><code>code_challenge_method</code> - The hashing method used to calculate the code challenge, e.g. "S256"</li>
-            <li><code>scope</code> - (optional) A space-separated list of scopes the client is requesting, e.g. "profile", or "profile create". If the client omits this value, the authorization server MUST NOT issue an access token for this authorization code. Only the user's profile URL may be returned without any scope requested. See <a href="#profile-information">Profile Information</a> for details about which scopes to request to return user profile information.</li>
             <li><code>me</code> - (optional) The URL that the user entered</li>
+            <li><code>scope</code> - (optional) A space-separated list of scopes the client is requesting, e.g. "profile", or "profile create".</li>
+	    <li><code>resource</code> - (optional) Indicates the target service or resource to which access is being requested. Its value MUST be an absolute URI, which MUST be a locator that corresponds to a network-addressable location where the target resource is located. Multiple "resource" parameters MAY be used to indicate that the requested token is intended to be used at multiple resources. See <a href="#accessing-protected-resources">Accessing Protected Resources</a> for more information.</li>
           </ul>
+
+	   <p>If a request omits both a scope and a resource, the authorization server MUST NOT issue an access token for this authorization code. Only the user's profile URL may be returned without any scope or resource requested. See <a href="#profile-information">Profile Information</a> for details about which scopes to request to return user profile information.</p>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
 'https://example.org/auth?response_type=code&
@@ -474,7 +477,7 @@ viewbox="0 0 1169 1010" style="width: 100%; height: auto;"
 
           <p>The authorization endpoint MAY use the provided <code>me</code> query component as a hint of which user is attempting to sign in, and to indicate which profile URL the client is expecting in the resulting profile URL response or access token response. This is specifically helpful for authorization endpoints where users have multiple supported profile URLs, so the authorization endpoint can make an informed decision as to which profile URL the user meant to identify as. Note that from the authorization endpoint's view, this value as provided by the client is unverified external data and MUST NOT be assumed to be valid data at this stage. If the logged-in user doesn't match the provided <code>me</code> parameter by the client, the authorization endpoint MAY either ignore the <code>me</code> parameter completely or display an error, at the authorization endpoint's discretion.</p>
 
-          <p>Once the user is authenticated, the authorization endpoint presents the authorization request to the user. The prompt MUST indicate which application the user is signing in to, and SHOULD provide as much detail as possible about the request, such as information about the requested scopes.</p>
+          <p>Once the user is authenticated, the authorization endpoint presents the authorization request to the user. The prompt MUST indicate which application the user is signing in to, and SHOULD provide as much detail as possible about the request, such as information about the requested scopes or resources.</p>
 
         <section>
           <h4>Authorization Response</h4>
@@ -526,6 +529,7 @@ viewbox="0 0 1169 1010" style="width: 100%; height: auto;"
             <li><code>client_id</code> - The client's URL, which MUST match the client_id used in the authentication request.</li>
             <li><code>redirect_uri</code> - The client's redirect URL, which MUST match the initial authentication request.</li>
             <li><code>code_verifier</code> - The original plaintext random string generated before starting the authorization request.</li>
+	    <li><code>resource</code> - (optional) Indicates the target service or resource to which access is being requested.
           </ul>
 
           <b>Example request to authorization endpoint</b>
@@ -580,9 +584,9 @@ grant_type=authorization_code
         <section>
           <h4>Access Token Response</h4>
 
-          <p>When the client receives an authorization code that was requested with one or more scopes that will result in an access token being returned, the client will exchange the authorization code at the <b>token endpoint</b>.</p>
+          <p>When the client receives an authorization code that was requested with one or more scopes/resources that will result in an access token being returned, the client will exchange the authorization code at the <b>token endpoint</b>.</p>
 
-          <p>The token endpoint needs to verify that the authorization code is valid, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>, contains at least one <code>scope</code>, and checks that the provided <code>code_verifier</code> hashes to the same value as given in the <code>code_challenge</code> in the original authorization request. If the authorization code was issued with no <code>scope</code>, the token endpoint MUST NOT issue an access token, as empty scopes are invalid per Section 3.3 of OAuth 2.0 [[!RFC6749]].</p>
+          <p>The token endpoint needs to verify that the authorization code is valid, and that it was issued for the matching <code>client_id</code> and <code>redirect_uri</code>, contains at least one <code>scope</code> or <code>resource</code>, and checks that the provided <code>code_verifier</code> hashes to the same value as given in the <code>code_challenge</code> in the original authorization request. If the authorization code was issued with no <code>scope</code> or <code>resource</code>, the token endpoint MUST NOT issue an access token, as empty scopes are invalid per Section 3.3 of OAuth 2.0 [[!RFC6749]].</p>
 
           <p>The specifics of how the token endpoint verifies the authorization code are out of scope of this document, as typically the authorization endpoint and token endpoint are part of the same system and can share storage or another private communication mechanism.</p>
 
@@ -830,6 +834,18 @@ Content-Type: application/json
 
       <p>The client accesses protected resources by presenting the access token to the resource server.  The resource server MUST validate the access token and ensure that it has not expired and that its scope covers the requested resource.</p>
 
+     <section>
+     <h3>Resource Indicators</h3>
+
+     <p>In requests to the authorization server, a client MAY indicate the protected resource (a.k.a. resource server, application, API, etc.) to which it is requesting access by including a "resource" parameter in the request, as described in [[RFC8707]] <a href="https://datatracker.ietf.org/doc/html/rfc8707">Resource Indicators for OAuth 2.0</a>.</p> 
+
+     <p>The parameter value identifies a resource to which the client is requesting access. The client SHOULD provide the most specific URI that it can for the complete API or set of resources it intends to access. It differs from [[RFC8707]] in that the parameter value MUST correspond to a network addressable location of the protect resource.  The authorization server SHOULD audience-restrict issued access tokens to the resource(s) indicated by the "resource" parameter.</p>
+     <p>If the client omits the "resource" parameter when requesting authorization, the authorization server MAY process the request with no specific resource or by using a predefined default resource value. If a client provides a "resource" parameter, they may omit the "scope" parameter. A token MUST not be issued if both the scope and the resource parameters are omitted.</p>
+
+     <p>When the "resource" parameter is used on an access token request made to the token endpoint, for all grant types, it indicates the target service or protected resource where the client intends to use the requested access token.</p>
+
+     <p>If the authorization server fails to parse the provided value(s) or does not consider the resource(s) acceptable, it should reject the request with an error response using the error code "invalid_target". It can also be used to inform the client that it has requested an invalid combination of resource and scope.</p>
+     </section>
      <section>
      <h3>Error Responses</h3>
 
