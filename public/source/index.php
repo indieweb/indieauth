@@ -747,25 +747,25 @@ Content-Type: application/json
       <section>
         <h3>Refresh Tokens</h3>
 
-	<p>Refresh tokens are issued to the client by the authorization server and MAY be used at any time to obtain a new access token, usually when the current access token becomes invalid or expires, or to obtain a new token with identical or narrower scope (access tokens may have a shorter lifetime and fewer permissions than authorized by the resource owner).</p>
+        <p>Refresh tokens are issued to the client by the authorization server and MAY be used at any time to obtain a new access token, usually when the current access token becomes invalid or expires, or to obtain a new token with identical or narrower scope (access tokens may have a shorter lifetime and fewer permissions than authorized by the resource owner).</p>
 
-	<p>Use of short-lived access tokens and the offering of refresh tokens is RECOMMENDED, however, issuing a refresh token is at the discretion of the authorization server, and may be issued based on properties of the client, properties of the request, policies within the authorization server, a choice by the user authorizing the request or any other criteria.  If the authorization server issues a refresh token, it is included in the return when issuing an access token. If the authorization server decides not to issue refresh tokens, or the refresh token expires, the client MAY obtain new access tokens by starting the authorization flow over.</p>
+        <p>Use of short-lived access tokens and the offering of refresh tokens is RECOMMENDED, however, issuing a refresh token is at the discretion of the authorization server, and may be issued based on properties of the client, properties of the request, policies within the authorization server, a choice by the user authorizing the request or any other criteria.  If the authorization server issues a refresh token, it is included in the return when issuing an access token. If the authorization server decides not to issue refresh tokens, or the refresh token expires, the client MAY obtain new access tokens by starting the authorization flow over.</p>
 
-	<p>Authorization servers MAY revoke refresh tokens automatically in case of a security event, such as a password change or a logout at the authorization server, or when they are redeemed, in which case a new refresh token MAY be provided. Refresh tokens SHOULD expire if the client has been inactive for some time, i.e., the refresh token has not been used to obtain fresh access tokens for some time.  The expiration time is at the discretion of the authorization server.</p>
+        <p>Authorization servers MAY revoke refresh tokens automatically in case of a security event, such as a password change or a logout at the authorization server, or when they are redeemed, in which case a new refresh token MAY be provided. Refresh tokens SHOULD expire if the client has been inactive for some time, i.e., the refresh token has not been used to obtain fresh access tokens for some time.  The expiration time is at the discretion of the authorization server.</p>
 
-	<section>
-	  <h4>Refreshing an Access Token</h4>
+        <section>
+          <h4>Refreshing an Access Token</h4>
 
-	  <p>To refresh an access token, the client makes a POST request to the token endpoint to exchange the refresh token for the new access token. The POST request contains the following parameters:</p>
+          <p>To refresh an access token, the client makes a POST request to the token endpoint to exchange the refresh token for the new access token. The POST request contains the following parameters:</p>
 
-	  <ul>
-	    <li><code>grant_type=refresh_token</code></li>
-	    <li><code>refresh_token</code> - The refresh token previously offered to the client.</li>
-	    <li><code>client_id</code> - The client ID that was used when the refresh token was issued.
-	    <li><code>scope</code> (optional) - The client may request a token with the same or fewer scopes than the original access token. If omitted, is treated as equal to the original scopes granted.</li>
-	  </ul>
+          <ul>
+            <li><code>grant_type=refresh_token</code></li>
+            <li><code>refresh_token</code> - The refresh token previously offered to the client.</li>
+            <li><code>client_id</code> - The client ID that was used when the refresh token was issued.
+            <li><code>scope</code> (optional) - The client may request a token with the same or fewer scopes than the original access token. If omitted, is treated as equal to the original scopes granted.</li>
+          </ul>
 
-	  <p>For example:</p>
+          <p>For example:</p>
 
           <pre class="example nohighlight"><?= htmlspecialchars(
 'POST https://example.org/token
@@ -776,8 +776,9 @@ grant_type=refresh_token
 &refresh_token=xxxxxxxx&client_id=https://app.example.com
 ') ?></pre>
 
-	  <p>If valid and authorized, the authorization server issues an access token as noted in <a href="#access-token-response">Access Token Response</a>. The authorization server MAY issue a new refresh token, in which case the client MUST discard the old refresh token and replace it with the new refresh token. The authorization server MAY revoke the old refresh token after issuing a new refresh token to the client.  If a new refresh token is issued, the refresh token scope MUST be identical to that of the refresh token included by the client in the request.</p>
-	<p>Refresh tokens SHOULD expire if the client has been inactive for some time, i.e., the refresh token has not been used to obtain new access tokens for some time.  The expiration time is at the discretion of the authorization server.</p>
+          <p>If valid and authorized, the authorization server issues an access token as noted in <a href="#access-token-response">Access Token Response</a>. The authorization server MAY issue a new refresh token, in which case the client MUST discard the old refresh token and replace it with the new refresh token. The authorization server MAY revoke the old refresh token after issuing a new refresh token to the client.  If a new refresh token is issued, the refresh token scope MUST be identical to that of the refresh token included by the client in the request.</p>
+          
+          <p>Refresh tokens SHOULD expire if the client has not used the refresh token to obtain new access tokens for some time. The expiration time is at the discretion of the authorization server.</p>
 
 	  </section> 
 
@@ -993,6 +994,7 @@ grant_type=refresh_token
           <li>Defines the revocation endpoint in the server metadata instead of overriding the token endpoint</li>
           <li>Defines token introspection as a new endpoint and new response format instead of overriding the token endpoint</li>
           <li>Adds the OAuth 2.0 <code>iss</code> parameter to the authorization response</li>
+          <li>Adds a section describing refresh token usage. (Note that this was always possible in IndieAuth, but many people didn't know it was an option because it wasn't described here.)</li>
           <li>Fixed redirect URL example in Authorization Response</li>
           <li>Clarifications around the use of the profile scope in profile response and token response</li>
           <li>Note that the authorization server must not fetch the client_id URL if it's a localhost URL</li>
