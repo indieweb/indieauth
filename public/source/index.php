@@ -278,7 +278,7 @@
               <li><code>introspection_endpoint</code> - The Introspection Endpoint</li>
               <li><code>introspection_endpoint_auth_methods_supported</code> (optional) - JSON array containing a list of client authentication methods supported by this introspection endpoint.
               <li><code>revocation_endpoint</code> (optional) - The Revocation Endpoint</li>
-              <li><code>revocation_endpoint_auth_methods_supported</code> (optional) - <code>"none"</code> If a revocation endpoint is provided, this property should also be provided with the value <code>"none"</code>, since the omission of this value defaults to <code>client_secret_basic</code> according to [[RFC8414]].</li>
+              <li><code>revocation_endpoint_auth_methods_supported</code> (optional) - JSON array containing the value <code>"none"</code>. If a revocation endpoint is provided, this property should also be provided with the value <code>["none"]</code>, since the omission of this value defaults to <code>client_secret_basic</code> according to [[RFC8414]].</li>
               <li><code>scopes_supported</code> (recommended) - JSON array containing scope values supported by the IndieAuth server. Servers MAY choose not to advertise some supported scope values even when this parameter is used.</li>
               <li><code>response_types_supported</code> (optional) - JSON array containing the response_type values supported. This differs from [RFC8414] in that this parameter is OPTIONAL and that, if omitted, the default is <code>code</code></li>
               <li><code>grant_types_supported</code> (optional) - JSON array containing grant type values supported. If omitted, the default value differs from [RFC8414] and is <code>authorization_code</code></li>
