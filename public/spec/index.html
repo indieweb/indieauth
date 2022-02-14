@@ -331,7 +331,7 @@
               <li id="indieauth-server-metadata-li-4"><code>introspection_endpoint</code> - The Introspection Endpoint</li>
               <li id="indieauth-server-metadata-li-5"><code>introspection_endpoint_auth_methods_supported</code> (optional) - JSON array containing a list of client authentication methods supported by this introspection endpoint.
               </li><li id="indieauth-server-metadata-li-6"><code>revocation_endpoint</code> (optional) - The Revocation Endpoint</li>
-              <li id="indieauth-server-metadata-li-7"><code>revocation_endpoint_auth_methods_supported</code> (optional) - <code>"none"</code> If a revocation endpoint is provided, this property should also be provided with the value <code>"none"</code>, since the omission of this value defaults to <code>client_secret_basic</code> according to [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc8414" title="OAuth 2.0 Authorization Server Metadata">RFC8414</a></cite>].</li>
+              <li id="indieauth-server-metadata-li-7"><code>revocation_endpoint_auth_methods_supported</code> (optional) - JSON array containing the value <code>"none"</code>. If a revocation endpoint is provided, this property should also be provided with the value <code>["none"]</code>, since the omission of this value defaults to <code>client_secret_basic</code> according to [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc8414" title="OAuth 2.0 Authorization Server Metadata">RFC8414</a></cite>].</li>
               <li id="indieauth-server-metadata-li-8"><code>scopes_supported</code> (recommended) - JSON array containing scope values supported by the IndieAuth server. Servers <em class="rfc2119" title="MAY">MAY</em> choose not to advertise some supported scope values even when this parameter is used.</li>
               <li id="indieauth-server-metadata-li-9"><code>response_types_supported</code> (optional) - JSON array containing the response_type values supported. This differs from [RFC8414] in that this parameter is <em class="rfc2119" title="OPTIONAL">OPTIONAL</em> and that, if omitted, the default is <code>code</code></li>
               <li id="indieauth-server-metadata-li-10"><code>grant_types_supported</code> (optional) - JSON array containing grant type values supported. If omitted, the default value differs from [RFC8414] and is <code>authorization_code</code></li>
@@ -998,7 +998,7 @@ token=xxxxxxxx</pre>
     <section id="user-information">
       <h2 id="x9-user-information"><bdi class="secno">9. </bdi>User Information<a class="self-link" aria-label="§" href="#user-information"></a></h2>
 
-      <p id="user-information-p-1">A client may wish to refresh or receive additional information about the authenticated end user outside of the authorization response. The client would do so by making a GET request to the userinfo endpoint, providing a token with the <code>profile</code> or <code>email</code> scopes.</p>
+      <p id="user-information-p-1">A client may wish to refresh or receive additional information about the authenticated end user outside of the authorization response. To fetch the user's profile information, the client makes a GET request to the userinfo endpoint, providing an access token that was issued with the <code>profile</code> and/or <code>email</code> scopes.</p>
 
       <div class="example" id="example-19">
         <div class="marker">
@@ -1118,11 +1118,12 @@ Content-Type: application/json
           <li id="changes-from-26-november-2020-to-this-version-li-1">IndieAuth servers now use OAuth Server Metadata to publish their endpoints, and user profile URLs should link to the metadata document instead of the individual authorization endpoint and token endpoint</li>
           <li id="changes-from-26-november-2020-to-this-version-li-2">Defines the revocation endpoint in the server metadata instead of overriding the token endpoint</li>
           <li id="changes-from-26-november-2020-to-this-version-li-3">Defines token introspection as a new endpoint and new response format instead of overriding the token endpoint</li>
-          <li id="changes-from-26-november-2020-to-this-version-li-4">Adds the OAuth 2.0 <code>iss</code> parameter to the authorization response</li>
-          <li id="changes-from-26-november-2020-to-this-version-li-5">Adds a section describing refresh token usage. (Note that this was always possible in IndieAuth, but many people didn't know it was an option because it wasn't described here.)</li>
-          <li id="changes-from-26-november-2020-to-this-version-li-6">Fixed redirect URL example in Authorization Response</li>
-          <li id="changes-from-26-november-2020-to-this-version-li-7">Clarifications around the use of the profile scope in profile response and token response</li>
-          <li id="changes-from-26-november-2020-to-this-version-li-8">Note that the authorization server must not fetch the client_id URL if it's a localhost URL</li>
+          <li id="changes-from-26-november-2020-to-this-version-li-4">Adds a new <code>userinfo</code> endpoint to fetch updated profile data</li>
+          <li id="changes-from-26-november-2020-to-this-version-li-5">Adds the OAuth 2.0 <code>iss</code> parameter to the authorization response</li>
+          <li id="changes-from-26-november-2020-to-this-version-li-6">Adds a section describing refresh token usage. (Note that this was always possible in IndieAuth, but many people didn't know it was an option because it wasn't described here.)</li>
+          <li id="changes-from-26-november-2020-to-this-version-li-7">Fixed redirect URL example in Authorization Response</li>
+          <li id="changes-from-26-november-2020-to-this-version-li-8">Clarifications around the use of the profile scope in profile response and token response</li>
+          <li id="changes-from-26-november-2020-to-this-version-li-9">Note that the authorization server must not fetch the client_id URL if it's a localhost URL</li>
         </ul>
       </section>
 

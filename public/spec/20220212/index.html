@@ -1,10 +1,10 @@
 <!DOCTYPE html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="generator" content="ReSpec 25.6.0"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><style>span.example-title{text-transform:none}aside.example,div.example,div.illegal-example{padding:.5em;margin:1em 0;position:relative;clear:both}div.illegal-example{color:red}div.illegal-example p{color:#000}aside.example,div.example{padding:.5em;border-left-width:.5em;border-left-style:solid;border-color:#e0cb52;background:#fcfaee}aside.example div.example{border-left-width:.1em;border-color:#999;background:#fff}aside.example div.example span.example-title{color:#999}</style>
     <title>IndieAuth</title>
-
-
-
-
-
+    
+    
+    
+    
+    
     <link rel="pingback" href="https://indieauth.net/pingback">
     <link rel="webmention" href="https://indieauth.net/webmention">
   <style id="respec-mainstyle">@keyframes pop{0%{transform:scale(1,1)}25%{transform:scale(1.25,1.25);opacity:.75}100%{transform:scale(1,1)}}.hljs{background:0 0!important}a abbr,h1 abbr,h2 abbr,h3 abbr,h4 abbr,h5 abbr,h6 abbr{border:none}dfn{font-weight:700}a.internalDFN{color:inherit;border-bottom:1px solid #99c;text-decoration:none}a.externalDFN{color:inherit;border-bottom:1px dotted #ccc;text-decoration:none}a.bibref{text-decoration:none}.respec-offending-element:target{animation:pop .25s ease-in-out 0s 1}.respec-offending-element,a[href].respec-offending-element{text-decoration:red wavy underline}@supports not (text-decoration:red wavy underline){.respec-offending-element:not(pre){display:inline-block}.respec-offending-element{background:url(data:image/gif;base64,R0lGODdhBAADAPEAANv///8AAP///wAAACwAAAAABAADAEACBZQjmIAFADs=) bottom repeat-x}}#references :target{background:#eaf3ff;animation:pop .4s ease-in-out 0s 1}cite .bibref{font-style:normal}code{color:#c63501}th code{color:inherit}a[href].orcid{padding-left:4px;padding-right:4px}a[href].orcid>svg{margin-bottom:-2px}.toc a,.tof a{text-decoration:none}a .figno,a .secno{color:#000}ol.tof,ul.tof{list-style:none outside none}.caption{margin-top:.5em;font-style:italic}table.simple{border-spacing:0;border-collapse:collapse;border-bottom:3px solid #005a9c}.simple th{background:#005a9c;color:#fff;padding:3px 5px;text-align:left}.simple th a{color:#fff;padding:3px 5px;text-align:left}.simple th[scope=row]{background:inherit;color:inherit;border-top:1px solid #ddd}.simple td{padding:3px 10px;border-top:1px solid #ddd}.simple tr:nth-child(even){background:#f0f6ff}.section dd>p:first-child{margin-top:0}.section dd>p:last-child{margin-bottom:0}.section dd{margin-bottom:1em}.section dl.attrs dd,.section dl.eldef dd{margin-bottom:0}#issue-summary>ul,.respec-dfn-list{column-count:2}#issue-summary li,.respec-dfn-list li{list-style:none}details.respec-tests-details{margin-left:1em;display:inline-block;vertical-align:top}details.respec-tests-details>*{padding-right:2em}details.respec-tests-details[open]{z-index:999999;position:absolute;border:thin solid #cad3e2;border-radius:.3em;background-color:#fff;padding-bottom:.5em}details.respec-tests-details[open]>summary{border-bottom:thin solid #cad3e2;padding-left:1em;margin-bottom:1em;line-height:2em}details.respec-tests-details>ul{width:100%;margin-top:-.3em}details.respec-tests-details>li{padding-left:1em}a[href].self-link:hover{opacity:1;text-decoration:none;background-color:transparent}h2,h3,h4,h5,h6{position:relative}aside.example .marker>a.self-link{color:inherit}h2>a.self-link,h3>a.self-link,h4>a.self-link,h5>a.self-link,h6>a.self-link{border:none;color:inherit;font-size:83%;height:2em;left:-1.6em;opacity:.5;position:absolute;text-align:center;text-decoration:none;top:0;transition:opacity .2s;width:2em}h2>a.self-link::before,h3>a.self-link::before,h4>a.self-link::before,h5>a.self-link::before,h6>a.self-link::before{content:"§";display:block}@media (max-width:767px){dd{margin-left:0}h2>a.self-link,h3>a.self-link,h4>a.self-link,h5>a.self-link,h6>a.self-link{left:auto;top:auto}}@media print{.removeOnSave{display:none}}</style><meta name="description" content="IndieAuth is an identity layer on top of OAuth 2.0 [RFC6749], primarily used to obtain
@@ -124,22 +124,22 @@
 }</script><link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2016/W3C-NOTE"></head>
   <body class="h-entry informative" style="background-image: url(&quot;https://spec.indieweb.org/INDIEWEB-LIVING-STANDARD.svg&quot;);"><div class="head">
     <a class="logo" href="https://www.w3.org/"><img alt="W3C" width="120" height="100" src="https://spec.indieweb.org/index_files/logo.svg"></a> <h1 id="title" class="title">IndieAuth</h1>
-
+    
     <h2>IndieWeb Living Standard 12 February 2022</h2>
     <dl>
       <dt>This version:</dt><dd>
               <a class="u-url" href="https://indieauth.spec.indieweb.org/">https://indieauth.spec.indieweb.org/</a>
             </dd>
-
+      
       <dt>Test suite:</dt><dd><a href="https://indieauth.rocks/">https://indieauth.rocks/</a></dd>
-
-
+      
+      
       <dt>Previous version:</dt><dd><a href="https://indieauth.spec.indieweb.org/20201126/">https://indieauth.spec.indieweb.org/20201126/</a></dd>
-
+      
       <dt>Editor:</dt>
       <dd class="p-author h-card vcard" data-editor-id="59996"><a class="u-url url p-name fn" href="https://aaronparecki.com/">Aaron Parecki</a></dd>
-
-
+      
+      
       <dt>Repository:</dt><dd>
     <a href="https://github.com/indieweb/indieauth">Github</a>
   </dd><dd>
@@ -153,8 +153,8 @@
           <a href="https://indieauth.net/errata"><strong>errata</strong></a> for any errors or
           issues reported since publication.
         </p>
-
-
+    
+    
     <p class="copyright"><b>License:</b> Per <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>, to the extent possible under law, the editor(s) and contributors have waived all copyright and related or neighboring rights to this work. In addition, the editor(s) and contributors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0">Open Web Foundation Agreement Version 1.0</a>.</p>
     <hr title="Separator for header">
   </div>
@@ -331,7 +331,7 @@
               <li id="indieauth-server-metadata-li-4"><code>introspection_endpoint</code> - The Introspection Endpoint</li>
               <li id="indieauth-server-metadata-li-5"><code>introspection_endpoint_auth_methods_supported</code> (optional) - JSON array containing a list of client authentication methods supported by this introspection endpoint.
               </li><li id="indieauth-server-metadata-li-6"><code>revocation_endpoint</code> (optional) - The Revocation Endpoint</li>
-              <li id="indieauth-server-metadata-li-7"><code>revocation_endpoint_auth_methods_supported</code> (optional) - <code>"none"</code> If a revocation endpoint is provided, this property should also be provided with the value <code>"none"</code>, since the omission of this value defaults to <code>client_secret_basic</code> according to [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc8414" title="OAuth 2.0 Authorization Server Metadata">RFC8414</a></cite>].</li>
+              <li id="indieauth-server-metadata-li-7"><code>revocation_endpoint_auth_methods_supported</code> (optional) - JSON array containing the value <code>"none"</code>. If a revocation endpoint is provided, this property should also be provided with the value <code>["none"]</code>, since the omission of this value defaults to <code>client_secret_basic</code> according to [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc8414" title="OAuth 2.0 Authorization Server Metadata">RFC8414</a></cite>].</li>
               <li id="indieauth-server-metadata-li-8"><code>scopes_supported</code> (recommended) - JSON array containing scope values supported by the IndieAuth server. Servers <em class="rfc2119" title="MAY">MAY</em> choose not to advertise some supported scope values even when this parameter is used.</li>
               <li id="indieauth-server-metadata-li-9"><code>response_types_supported</code> (optional) - JSON array containing the response_type values supported. This differs from [RFC8414] in that this parameter is <em class="rfc2119" title="OPTIONAL">OPTIONAL</em> and that, if omitted, the default is <code>code</code></li>
               <li id="indieauth-server-metadata-li-10"><code>grant_types_supported</code> (optional) - JSON array containing grant type values supported. If omitted, the default value differs from [RFC8414] and is <code>authorization_code</code></li>
@@ -559,11 +559,11 @@ Location: https://app.example.com/redirect?code=xxxxxxxx&amp;
       </div>
 
           <p id="authorization-response-p-3">Upon the redirect back to the client, the client <em class="rfc2119" title="MUST">MUST</em> verify:</p>
-
-    <ul>
-      <li id="authorization-response-li-4">That the <code>state</code> parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</li>
-      <li id="authorization-response-li-5">That the <code>iss</code> parameter in the request is valid and matches the issuer parameter provided by the Server Metadata endpoint during Discovery as outlined in <a href="https://www.ietf.org/archive/id/draft-ietf-oauth-iss-auth-resp-02.html">OAuth 2.0 Authorization Server Issuer Identification</a>. Clients <em class="rfc2119" title="MUST">MUST</em> compare the parameters using simple string comparison. If the value does not match the expected issuer identifier, clients <em class="rfc2119" title="MUST">MUST</em> reject the authorization response and <em class="rfc2119" title="MUST NOT">MUST NOT</em> proceed with the authorization grant. For error responses, clients <em class="rfc2119" title="MUST NOT">MUST NOT</em> assume that the error originates from the intended authorization server. </li>
-    </ul>
+	  
+	  <ul>
+	    <li id="authorization-response-li-4">That the <code>state</code> parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</li>
+	    <li id="authorization-response-li-5">That the <code>iss</code> parameter in the request is valid and matches the issuer parameter provided by the Server Metadata endpoint during Discovery as outlined in <a href="https://www.ietf.org/archive/id/draft-ietf-oauth-iss-auth-resp-02.html">OAuth 2.0 Authorization Server Issuer Identification</a>. Clients <em class="rfc2119" title="MUST">MUST</em> compare the parameters using simple string comparison. If the value does not match the expected issuer identifier, clients <em class="rfc2119" title="MUST">MUST</em> reject the authorization response and <em class="rfc2119" title="MUST NOT">MUST NOT</em> proceed with the authorization grant. For error responses, clients <em class="rfc2119" title="MUST NOT">MUST NOT</em> assume that the error originates from the intended authorization server. </li>
+	  </ul>
 
           <p id="authorization-response-p-4">See OAuth 2.0 [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6749" title="The OAuth 2.0 Authorization Framework">RFC6749</a></cite>] <a href="https://tools.ietf.org/html/rfc6749#section-4.1.2.1">Section 4.1.2.1</a> for how to indicate errors and other failures to the user and client.</p>
         </section>
@@ -657,7 +657,7 @@ Content-Type: application/json
           <p id="access-token-response-p-3">The specifics of how the token endpoint verifies the authorization code are out of scope of this document, as typically the authorization endpoint and token endpoint are part of the same system and can share storage or another private communication mechanism.</p>
 
           <p id="access-token-response-p-4">If the request is valid, then the token endpoint can generate an access token and return the appropriate response. The token response is a JSON [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc7159" title="The JavaScript Object Notation (JSON) Data Interchange Format">RFC7159</a></cite>] object containing:</p>
-
+	  
           <ul>
             <li id="access-token-response-li-1"><code>access_token</code> (required) - the OAuth 2.0 Bearer Token [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6750" title="The OAuth 2.0 Authorization Framework: Bearer Token Usage">RFC6750</a></cite>].</li>
             <li id="access-token-response-li-2"><code>me</code> (required) - the canonical user profile URL for the user this access token corresponds to.</li>
@@ -863,7 +863,7 @@ grant_type=refresh_token
       </div>
 
           <p id="refreshing-an-access-token-p-3">If valid and authorized, the authorization server issues an access token as noted in <a href="#access-token-response">Access Token Response</a>. The authorization server <em class="rfc2119" title="MAY">MAY</em> issue a new refresh token, in which case the client <em class="rfc2119" title="MUST">MUST</em> discard the old refresh token and replace it with the new refresh token. The authorization server <em class="rfc2119" title="MAY">MAY</em> revoke the old refresh token after issuing a new refresh token to the client.  If a new refresh token is issued, the refresh token scope <em class="rfc2119" title="MUST">MUST</em> be identical to that of the refresh token included by the client in the request.</p>
-
+          
           <p id="refreshing-an-access-token-p-4">Refresh tokens <em class="rfc2119" title="SHOULD">SHOULD</em> expire if the client has not used the refresh token to obtain new access tokens for some time. The expiration time is at the discretion of the authorization server.</p>
 
         </section>
@@ -998,7 +998,7 @@ token=xxxxxxxx</pre>
     <section id="user-information">
       <h2 id="x9-user-information"><bdi class="secno">9. </bdi>User Information<a class="self-link" aria-label="§" href="#user-information"></a></h2>
 
-      <p id="user-information-p-1">A client may wish to refresh or receive additional information about the authenticated end user outside of the authorization response. The client would do so by making a GET request to the userinfo endpoint, providing a token with the <code>profile</code> or <code>email</code> scopes.</p>
+      <p id="user-information-p-1">A client may wish to refresh or receive additional information about the authenticated end user outside of the authorization response. To fetch the user's profile information, the client makes a GET request to the userinfo endpoint, providing an access token that was issued with the <code>profile</code> and/or <code>email</code> scopes.</p>
 
       <div class="example" id="example-19">
         <div class="marker">
@@ -1073,14 +1073,14 @@ Content-Type: application/json
       </dl>
     </section>
 
-
+    
 
     <section class="appendix informative" id="resources">
       <h2 id="a-resources"><bdi class="secno">A. </bdi>Resources<a class="self-link" aria-label="§" href="#resources"></a></h2><p id="resources-p-1"><em>This section is non-normative.</em></p>
 
       <p id="resources-p-2">
         </p><ul>
-
+          
           <li id="resources-li-1"><a href="https://indieweb.org/Category:IndieAuth">More IndieAuth resources</a></li>
           <li id="resources-li-2"><a href="https://indieweb.org/obtaining-an-access-token">Implementation guide for obtaining an access token using IndieAuth</a></li>
           <li id="resources-li-3"><a href="https://indieweb.org/indieauth-for-login">Implementation guide for authenticating users without obtaining an access token</a></li>
@@ -1118,11 +1118,12 @@ Content-Type: application/json
           <li id="changes-from-26-november-2020-to-this-version-li-1">IndieAuth servers now use OAuth Server Metadata to publish their endpoints, and user profile URLs should link to the metadata document instead of the individual authorization endpoint and token endpoint</li>
           <li id="changes-from-26-november-2020-to-this-version-li-2">Defines the revocation endpoint in the server metadata instead of overriding the token endpoint</li>
           <li id="changes-from-26-november-2020-to-this-version-li-3">Defines token introspection as a new endpoint and new response format instead of overriding the token endpoint</li>
-          <li id="changes-from-26-november-2020-to-this-version-li-4">Adds the OAuth 2.0 <code>iss</code> parameter to the authorization response</li>
-          <li id="changes-from-26-november-2020-to-this-version-li-5">Adds a section describing refresh token usage. (Note that this was always possible in IndieAuth, but many people didn't know it was an option because it wasn't described here.)</li>
-          <li id="changes-from-26-november-2020-to-this-version-li-6">Fixed redirect URL example in Authorization Response</li>
-          <li id="changes-from-26-november-2020-to-this-version-li-7">Clarifications around the use of the profile scope in profile response and token response</li>
-          <li id="changes-from-26-november-2020-to-this-version-li-8">Note that the authorization server must not fetch the client_id URL if it's a localhost URL</li>
+          <li id="changes-from-26-november-2020-to-this-version-li-4">Adds a new <code>userinfo</code> endpoint to fetch updated profile data</li>
+          <li id="changes-from-26-november-2020-to-this-version-li-5">Adds the OAuth 2.0 <code>iss</code> parameter to the authorization response</li>
+          <li id="changes-from-26-november-2020-to-this-version-li-6">Adds a section describing refresh token usage. (Note that this was always possible in IndieAuth, but many people didn't know it was an option because it wasn't described here.)</li>
+          <li id="changes-from-26-november-2020-to-this-version-li-7">Fixed redirect URL example in Authorization Response</li>
+          <li id="changes-from-26-november-2020-to-this-version-li-8">Clarifications around the use of the profile scope in profile response and token response</li>
+          <li id="changes-from-26-november-2020-to-this-version-li-9">Note that the authorization server must not fetch the client_id URL if it's a localhost URL</li>
         </ul>
       </section>
 
@@ -1209,7 +1210,7 @@ Content-Type: application/json
       }
     };
     </script>
-
+  
 
 <section id="references" class="appendix"><h2 id="d-references"><bdi class="secno">D. </bdi>References<a class="self-link" aria-label="§" href="#references"></a></h2><section id="normative-references">
       <h3 id="d-1-normative-references"><bdi class="secno">D.1 </bdi>
