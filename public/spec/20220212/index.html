@@ -918,7 +918,7 @@ token=xxxxxxxx</pre>
 Content-Type: application/json
 
 {
-  "active": "true",
+  "active": true,
   "me": "https://user.example.net/",
   "client_id": https://app.example.com/",
   "scope": "create update delete"
@@ -929,7 +929,7 @@ Content-Type: application/json
 
         <p id="access-token-verification-response-p-2">Specific implementations <em class="rfc2119" title="MAY">MAY</em> include additional parameters as top-level JSON properties. Clients <em class="rfc2119" title="SHOULD">SHOULD</em> ignore parameters they don't recognize.</p>
 
-        <p id="access-token-verification-response-p-3">If the token is not valid, the endpoint still <em class="rfc2119" title="MUST">MUST</em> return a 200 Response, with the only parameter being active(with its value set to "false"). The response <em class="rfc2119" title="SHOULD NOT">SHOULD NOT</em> include any additional information about an inactive token, including why the token is inactive.</p>
+        <p id="access-token-verification-response-p-3">If the token is not valid, the endpoint still <em class="rfc2119" title="MUST">MUST</em> return a 200 Response, with the only parameter being `active` (with its value set to <code>false</code>). The response <em class="rfc2119" title="SHOULD NOT">SHOULD NOT</em> include any additional information about an inactive token, including why the token is inactive.</p>
 
         <div class="example" id="example-17">
         <div class="marker">
@@ -938,7 +938,7 @@ Content-Type: application/json
 Content-Type: application/json
 
 {
-  "active": "false",
+  "active": false,
 }</pre>
       </div>
 
