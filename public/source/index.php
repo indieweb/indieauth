@@ -722,7 +722,7 @@ Content-Type: application/json
 
         <ol>
           <li>The user enters <code>www.example.com</code> into the client</li>
-          <li>The client applies the steps from URL canoncalization to turn it into a URL: <code>http://www.example.com/</code></li>
+          <li>The client applies the steps from URL canonicalization to turn it into a URL: <code>http://www.example.com/</code></li>
           <li>The client makes a GET request to <code>http://www.example.com/</code></li>
           <li>The server returns a 301 redirect to <code>https://example.com/</code></li>
           <li>The client makes a GET request to <code>https://example.com/</code> and finds the authorization endpoint</li>
@@ -734,7 +734,7 @@ Content-Type: application/json
 
         <ol>
           <li>The user enters <code>example.com</code> into the client</li>
-          <li>The client applies the steps from URL canoncalization to turn it into a URL: <code>http://example.com/</code></li>
+          <li>The client applies the steps from URL canonicalization to turn it into a URL: <code>http://example.com/</code></li>
           <li>The client makes a GET request to <code>http://example.com/</code></li>
           <li>The server returns a 301 redirect to <code>https://example.com/</code></li>
           <li>The client makes a GET request to <code>https://example.com/</code> and finds the authorization endpoint, <code>https://login.example.com</code></li>
@@ -747,7 +747,7 @@ Content-Type: application/json
 
         <ol>
           <li>The user enters <code>example.com</code> into the client</li>
-          <li>The client applies the steps from URL canoncalization to turn it into a URL: <code>http://example.com/</code></li>
+          <li>The client applies the steps from URL canonicalization to turn it into a URL: <code>http://example.com/</code></li>
           <li>The client makes a GET request to <code>http://example.com/</code></li>
           <li>The server returns a 301 redirect to <code>https://example.com/</code></li>
           <li>The client makes a GET request to <code>https://example.com/</code> and finds the authorization endpoint, <code>https://login.example.com</code></li>
@@ -760,7 +760,7 @@ Content-Type: application/json
 
         <ol>
           <li>The user enters <code>user@example.com</code> into the client</li>
-          <li>The client applies the steps from URL canoncalization to turn it into a URL: <code>http://user@example.com/</code></li>
+          <li>The client applies the steps from URL canonicalization to turn it into a URL: <code>http://user@example.com/</code></li>
           <li>The client makes a GET request to <code>http://example.com/</code> providing the HTTP Basic Auth username <code>user</code></li>
           <li>The server returns a 301 redirect to <code>https://example.com/</code></li>
           <li>The client makes a GET request to <code>https://example.com/</code> and finds the authorization endpoint, <code>https://login.example.com</code>
