@@ -519,7 +519,7 @@ Location: https://app.example.com/redirect?code=xxxxxxxx&
                                            iss=https%3A%2F%2Findieauth.example.com') ?></pre>
 
           <p>Upon the redirect back to the client, the client MUST verify:</p>
-	  
+
 	  <ul>
 	    <li>That the <code>state</code> parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</li>
 	    <li>That the <code>iss</code> parameter in the request is valid and matches the issuer parameter provided by the Server Metadata endpoint during Discovery as outlined in <a href="https://www.ietf.org/archive/id/draft-ietf-oauth-iss-auth-resp-02.html">OAuth 2.0 Authorization Server Issuer Identification</a>. Clients MUST compare the parameters using simple string comparison. If the value does not match the expected issuer identifier, clients MUST reject the authorization response and MUST NOT proceed with the authorization grant. For error responses, clients MUST NOT assume that the error originates from the intended authorization server. </li>
@@ -590,6 +590,7 @@ grant_type=authorization_code
           <pre class="example nohighlight"><?= htmlspecialchars(
 'HTTP/1.1 200 OK
 Content-Type: application/json
+Cache-Control: no-store
 
 {
   "me": "https://user.example.net/"
@@ -610,10 +611,12 @@ Content-Type: application/json
           <p>The specifics of how the token endpoint verifies the authorization code are out of scope of this document, as typically the authorization endpoint and token endpoint are part of the same system and can share storage or another private communication mechanism.</p>
 
           <p>If the request is valid, then the token endpoint can generate an access token and return the appropriate response. The token response is a JSON [[!RFC7159]] object containing:</p>
-	  
+
           <ul>
+            <li><code>token_type</code> (required) — the string <code>Bearer</code>.</li>
             <li><code>access_token</code> (required) - the OAuth 2.0 Bearer Token [[!RFC6750]].</li>
             <li><code>me</code> (required) - the canonical user profile URL for the user this access token corresponds to.</li>
+            <li><code>scope</code> (required/optional) — the scope granted to the client app. Required if different from the requested scope, otherwise optional.
             <li><code>profile</code> (optional) - the user's profile information as defined in <a href="#profile-information">Profile Information</a>.</li>
             <li><code>expires_in</code> (recommended) - The lifetime in seconds of the access token.</li>
             <li><code>refresh_token</code> (optional) - The refresh token, which can be used to obtain new access tokens as defined in <a href="#refresh-tokens">Refresh Tokens</a>.</li>
@@ -623,6 +626,7 @@ Content-Type: application/json
 
           <pre class="example nohighlight">HTTP/1.1 200 OK
 Content-Type: application/json
+Cache-Control: no-store
 
 {
   "access_token": "XXXXXX",
@@ -656,6 +660,7 @@ Content-Type: application/json
 
           <pre class="example nohighlight">HTTP/1.1 200 OK
 Content-Type: application/json
+Cache-Control: no-store
 
 {
   "access_token": "XXXXXX",
@@ -806,7 +811,7 @@ grant_type=refresh_token
 ') ?></pre>
 
           <p>If valid and authorized, the authorization server issues an access token as noted in <a href="#access-token-response">Access Token Response</a>. The authorization server MAY issue a new refresh token, in which case the client MUST discard the old refresh token and replace it with the new refresh token. The authorization server MAY revoke the old refresh token after issuing a new refresh token to the client.  If a new refresh token is issued, the refresh token scope MUST be identical to that of the refresh token included by the client in the request.</p>
-          
+
           <p>Refresh tokens SHOULD expire if the client has not used the refresh token to obtain new access tokens for some time. The expiration time is at the discretion of the authorization server.</p>
 
         </section>
