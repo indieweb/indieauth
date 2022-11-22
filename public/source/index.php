@@ -616,7 +616,7 @@ Cache-Control: no-store
             <li><code>token_type</code> (required) — the string <code>Bearer</code>.</li>
             <li><code>access_token</code> (required) - the OAuth 2.0 Bearer Token [[!RFC6750]].</li>
             <li><code>me</code> (required) - the canonical user profile URL for the user this access token corresponds to.</li>
-            <li><code>scope</code> (required/optional) — the scope granted to the client app. Required if different from the requested scope, otherwise optional.
+            <li><code>scope</code> (required/optional) — the scope granted to the client app. Required if different from the requested scope, otherwise optional.</li>
             <li><code>profile</code> (optional) - the user's profile information as defined in <a href="#profile-information">Profile Information</a>.</li>
             <li><code>expires_in</code> (recommended) - The lifetime in seconds of the access token.</li>
             <li><code>refresh_token</code> (optional) - The refresh token, which can be used to obtain new access tokens as defined in <a href="#refresh-tokens">Refresh Tokens</a>.</li>
