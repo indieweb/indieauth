@@ -199,6 +199,12 @@
       <h2>Identifiers</h2>
 
       <section>
+        <h3>Issuer Identifier</h3>
+
+        <p>The issuer identifier of the authorization server, which is primarily used to prevent authorization server mix-up attacks. The issuer identifier is a URL that uses the "https" scheme and has no query or fragment components as defined in [[!RFC9207]], however, the identifier MUST also be a prefix of the <code>indieauth-metadata</code> URL. For example, for an <code>indieauth-metadata</code> endpoint <code>https://example.com/.well-known/oauth-authorization-server</code>, the issuer URL could be <code>https://example.com/</code>, or for a metadata URL of <code>https://example.com/wp-json/indieauth/1.0/metadata</code>, the issuer URL could be <code>https://example.com/wp-json/indieauth/1.0</code></p>
+
+      </section>
+      <section>
         <h3>User Profile URL</h3>
 
         <p>Users are identified by a [[!URL]]. Profile URLs MUST have either an <code>https</code> or <code>http</code> scheme, MUST contain a path component (<code>/</code> is a valid path), MUST NOT contain single-dot or double-dot path segments, MAY contain a query string component, MUST NOT contain a fragment component, MUST NOT contain a username or password component, and MUST NOT contain a port. Additionally, host names MUST be domain names and MUST NOT be ipv4 or ipv6 addresses.</p>
@@ -272,7 +278,7 @@
             <p>The metadata endpoint returns information about the server as a JSON object with the following properties:</p>
 
             <ul>
-              <li><code>issuer</code> - The server's issuer identifier. The issuer identifier is a URL that uses the "https" scheme and has no query or fragment components. The identifier MUST be a prefix of the <code>indieauth-metadata</code> URL. e.g. for an <code>indieauth-metadata</code> endpoint <code>https://example.com/.well-known/oauth-authorization-server</code>, the issuer URL could be <code>https://example.com/</code>, or for a metadata URL of <code>https://example.com/wp-json/indieauth/1.0/metadata</code>, the issuer URL could be <code>https://example.com/wp-json/indieauth/1.0</code></li>
+              <li><code>issuer</code> - The server's issuer identifier.</li>
               <li><code>authorization_endpoint</code> - The Authorization Endpoint</li>
               <li><code>token_endpoint</code> - The Token Endpoint</li>
               <li><code>introspection_endpoint</code> - The Introspection Endpoint</li>
@@ -522,7 +528,7 @@ Location: https://app.example.com/redirect?code=xxxxxxxx&
 	  
 	  <ul>
 	    <li>That the <code>state</code> parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</li>
-	    <li>That the <code>iss</code> parameter in the request is valid and matches the issuer parameter provided by the Server Metadata endpoint during Discovery as outlined in <a href="https://www.ietf.org/archive/id/draft-ietf-oauth-iss-auth-resp-02.html">OAuth 2.0 Authorization Server Issuer Identification</a>. Clients MUST compare the parameters using simple string comparison. If the value does not match the expected issuer identifier, clients MUST reject the authorization response and MUST NOT proceed with the authorization grant. For error responses, clients MUST NOT assume that the error originates from the intended authorization server. </li>
+	    <li>That the <code>iss</code> parameter in the request is valid and matches the issuer parameter provided by the Server Metadata endpoint during Discovery as outlined in OAuth 2.0 Authorization Server Issuer Identification[[!RFC9207]]. Clients MUST compare the parameters using simple string comparison. If the value does not match the expected issuer identifier, clients MUST reject the authorization response and MUST NOT proceed with the authorization grant. For error responses, clients MUST NOT assume that the error originates from the intended authorization server. </li>
 	  </ul>
 
           <p>See OAuth 2.0 [[!RFC6749]] <a href="https://tools.ietf.org/html/rfc6749#section-4.1.2.1">Section 4.1.2.1</a> for how to indicate errors and other failures to the user and client.</p>
