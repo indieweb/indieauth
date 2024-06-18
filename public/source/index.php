@@ -313,16 +313,28 @@ Content-Type: application/json
 
         <p>When an authorization server presents its <a href="https://www.oauth.com/oauth2-servers/authorization/the-authorization-interface/">authorization interface</a>, it will often want to display some additional information about the client beyond just the <code>client_id</code> URL, in order to better inform the user about the request being made. Additionally, the authorization server needs to know the list of redirect URLs that the client is allowed to redirect to.</p>
 
-        <p>Since client identifiers are URLs, the authorization server SHOULD [[!Fetch]] the URL to find more information about the client.</p>
+        <p>Since client identifiers are URLs, the authorization server SHOULD [[!Fetch]] the URL to find more information about the client. A client metadata document SHOULD be present at the client identifier.</p>
 
         <p>If the <code>client_id</code> contains the permitted IPv4 and IPv6 addresses <code>127.0.0.1</code> or <code>[::1]</code>, or if the domain name resolves to these addresses, the authorization endpoint MUST NOT fetch the <code>client_id</code>.</p>
 
         <p>Note that the server may want to perform some additional checks on the <code>client_id</code> before fetching it to avoid SSRF attacks. In particular, the server may want to resolve the domain name first and avoid fetching the document if the IP address is within the loopback range defined by [[RFC5735]] or any other implementation-specific internal IP address.</p>
 
         <section>
-          <h4>Application Information</h4>
+          <h4>Client Metadata</h4>
 
-          <p>Clients SHOULD have a web page at their <code>client_id</code> URL with basic information about the application, at least the application's name and icon. This page serves as a good landing page for human visitors, but can also serve as the place to include machine-readable information about the application. The HTML on the <code>client_id</code> URL SHOULD be marked up with [[!h-app]] Microformat to indicate the name and icon of the application. Authorization servers SHOULD support parsing the [[!h-app]] Microformat from the <code>client_id</code>, and if there is an [[!h-app]] with a <code>url</code> property matching the <code>client_id</code> URL, then it should use the name and icon and display them on the authorization prompt.</p>
+          <p>Clients SHOULD have a json document at their <code>client_id</code> URL containing the following properties. The authorization server MAY cache the client metadata it discovers at the client ID URL and SHOULD respect cache-control headers and set reasonable defaults if none are present.</p>
+
+          <ul>
+            <li><code>client_uri</code> - URL of a webpage providing information about the client</li>
+            <li><code>client_id</code> - the client identifier. The authorization server MUST compare and match the value of the client_id to the URL where the document was retrieved. The client_uri MUST be a prefix of the client_ID.</li>
+            <li><code>client_name</code> - (optional) Human readable name of the client to be presented on the consent screen</li>
+            <li><code>logo_uri</code> - (optional) URL that references a logo or icon for the client</li>
+            <li><code>redirect_uris</code> - (optional) An array of redirect URIs
+          </ul>
+
+          <p>Additional metadata properties as per [[!RFC7591]] MAY be added, with the understanding that authrozation servers MAY not recognize them.</p>
+
+          <p>Clients SHOULD have a web page at their <code>client_uri</code> URL with basic information about the application, at least the application's name and icon. This page serves as a good landing page for human visitors. Some clients MAY opt to return a web page for the client_id but there is no requirement that authorization servers accept this. When this is the case, the HTML page SHOULD also serve as the place to include machine-readable information about the application. The HTML on the <code>client_id</code> URL can be marked up with [[!h-app]] Microformat to indicate the name and icon of the application. As this was a recommendation in a previous revision of the specification, authorization servers SHOULD support parsing the [[!h-app]] Microformat from the <code>client_id</code>, and if there is an [[!h-app]] with a <code>url</code> property matching the <code>client_id</code> URL, then it should use the name and icon and display them on the authorization prompt.</p>
 
           <pre class="example"><?= htmlspecialchars(
 '<div class="h-app">
@@ -347,9 +359,8 @@ Content-Type: application/json
         <section>
           <h4>Redirect URL</h4>
 
-          <p>If a client wishes to use a redirect URL that has a different host than their <code>client_id</code>, or if the redirect URL uses a custom scheme (such as when the client is a native application), then the client will need to explicitly list those redirect URLs so that authorization endpoints can be sure it is safe to redirect users there. The client SHOULD publish one or more <code>&lt;link&gt;</code> tags or <code>Link</code> HTTP headers with a <code>rel</code> attribute of <code>redirect_uri</code> at the <code>client_id</code> URL.</p>
-
-          <p>Authorization endpoints verifying that a <code>redirect_uri</code> is allowed for use by a client MUST look for an exact match of the given <code>redirect_uri</code> in the request against the list of <code>redirect_uri</code>s discovered after resolving any relative URLs.</p>
+          <p>If a client wishes to use a redirect URL that has a different host than their <code>client_id</code>, or if the redirect URL uses a custom scheme (such as when the client is a native application), then the client will need to explicitly list those redirect URLs so that authorization endpoints can be sure it is safe to redirect users there. This is an optional property in the client metadata document. Authorization endpoints verifying that a <code>redirect_uri</code> is allowed for use by a client MUST look for an exact match of the given <code>redirect_uri</code> in the request against the list of <code>redirect_uri</code>s after resolving any relative URLs.</p>
+         <p>When a client chooses to serve a web page as its client_id, the client MAY publish one or more <code>&lt;link&gt;</code> tags or <code>Link</code> HTTP headers with a <code>rel</code> attribute of <code>redirect_uri</code> at the <code>client_id</code> URL to be used by the authorization server.</p>
 
           <pre class="example"><?= htmlspecialchars('GET / HTTP/1.1
 Host: app.example.com
@@ -525,7 +536,7 @@ Location: https://app.example.com/redirect?code=xxxxxxxx&
                                            iss=https%3A%2F%2Findieauth.example.com') ?></pre>
 
           <p>Upon the redirect back to the client, the client MUST verify:</p>
-	  
+
 	  <ul>
 	    <li>That the <code>state</code> parameter in the request is valid and matches the state parameter that it initially created, in order to prevent CSRF attacks. The state value can also store session information to enable development of clients that cannot store data themselves.</li>
 	    <li>That the <code>iss</code> parameter in the request is valid and matches the issuer parameter provided by the Server Metadata endpoint during Discovery as outlined in OAuth 2.0 Authorization Server Issuer Identification[[!RFC9207]]. Clients MUST compare the parameters using simple string comparison. If the value does not match the expected issuer identifier, clients MUST reject the authorization response and MUST NOT proceed with the authorization grant. For error responses, clients MUST NOT assume that the error originates from the intended authorization server. </li>
@@ -616,7 +627,7 @@ Content-Type: application/json
           <p>The specifics of how the token endpoint verifies the authorization code are out of scope of this document, as typically the authorization endpoint and token endpoint are part of the same system and can share storage or another private communication mechanism.</p>
 
           <p>If the request is valid, then the token endpoint can generate an access token and return the appropriate response. The token response is a JSON [[!RFC7159]] object containing:</p>
-	  
+
           <ul>
             <li><code>access_token</code> (required) - the OAuth 2.0 Bearer Token [[!RFC6750]].</li>
             <li><code>me</code> (required) - the canonical user profile URL for the user this access token corresponds to.</li>
@@ -812,7 +823,7 @@ grant_type=refresh_token
 ') ?></pre>
 
           <p>If valid and authorized, the authorization server issues an access token as noted in <a href="#access-token-response">Access Token Response</a>. The authorization server MAY issue a new refresh token, in which case the client MUST discard the old refresh token and replace it with the new refresh token. The authorization server MAY revoke the old refresh token after issuing a new refresh token to the client.  If a new refresh token is issued, the refresh token scope MUST be identical to that of the refresh token included by the client in the request.</p>
-          
+
           <p>Refresh tokens SHOULD expire if the client has not used the refresh token to obtain new access tokens for some time. The expiration time is at the discretion of the authorization server.</p>
 
         </section>
