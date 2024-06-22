@@ -66,15 +66,6 @@
               status:   "Living Specification",
               publisher:  "microformats.org"
             },
-            "h-app": {
-              title: "h-app",
-              href: "https://microformats.org/wiki/h-app",
-              authors: [
-                "Aaron Parecki"
-              ],
-              status:   "Living Specification",
-              publisher:  "microformats.org"
-            },
             "RelMeAuth": {
               title: "RelMeAuth",
               href: "https://microformats.org/wiki/RelMeAuth",
@@ -322,7 +313,7 @@ Content-Type: application/json
         <section>
           <h4>Client Metadata</h4>
 
-          <p>Clients SHOULD have a json document at their <code>client_id</code> URL containing the following properties. The authorization server MAY cache the client metadata it discovers at the client ID URL and SHOULD respect cache-control headers and set reasonable defaults if none are present.</p>
+          <p>Clients SHOULD have a JSON [[!RFC7159]] document at their <code>client_id</code> URL containing the following properties. The authorization server MAY cache the client metadata it discovers at the client ID URL and SHOULD respect cache-control headers and set reasonable defaults if none are present.</p>
 
           <ul>
             <li><code>client_uri</code> - URL of a webpage providing information about the client</li>
@@ -334,26 +325,10 @@ Content-Type: application/json
 
           <p>Additional metadata properties as per [[!RFC7591]] MAY be added, with the understanding that authrozation servers MAY not recognize them.</p>
 
-          <p>Clients SHOULD have a web page at their <code>client_uri</code> URL with basic information about the application, at least the application's name and icon. This page serves as a good landing page for human visitors. Some clients MAY opt to return a web page for the client_id but there is no requirement that authorization servers accept this. When this is the case, the HTML page SHOULD also serve as the place to include machine-readable information about the application. The HTML on the <code>client_id</code> URL can be marked up with [[!h-app]] Microformat to indicate the name and icon of the application. As this was a recommendation in a previous revision of the specification, authorization servers SHOULD support parsing the [[!h-app]] Microformat from the <code>client_id</code>, and if there is an [[!h-app]] with a <code>url</code> property matching the <code>client_id</code> URL, then it should use the name and icon and display them on the authorization prompt.</p>
+          <p>Clients SHOULD have a web page at their <code>client_uri</code> URL with basic information about the application, at least the application's name and icon. This page serves as a good landing page for human visitors.</p>
 
-          <pre class="example"><?= htmlspecialchars(
-'<div class="h-app">
-  <img src="/logo.png" class="u-logo">
-  <a href="/" class="u-url p-name">Example App</a>
-</div>') ?></pre>
+          <p>Note: Earlier versions of this specification recommended an HTML document as the client_id and authorization servers may wish to support this.
 
-          <p>This can be parsed with a <a href="http://microformats.org/wiki/microformats2#Parsers">Microformats2 parser</a>, which will result in the following JSON structure.</p>
-
-          <pre class="example">{
-  "type": [
-    "h-app"
-  ],
-  "properties": {
-    "name": ["Example App"],
-    "logo": ["https://app.example.com/logo.png"],
-    "url": ["https://app.example.com/"]
-  }
-}</pre>
         </section>
 
         <section>
