@@ -327,7 +327,7 @@ Content-Type: application/json
 
           <p>Clients SHOULD have a web page at their <code>client_uri</code> URL with basic information about the application, at least the application's name and icon. This page serves as a good landing page for human visitors.</p>
 
-          <p>Note: Earlier versions of this specification recommended an HTML document as the client_id and authorization servers may wish to support this.
+          <p>Note: Earlier versions of this specification recommended an HTML document as the client_id and authorization servers may wish to support this.</p>
 
         </section>
 
