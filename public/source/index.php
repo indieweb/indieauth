@@ -313,7 +313,7 @@ Content-Type: application/json
         <section>
           <h4>Client Metadata</h4>
 
-          <p>Clients SHOULD have a JSON [[!RFC7159]] document at their <code>client_id</code> URL containing the following properties. The authorization server MAY cache the client metadata it discovers at the client ID URL and SHOULD respect cache-control headers and set reasonable defaults if none are present.</p>
+          <p>Clients SHOULD have a JSON [[!RFC7159]] document at their <code>client_id</code> URL containing client metadata defined in [[!RFC7591]], the minimum properties for an IndieAuth client defined below. The authorization server MAY cache the client metadata it discovers at the client ID URL and SHOULD respect cache-control headers and set reasonable defaults if none are present.</p>
 
           <ul>
             <li><code>client_uri</code> - URL of a webpage providing information about the client</li>
@@ -323,18 +323,18 @@ Content-Type: application/json
             <li><code>redirect_uris</code> - (optional) An array of redirect URIs
           </ul>
 
-          <p>Additional metadata properties as per [[!RFC7591]] MAY be added, with the understanding that authrozation servers MAY not recognize them.</p>
+          <p>Additional metadata properties as per [[!RFC7591]] MAY be added, with the understanding that authorization servers MAY not recognize them.</p>
 
-          <p>Clients SHOULD have a web page at their <code>client_uri</code> URL with basic information about the application, at least the application's name and icon. This page serves as a good landing page for human visitors.</p>
+          <p>Clients SHOULD have a web page at their <code>client_uri</code> URL with basic information about the application, at least the application's name and icon. Authorization servers SHOULD display this URL to the user during authorization, so that the user can learn more about the application. Authorization servers SHOULD warn the user if the hostname of the <code>client_uri</code> is different from the hostname of the <code>client_id</code>.</p>
 
-          <p>Note: Earlier versions of this specification recommended an HTML document as the client_id and authorization servers may wish to support this.</p>
+          <p>Note: Earlier versions of this specification recommended an HTML document with <a href="https://microformats.org/wiki/h-app"><code>h-app</code></a> Microformats as the <code>client_id</code>, and authorization servers may wish to continue to support this for backwards compatibility.</p>
 
         </section>
 
         <section>
           <h4>Redirect URL</h4>
 
-          <p>If a client wishes to use a redirect URL that has a different host than their <code>client_id</code>, or if the redirect URL uses a custom scheme (such as when the client is a native application), then the client will need to explicitly list those redirect URLs so that authorization endpoints can be sure it is safe to redirect users there. This is an optional property in the client metadata document. Authorization endpoints verifying that a <code>redirect_uri</code> is allowed for use by a client MUST look for an exact match of the given <code>redirect_uri</code> in the request against the list of <code>redirect_uri</code>s after resolving any relative URLs.</p>
+          <p>If a client wishes to use a redirect URL that has a different host than their <code>client_id</code>, or if the redirect URL uses a custom scheme (such as when the client is a native application), then the client will need to explicitly list those redirect URLs in the <code>redirect_uri</code> property of the client metadata so that authorization endpoints can be sure it is safe to redirect users there. Authorization endpoints verifying that a <code>redirect_uri</code> is allowed for use by a client MUST look for an exact match of the given <code>redirect_uri</code> in the request against the list of <code>redirect_uri</code>s after resolving any relative URLs.</p>
          <p>When a client chooses to serve a web page as its client_id, the client MAY publish one or more <code>&lt;link&gt;</code> tags or <code>Link</code> HTTP headers with a <code>rel</code> attribute of <code>redirect_uri</code> at the <code>client_id</code> URL to be used by the authorization server.</p>
 
           <pre class="example"><?= htmlspecialchars('GET / HTTP/1.1
