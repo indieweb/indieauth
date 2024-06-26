@@ -137,9 +137,8 @@
 
         <ul>
           <li>Specifies a format for user identifiers (a resolvable URL)</li>
-          <li>Specifies a method of discovering the authorization and token endpoints given a resolvable URL</li>
-          <li>Specifies a format for the Client ID (a resolvable URL)</li>
-          <li>All clients are public clients (no <code>client_secret</code> is used)</li>
+          <li>Specifies a method of discovering the IndieAuth metadata (containing the authorization and token endpoints) given a user's profile URL</li>
+          <li>Specifies a format for the Client ID (a resolvable URL containing client metadata)</li>
           <li>Client registration at the authorization endpoint is not necessary, since client IDs are resolvable URLs</li>
           <li>Redirect URL registration happens by verifying data fetched at the Client ID URL</li>
           <li>Specifies a mechanism for returning the user identifier and profile information for the user who authorized a request</li>
@@ -952,7 +951,7 @@ Content-Type: application/json
 
         <p>The authorization server SHOULD display the full <code>client_id</code> on the authorization interface, in addition to displaying the fetched application information if any. Displaying the <code>client_id</code> helps users know that they are authorizing the expected application.</p>
 
-        <p>Since all IndieAuth clients are public clients, and no client authentication is used, the only measure available to protect against some attacks described in [[RFC6819]] is strong verification of the client's <code>redirect_uri</code>. If the <code>redirect_uri</code> scheme, host or port differ from that of the <code>client_id</code>, then the authorization server MUST either verify the redirect URL as described in <a href="#redirect-url">Redirect URL</a>, or display the redirect URL to the user so they can inspect it manually.</p>
+        <p>Since IndieAuth clients are likely to be public clients (if no <a href="https://datatracker.ietf.org/doc/html/rfc7591#section-2"><code>jwks_uri</code></a> is advertised in the client metatadata), the only measure available to protect against some attacks described in [[RFC6819]] is strong verification of the client's <code>redirect_uri</code>. If the <code>redirect_uri</code> scheme, host or port differ from that of the <code>client_id</code>, then the authorization server MUST either verify the redirect URL as described in <a href="#redirect-url">Redirect URL</a>, or display the redirect URL to the user so they can inspect it manually.</p>
       </section>
 
     </section>
