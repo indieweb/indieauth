@@ -317,7 +317,7 @@ Content-Type: application/json
 
           <ul>
             <li><code>client_uri</code> - URL of a webpage providing information about the client</li>
-            <li><code>client_id</code> - the client identifier. The authorization server MUST compare and match the value of the client_id to the URL where the document was retrieved. The client_uri MUST be a prefix of the client_ID.</li>
+            <li><code>client_id</code> - the client identifier. The authorization server MUST verify that the <code>client_id</code> in the document matches the <code>client_id</code> of the URL where the document was retrieved. The <code>client_uri</code> MUST be a prefix of the <code>client_id</code>.</li>
             <li><code>client_name</code> - (optional) Human readable name of the client to be presented on the consent screen</li>
             <li><code>logo_uri</code> - (optional) URL that references a logo or icon for the client</li>
             <li><code>redirect_uris</code> - (optional) An array of redirect URIs
