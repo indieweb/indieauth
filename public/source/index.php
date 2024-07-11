@@ -599,6 +599,7 @@ grant_type=authorization_code
           <pre class="example nohighlight"><?= htmlspecialchars(
 'HTTP/1.1 200 OK
 Content-Type: application/json
+Cache-Control: no-store
 
 {
   "me": "https://user.example.net/"
@@ -621,8 +622,10 @@ Content-Type: application/json
           <p>If the request is valid, then the token endpoint can generate an access token and return the appropriate response. The token response is a JSON [[!RFC7159]] object containing:</p>
 
           <ul>
+            <li><code>token_type</code> (required) — the string <code>Bearer</code>.</li>
             <li><code>access_token</code> (required) - the OAuth 2.0 Bearer Token [[!RFC6750]].</li>
             <li><code>me</code> (required) - the canonical user profile URL for the user this access token corresponds to.</li>
+            <li><code>scope</code> (required/optional) — the scope granted to the client app. Required if different from the requested scope, otherwise optional.</li>
             <li><code>profile</code> (optional) - the user's profile information as defined in <a href="#profile-information">Profile Information</a>.</li>
             <li><code>expires_in</code> (recommended) - The lifetime in seconds of the access token.</li>
             <li><code>refresh_token</code> (optional) - The refresh token, which can be used to obtain new access tokens as defined in <a href="#refresh-tokens">Refresh Tokens</a>.</li>
@@ -632,6 +635,7 @@ Content-Type: application/json
 
           <pre class="example nohighlight">HTTP/1.1 200 OK
 Content-Type: application/json
+Cache-Control: no-store
 
 {
   "access_token": "XXXXXX",
@@ -665,6 +669,7 @@ Content-Type: application/json
 
           <pre class="example nohighlight">HTTP/1.1 200 OK
 Content-Type: application/json
+Cache-Control: no-store
 
 {
   "access_token": "XXXXXX",
