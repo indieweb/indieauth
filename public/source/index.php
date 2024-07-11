@@ -9,11 +9,11 @@
     <script class='remove'>
       var respecConfig = {
           useExperimentalStyles: true,
-          publishDate: "2022-02-12",
+          publishDate: "2024-07-11",
           specStatus: "NOTE", /* for loading w3c CSS */
-          previousPublishDate: "2020-11-26",
+          previousPublishDate: "2022-02-12",
           previousMaturity: "LS",
-          previousVersionURL: "https://indieauth.spec.indieweb.org/20201126/",
+          previousVersionURL: "https://indieauth.spec.indieweb.org/20220212/",
           shortName:  "indieauth",
           lsURI: "https://indieauth.spec.indieweb.org/",
           testSuiteURI: "https://indieauth.rocks/",
@@ -92,6 +92,20 @@
               authors: ["Anne van Kesteren"],
               status: "Living Standard",
               publisher: "WHATWG"
+            },
+            "ClientIDMetadataDocument": {
+              title: "OAuth Client ID Metadata Document",
+              href: "https://datatracker.ietf.org/doc/html/draft-parecki-oauth-client-id-metadata-document",
+              authors: ["Aaron Parecki", "Emelia Smith"],
+              status: "Internet-Draft",
+              publisher: "IETF"
+            },
+            "ClientMetadata": {
+              title: "OAuth Dynamic Client Registration Metadata",
+              href: "https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml#client-metadata",
+              authors: ["IETF"],
+              status: "Registry",
+              publisher: "IANA"
             }
           }
       };
@@ -303,7 +317,9 @@ Content-Type: application/json
 
         <p>When an authorization server presents its <a href="https://www.oauth.com/oauth2-servers/authorization/the-authorization-interface/">authorization interface</a>, it will often want to display some additional information about the client beyond just the <code>client_id</code> URL, in order to better inform the user about the request being made. Additionally, the authorization server needs to know the list of redirect URLs that the client is allowed to redirect to.</p>
 
-        <p>Since client identifiers are URLs, the authorization server SHOULD [[!Fetch]] the URL to find more information about the client. A client metadata document SHOULD be present at the client identifier.</p>
+        <p>Clients SHOULD publish an OAuth Client ID Metadata Document [[!ClientIDMetadataDocument]] at the client identifier URL.</p>
+
+        <p>The authorization server SHOULD [[!Fetch]] the URL to find more information about the client.</p>
 
         <p>If the <code>client_id</code> contains the permitted IPv4 and IPv6 addresses <code>127.0.0.1</code> or <code>[::1]</code>, or if the domain name resolves to these addresses, the authorization endpoint MUST NOT fetch the <code>client_id</code>.</p>
 
@@ -312,17 +328,19 @@ Content-Type: application/json
         <section>
           <h4>Client Metadata</h4>
 
+          <p class="advisement">This section is based on [[!ClientIDMetadataDocument]], and is included here for convenience, but the normative requirements in [[!ClientIDMetadataDocument]] take precedence.</p>
+
           <p>Clients SHOULD have a JSON [[!RFC7159]] document at their <code>client_id</code> URL containing client metadata defined in [[!RFC7591]], the minimum properties for an IndieAuth client defined below. The authorization server MAY cache the client metadata it discovers at the client ID URL and SHOULD respect cache-control headers and set reasonable defaults if none are present.</p>
 
           <ul>
-            <li><code>client_uri</code> - URL of a webpage providing information about the client</li>
             <li><code>client_id</code> - the client identifier. The authorization server MUST verify that the <code>client_id</code> in the document matches the <code>client_id</code> of the URL where the document was retrieved. The <code>client_uri</code> MUST be a prefix of the <code>client_id</code>.</li>
             <li><code>client_name</code> - (optional) Human readable name of the client to be presented on the consent screen</li>
+            <li><code>client_uri</code> - URL of a webpage providing information about the client</li>
             <li><code>logo_uri</code> - (optional) URL that references a logo or icon for the client</li>
             <li><code>redirect_uris</code> - (optional) An array of redirect URIs
           </ul>
 
-          <p>Additional metadata properties as per [[!RFC7591]] MAY be added, with the understanding that authorization servers MAY not recognize them.</p>
+          <p>Additional metadata properties defined in [[!ClientMetadata]] MAY be added, with the understanding that some authorization servers may not recognize them.</p>
 
           <p>Clients SHOULD have a web page at their <code>client_uri</code> URL with basic information about the application, at least the application's name and icon. Authorization servers SHOULD display this URL to the user during authorization, so that the user can learn more about the application. Authorization servers SHOULD warn the user if the hostname of the <code>client_uri</code> is different from the hostname of the <code>client_id</code>.</p>
 
