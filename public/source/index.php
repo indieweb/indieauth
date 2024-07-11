@@ -1042,14 +1042,22 @@ Content-Type: application/json
 
       <p>The editor wishes to thank the <a href="https://indieweb.org/">IndieWeb</a>
         community and other implementers for their contributions, support, encouragement and enthusiasm,
-        including but not limited to: Angelo Gladding, Amy Guy, Barnaby Walters, Benjamin Roberts, Bret Comnes, Christian Weiske, David Shanske, David Somers, Dmitri Shuralyov, Fluffy, François Kooman, Jamie Tanna, Jeena Paradies, Manton Reece, Martijn van der Ven, Sebastiaan Andeweg, Sven Knebel, and Tantek Çelik.</p>
+        including but not limited to: Angelo Gladding, Amy Guy, Barnaby Walters, Benjamin Roberts, Bret Comnes, Christian Weiske, David Shanske, David Somers, Dmitri Shuralyov, Emelia Smith, Fluffy, François Kooman, Jamie Tanna, Jeena Paradies, Manton Reece, Martijn van der Ven, Sebastiaan Andeweg, Sven Knebel, and Tantek Çelik.</p>
     </section>
 
     <section class="appendix informative">
       <h2>Change Log</h2>
 
       <section>
-        <h3>Changes from 26 November 2020 to this version</h3>
+        <h3>Changes from 12 February 2022 to this version</h3>
+        <ul>
+          <li>Client metadata discovery now happens via JSON rather than Microformats, referencing OAuth Client ID Metadata Document</li>
+          <li>Fixes and editorial changes</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Changes from 26 November 2020 to 12 February 2022</h3>
         <ul>
           <li>IndieAuth servers now use OAuth Server Metadata to publish their endpoints, and user profile URLs should link to the metadata document instead of the individual authorization endpoint and token endpoint</li>
           <li>Defines the revocation endpoint in the server metadata instead of overriding the token endpoint</li>
