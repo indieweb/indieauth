@@ -238,7 +238,7 @@
 
         <p>Clients are identified by a [[!URL]] that describes the client. (See <a href="#client-metadata">Client Metadata</a> for details.)</p>
 
-        <p>Client identifier URLs MUST have either an <code>https</code> or <code>http</code> scheme, MUST contain a path component, MUST NOT contain single-dot or double-dot path segments, MAY contain a query string component, MUST NOT contain a fragment component, MUST NOT contain a username or password component, and MAY contain a port. Additionally, host names MUST be domain names or a loopback interface and MUST NOT be IPv4 or IPv6 addresses except for IPv4 <code>127.0.0.1</code> or IPv6 <code>[::1]</code>.</p>
+        <p>Client identifier URLs MUST use the <code>https</code> scheme, MUST contain a path component, MUST NOT contain single-dot or double-dot path segments, SHOULD NOT contain a query string component, MUST NOT contain a fragment component, MUST NOT contain a userinfo component (defined by [RFC3986]), and MAY contain a port. Additionally, host names MUST be domain names or a loopback interface and MUST NOT be IPv4 or IPv6 addresses except for IPv4 <code>127.0.0.1</code> or IPv6 <code>[::1]</code>.</p>
       </section>
 
       <section>
