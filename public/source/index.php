@@ -95,7 +95,7 @@
             },
             "ClientIDMetadataDocument": {
               title: "OAuth Client ID Metadata Document",
-              href: "https://datatracker.ietf.org/doc/html/draft-parecki-oauth-client-id-metadata-document",
+              href: "https://datatracker.ietf.org/doc/html/draft-ietf-oauth-client-id-metadata-document",
               authors: ["Aaron Parecki", "Emelia Smith"],
               status: "Internet-Draft",
               publisher: "IETF"
