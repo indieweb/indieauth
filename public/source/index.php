@@ -236,7 +236,9 @@
       <section>
         <h3>Client Identifier</h3>
 
-        <p>Clients are identified by a [[!URL]]. Client identifier URLs MUST have either an <code>https</code> or <code>http</code> scheme, MUST contain a path component, MUST NOT contain single-dot or double-dot path segments, MAY contain a query string component, MUST NOT contain a fragment component, MUST NOT contain a username or password component, and MAY contain a port. Additionally, host names MUST be domain names or a loopback interface and MUST NOT be IPv4 or IPv6 addresses except for IPv4 <code>127.0.0.1</code> or IPv6 <code>[::1]</code>.</p>
+        <p>Clients are identified by a [[!URL]] that describes the client. (See <a href="#client-metadata">Client Metadata</a> for details.)</p>
+
+        <p>Client identifier URLs MUST have either an <code>https</code> or <code>http</code> scheme, MUST contain a path component, MUST NOT contain single-dot or double-dot path segments, MAY contain a query string component, MUST NOT contain a fragment component, MUST NOT contain a username or password component, and MAY contain a port. Additionally, host names MUST be domain names or a loopback interface and MUST NOT be IPv4 or IPv6 addresses except for IPv4 <code>127.0.0.1</code> or IPv6 <code>[::1]</code>.</p>
       </section>
 
       <section>
@@ -325,8 +327,8 @@ Content-Type: application/json
 
         <p>Note that the server may want to perform some additional checks on the <code>client_id</code> before fetching it to avoid SSRF attacks. In particular, the server may want to resolve the domain name first and avoid fetching the document if the IP address is within the loopback range defined by [[RFC5735]] or any other implementation-specific internal IP address.</p>
 
-        <section>
-          <h4>Client Metadata</h4>
+        <section id="client-metadata">
+          <h4>Client ID Metadata Document</h4>
 
           <p class="advisement">This section is based on [[!ClientIDMetadataDocument]], and is included here for convenience, but the normative requirements in [[!ClientIDMetadataDocument]] take precedence.</p>
 
@@ -343,6 +345,8 @@ Content-Type: application/json
           <p>Additional metadata properties defined in [[!ClientMetadata]] MAY be added, with the understanding that some authorization servers may not recognize them.</p>
 
           <p>Clients SHOULD have a web page at their <code>client_uri</code> URL with basic information about the application, at least the application's name and icon. Authorization servers SHOULD display this URL to the user during authorization, so that the user can learn more about the application. Authorization servers SHOULD warn the user if the hostname of the <code>client_uri</code> is different from the hostname of the <code>client_id</code>.</p>
+
+          <p>Clients that can't serve a web page (e.g. mobile or desktop apps) are expected to have a corresponding web page to host their metadata document. There is no requirement that the metadata document is served from the same software as the client itself.</p>
 
           <p>Note: Earlier versions of this specification recommended an HTML document with <a href="https://microformats.org/wiki/h-app"><code>h-app</code></a> Microformats as the <code>client_id</code>, and authorization servers may wish to continue to support this for backwards compatibility.</p>
 
